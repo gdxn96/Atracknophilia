@@ -5,14 +5,10 @@
 
 Player::Player() :
 	m_position(Vector(0, 300)),
-	m_maxVel(0.35f),
-	m_rect(SDL_Rect{ m_position.x, m_position.y, 25, 25}),
-	_gravity(9.81),
-	_stamina(100),
-	_staminaRect(SDL_Rect{0, 0, 0, 50}),
-	_increasingVelocity(false),
-	_decreasingVelocity(false),
-	_padRect(SDL_Rect{ 400, 0, 100, 25 })
+	m_rect({ (int)m_position.x, (int)m_position.y, 25, 25}),
+	m_stamina(100),
+	m_increasingVelocity(false),
+	m_decreasingVelocity(false)
 {
 
 }
@@ -22,29 +18,21 @@ Player::~Player()
 {
 }
 
-void Player::Move(Direction pDirection, float p_deltaTime)
+void Player::Move(Direction pDirection, float p_deltaTime, const float ACCEL_RATE, const float FRICTION_RATE, const float MAX_VELOCITY)
 {
 	switch (pDirection)
 	{
 	case Left:
-		m_acceleration.x = -_ACCEL_RATE * p_deltaTime;
+		m_acceleration.x = -ACCEL_RATE * p_deltaTime;
 		break;
 
 	case Right:
-		m_acceleration.x = _ACCEL_RATE * p_deltaTime;
-		break;
-
-	case Up:
-		InvertGravity();
-		break;
-
-	case Down:
-		InvertGravity();
+		m_acceleration.x = ACCEL_RATE * p_deltaTime;
 		break;
 
 	case None:
 		m_acceleration = Vector(0, 0);
-		ApplyFriction(p_deltaTime); // used to keep player speed at a constant rate
+		ApplyFriction(p_deltaTime, FRICTION_RATE, MAX_VELOCITY); // used to keep player speed at a constant rate
 		break;
 
 
@@ -52,34 +40,33 @@ void Player::Move(Direction pDirection, float p_deltaTime)
 	}
 }
 
-void Player::ManageVelocity(float p_deltaTime)
+void Player::ManageVelocity(float p_deltaTime, float p_gravity, const float MAX_VELOCITY)
 {
 	m_velocity = m_velocity + m_acceleration;
 
-	if (m_velocity.x > m_maxVel)
-		m_velocity.x = m_maxVel;
-	else if (m_velocity.x < -m_maxVel)
-		m_velocity.x = -m_maxVel;
+	if (m_velocity.x > MAX_VELOCITY)
+		m_velocity.x = MAX_VELOCITY;
+	else if (m_velocity.x < -MAX_VELOCITY)
+		m_velocity.x = -MAX_VELOCITY;
 
-	m_velocity.y = 1 * _gravity;
+	m_velocity.y = 1 * p_gravity;
 
 	m_position = m_position + m_velocity * p_deltaTime;
 }
 
 void Player::Draw(SDL_Renderer * p_renderer)
 {
-	SDL_SetRenderDrawColor(p_renderer, 255, 0, 255, 255);
-	SDL_RenderDrawRect(p_renderer, &_staminaRect);
 	SDL_SetRenderDrawColor(p_renderer, 255, 0, 0, 255);
 	SDL_RenderDrawRect(p_renderer, &m_rect);
-	SDL_SetRenderDrawColor(p_renderer, 255, 255, 0, 255);
-	SDL_RenderDrawRect(p_renderer, &_padRect);
 	SDL_SetRenderDrawColor(p_renderer, 0,0, 0, 255);
 }
 
-void Player::Update(float p_deltaTime, const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
+void Player::Update(float p_deltaTime, const int SCREEN_WIDTH, const int SCREEN_HEIGHT, const float STAMINA_DECREASE_RATE, const float BOOST_FORCE, const float BOOST_DURATION, float p_gravity, const float MAX_VELOCITY, const float BOOSTED_MAX_VELOCITY)
 {
-	ManageVelocity(p_deltaTime);
+
+	if (!m_decreasingVelocity)
+		ManageVelocity(p_deltaTime, p_gravity, MAX_VELOCITY);
+
 	if (m_position.x > SCREEN_WIDTH)
 	{
 		m_position.x = 0;
@@ -98,93 +85,99 @@ void Player::Update(float p_deltaTime, const int SCREEN_WIDTH, const int SCREEN_
 		m_position.y = 0;
 	}
 
-	_staminaRect.w = _stamina;
+	if (m_increasingVelocity)
+		IncreaseMaximumVelocity(p_deltaTime, STAMINA_DECREASE_RATE, BOOST_FORCE, BOOST_DURATION, BOOSTED_MAX_VELOCITY, p_gravity);
 
-	CheckCollisionWithPad();
-
-
-	if (_increasingVelocity)
-		IncreaseMaximumVelocity(p_deltaTime);
-
-	if (_decreasingVelocity)
-		DecreaseMaximumVeclocity();
+	if (m_decreasingVelocity)
+		DecelerateFromBoostedVelocity(p_deltaTime, BOOST_FORCE, BOOST_DURATION, MAX_VELOCITY, p_gravity, BOOSTED_MAX_VELOCITY);
 
 
 	m_rect.x = m_position.x;
 	m_rect.y = m_position.y;
 }
 
-void Player::ApplyFriction(float p_deltaTime)
+void Player::ApplyFriction(float p_deltaTime, const float FRICTION_RATE, const float MAX_VELOCITY)
 {
 	double scaler = 0.00001; // used since DT is in Milliseconds (this value is the minValue - must be very close to 0)
 
 	if (m_velocity.x > 0)
-		m_velocity.x -= _FRICTION_RATE * (p_deltaTime / 1000); // need to scale DT
+		m_velocity.x -= FRICTION_RATE * (p_deltaTime / 1000); // need to scale DT
 	else if (m_velocity.x < 0)
-		m_velocity.x += _FRICTION_RATE * (p_deltaTime / 1000);
+		m_velocity.x += FRICTION_RATE * (p_deltaTime / 1000);
 
-	if ((m_velocity.x > -m_maxVel * scaler && m_velocity.x < 0) ||
-		(m_velocity.x <  m_maxVel * scaler && m_velocity.x > 0))
+	if ((m_velocity.x > -MAX_VELOCITY * scaler && m_velocity.x < 0) ||
+		(m_velocity.x <  MAX_VELOCITY * scaler && m_velocity.x > 0))
 		m_velocity.x = 0;
 }
 
-void Player::InvertGravity()
+void Player::Boost(Boosting p_boostType)
 {
-	_gravity = _gravity * -1; 
-}
-
-void Player::Boost(Boosting BoostType)
-{
-	switch (BoostType)
+	switch (p_boostType)
 	{
 	case Increase:
-		_increasingVelocity = true;
-		_decreasingVelocity = false;
+		m_increasingVelocity = true;
+		m_decreasingVelocity = false;
 		break;
 	case Decrease:
-		_increasingVelocity = false;
-		_decreasingVelocity = true;
+		m_increasingVelocity = false;
+		m_decreasingVelocity = true;
 		break;
 	}
 }
 
 void Player::ApplyBoost()
 {
-	if (_stamina >= 100)
+	if (m_stamina >= 100)
 	{
+		m_boostTimer = 0;
 		Boost(Increase);
 	}
 }
 
-void Player::IncreaseMaximumVelocity(float p_deltaTime)
+void Player::IncreaseMaximumVelocity(float p_deltaTime, const float STAMINA_DECREASE_RATE, const float BOOST_FORCE, const float BOOST_DURATION, const float BOOSTED_MAX_VELOCITY, float p_gravity)
 {
-	_stamina -= _STAMINA_DECREASE_RATE;
-	_boostTimer += p_deltaTime;
-	m_velocity = (m_velocity + m_acceleration) * _BOOST_FORCE;
-	m_maxVel = 0.75f;
+	m_stamina -= STAMINA_DECREASE_RATE;
+	m_boostTimer += p_deltaTime;
+	m_velocity = (m_velocity + m_acceleration) * BOOST_FORCE;
+	ManageVelocity(p_deltaTime, p_gravity, BOOSTED_MAX_VELOCITY);
 
-	if (_boostTimer > _BOOST_DURATION) // 2 seconds of a boost
+	if (m_boostTimer > BOOST_DURATION) // 2 seconds of a boost
 	{
-		_boostTimer = 0;
+		m_boostTimer = 0;
 		Boost(Decrease);
 	}
 }
 
-void Player::DecreaseMaximumVeclocity()
+void Player::DecelerateFromBoostedVelocity(float p_deltaTime, const float BOOST_FORCE, const float BOOST_DURATION, const float MAX_VELOCITY, float p_gravity, const float BOOSTED_MAX_VELOCITY)
 {
-	m_maxVel = 0.35f;
-}
-
-void Player::CheckCollisionWithPad()
-{
-	if (m_rect.x + m_rect.w >= _padRect.x && m_rect.x <= _padRect.x + _padRect.w && m_rect.y >= _padRect.y && m_rect.y <= _padRect.y + _padRect.h)
+	m_boostTimer += p_deltaTime;
+	if (m_boostTimer < BOOST_DURATION)
 	{
-		if (_stamina <= 100) 
-			_stamina += 0.001; 
+		float difference = BOOSTED_MAX_VELOCITY - MAX_VELOCITY;
+		float max = MAX_VELOCITY;
+
+		// TODO: Fix this 
+
+		ManageVelocity(p_deltaTime, p_gravity, MAX_VELOCITY);
+	}
+	else if (m_boostTimer > BOOST_DURATION)
+	{
+		ManageVelocity(p_deltaTime, p_gravity, MAX_VELOCITY);
 	}
 }
 
 SDL_Rect Player::GetPlayerRect()
 {
 	return m_rect;
+}
+
+void Player::UpdateStamina(const float STAMINA_RATE, const float MAX_STAMINA)
+{
+	if (m_stamina < MAX_STAMINA)
+		m_stamina += STAMINA_RATE;
+}
+
+float Player::GetStamina()
+{
+	return m_stamina;
 }

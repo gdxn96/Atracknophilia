@@ -3,12 +3,12 @@ class Vector
 {
 public:
 	Vector();
-	Vector(int pX, int pY);
+	Vector(double pX, double pY);
 	~Vector();
 
 	// member variables
-	int x;
-	int y;
+	double x;
+	double y;
 
 	// operator functions
 	Vector operator+(Vector pVector);

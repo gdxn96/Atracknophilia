@@ -6,9 +6,55 @@
 #include "Player.h"
 
 Player player;
+SDL_Rect _padRect { 400, 0, 100, 25 };
+SDL_Rect _staminaRect{ 0, 0, 0, 50 };
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
+
+const int MAX_STAMINA = 100;
+const float STAMINA_INCREASE_RATE = 0.001;
+const float STAMINA_DECREASE_RATE = 0.003;
+
+const float ACCEL_RATE = 0.0001;
+const float FRICTION_RATE = 2;
+
+const float BOOST_FORCE = 2;
+const float BOOST_DURATION = 2000;
+
+const float MAX_VELOCITY = 0.35;
+const float BOOSTED_MAX_VELOCITY = 0.65;
+
+float gravity = 9.81;
+
+
+void CheckCollisionWithPad()
+{
+	if (player.GetPlayerRect().x + player.GetPlayerRect().w >= _padRect.x && player.GetPlayerRect().x <= _padRect.x + _padRect.w 
+		&& player.GetPlayerRect().y >= _padRect.y && player.GetPlayerRect().y <= _padRect.y + _padRect.h)
+	{
+		player.UpdateStamina(STAMINA_INCREASE_RATE, MAX_STAMINA);
+	}
+}
+
+void Draw(SDL_Renderer* p_renderer)
+{
+	SDL_SetRenderDrawColor(p_renderer, 255, 0, 255, 255);
+	SDL_RenderDrawRect(p_renderer, &_staminaRect);
+	SDL_SetRenderDrawColor(p_renderer, 255, 255, 0, 255);
+	SDL_RenderDrawRect(p_renderer, &_padRect);
+}
+
+void Update()
+{
+	_staminaRect.w = player.GetStamina();
+	CheckCollisionWithPad();
+}
+
+void InvertGravity()
+{
+	gravity = -1 * gravity;
+}
 
 int main(int argc, char** argv)
 {
@@ -33,16 +79,16 @@ int main(int argc, char** argv)
 				switch (e.key.keysym.sym)
 				{
 				case SDLK_LEFT:
-					player.Move(player.Left, deltaTime);
+					player.Move(player.Left, deltaTime, ACCEL_RATE, FRICTION_RATE, MAX_VELOCITY);
 					break;
 				case SDLK_RIGHT:
-					player.Move(player.Right, deltaTime);
+					player.Move(player.Right, deltaTime, ACCEL_RATE, FRICTION_RATE, MAX_VELOCITY);
 					break;
 				case SDLK_UP:
-					player.Move(player.Up, deltaTime);
+					InvertGravity();
 					break;
 				case SDLK_DOWN:
-					player.Move(player.Down, deltaTime);
+					InvertGravity();
 					break;
 				case SDLK_SPACE:
 					player.ApplyBoost();
@@ -51,29 +97,28 @@ int main(int argc, char** argv)
 			}	// end key if statement
 			else
 			{
-				player.Move(player.None, deltaTime);  // apply friction to keep speed constant
+				player.Move(player.None, deltaTime, ACCEL_RATE, FRICTION_RATE, MAX_VELOCITY);  // apply friction to keep speed constant
 			}
 		}// end event while loop
 
-
+		// calculate delta time
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
-
 		deltaTime = ((NOW - LAST) * 1000 / (double)SDL_GetPerformanceFrequency());
+
+
+		player.Update(deltaTime, SCREEN_WIDTH, SCREEN_HEIGHT, STAMINA_DECREASE_RATE, BOOST_FORCE, BOOST_DURATION, gravity, MAX_VELOCITY, BOOSTED_MAX_VELOCITY);
+		Update();
 
 		SDL_RenderClear(renderer);
 
-		player.Update(deltaTime, SCREEN_WIDTH, SCREEN_HEIGHT);
+		Draw(renderer);
 		player.Draw(renderer);
-		// draw here
 
 		SDL_RenderPresent(renderer);
 
 
 	} // end  game loop
-
-
-		
 
 	return 0;
 }
