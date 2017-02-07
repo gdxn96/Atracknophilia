@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 					player.Move(player.Down, deltaTime);
 					break;
 				case SDLK_SPACE:
-					player.ApplyBoost();
+					player.ApplyBoost(deltaTime);
 					break;
 				}	// end switch
 			}	// end key if statement

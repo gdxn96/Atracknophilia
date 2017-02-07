@@ -6,17 +6,19 @@
 Player::Player()
 {
 	_position = Vector(0, 300);
-	_MAX_VEL = 2.05f;
+	_MAX_VEL = 0.65f;
 	_rect.x = _position.x;
 	_rect.y = _position.y;
 	_rect.h = 25;
 	_rect.w = 25;
 	_gravity = 9.81;
-	_stamina = 0;
+	_stamina = 100;
 	_staminaRect.x = 0;
 	_staminaRect.y = 0;
 	_staminaRect.w = 0;
 	_staminaRect.h = 50;
+	_increasingVelocity = false;
+	_decreasingVelocity = false;
 }
 
 
@@ -99,8 +101,16 @@ void Player::Update(float pDeltaTime, const int SCREEN_WIDTH, const int SCREEN_H
 
 	_staminaRect.w = _stamina;
 
-	if (_stamina <= 100)
-		_stamina += 0.01; // slow increase in stamina
+	//if (_stamina <= 100) 
+	//	_stamina += 0.001; //   TODO:  use this with boost pads next
+
+
+	if (_increasingVelocity)
+		IncreaseMaximumVelocity(pDeltaTime);
+
+	if (_decreasingVelocity)
+		DecreaseMaximumVeclocity(pDeltaTime);
+
 
 	_rect.x = _position.x;
 	_rect.y = _position.y;
@@ -108,7 +118,7 @@ void Player::Update(float pDeltaTime, const int SCREEN_WIDTH, const int SCREEN_H
 
 void Player::ApplyFriction(float pDeltaTime)
 {
-	double scaler = 0.00001; // used since DT is in Milliseconds
+	double scaler = 0.00001; // used since DT is in Milliseconds (this value is the minValue - must be very close to 0)
 
 	if (_velocity.x > 0)
 		_velocity.x -= _FRICTION_RATE * (pDeltaTime / 1000); // need to scale DT
@@ -125,11 +135,44 @@ void Player::InvertGravity()
 	_gravity = _gravity * -1; 
 }
 
-void Player::ApplyBoost()
+void Player::Boost(Boosting pBoostType, float pDeltaTime)
+{
+	switch (pBoostType)
+	{
+	case Increase:
+		_increasingVelocity = true;
+		_decreasingVelocity = false;
+		break;
+	case Decrease:
+		_increasingVelocity = false;
+		_decreasingVelocity = true;
+		break;
+	}
+}
+
+void Player::ApplyBoost(float pDeltaTime)
 {
 	if (_stamina >= 100)
 	{
-		_velocity = (_velocity + _acceleration) * _BOOST_FORCE;
-		_stamina = 0;
+		_stamina -= 15;
+		Boost(Increase, pDeltaTime);
 	}
+}
+
+void Player::IncreaseMaximumVelocity(float pDeltaTime)
+{
+	_boostTimer += pDeltaTime;
+	_velocity = (_velocity + _acceleration) * _BOOST_FORCE;
+	_MAX_VEL = 0.95f;
+
+	if (_boostTimer > 2000) // 2 seconds of a boost
+	{
+		_boostTimer = 0;
+		Boost(Decrease, pDeltaTime);
+	}
+}
+
+void Player::DecreaseMaximumVeclocity(float pDeltaTime)
+{
+	_MAX_VEL = 0.65f;
 }
