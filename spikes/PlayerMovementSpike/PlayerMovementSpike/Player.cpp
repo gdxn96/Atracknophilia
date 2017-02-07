@@ -6,11 +6,11 @@
 Player::Player()
 {
 	_position = Vector(0, 300);
-	_MAX_VEL = 2.25f;
+	_MAX_VEL = 2.05f;
 	_rect.x = _position.x;
 	_rect.y = _position.y;
-	_rect.h = 100;
-	_rect.w = 50;
+	_rect.h = 25;
+	_rect.w = 25;
 	_gravity = 9.81;
 	_stamina = 0;
 	_staminaRect.x = 0;
