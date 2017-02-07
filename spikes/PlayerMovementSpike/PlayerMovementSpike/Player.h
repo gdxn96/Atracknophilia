@@ -39,7 +39,7 @@ private:
 	// boost and stamina
 
 	float _stamina;
-	const float _BOOST_FORCE = 5;
+	const float _BOOST_FORCE = 2;
 	SDL_Rect _staminaRect;
 };
 

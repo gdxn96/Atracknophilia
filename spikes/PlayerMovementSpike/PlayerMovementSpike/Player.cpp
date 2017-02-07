@@ -9,10 +9,14 @@ Player::Player()
 	_MAX_VEL = 2.25f;
 	_rect.x = _position.x;
 	_rect.y = _position.y;
-	_rect.h = 50;
+	_rect.h = 100;
 	_rect.w = 50;
 	_gravity = 9.81;
 	_stamina = 0;
+	_staminaRect.x = 0;
+	_staminaRect.y = 0;
+	_staminaRect.w = 0;
+	_staminaRect.h = 50;
 }
 
 
@@ -52,7 +56,7 @@ void Player::Move(Direction pDirection, float pDeltaTime)
 
 void Player::ManageVelocity(float pDeltaTime)
 {
-	_velocity = _velocity + _acceleration;  // TODO: test that I did maths right here
+	_velocity = _velocity + _acceleration;
 
 	if (_velocity.x > _MAX_VEL)
 		_velocity.x = _MAX_VEL;
@@ -67,6 +71,7 @@ void Player::ManageVelocity(float pDeltaTime)
 void Player::Draw(SDL_Renderer * pRenderer)
 {
 	SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
+	SDL_RenderDrawRect(pRenderer, &_staminaRect);
 	SDL_RenderDrawRect(pRenderer, &_rect);
 	SDL_SetRenderDrawColor(pRenderer, 0,0, 0, 255);
 }
@@ -92,8 +97,10 @@ void Player::Update(float pDeltaTime, const int SCREEN_WIDTH, const int SCREEN_H
 		_position.y = 0;
 	}
 
+	_staminaRect.w = _stamina;
 
-	_stamina += 0.0001; // slow increase in stamina
+	if (_stamina <= 100)
+		_stamina += 0.01; // slow increase in stamina
 
 	_rect.x = _position.x;
 	_rect.y = _position.y;
@@ -122,7 +129,7 @@ void Player::ApplyBoost()
 {
 	if (_stamina >= 100)
 	{
-		_velocity = _velocity + _acceleration * _BOOST_FORCE;
+		_velocity = (_velocity + _acceleration) * _BOOST_FORCE;
 		_stamina = 0;
 	}
 }
