@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include "SDL.h"
 #include "Box2D\Box2D.h"
 #include "Dependancies\rapidjson\rapidjson.h"
@@ -60,7 +61,7 @@ public:
 		m_rect.h = height;
 
 		b2BodyDef bodyDef;
-		bodyDef.position.Set(x + width / 2, y + width / 2);
+		bodyDef.position.Set(x , y);
 		
 		if (red)
 		{
@@ -71,6 +72,11 @@ public:
 			bodyDef.type = b2_dynamicBody;
 		}
 		m_body = World()->CreateBody(&bodyDef);
+
+		b2PolygonShape m_box;
+		m_box.SetAsBox(width / 2, height / 2);
+
+		m_body->CreateFixture(&m_box, 0.0f);
 	}
 	void update(float dt)
 	{
@@ -113,18 +119,16 @@ int main(int argc, char** argv)
 	Uint64 LAST = 0;
 	double deltaTime = 0;
 
+	vector<Box> _boxes;
+	//_boxes.push_back(Box(500, 100, 100, 100, false));
+	//_boxes.push_back(Box(100, 100, 100, 100, true));
 
-
-	/////////////////////////////
-	//World Simulation
-	/////////////////////////////
 	float32 timeStep = 1.0f / 60.0f; //60 steps per second
 
 	float frameTime = 1000 * timeStep;
 
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
-
 
 	FILE* _file = new FILE();
 	fopen_s(&_file, "test.json", "rb");
@@ -134,43 +138,26 @@ int main(int argc, char** argv)
 	_document.ParseStream(_is);
 	fclose(_file);
 
-	double h;
-	double w;
-	double x;
-	double y;
-
-	//StaticBox _sBox;
-	Box a(500, 100, 100, 100, false), b(100, 100, 100, 100, true);
-
 	for (const auto& itr : _document["objects"].GetArray())
 	{
-		h = itr["height"].GetDouble();
-		w = itr["width"].GetDouble();
-		x = itr["x"].GetDouble();
-		y = itr["y"].GetDouble();
-		//_sBox = StaticBox(x, y, w, h, &world);
-
+		_boxes.push_back(Box(itr["x"].GetDouble(), itr["y"].GetDouble(), itr["width"].GetDouble(), itr["height"].GetDouble(), true));
 	}
 
-
-
 	bool quit = false;
-
 
 	while (!quit) 
 	{
 		if (deltaTime > frameTime)
 		{
 			World()->Step(timeStep, velocityIterations, positionIterations);
-			
-			a.update(0);
-			b.update(0);
 
 			SDL_RenderClear(renderer);
-			
-			a.Render(renderer);
-			b.Render(renderer);
 
+			for (int i = 0; i < _boxes.size(); i++)
+			{
+				_boxes.at(i).update(0);
+				_boxes.at(i).Render(renderer);
+			}
 
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			SDL_RenderPresent(renderer);
