@@ -23,11 +23,11 @@ public:
 	};
 
 	// public methods
-	void Move(Direction p_direction, float p_deltaTime, const float ACCEL_RATE, const float FRICTION_RATE, const float MAX_VELOCITY);
+	void Move(Direction p_direction, double p_deltaTime, const double ACCEL_RATE, const double FRICTION_RATE, const double MAX_VELOCITY);
 	void Draw(SDL_Renderer* p_renderer);
-	void Update(float p_deltaTime, const int SCREEN_WIDTH, const int SCREEN_HEIGHT, const float STAMINA_DECREASE_RATE, const float BOOST_FORCE, const float BOOST_DURATION, float p_gravity, const float MAX_VELOCITY, const float BOOSTED_MAX_VELOCITY);
+	void Update(double p_deltaTime, const int SCREEN_WIDTH, const int SCREEN_HEIGHT, const double STAMINA_DECREASE_RATE, const double BOOST_FORCE, const double BOOST_DURATION, double p_gravity, const double MAX_VELOCITY, const double BOOSTED_MAX_VELOCITY);
 	void ApplyBoost();
-	void UpdateStamina(const float STAMINA_RATE, const float MAX_STAMINA);
+	void UpdateStamina(const double STAMINA_RATE, const double MAX_STAMINA);
 
 	// getters
 	SDL_Rect GetPlayerRect();
@@ -47,10 +47,10 @@ private:
 	bool m_decreasingVelocity;
 
 	// private methods
-	void ManageVelocity(float p_deltaTime, float p_gravity, const float MAX_VELOCITY);
-	void ApplyFriction(float p_deltaTime, const float FRICTION_RATE, const float MAX_VELOCITY);
-	void IncreaseMaximumVelocity(float p_deltaTime, const float STAMINA_DECREASE_RATE, const float BOOST_FORCE, const float BOOST_DURATION, const float BOOSTED_MAX_VELOCITY, float p_gravity);
-	void DecelerateFromBoostedVelocity(float p_deltaTime, const float BOOST_FORCE, const float BOOST_DURATION, const float MAX_VELOCITY, float p_gravity, const float BOOSTED_MAX_VELOCITY);
+	void ManageVelocity(double p_deltaTime, double p_gravity, const double MAX_VELOCITY);
+	void ApplyFriction(double p_deltaTime, const double FRICTION_RATE, const double MAX_VELOCITY);
+	void IncreaseMaximumVelocity(double p_deltaTime, const double STAMINA_DECREASE_RATE, const int BOOST_FORCE, const double BOOST_DURATION, const double BOOSTED_MAX_VELOCITY, double p_gravity);
+	void DecelerateFromBoostedVelocity(double p_deltaTime, const int BOOST_FORCE, const double BOOST_DURATION, const double MAX_VELOCITY, double p_gravity, const double BOOSTED_MAX_VELOCITY);
 	void Boost(Boosting p_boostType);
 };
 

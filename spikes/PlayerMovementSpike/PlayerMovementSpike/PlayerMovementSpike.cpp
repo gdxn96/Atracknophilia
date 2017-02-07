@@ -13,19 +13,19 @@ const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
 const int MAX_STAMINA = 100;
-const float STAMINA_INCREASE_RATE = 0.001;
-const float STAMINA_DECREASE_RATE = 0.003;
+const double STAMINA_INCREASE_RATE = 0.001;
+const double STAMINA_DECREASE_RATE = 0.003;
 
-const float ACCEL_RATE = 0.0001;
-const float FRICTION_RATE = 2;
+const double ACCEL_RATE = 0.0001;
+const double FRICTION_RATE = 2;
 
-const float BOOST_FORCE = 2;
-const float BOOST_DURATION = 2000;
+const int BOOST_FORCE = 2;
+const double BOOST_DURATION = 2000;
 
-const float MAX_VELOCITY = 0.35;
-const float BOOSTED_MAX_VELOCITY = 0.65;
+const double MAX_VELOCITY = 0.35;
+const double BOOSTED_MAX_VELOCITY = 0.65;
 
-float gravity = 9.81;
+double gravity = 9.81;
 
 
 void CheckCollisionWithPad()
