@@ -8,7 +8,7 @@ Vector::Vector()
 	y = 0;
 }
 
-Vector::Vector(double pX, double pY)
+Vector::Vector(int pX, int pY)
 {
 	x = pX;
 	y = pY;

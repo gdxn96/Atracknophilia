@@ -24,27 +24,32 @@ public:
 		Decrease
 	};
 
-	void Move(Direction pDirection, float pDeltaTime);
-	void ManageVelocity(float pDeltaTime);
-	void Draw(SDL_Renderer* pRenderer);
-	void Update(float pDeltaTime, const int SCREEN_WIDTH, const int SCREEN_HEIGHT);
-	void ApplyFriction(float pDeltaTime);
+	void Move(Direction p_direction, float p_deltaTime);
+	void ManageVelocity(float p_deltaTime);
+	void Draw(SDL_Renderer* p_renderer);
+	void Update(float p_deltaTime, const int SCREEN_WIDTH, const int SCREEN_HEIGHT);
+	void ApplyFriction(float p_deltaTime);
 	void InvertGravity();
 
-	void Boost(Boosting pBoostType, float pDeltaTime);
+	void Boost(Boosting BoostType);
 
-	void ApplyBoost(float pDeltaTime);
-	void IncreaseMaximumVelocity(float pDeltaTime);
-	void DecreaseMaximumVeclocity(float pDeltaTime);
+	void ApplyBoost();
+	void IncreaseMaximumVelocity(float p_deltaTime);
+	void DecreaseMaximumVeclocity();
+
+	void CheckCollisionWithPad();
+
+	SDL_Rect GetPlayerRect();
+	
 
 private:
 	const float _ACCEL_RATE = 0.0001;
 	float _FRICTION_RATE = 2;
-	Vector _acceleration;
-	Vector _velocity;
-	Vector _position;
-	float _MAX_VEL;
-	SDL_Rect _rect;
+	Vector m_acceleration;
+	Vector m_velocity;
+	Vector m_position;
+	float m_maxVel;
+	SDL_Rect m_rect;
 	float _gravity;
 
 	// boost and stamina
@@ -53,8 +58,16 @@ private:
 	const float _BOOST_FORCE = 2;
 	SDL_Rect _staminaRect;
 	float _boostTimer;
+	const float _STAMINA_DECREASE_RATE = 0.003;
+	const float _BOOST_DURATION = 2000;
 
 	bool _increasingVelocity;
 	bool _decreasingVelocity;
+
+
+	// stamina pad
+
+	SDL_Rect _padRect;
+
 };
 
