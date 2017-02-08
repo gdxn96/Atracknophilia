@@ -5,12 +5,12 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "SDL.h"
-#include "Box2D\Box2D.h"
-#include "Dependancies\rapidjson\rapidjson.h"
-#include "Dependancies\rapidjson\document.h"
-#include "Dependancies\rapidjson\filereadstream.h"
-#include "Dependancies\rapidjson\reader.h"
+#include "sdl/SDL.h"
+#include "box2d/Box2D.h"
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
+#include "rapidjson/filereadstream.h"
+#include "rapidjson/reader.h"
 
 
 using namespace std;
