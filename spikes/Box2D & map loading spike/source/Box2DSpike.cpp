@@ -36,7 +36,7 @@ const int SCREEN_HEIGHT = 720;
 
 static b2Vec2& Gravity()
 {
-	static b2Vec2 gravity(0, 10);
+	static b2Vec2 gravity(0, 20);
 	return gravity;
 }
 
@@ -89,9 +89,10 @@ public:
 	{
 		if (!m_red)
 		{
-			m_rect.x = m_body->GetPosition().x - m_rect.w / 2;
-			m_rect.y = m_body->GetPosition().y - m_rect.h / 2;
+			
 		}
+		m_rect.x = m_body->GetPosition().x - m_rect.w / 2;
+		m_rect.y = m_body->GetPosition().y - m_rect.h / 2;
 	}
 
 	void Render(SDL_Renderer* r)
