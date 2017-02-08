@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 
+using namespace std;
+
 ResourceManager * ResourceManager::m_instance = nullptr;
 
 const int MAX_DELAY = 3;
@@ -15,7 +17,7 @@ ResourceManager* ResourceManager::getInstance()
 	return m_instance;
 }
 
-void ResourceManager::init(SDL_Renderer* renderer)
+void ResourceManager::init(Renderer* renderer)
 {
 	//Initialize SDL_mixer
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
@@ -91,15 +93,15 @@ Mix_Chunk* ResourceManager::getSoundEffectByKey(string key)
 	}
 }
 
-pair<SDL_Texture*, vector<SDL_Rect>> ResourceManager::getAnimationByKey(string key)
+pair<SDL_Texture*, vector<Rect>> ResourceManager::getAnimationByKey(string key)
 {
-	pair<SDL_Texture*, vector<SDL_Rect>> _temp;
+	pair<SDL_Texture*, vector<Rect>> _temp;
 	_temp.first = getTextureByKey(key);
 	_temp.second = getAnimationFrames(key);
 	return _temp;
 }
 
-void ResourceManager::loadResourcesFromJSON(string fileName)
+void ResourceManager::loadResources(string fileName)
 {
 	FILE* _file = new FILE();
 	fopen_s(&_file, fileName.c_str(), "rb");
@@ -157,7 +159,7 @@ void ResourceManager::loadResourceQueue()
 	}
 }
 
-SDL_Renderer* ResourceManager::getRenderer()
+Renderer* ResourceManager::getRenderer()
 {
 	return m_renderer;
 }
@@ -241,14 +243,14 @@ void ResourceManager::reloadFromJSON(string key, string filePath)
 	_document.ParseStream(_is);
 	fclose(_file);
 
-	vector<SDL_Rect>  _animationList;
+	vector<Rect>  _animationList;
 	for (const auto& frame : _document["frames"].GetArray())
 	{
-		SDL_Rect _tempRect = SDL_Rect();
-		_tempRect.x = frame["frame"]["x"].GetDouble();
-		_tempRect.y = frame["frame"]["y"].GetDouble();
-		_tempRect.w = frame["frame"]["w"].GetDouble();
-		_tempRect.h = frame["frame"]["h"].GetDouble();
+		Rect _tempRect = Rect();
+		_tempRect.pos.x = frame["frame"]["x"].GetDouble();
+		_tempRect.pos.y = frame["frame"]["y"].GetDouble();
+		_tempRect.size.w = frame["frame"]["w"].GetDouble();
+		_tempRect.size.h = frame["frame"]["h"].GetDouble();
 
 		_animationList.push_back(_tempRect);
 	}
@@ -267,7 +269,7 @@ tm ResourceManager::getTimeInfo(const char* path)
 	}
 }
 
-vector<SDL_Rect> ResourceManager::getAnimationFrames(string key)
+vector<Rect> ResourceManager::getAnimationFrames(string key)
 {
 	if (m_animations.find(key) != m_animations.end())
 	{
@@ -292,14 +294,14 @@ void ResourceManager::loadAnimations(string key, string filePath)
 	string keyName = key + "_json";
 	m_path[keyName] = filePath;
 
-	vector<SDL_Rect>  _animationList;
+	vector<Rect>  _animationList;
 	for (const auto& frame: _document["frames"].GetArray())
 	{
-		SDL_Rect _tempRect = SDL_Rect();
-		_tempRect.x = frame["frame"]["x"].GetDouble();
-		_tempRect.y = frame["frame"]["y"].GetDouble();
-		_tempRect.w = frame["frame"]["w"].GetDouble();
-		_tempRect.h = frame["frame"]["h"].GetDouble();
+		Rect _tempRect = Rect();
+		_tempRect.pos.x = frame["frame"]["x"].GetDouble();
+		_tempRect.pos.y = frame["frame"]["y"].GetDouble();
+		_tempRect.size.w = frame["frame"]["w"].GetDouble();
+		_tempRect.size.h = frame["frame"]["h"].GetDouble();
 
 		_animationList.push_back(_tempRect);
 	}

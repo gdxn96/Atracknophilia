@@ -1,10 +1,7 @@
 #pragma once
 #include <string>
 #include <functional>
-
 using namespace std;
-
-#include "sdl\SDL.h"
 #include "sdl\SDL_image.h"
 #include "sdl\SDL_mixer.h"
 #include <map>

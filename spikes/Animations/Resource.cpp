@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "Resource.h"
 
+//using namespace std;
+
 void Texture::load()
 {
 	// Load the new texture and throw an exception if we cannot
-	SDL_Renderer* renderer = ResourceManager::getInstance()->getRenderer();
+	Renderer* renderer = ResourceManager::getInstance()->getRenderer();
 	map<string, pair<SDL_Texture*, tm>>* textures = ResourceManager::getInstance()->getTextures();
 
-	SDL_Texture* _temp = IMG_LoadTexture(renderer, m_textureDir.c_str());
+	SDL_Texture* _temp = IMG_LoadTexture(renderer->getRenderer(), m_textureDir.c_str());
 
 	// If the file does not exist we throw an exception
 	if (!doesFileExists(m_textureDir.c_str()))
