@@ -19,36 +19,38 @@ using namespace rapidjson;
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
-float toPixels(float f)
-{
-	return f / 10;
-}
-
-SDL_Rect toPixels(SDL_Rect r)
-{
-	r.x /= 10;
-	r.y /= 10;
-	r.w /= 10;
-	r.h /= 10;
-
-	return r;
-}
-
-static b2World* World()
-{
-	static b2World world(b2Vec2(-40.0f, 0.0f));
-	return &world;
-}
-
-float toMeters(double f)
-{
-	return f * 10;
-}
+//float toPixels(float f)
+//{
+//	return f / 10;
+//}
 //
-//b2BodyDef dynamicBodyDef;
-//dynamicBodyDef.type = b2_dynamicBody; //This line changes it from the default static to a dynamic body
-//dynamicBodyDef.position.Set(2500.0f, 10.0f);
-//b2Body* dynamicBody = world.CreateBody(&dynamicBodyDef);
+//SDL_Rect toPixels(SDL_Rect r)
+//{
+//	r.x *= 1;
+//	r.y *= 1;
+//	r.w *= 1;
+//	r.h *= 1;
+//
+//	return r;
+//}
+
+static b2Vec2& Gravity()
+{
+	static b2Vec2 gravity(0, 10);
+	return gravity;
+}
+
+static b2World& World()
+{
+	static b2World world(Gravity());
+	return world;
+}
+
+//float toMeters(double f)
+//{
+//	return f * 10;
+//}
+
 class Box
 {
 public:
@@ -61,7 +63,8 @@ public:
 		m_rect.h = height;
 
 		b2BodyDef bodyDef;
-		bodyDef.position.Set(x , y);
+		
+		bodyDef.position.Set(x + width / 2, y + height / 2);
 		
 		if (red)
 		{
@@ -71,43 +74,46 @@ public:
 		{
 			bodyDef.type = b2_dynamicBody;
 		}
-		m_body = World()->CreateBody(&bodyDef);
 
-		b2PolygonShape m_box;
+		m_body = World().CreateBody(&bodyDef);
 		m_box.SetAsBox(width / 2, height / 2);
 
-		m_body->CreateFixture(&m_box, 0.0f);
+		b2FixtureDef fixture;
+		
+		fixture.shape = &m_box;
+		fixture.density = 1.0f;
+
+		m_body->CreateFixture(&fixture);
 	}
 	void update(float dt)
 	{
-		printf("----------------------------------\n");
-		std::cout << m_rect.x << " " << m_rect.y << " " << m_rect.w << " " << m_rect.h << std::endl;
-		printf("\n");
-		std::cout << m_body->GetPosition().x << " " << m_body->GetPosition().y << std::endl;
-		printf("----------------------------------\n");
-		
-		m_rect.x = m_body->GetPosition().x;
-		m_rect.y = m_body->GetPosition().y;
+		if (!m_red)
+		{
+			m_rect.x = m_body->GetPosition().x - m_rect.w / 2;
+			m_rect.y = m_body->GetPosition().y - m_rect.h / 2;
+		}
 	}
 
 	void Render(SDL_Renderer* r)
 	{
 		if (m_red)
-		SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+			SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
 		else
 			SDL_SetRenderDrawColor(r, 0, 255, 0, 255);
 
-		SDL_RenderDrawRect(r, &toPixels(m_rect));
+		SDL_RenderDrawRect(r, &m_rect);
 	}
 
 private:
 	SDL_Rect m_rect;
 	bool m_red;
 	b2Body* m_body;
+	b2PolygonShape m_box;
 };
 
 int main(int argc, char** argv)
 {
+#pragma region irrelevant
 	SDL_Window* window = NULL;
 	SDL_Event e;
 	window = SDL_CreateWindow("Spike", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -118,10 +124,11 @@ int main(int argc, char** argv)
 	Uint64 NOW = SDL_GetPerformanceCounter();
 	Uint64 LAST = 0;
 	double deltaTime = 0;
+#pragma endregion
 
 	vector<Box> _boxes;
-	//_boxes.push_back(Box(700, 800, 100, 100, false));
-	//_boxes.push_back(Box(100, 100, 100, 100, true));
+	_boxes.push_back(Box(70, 120, 10, 10, false));
+	_boxes.push_back(Box(0, 0, 100, 1, true));
 
 	float32 timeStep = 1.0f / 60.0f; //60 steps per second
 
@@ -140,7 +147,7 @@ int main(int argc, char** argv)
 
 	for (const auto& itr : _document["objects"].GetArray())
 	{
-		_boxes.push_back(Box(itr["x"].GetDouble(), itr["y"].GetDouble(), itr["width"].GetDouble(), itr["height"].GetDouble(), true));
+		_boxes.push_back(Box(itr["x"].GetDouble() / 10, itr["y"].GetDouble() / 10, itr["width"].GetDouble() / 10, itr["height"].GetDouble() / 10, true));
 	}
 
 	bool quit = false;
@@ -149,7 +156,7 @@ int main(int argc, char** argv)
 	{
 		if (deltaTime > frameTime)
 		{
-			World()->Step(timeStep, velocityIterations, positionIterations);
+			World().Step(timeStep, velocityIterations, positionIterations);
 
 			SDL_RenderClear(renderer);
 
