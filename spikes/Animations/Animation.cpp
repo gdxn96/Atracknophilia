@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Animation::Animation(string _animationName, Rect _position) : FPS(0.5f), m_maxCellHeight(0), m_maxCellWidth(0), m_isAlive(true), m_isLooping(true), m_selectedAnimation(_animationName), m_animationScale(1.2), m_dest(_position)
+Animation::Animation(string _animationName, Rect _position) : FPS(0.25f), m_maxCellHeight(0), m_maxCellWidth(0), m_isAlive(true), m_isLooping(true), m_selectedAnimation(_animationName), m_animationScale(1.2), m_dest(_position)
 {
 	auto& data = ResourceManager::getInstance()->getAnimationByKey(_animationName);
 	m_currentSpriteSheet = data.first;
@@ -43,7 +43,7 @@ void Animation::update(float dt)
 			}
 			else
 			{
-				resetAnimation();
+				m_frameIndex = 0;
 				m_currentFrame = m_currentFrames.at(m_frameIndex);
 			}
 		}
@@ -54,6 +54,7 @@ void Animation::update(float dt)
 void Animation::changeAnimation(string _animationName)
 {
 	m_selectedAnimation = _animationName;
+	resetAnimation();
 }
 
 void Animation::resetAnimation()
@@ -64,7 +65,7 @@ void Animation::resetAnimation()
 	m_currentFrames = data.second;
 }
 
-void Animation::SetLooping(bool _isLooping)
+void Animation::setLooping(bool _isLooping)
 {
 	m_isLooping = _isLooping;
 }

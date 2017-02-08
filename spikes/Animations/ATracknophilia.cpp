@@ -21,6 +21,30 @@ void update()
 	float _currentTime = SDL_GetTicks();						//millis since game started
 	float _deltaTime = (_currentTime - lastTime) / 1000.0;		//time since last update
 
+	SDL_Event _e;
+
+	while (SDL_PollEvent(&_e) != 0)
+	{
+		switch (_e.type)
+		{
+		case SDL_KEYUP:
+			switch (_e.key.keysym.sym)
+			{
+			case SDLK_1:
+				stick->changeAnimation("bob");
+				break;
+			case SDLK_2:
+				stick->changeAnimation("stick_man");
+				break;
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+
 	// Update the resource manager to monitor changes in the files
 	resourceMan->update(_deltaTime);
 	stick->update(_deltaTime);
@@ -55,7 +79,6 @@ int main()
 	{
 		update();
 		render();
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
 
     return 0;

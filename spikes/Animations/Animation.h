@@ -9,11 +9,12 @@ public:
 	~Animation();
 
 	void update(float dt);
-	void changeAnimation(string name);
+	void draw(Renderer& r);
 
+	void changeAnimation(string name);
 	void resetAnimation();
 
-	void SetLooping(bool _isLooping);
+	void setLooping(bool _isLooping);
 	void setFramesPerSecond(float _framesPerSecond);
 
 	void setPosition(Rect dest);
@@ -21,7 +22,7 @@ public:
 	bool isAlive();
 
 	void setScale(float s);
-	void draw(Renderer& r);
+	
 
 private:
 	int					m_maxCellHeight;
@@ -31,9 +32,10 @@ private:
 	bool				m_isLooping;
 	float				m_animationScale;
 	float				m_timeSinceLastFrame;
+	float				m_angle;
 	string				m_selectedAnimation;
 	
-	vector<Rect>	m_currentFrames;
+	vector<Rect>		m_currentFrames;
 	SDL_Texture*		m_currentSpriteSheet;
 	Rect				m_currentFrame;
 	Rect				m_dest;
