@@ -5,8 +5,8 @@
 using namespace std;
 
 #include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_mixer.h"
+#include "..\..\spikes\ResourceManagerComponent\ResourceManagerComponent\Dependancies\sdl_image\SDL_image.h"
+#include "..\..\spikes\ResourceManagerComponent\ResourceManagerComponent\Dependancies\sdl_mixer\SDL_mixer.h"
 #include <map>
 
 #include "ResourceManager.h";
