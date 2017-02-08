@@ -91,8 +91,8 @@ int main()
 
 		for (int i = 0; i < _boxes.size(); i++)
 		{
-			_boxes.at(i).update(0);
-			p.update(0);
+			_boxes.at(i).update(deltaTime);
+			p.update(deltaTime);
 			_boxes.at(i).Render(renderer);
 			p.Render(renderer);
 		}
