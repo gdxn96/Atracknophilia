@@ -170,8 +170,6 @@ csx/
 ecf/
 rcf/
 
-base/
-
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/
