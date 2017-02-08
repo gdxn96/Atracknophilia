@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "../../../RWMP3/MetaSystem/MetaSystem.h"
+//#include "LuaBridge\LuaBridge.h"
 
 #pragma region Apply
 template<typename Ret>
@@ -265,19 +266,56 @@ int MetaLuaCFunction(lua_State* L)
 	{
 		args[i].type->LuaGet(L, 1 + i, args[i].address);
 	}
-	return 0;
+
+	mf->Apply(ret, args, argCount);
+
+	//push the return value onto the Lua stack
+	if (ret.type->Size() > 0)
+	{
+		ret.type->LuaSet(L, ret.address);
+	}
+
+	//cleanup allocated memory
+	ret.type->Delete(ret.address);
+	for (int i = 0; i < argCount; i++)
+	{
+		args[i].type->Delete(args[i].address);
+	}
+
+	return (ret.type->Size() > 0) ? 1 : 0;
+}
+
+void MetaBind(lua_State* L)
+{
+	auto list = AutoList::get<MetaFunction>();
+
+	for (auto func : list)
+	{
+		const char * name = func->Name();
+		lua_pushlightuserdata(L, func);
+		lua_pushcclosure(L, MetaLuaCFunction, 1);
+		lua_setglobal(L, name);
+
+	}
 }
 
 
 
 int Foo(int i) { return 2 * i; };
 
+#include <chrono>
+#include <thread>
 int main()
 {
+	auto lua = LuaEngine();
 	META_REGISTER_FUNCTION(Foo);
-	int r = 0; Variable ret(&r);
-	int a = 10; Variable arg(&a);
-	Apply(Foo, ret, &arg, 1);
+	MetaBind(lua.L());
+
+	while (true)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		lua.ExecuteString(R"(print(_VERSION))");
+	}
 
 	system("PAUSE");
     return 0;
