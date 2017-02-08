@@ -4,9 +4,9 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include "..\rapidjson\document.h"
-#include "..\rapidjson\filereadstream.h"
-#include "..\rapidjson\reader.h"
+#include "rapidjson\document.h"
+#include "rapidjson\filereadstream.h"
+#include "rapidjson\reader.h"
 
 #include "FileMonitor.h"
 

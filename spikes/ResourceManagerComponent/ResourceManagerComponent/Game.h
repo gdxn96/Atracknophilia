@@ -5,7 +5,7 @@
 #ifdef __APPLE__
 #include "SDL2/SDL.h"
 #elif defined(_WIN64) || defined(_WIN32)
-#include "SDL.h"
+#include "sdl/SDL.h"
 #endif
 
 #include "ResourceManager.h"
