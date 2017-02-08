@@ -1,14 +1,14 @@
 #pragma once
 #include "BasicTypes.h"
 #include "sdl\SDL.h"
-
-class Camera2D;
+#include "Camera2D.h"
+#include "box2d\Box2D.h"
 
 //Responsible for all drawing operations
 //abstracts away specfic SDL specific drawing functions
 class Renderer 
 {
-	Size2D windowSize;
+	Vector2D windowSize;
 
 	SDL_Window *window;
 	SDL_Renderer *sdl_renderer;
@@ -17,9 +17,8 @@ class Renderer
 public:
 	Renderer();
 	SDL_Renderer * getRenderer();
-	bool init(const Size2D&, const char*, Camera2D* cam);
+	bool init(const Vector2D&, const char*, Camera2D* cam);
 	void drawRect(const Rect&, const Colour&);
-	void drawWorldRect(const Rect&, const Colour&);
 	void present();
 	void clear(const Colour&);
 	Rect cameraTransform(Rect r);
@@ -29,6 +28,8 @@ public:
 	void drawTexture(SDL_Texture * img, Rect _src, Rect _dst);
 	void drawImage(SDL_Texture* img, Rect rec, double angle);
 	void drawImage(SDL_Surface * img, Rect rec);
+
+	void drawBox2DPolygon(b2Body* body);
 
 	void setNewCamera(Camera2D * newCam);
 	void drawRectOutline(const Rect& r, const Colour& c);

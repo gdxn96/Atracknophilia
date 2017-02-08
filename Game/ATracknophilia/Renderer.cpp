@@ -3,7 +3,7 @@
 using namespace std;
 #include "sdl\SDL.h"
 #include "Renderer.h"
-
+#include "Vector2D.h"
 
 Renderer::Renderer() :sdl_renderer(NULL)
 {
@@ -13,12 +13,6 @@ Renderer::Renderer() :sdl_renderer(NULL)
 SDL_Renderer * Renderer::getRenderer()
 {
 	return sdl_renderer;
-}
-
-//draw a rectangle in world coordinates
-void Renderer::drawWorldRect(const Rect &r, const Colour &c)
-{
-	drawRect(cameraTransform(r), c);
 }
 
 void Renderer::present() { //swap buffers
@@ -112,9 +106,65 @@ void Renderer::drawImage(SDL_Surface* img, Rect rec)
 	SDL_RenderCopyEx(sdl_renderer, ImageTexture, NULL, &sdlRec, 0, &objCentre, SDL_FLIP_NONE);
 }
 
+void Renderer::drawBox2DPolygon(b2Body * body)
+{
+	for (b2Fixture* b2Fixture = body->GetFixtureList(); b2Fixture != 0; b2Fixture = b2Fixture->GetNext())
+	{
+
+		b2Shape::Type shapeType = b2Fixture->GetType();
+		if (shapeType == b2Shape::e_circle)
+		{
+		}
+		else if (shapeType == b2Shape::e_polygon)
+		{
+			b2PolygonShape* polygonShape = (b2PolygonShape*)b2Fixture->GetShape();
+
+			int lenght = (int)polygonShape->GetVertexCount();
+
+			SDL_Point* points = new SDL_Point[lenght + 1];
+
+
+			for (int i = 0; i < lenght; i++)
+			{
+				Vector2D worldPoint;
+				float verticesPosX = polygonShape->GetVertex(i).x; b2Fixture->GetBody()->GetPosition().x;
+				float verticesPosY = polygonShape->GetVertex(i).y; b2Fixture->GetBody()->GetPosition().y;
+
+				float angle = b2Fixture->GetBody()->GetAngle();
+				float s = sin(angle);
+				float c = cos(angle);
+
+				// translate point back to origin:
+				verticesPosX -= 0;
+				verticesPosY -= 0;
+
+				// rotate point
+				float xnew = verticesPosX* c - verticesPosY * s;
+				float ynew = verticesPosX * s + verticesPosY * c;
+
+				// translate point back:
+				verticesPosX = xnew + 0;
+				verticesPosY = ynew + 0;
+
+				worldPoint.x = verticesPosX + b2Fixture->GetBody()->GetPosition().x;;
+				worldPoint.y = verticesPosY + b2Fixture->GetBody()->GetPosition().y;;
+				worldPoint = worldPoint * m_camera->getScale();
+				points[i].x = worldPoint.x;
+				points[i].y = worldPoint.y;
+			}
+
+			points[lenght].y = points[0].y;
+			points[lenght].x = points[0].x;
+
+			SDL_RenderDrawLines(sdl_renderer, points, lenght + 1);
+		}
+	}
+}
+
 
 /**Destroys SDL_Window and SDL_Renderer*/
-void Renderer::destroy() {
+void Renderer::destroy() 
+{
 	SDL_DestroyRenderer(sdl_renderer);
 	SDL_DestroyWindow(window);
 }
@@ -123,11 +173,8 @@ Renderer::~Renderer()
 {
 }
 
-
-
-
-bool Renderer::init(const Size2D& winSize, const char* title, Camera2D* cam) {
-
+bool Renderer::init(const Vector2D& winSize, const char* title, Camera2D* cam) 
+{
 	m_camera = cam;
 	int e = SDL_Init(SDL_INIT_EVERYTHING);              // Initialize SDL2
 	windowSize = winSize;
@@ -203,8 +250,8 @@ void Renderer::drawRect(const Rect& r, const Colour& c) {
 
 Rect Renderer::cameraTransform(Rect r)
 {
-	/*r = r * m_camera->getScale();
+	r = r * m_camera->getScale();
 	r.pos.x -= m_camera->getViewport().pos.x;
-	r.pos.y -= m_camera->getViewport().pos.y;*/
+	r.pos.y -= m_camera->getViewport().pos.y;
 	return r;
 }

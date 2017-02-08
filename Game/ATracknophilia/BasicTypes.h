@@ -1,21 +1,9 @@
 #pragma once
 #include <cmath>
+#include "Vector2D.h"
+#include "sdl\SDL.h"
 
 //Define some basic types needed for 2D graphics
-class Point2D {
-public:
-	float x, y;
-	Point2D(float _x = 0, float _y = 0) :x(_x), y(_y) { };
-	float length() { return (float)sqrt(x*x + y*y); };
-};
-
-
-class Size2D {
-public:
-	float w, h;
-	Size2D(float _w = 0, float  _h = 0) :w(_w), h(_h) {};
-};
-
 class Colour {
 public:
 	int r, g, b, a;
@@ -24,19 +12,49 @@ public:
 
 class Rect {
 public:
-	Point2D pos;
-	Size2D size;
-	Rect(Point2D p, Size2D s) :pos(p), size(s) {};
+	Vector2D pos;
+	Vector2D size;
+	Rect(Vector2D p, Vector2D s) :pos(p), size(s) {};
 	Rect(float x = 0, float y = 0, float w = 1, float h = 1) :pos(x, y), size(w, h) {};
-	Rect ScaleCopy(float s) {
-		float _x, _y, _w, _h;
-		Point2D center(pos.x + size.w / 2, pos.y + size.h / 2);
-		_w = size.w * s;
-		_h = size.h * s;
-		_x = center.x - _w / 2;
-		_y = center.y - _h / 2;
 
-		return Rect(_x, _y, _w, _h);
-	};
+	Rect operator*(float scale)
+	{
+		return Rect(this->pos.x * scale, this->pos.y * scale, this->size.w * scale, this->size.h * scale);
+	}
 
+	Rect operator/(float scale)
+	{
+		return Rect(this->pos.x / scale, this->pos.y / scale, this->size.w / scale, this->size.h / scale);
+	}
+
+	Rect operator+(Rect& r)
+	{
+		return Rect(this->pos.x + r.pos.x, this->pos.y + r.pos.y, this->size.w + r.size.w, this->size.h + r.size.h);
+	}
+
+	Vector2D getCentreCopy()
+	{
+		return  Vector2D(this->pos.x + this->size.w / 2, this->pos.y + this->size.h / 2);
+	}
+
+	SDL_Rect toSDLRect()
+	{
+		SDL_Rect rect;
+		rect.x = pos.x;
+		rect.y = pos.y;
+		rect.w = size.w;
+		rect.h = pos.h;
+		return rect;
+	}
+
+	bool containsPoint(Vector2D pt)
+	{
+		float x = pt.x;
+		float y = pt.y;
+		if (x >= this->pos.x && x <= this->pos.x + this->size.w &&
+			y >= this->pos.y && y <= this->pos.y + this->size.h)
+			return true;
+		else
+			return false;
+	}
 };

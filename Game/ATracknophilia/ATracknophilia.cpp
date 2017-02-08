@@ -9,7 +9,7 @@
 
 int main()
 {
-	Game game;
+	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
 	auto exit = Command([&](){Game::quit = true; }, EventListener::Type::Press);
 	InputManager::GetInstance()->AddKey(EventListener::ESCAPE, &exit, nullptr);
 
