@@ -2,7 +2,7 @@
 #include "Player.h"
 
 Player::Player() 
-	:	m_box(7, 5, 1, 1, false)
+	:	m_box(7, 6, 1, 1, false)
 {
 }
 

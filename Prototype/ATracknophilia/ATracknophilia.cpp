@@ -97,6 +97,72 @@ int main()
 			p.Render(renderer);
 		}
 
+		//for (b2Body* BodyIterator = World().GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
+		//{
+		//	if (BodyIterator->IsActive())
+		//	{
+		//		for (b2Fixture* b2Fixture = BodyIterator->GetFixtureList(); b2Fixture != 0; b2Fixture = b2Fixture->GetNext())
+		//		{
+
+		//			b2Shape::Type shapeType = b2Fixture->GetType();
+		//			if (shapeType == b2Shape::e_circle)
+		//			{
+		//			}
+		//			else if (shapeType == b2Shape::e_polygon)
+		//			{
+		//				b2PolygonShape* polygonShape = (b2PolygonShape*)b2Fixture->GetShape();
+
+		//				int lenght = (int)polygonShape->GetVertexCount();
+
+		//				SDL_Point* points = new SDL_Point[lenght + 1];
+
+
+		//				for (int i = 0; i < lenght; i++)
+		//				{
+		//					Vector worldPoint;
+		//					float verticesPosX = polygonShape->GetVertex(i).x; b2Fixture->GetBody()->GetPosition().x;
+		//					float verticesPosY = polygonShape->GetVertex(i).y; b2Fixture->GetBody()->GetPosition().y;
+		//					/*
+		//					float mag = sqrt(fixturePosX * fixturePosX + fixturePosY * fixturePosY);
+		//					if (mag != 0)
+		//					{
+		//					fixturePosX /= mag;
+		//					fixturePosY /= mag;
+		//					}*/
+		//					float angle = b2Fixture->GetBody()->GetAngle();
+		//					float s = sin(angle);
+		//					float c = cos(angle);
+
+		//					// translate point back to origin:
+		//					verticesPosX -= 0;
+		//					verticesPosY -= 0;
+
+		//					// rotate point
+		//					float xnew = verticesPosX* c - verticesPosY * s;
+		//					float ynew = verticesPosX * s + verticesPosY * c;
+
+		//					// translate point back:
+		//					verticesPosX = xnew + 0;
+		//					verticesPosY = ynew + 0;
+
+		//					worldPoint.x = verticesPosX + b2Fixture->GetBody()->GetPosition().x;;
+		//					worldPoint.y = verticesPosY + b2Fixture->GetBody()->GetPosition().y;;
+		//					worldPoint = worldPoint * 10;
+		//					points[i].x = worldPoint.x;
+		//					points[i].y = worldPoint.y;
+		//				}
+
+		//				points[lenght].y = points[0].y;
+		//				points[lenght].x = points[0].x;
+
+
+
+		//				SDL_RenderDrawLines(renderer, points, lenght + 1);
+		//			}
+		//		}
+		//	}
+		//}
+
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderPresent(renderer);
 		
