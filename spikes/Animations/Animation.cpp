@@ -89,6 +89,11 @@ void Animation::setScale(float s)
 	m_animationScale = s;
 }
 
+void Animation::setAngle(float a)
+{
+	m_angle = a;
+}
+
 void Animation::draw(Renderer& r)
 {
 	if (m_isAlive)
@@ -105,7 +110,7 @@ void Animation::draw(Renderer& r)
 		_dest.x = 640;
 		_dest.y = 360;
 
-		SDL_RenderCopy(r.getRenderer(), m_currentSpriteSheet, &_src, &_dest);
-		//r.drawRectOutline(m_dest, Colour(255, 255, 255, 255));
+		float angle = m_angle * (180 / 3.14);
+		SDL_RenderCopyEx(r.getRenderer(), m_currentSpriteSheet, &_src, &_dest, angle, NULL, SDL_FLIP_NONE);
 	}
 }

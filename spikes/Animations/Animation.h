@@ -23,6 +23,7 @@ public:
 
 	void setScale(float s);
 	
+	void setAngle(float a);
 
 private:
 	int					m_maxCellHeight;
