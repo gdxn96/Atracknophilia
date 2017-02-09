@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Animation.h"
 
-using namespace std;
-
 Animation::Animation(string _animationName, Rect _position) 
 	: m_maxCellHeight(0)
 	, m_maxCellWidth(0)
@@ -121,25 +119,12 @@ void Animation::setAngleInRadians(float a)
 	m_angle = a;
 }
 
-void Animation::draw(Renderer& r, Rect dest)
+void Animation::draw(Renderer& r)
 {
 	if (m_isAlive)
 	{
-		SDL_Rect _src;
-		_src.w = m_currentFrame.size.w;
-		_src.h = m_currentFrame.size.h;
-		_src.x = m_currentFrame.pos.x;
-		_src.y = m_currentFrame.pos.y;
-
-		SDL_Rect _dest;
-		_dest.w = dest.size.w;
-		_dest.h = dest.size.h;
-		_dest.x = dest.pos.x;
-		_dest.y = dest.pos.y;
-
 		float angle = m_angle * (180 / 3.14);
 
-		// r.renderSpriteSheet(m_currentSpriteSheet, dest, _src, angle);
-		SDL_RenderCopyEx(r.getRenderer(), m_currentSpriteSheet, &_src, &_dest, angle, NULL, SDL_FLIP_NONE);
+		r.drawTextureWithAngle(m_currentSpriteSheet, m_currentFrame, m_dest, angle);
 	}
 }

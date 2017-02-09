@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Resource.h"
 
-//using namespace std;
-
 void Texture::load()
 {
 	// Load the new texture and throw an exception if we cannot

@@ -1,6 +1,7 @@
 #pragma once
 #include "LTimer.h"
 #include "Renderer.h"
+#include "Animation.h"
 
 class Game
 {
@@ -13,4 +14,5 @@ public:
 private:
 	Renderer m_renderer;
 	Camera2D m_camera;
+	ResourceManager* m_resourceMan;
 };

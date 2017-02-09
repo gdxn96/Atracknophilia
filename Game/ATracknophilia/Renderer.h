@@ -26,6 +26,7 @@ public:
 	void drawImage(SDL_Surface* img);
 	void drawTexture(SDL_Texture * img, Rect dst);
 	void drawTexture(SDL_Texture * img, Rect _src, Rect _dst);
+	void drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, float angle);
 	void drawImage(SDL_Texture* img, Rect rec, double angle);
 	void drawImage(SDL_Surface * img, Rect rec);
 

@@ -59,6 +59,23 @@ void Renderer::drawTexture(SDL_Texture* img, Rect _src, Rect _dst)
 	SDL_RenderCopy(sdl_renderer, img, &src, &dst);
 }
 
+void Renderer::drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, float angle)
+{
+	SDL_Rect dst;
+	_dst = cameraTransform(_dst);
+	dst.x = (int)_dst.pos.x;
+	dst.y = (int)_dst.pos.y;
+	dst.w = (int)_dst.size.w;
+	dst.h = (int)_dst.size.h;
+
+	SDL_Rect src;
+	src.x = (int)_src.pos.x;
+	src.y = (int)_src.pos.y;
+	src.w = (int)_src.size.w;
+	src.h = (int)_src.size.h;
+	SDL_RenderCopyEx(sdl_renderer, img, &src, &dst, angle, NULL, SDL_FLIP_NONE);
+}
+
 void Renderer::drawImage(SDL_Texture* img, Rect rec, double angle)
 {
 	rec = cameraTransform(rec);

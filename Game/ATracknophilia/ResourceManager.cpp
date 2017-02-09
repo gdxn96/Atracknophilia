@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 
-using namespace std;
-
 ResourceManager * ResourceManager::m_instance = nullptr;
 
 const int MAX_DELAY = 3;
