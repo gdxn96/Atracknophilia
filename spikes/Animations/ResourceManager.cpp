@@ -149,8 +149,6 @@ void ResourceManager::loadResources(string fileName)
 
 void ResourceManager::loadResourceQueue()
 {
-	cout << "Number of resources to load: " + to_string(m_resourceQueue.size()) << endl;
-	cout << "Loading... 0%" << endl << endl;
 	// Loads each of the resources
 	for (auto resource : m_resourceQueue)
 	{
