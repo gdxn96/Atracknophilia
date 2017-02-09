@@ -6,10 +6,12 @@ class Animation
 {
 public:
 	Animation(string _animationName, Rect _position);
+	Animation();
+
 	~Animation();
 
 	void update(float dt);
-	void draw(Renderer& r);
+	void draw(Renderer& r, Rect dest);
 
 	void changeAnimation(string name);
 	void resetAnimation();
@@ -23,7 +25,7 @@ public:
 
 	void setScale(float s);
 	
-	void setAngle(float a);
+	void setAngleInRadians(float a);
 
 private:
 	int					m_maxCellHeight;
@@ -34,12 +36,11 @@ private:
 	float				m_animationScale;
 	float				m_timeSinceLastFrame;
 	float				m_angle;
+	float				FPS;
 	string				m_selectedAnimation;
 	
 	vector<Rect>		m_currentFrames;
 	SDL_Texture*		m_currentSpriteSheet;
 	Rect				m_currentFrame;
 	Rect				m_dest;
-
-	float FPS;
 };

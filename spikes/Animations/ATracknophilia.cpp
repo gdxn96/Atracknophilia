@@ -2,15 +2,13 @@
 #include "stdafx.h"
 #define SDL_main main
 #include "Animation.h"
-#include <thread>
-#include <chrono>
 
 const float	SCREEN_WIDTH = 1200.0f;
 const float	SCREEN_HEIGHT = 1200.0f;
 
 ResourceManager* resourceMan = nullptr;
 Renderer renderer;
-Animation* stick = nullptr;
+Animation stick;
 
 float lastTime = 0;
 
@@ -31,10 +29,22 @@ void update()
 			switch (_e.key.keysym.sym)
 			{
 			case SDLK_1:
-				stick->changeAnimation("bob");
+				stick.changeAnimation("bob");
 				break;
 			case SDLK_2:
-				stick->changeAnimation("stick_man");
+				stick.changeAnimation("stick_man");
+				break;
+			case SDLK_3:
+				stick.setAngleInRadians(3.14 / 2);
+				break;
+			case SDLK_4:
+				stick.setAngleInRadians(3.14);
+				break;
+			case SDLK_5:
+				stick.setAngleInRadians((3 * 3.14) / 2);
+				break;
+			case SDLK_6:
+				stick.setAngleInRadians(2 * 3.14);
 				break;
 			}
 			break;
@@ -47,7 +57,7 @@ void update()
 
 	// Update the resource manager to monitor changes in the files
 	resourceMan->update(_deltaTime);
-	stick->update(_deltaTime);
+	stick.update(_deltaTime);
 
 	lastTime = _currentTime;
 }
@@ -56,7 +66,7 @@ void render()
 {
 	renderer.clear(Colour(0, 0, 0));
 
-	stick->draw(renderer);
+	stick.draw(renderer, Rect(Point2D(640, 320), Size2D(32, 102)));
 
 	renderer.present();
 }
@@ -72,7 +82,7 @@ int main()
 	resourceMan->loadResources("Resources/resourcesNEW.json");
 	resourceMan->loadResourceQueue();
 
-	stick = new Animation("stick_man", Rect(Point2D(640, 360), Size2D(64, 205)));
+	stick = Animation("stick_man", Rect(Point2D(640, 360), Size2D(64, 205)));
 
 	/************************** GAME LOOP *************************************/
 	while (true)
