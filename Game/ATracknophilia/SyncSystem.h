@@ -11,7 +11,8 @@ public:
 
 	void process() override
 	{
-		for (auto& component : AutoList::get<Box2DComponent>())
+		auto& components = AutoList::get<Box2DComponent>();
+		for (auto& component : components)
 		{
 			component->process();
 		}

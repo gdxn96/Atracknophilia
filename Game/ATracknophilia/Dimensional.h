@@ -65,12 +65,13 @@ struct Box2DComponent : public IComponent, public AutoLister<Box2DComponent>
 	}
 
 	virtual void process() = 0;
+	virtual ~Box2DComponent() {};
 
 	b2Body* body;
 	b2Fixture* fixture;
 };
 
-struct CollisionBoxComponent : public Box2DComponent
+struct CollisionBoxComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
 {
 	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) : Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
 	{

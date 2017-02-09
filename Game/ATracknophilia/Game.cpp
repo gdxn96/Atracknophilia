@@ -31,6 +31,7 @@ void Game::init()
 
 void Game::loop(float dt)
 {
+	World().Step(dt, 6, 3);
 	for (auto& system : m_systems)
 	{
 		system->process();

@@ -10,7 +10,8 @@ public:
 		{
 			new PositionComponent(id, Vector2D(100, 100)),
 			new SizeComponent(id, Vector2D(50, 50)),
-			new CollisionBoxComponent(id, 50, 50, 500, 500, false),		
+			new CollisionBoxComponent(id, 50, 50, 500, 500, false),	
+			new PlayerControllerComponent(id),
 		})
 	{
 	}
