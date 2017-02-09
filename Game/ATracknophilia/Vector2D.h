@@ -2,6 +2,7 @@
 #include <cfloat>
 #include <cmath>
 #include <climits>
+#include "box2d\Box2D.h"
 
 
 /*The Vector2d class is an object consisting of simply an x and
@@ -25,6 +26,7 @@ public:
 	Vector2D();
 	//creates a unit vector based on a radian angle
 	Vector2D(float angle);
+	Vector2D(b2Vec2 pos);
 	Vector2D(float, float);
 	Vector2D(const Vector2D& v);
 	void limit(float maxMagnitude);
