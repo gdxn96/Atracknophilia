@@ -1,9 +1,5 @@
-
-//* Set initial instance to be nullptr
-InputManager* InputManager::inputManagerInstance = nullptr;
-
 //* Default Constructor
-InputManager::InputManager()
+inline InputManager::InputManager()
 {
 	auto e = SDL_Init(SDL_INIT_EVERYTHING);              // Initialize SDL2
 
@@ -17,12 +13,12 @@ InputManager::InputManager()
 }
 
 //* Default Deconstructor
-InputManager::~InputManager()
+inline InputManager::~InputManager()
 {
 }
 
 //* Used to get the Class Instance
-InputManager* InputManager::GetInstance()
+inline InputManager* InputManager::GetInstance()
 {
 	if (inputManagerInstance == nullptr)
 	{
@@ -33,7 +29,7 @@ InputManager* InputManager::GetInstance()
 }
 
 //* Create an EventListener object
-void InputManager::AddListener(EventListener::Event evt, EventListener *listener)
+inline void InputManager::AddListener(EventListener::Event evt, EventListener *listener)
 {
 	if (listeners.find(evt) == listeners.end())
 	{
@@ -44,7 +40,7 @@ void InputManager::AddListener(EventListener::Event evt, EventListener *listener
 }
 
 //* Find a specific Event listener in the listeners dictionary, and call its onEvent() function
-void InputManager::Dispatch(EventListener::Type type, EventListener::Event evt)
+inline void InputManager::Dispatch(EventListener::Type type, EventListener::Event evt)
 {
 	if (listeners.find(evt) != listeners.end())
 	{
@@ -60,14 +56,14 @@ void InputManager::Dispatch(EventListener::Type type, EventListener::Event evt)
 }
 
 //* Set the hold for a specific Event in the beingHeld dictionary 
-void InputManager::SetPrevious(EventListener::Event evt, bool isHeld)
+inline void InputManager::SetPrevious(EventListener::Event evt, bool isHeld)
 {
 	//* Set Event in map hold to be true or false
 	beingHeld[evt] = isHeld;
 }
 
 //* Check to see if a specific Event is being held down
-void InputManager::CheckPrevious(EventListener::Type type, EventListener::Event evt)
+inline void InputManager::CheckPrevious(EventListener::Type type, EventListener::Event evt)
 {
 	//* Set Held to false for Event if the key was released
 	if (type == EventListener::Type::Release)
@@ -89,7 +85,7 @@ void InputManager::CheckPrevious(EventListener::Type type, EventListener::Event 
 }
 
 //* Create a Command object
-void InputManager::AddCommand(EventListener::Event evt, Command *command)
+inline void InputManager::AddCommand(EventListener::Event evt, Command *command)
 {
 	if (commands.find(evt) == commands.end())
 	{
@@ -100,7 +96,7 @@ void InputManager::AddCommand(EventListener::Event evt, Command *command)
 }
 
 //* Find a Command object in the commands dictionary, and call its execute function based on Event Type
-void InputManager::Execute(EventListener::Type type, EventListener::Event evt)
+inline void InputManager::Execute(EventListener::Type type, EventListener::Event evt)
 {
 	if (evt != 0)
 	{
@@ -155,7 +151,7 @@ void InputManager::Execute(EventListener::Type type, EventListener::Event evt)
 }
 
 //* Used to create a key event
-void InputManager::AddKey(EventListener::Event evt, Command* command, EventListener *listener)
+inline void InputManager::AddKey(EventListener::Event evt, Command* command, EventListener *listener)
 {
 	//* This shit is LIT yo!
 	//* Get a Command* and set Reference to that Command* 
@@ -170,14 +166,14 @@ void InputManager::AddKey(EventListener::Event evt, Command* command, EventListe
 }
 
 //* Used to create a key event
-void InputManager::ResetKey(EventListener::Event evt)
+inline void InputManager::ResetKey(EventListener::Event evt)
 {
 	commands[evt]->clear();
 	listeners[evt]->clear();
 }
 
 //* Combine a Command* and an EventListener to work together
-Command*& InputManager::bindCommand(EventListener::Event evt)
+inline Command*& InputManager::bindCommand(EventListener::Event evt)
 {
 	//* Return a Command* based on the Event
 	switch (evt)
@@ -299,7 +295,7 @@ Command*& InputManager::bindCommand(EventListener::Event evt)
 }
 
 //* Required to update the input
-void InputManager::ProcessInput()
+inline void InputManager::ProcessInput()
 {
 	//* New Input Library Event
 	SDL_Event evn;
@@ -579,7 +575,7 @@ void InputManager::ProcessInput()
 
 //// Controller  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //* Add Contoller if Detected
-void InputManager::AddController(int id)
+inline void InputManager::AddController(int id)
 {
 	//* Assign Current Controller
 	if (SDL_IsGameController(id))
@@ -598,32 +594,32 @@ void InputManager::AddController(int id)
 }
 
 //* Disconnect Controller
-void InputManager::RemoveController(int id)
+inline void InputManager::RemoveController(int id)
 {
 	SDL_GameControllerClose(mGameController);
 	mIsConnected = false;
 }
 
 //* Set Delay of Controller Update
-void InputManager::SetControllerButtonDelay(int delay)
+inline void InputManager::SetControllerButtonDelay(int delay)
 {
 	controllerButtonDelay = delay;
 }
 
 //* Set Delay of Controller Update
-void InputManager::SetControllerTriggerDelay(int delay)
+inline void InputManager::SetControllerTriggerDelay(int delay)
 {
 	controllerTriggerDelay = delay;
 }
 
 //* Set the size of the Stick Dead Zone
-void InputManager::SetStickDeadZone(int deadZone)
+inline inline void InputManager::SetStickDeadZone(int deadZone)
 {
 	stick_Dead_Zone = deadZone;
 }
 
 //* Return X, Y for Left Stick Vector
-Vector2f InputManager::GetLeftStickVector()
+inline Vector2f InputManager::GetLeftStickVector()
 {
 	if (Vector2f(stick_Left_X, stick_Left_Y).magnitude() > stick_Dead_Zone)
 	{
@@ -636,7 +632,7 @@ Vector2f InputManager::GetLeftStickVector()
 }
 
 //* Return X, Y for Left Stick Vector Normal
-Vector2f InputManager::GetLeftStickVectorNormal()
+inline Vector2f InputManager::GetLeftStickVectorNormal()
 {
 	if (Vector2f(stick_Left_X, stick_Left_Y).magnitude() > stick_Dead_Zone)
 	{
@@ -649,19 +645,19 @@ Vector2f InputManager::GetLeftStickVectorNormal()
 }
 
 //* Return X, Y for Left Stick Angle
-float InputManager::GetLeftStickAngle()
+inline float InputManager::GetLeftStickAngle()
 {
 	return (180 - (180 * (atan2(stick_Left_X, stick_Left_Y)) / M_PI));
 }
 
 //* Return Left Trigger Value
-float InputManager::GetLeftTrigger()
+inline float InputManager::GetLeftTrigger()
 {
 	return stick_Left_T;
 }
 
 //* Return X, Y for Right Stick Vector
-Vector2f InputManager::GetRightStickVector()
+inline Vector2f InputManager::GetRightStickVector()
 {
 	if (Vector2f(stick_Right_X, stick_Right_Y).magnitude() > stick_Dead_Zone)
 	{
@@ -674,7 +670,7 @@ Vector2f InputManager::GetRightStickVector()
 }
 
 //* Return X, Y for Right Stick Vector Normal
-Vector2f InputManager::GetRightStickVectorNormal()
+inline Vector2f InputManager::GetRightStickVectorNormal()
 {
 	if (Vector2f(stick_Right_X, stick_Right_Y).magnitude() > stick_Dead_Zone)
 	{
@@ -687,26 +683,26 @@ Vector2f InputManager::GetRightStickVectorNormal()
 }
 
 //* Return X, Y for Right Stick Angle
-float InputManager::GetRightStickAngle()
+inline float InputManager::GetRightStickAngle()
 {
 	return (180 - (180 * (atan2(stick_Right_X, stick_Right_Y)) / M_PI));
 }
 
 //* Return Right Trigger Value
-float InputManager::GetRightTrigger()
+inline float InputManager::GetRightTrigger()
 {
 	return stick_Right_T;
 }
 
 //* Logger //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //* Add Event to output Log
-void InputManager::logEvent(std::string str)
+inline inline void InputManager::logEvent(std::string str)
 {
 	logFileValues.push_back(str);
 }
 
 //* Save the Log File
-void InputManager::saveFile()
+inline inline void InputManager::saveFile()
 {
 	logFileName = "Input Log = "
 		+ GetTimeStamp(true)
@@ -726,7 +722,7 @@ void InputManager::saveFile()
 }
 
 //* Return the Current System Time
-std::string InputManager::GetTimeStamp(bool save)
+inline std::string InputManager::GetTimeStamp(bool save)
 {
 	time_t t = time(0);
 	struct tm now;
@@ -760,7 +756,7 @@ std::string InputManager::GetTimeStamp(bool save)
 }
 
 //* Fill the map for Key Logger
-void InputManager::createKeyMap()
+inline inline void InputManager::createKeyMap()
 {
 	logFileValues.push_back("Key, Type, Duration, Time Stamp");
 

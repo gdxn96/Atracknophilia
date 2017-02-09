@@ -6,6 +6,8 @@
 #include "FLInput\FLInputManager.h"
 
 #define SDL_main main
+//* Set initial instance to be nullptr
+InputManager* InputManager::inputManagerInstance = nullptr;
 
 int main()
 {

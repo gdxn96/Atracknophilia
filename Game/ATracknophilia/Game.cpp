@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "FLInput\FLInputManager.h"
 
 bool Game::quit = false;
 
@@ -11,7 +12,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 void Game::init()
 {
-	
+	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_DOWN, new Command(std::bind(&Camera2D::decreaseScale, &m_camera), EventListener::Type::Press));
+	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_UP, new Command(std::bind(&Camera2D::increaseScale, &m_camera), EventListener::Type::Press));
 }
 
 void Game::update(float dt)

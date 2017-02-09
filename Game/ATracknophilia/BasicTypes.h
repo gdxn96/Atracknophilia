@@ -4,7 +4,8 @@
 #include "sdl\SDL.h"
 
 //Define some basic types needed for 2D graphics
-class Colour {
+class Colour 
+{
 public:
 	int r, g, b, a;
 	Colour(int _r = 255, int  _g = 255, int _b = 255, int  _a = 255) :r(_r), g(_g), b(_b), a(_a) {};

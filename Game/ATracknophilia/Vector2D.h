@@ -8,7 +8,8 @@
 y value. Certain operators are overloaded to make it for
 easier vector math to be performed.*/
 
-class Vector2D {
+class Vector2D 
+{
 public:
 	/*The x and y values are public to give easier access for
 	outside funtions. Accessors and mutators are not really
