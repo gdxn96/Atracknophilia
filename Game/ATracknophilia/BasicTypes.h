@@ -44,7 +44,7 @@ public:
 		rect.x = pos.x;
 		rect.y = pos.y;
 		rect.w = size.w;
-		rect.h = pos.h;
+		rect.h = size.h;
 		return rect;
 	}
 

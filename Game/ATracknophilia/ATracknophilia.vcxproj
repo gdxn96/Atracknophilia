@@ -166,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicTypes.h" />
-    <ClInclude Include="Camera2D.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="LTimer.h" />
     <ClInclude Include="Renderer.h" />
@@ -176,7 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ATracknophilia.cpp" />
-    <ClCompile Include="Camera2D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="Renderer.cpp" />

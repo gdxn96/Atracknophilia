@@ -3,7 +3,6 @@
 #include "stdafx.h"
 #include "Game.h"
 #include <iostream>
-#include "FLInput\FLInputManager.h"
 
 #define SDL_main main
 //* Set initial instance to be nullptr

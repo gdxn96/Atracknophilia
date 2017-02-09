@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include <iostream>
-using namespace std;
-#include "sdl\SDL.h"
 #include "Renderer.h"
-#include "Vector2D.h"
+
+using namespace std;
+
 
 Renderer::Renderer() :sdl_renderer(NULL)
 {
@@ -126,7 +126,7 @@ void Renderer::drawBox2DPolygon(b2Body * body)
 
 			for (int i = 0; i < lenght; i++)
 			{
-				Vector2D worldPoint;
+				Camera2D::Point worldPoint;
 				float verticesPosX = polygonShape->GetVertex(i).x; b2Fixture->GetBody()->GetPosition().x;
 				float verticesPosY = polygonShape->GetVertex(i).y; b2Fixture->GetBody()->GetPosition().y;
 
@@ -148,7 +148,7 @@ void Renderer::drawBox2DPolygon(b2Body * body)
 
 				worldPoint.x = verticesPosX + b2Fixture->GetBody()->GetPosition().x;;
 				worldPoint.y = verticesPosY + b2Fixture->GetBody()->GetPosition().y;;
-				worldPoint = worldPoint * m_camera->getScale();
+				worldPoint = m_camera->worldToScreen(worldPoint);// * m_camera->getScale();
 				points[i].x = worldPoint.x;
 				points[i].y = worldPoint.y;
 			}
@@ -173,7 +173,7 @@ Renderer::~Renderer()
 {
 }
 
-bool Renderer::init(const Vector2D& winSize, const char* title, Camera2D* cam) 
+bool Renderer::init(const Vector2D& winSize, const char* title, Camera2D::Camera* cam) 
 {
 	m_camera = cam;
 	int e = SDL_Init(SDL_INIT_EVERYTHING);              // Initialize SDL2
@@ -219,7 +219,7 @@ bool Renderer::init(const Vector2D& winSize, const char* title, Camera2D* cam)
 	return true;
 }
 
-void Renderer::setNewCamera(Camera2D * newCam)
+void Renderer::setNewCamera(Camera2D::Camera * newCam)
 {
 	m_camera = newCam;
 }
@@ -238,8 +238,8 @@ void Renderer::drawRectOutline(const Rect& r, const Colour& c)
 
 void Renderer::drawRect(const Rect& r, const Colour& c) {
 	Rect tRect = cameraTransform(r);
-	SDL_SetRenderDrawColor(sdl_renderer, c.r, c.g, c.b, c.a);
-	SDL_Rect sr;
+	SDL_SetRenderDrawColor(sdl_renderer, 255, c.g, c.b, c.a);
+	SDL_Rect sr/* = tRect.toSDLRect()*/;
 	sr.h = tRect.size.h;
 	sr.w = tRect.size.w;
 	sr.x = tRect.pos.x;
@@ -250,8 +250,8 @@ void Renderer::drawRect(const Rect& r, const Colour& c) {
 
 Rect Renderer::cameraTransform(Rect r)
 {
-	r = r * m_camera->getScale();
-	r.pos.x -= m_camera->getViewport().pos.x;
-	r.pos.y -= m_camera->getViewport().pos.y;
-	return r;
+	SDL_Rect rect = r.toSDLRect();
+	rect = m_camera->worldToScreen(rect);
+	
+	return Rect(rect.x, rect.y, rect.w, rect.h);
 }
