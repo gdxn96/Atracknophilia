@@ -26,7 +26,6 @@ void Game::init()
 	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_UP, new Command(std::bind(&Camera2D::Camera::zoom, &m_camera, -1), EventListener::Type::Press));
 	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_DOWN, new Command(std::bind(&Camera2D::Camera::zoom, &m_camera, 1), EventListener::Type::Press));
 
-	m_resourceMgr = ResourceManager::getInstance();
 	m_resourceMgr->init(&m_renderer);
 	m_resourceMgr->loadResources("..//..//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();

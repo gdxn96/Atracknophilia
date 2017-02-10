@@ -61,6 +61,6 @@ struct CollisionBoxComponent : public Box2DComponent, public AutoLister<Collisio
 
 struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
 {
-	AnimationComponent(int objectId, Animation a) : IComponent(objectId), animation(a) {};
+	AnimationComponent(int objectId, string animationName) : IComponent(objectId), animation(Animation(animationName)) {};
 	Animation animation;
 };
