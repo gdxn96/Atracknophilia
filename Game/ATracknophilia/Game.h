@@ -1,6 +1,7 @@
 #pragma once
 #include "LTimer.h"
 #include "Renderer.h"
+#include "FLInput\FLInputManager.h"
 #include "Animation.h"
 #include "ECSInterfaces.h"
 #include "Systems.h"
@@ -14,7 +15,11 @@ public:
 	static bool quit;	
 private:
 	Renderer m_renderer;
-	Camera2D m_camera;
+	Camera2D::Camera m_camera;
+
+	b2Body* m_body;
+	b2PolygonShape m_box;
+
 	ResourceManager* m_resourceMgr;
 	std::vector<ISystem*> m_systems;
 };

@@ -1,8 +1,10 @@
 #pragma once
 #include "BasicTypes.h"
 #include "sdl\SDL.h"
-#include "Camera2D.h"
+#include "camera\Camera2D.h"
 #include "box2d\Box2D.h"
+#include "sdl\SDL.h"
+#include "Vector2D.h"
 
 //Responsible for all drawing operations
 //abstracts away specfic SDL specific drawing functions
@@ -12,12 +14,12 @@ class Renderer
 
 	SDL_Window *window;
 	SDL_Renderer *sdl_renderer;
-	Camera2D * m_camera;
+	Camera2D::Camera * m_camera;
 
 public:
 	Renderer();
 	SDL_Renderer * getRenderer();
-	bool init(const Vector2D&, const char*, Camera2D* cam);
+	bool init(const Vector2D&, const char*, Camera2D::Camera* cam);
 	void drawRect(const Rect&, const Colour&);
 	void present();
 	void clear(const Colour&);
@@ -32,7 +34,7 @@ public:
 	void drawBox2DPolygon(b2PolygonShape* poly, Vector2D position, float angle = 0);
 	void drawBox2DBody(b2Body * body);
 
-	void setNewCamera(Camera2D * newCam);
+	void setNewCamera(Camera2D::Camera * newCam);
 	void drawRectOutline(const Rect& r, const Colour& c);
 
 	void destroy();

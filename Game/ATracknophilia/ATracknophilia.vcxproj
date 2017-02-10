@@ -168,7 +168,6 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
-    <ClInclude Include="Camera2D.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Dimensional.h" />
     <ClInclude Include="Drawables.h" />
@@ -191,7 +190,6 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
-    <ClCompile Include="Camera2D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="Renderer.cpp" />
