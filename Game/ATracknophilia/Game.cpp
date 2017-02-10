@@ -5,7 +5,7 @@
 
 bool Game::quit = false;
 
-Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_camera(Rect(Vector2D(0,0), windowSize), 1.0f)
+Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_camera(Rect(Vector2D(0,0), windowSize), 1.0f), m_resourceMgr(nullptr)
 {
 	new Player(0);
 	m_camera.setLevelSize(levelSize);
@@ -27,6 +27,11 @@ void Game::init()
 {
 	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_DOWN, new Command(std::bind(&Camera2D::decreaseScale, &m_camera), EventListener::Type::Press));
 	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_UP, new Command(std::bind(&Camera2D::increaseScale, &m_camera), EventListener::Type::Press));
+
+	m_resourceMgr = ResourceManager::getInstance();
+	m_resourceMgr->init(&m_renderer);
+	m_resourceMgr->loadResources("..//..//assets//resources.json");
+	m_resourceMgr->loadResourceQueue();
 }
 
 void Game::loop(float dt)
@@ -37,4 +42,3 @@ void Game::loop(float dt)
 		system->process();
 	}
 }
-

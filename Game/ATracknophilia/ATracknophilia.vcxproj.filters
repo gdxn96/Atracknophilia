@@ -13,14 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Systems">
-      <UniqueIdentifier>{db283c2d-7c35-4f53-a5e9-459275c15ea6}</UniqueIdentifier>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{a5765bc7-9b49-430c-80bf-764f71f0528a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities">
-      <UniqueIdentifier>{5eed3586-dc8b-4cd0-a0f3-578bc9ea44e4}</UniqueIdentifier>
+    <Filter Include="ECS\Entities">
+      <UniqueIdentifier>{5ad6f203-8897-4f36-b952-53828d9c73fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{210fb04a-0238-4f21-a62a-0dbc2f22d455}</UniqueIdentifier>
+    <Filter Include="ECS\Components">
+      <UniqueIdentifier>{196a0afb-ff0b-4f8e-969b-94f36b1c00e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Systems">
+      <UniqueIdentifier>{2e1ce81f-cdc3-4548-aeca-4a03cb93d70e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +36,21 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileMonitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,44 +60,41 @@
     <ClInclude Include="Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BasicTypes.h">
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AutoList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ECSInterfaces.h">
-      <Filter>Header Files</Filter>
+      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="RenderSystem.h">
-      <Filter>Systems</Filter>
+      <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Drawables.h">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Dimensional.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="InputSystem.h">
-      <Filter>Systems</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="SyncSystem.h">
-      <Filter>Systems</Filter>
+      <Filter>ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Entities</Filter>
+    <ClInclude Include="InputSystem.h">
+      <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Systems.h">
-      <Filter>Systems</Filter>
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ECS\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -89,23 +104,32 @@
     <ClCompile Include="ATracknophilia.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vector2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
-      <Filter>Systems</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
