@@ -35,8 +35,7 @@ int main()
 		unsigned int currentTime = LTimer::gameTime();//millis since game started
 		float deltaTime = (currentTime - lastTime) / 1000.0;//time since last update
 
-		game.update(deltaTime);
-		game.render();
+		game.loop(deltaTime);
 
 		//save the curent time for next frame
 		lastTime = currentTime;

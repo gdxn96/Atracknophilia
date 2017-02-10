@@ -25,6 +25,11 @@ Vector2D::Vector2D(float angle)
 	y = nVec.y;
 }
 
+Vector2D::Vector2D(b2Vec2 pos) : x(pos.x), y(pos.y)
+{
+
+}
+
 Vector2D::~Vector2D()
 {}
 Vector2D::Vector2D(float sourceX, float sourceY) : x(sourceX), y(sourceY)
