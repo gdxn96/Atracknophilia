@@ -22,7 +22,7 @@ public:
 	virtual void process() = 0;
 };
 
-struct IComponent
+struct IComponent : public AutoLister<IComponent>
 {
 	IComponent(int id) : ID(id) {};
 
@@ -31,6 +31,8 @@ struct IComponent
 	{
 		return getComponentById<T>(ID);
 	}
+
+	virtual ~IComponent() {};
 	const int ID;
 };
 

@@ -2,12 +2,16 @@
 #include "Game.h"
 #include "FLInput\FLInputManager.h"
 #include "Player.h"
+#include "LevelLoader.h"
 
 bool Game::quit = false;
 
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(nullptr)
 {
-	new Player(0);
+	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
+		{LEVELS::PROTOTYPE, "..\\..\\Prototype\\ATracknophilia\\levels\\test.json"}, 
+	});
+
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 
@@ -30,6 +34,8 @@ void Game::init()
 	m_resourceMgr->init(&m_renderer);
 	m_resourceMgr->loadResources("..//..//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
+
+	LevelLoader::loadLevel(LEVELS::PROTOTYPE);
 }
 
 void Game::loop(float dt)

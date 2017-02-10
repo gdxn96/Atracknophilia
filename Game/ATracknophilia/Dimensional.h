@@ -45,13 +45,15 @@ struct Box2DComponent : public IComponent, public AutoLister<Box2DComponent>
 			fixture = body->CreateFixture(&afixture);
 		}
 	}
-	virtual ~Box2DComponent() {};
+	virtual ~Box2DComponent() {
+		World().DestroyBody(body);
+	};
 
 	b2Body* body;
 	b2Fixture* fixture;
 };
 
-struct CollisionBoxComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
+struct CollisionBoxComponent : public Box2DComponent
 {
 	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) : Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
 	{
