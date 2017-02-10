@@ -1,16 +1,20 @@
 #pragma once
 #include "LTimer.h"
 #include "Renderer.h"
+#include "Animation.h"
+#include "ECSInterfaces.h"
+#include "Systems.h"
 
 class Game
 {
 public:
 	Game(Vector2D windowSize, Vector2D levelSize, const char* windowName);
 	void init();
-	void update(float dt);
-	void render();
+	void loop(float dt);
 	static bool quit;	
 private:
 	Renderer m_renderer;
 	Camera2D m_camera;
+	ResourceManager* m_resourceMgr;
+	std::vector<ISystem*> m_systems;
 };
