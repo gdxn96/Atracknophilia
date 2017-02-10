@@ -78,9 +78,6 @@
     <ClInclude Include="Dimensional.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="SyncSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="InputSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>

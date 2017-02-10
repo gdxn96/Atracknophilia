@@ -11,12 +11,10 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 
-	auto syncSys = new SyncSystem();
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
 	renderSys->init(&m_renderer);
 
-	m_systems.push_back(syncSys);
 	m_systems.push_back(inputSys);
 
 	//render system must be added last
