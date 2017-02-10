@@ -94,6 +94,7 @@ void Animation::setLooping(bool _isLooping)
 {
 	m_isLooping = _isLooping;
 }
+
 void Animation::setFramesPerSecond(float _framesPerSecond)
 {
 	FPS = 1 / _framesPerSecond;
