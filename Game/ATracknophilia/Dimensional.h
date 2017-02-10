@@ -16,24 +16,6 @@ static b2World& World()
 	return world;
 }
 
-struct PositionComponent : public IComponent, public AutoLister<PositionComponent>
-{
-	PositionComponent(int objectId, Vector2D pos) : IComponent(objectId), position(pos) {};
-	Vector2D position;
-};
-
-struct AngleComponent : public IComponent, public AutoLister<AngleComponent>
-{
-	AngleComponent(int objectId, float _angle) : IComponent(objectId), angle(_angle) {};
-	float angle;
-};
-
-struct SizeComponent : public IComponent, public AutoLister<SizeComponent>
-{
-	SizeComponent(int objectId, Vector2D _size) : IComponent(objectId), size(_size) {};
-	Vector2D size;
-};
-
 struct Box2DComponent : public IComponent, public AutoLister<Box2DComponent>
 {
 	Box2DComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true) : IComponent(id) 
@@ -63,8 +45,6 @@ struct Box2DComponent : public IComponent, public AutoLister<Box2DComponent>
 			fixture = body->CreateFixture(&afixture);
 		}
 	}
-
-	virtual void process() = 0;
 	virtual ~Box2DComponent() {};
 
 	b2Body* body;
@@ -75,16 +55,5 @@ struct CollisionBoxComponent : public Box2DComponent, public AutoLister<Collisio
 {
 	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) : Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
 	{
-	}
-
-	virtual void process() override
-	{
-		auto pos = getComponent<PositionComponent>();
-		if (pos)
-		pos->position = body->GetPosition();
-
-		auto angle = getComponent<AngleComponent>();
-		if (angle)
-		angle->angle = body->GetAngle();
 	}
 };
