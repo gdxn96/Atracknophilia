@@ -3,7 +3,9 @@
 
 #include "stdafx.h"
 #include "../../../RWMP3/MetaSystem/MetaSystem.h"
+//#include "../../dependancies/LuaBridge/LuaBridge.h"
 //#include "LuaBridge\LuaBridge.h"
+#include "../../dependancies/lua52/lua.h"
 
 #pragma region Apply
 template<typename Ret>
@@ -307,14 +309,14 @@ int Foo(int i) { return 2 * i; };
 #include <thread>
 int main()
 {
-	auto lua = LuaEngine();
-	META_REGISTER_FUNCTION(Foo);
-	MetaBind(lua.L());
+	//auto lua = LuaEngine();
+	/*META_REGISTER_FUNCTION(Foo);
+	MetaBind(luabridge::);*/
 
 	while (true)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		lua.ExecuteString(R"(print(_VERSION))");
+		//lua.ExecuteString(R"(print(_VERSION))");
 	}
 
 	system("PAUSE");
