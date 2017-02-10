@@ -28,10 +28,11 @@ public:
 	void drawImage(SDL_Surface* img);
 	void drawTexture(SDL_Texture * img, Rect dst);
 	void drawTexture(SDL_Texture * img, Rect _src, Rect _dst);
-	void drawImage(SDL_Texture* img, Rect rec, double angle);
+	void drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, float angle);
 	void drawImage(SDL_Surface * img, Rect rec);
 
-	void drawBox2DPolygon(b2Body* body);
+	void drawBox2DPolygon(b2PolygonShape* poly, Vector2D position, float angle = 0);
+	void drawBox2DBody(b2Body * body);
 
 	void setNewCamera(Camera2D::Camera * newCam);
 	void drawRectOutline(const Rect& r, const Colour& c);
