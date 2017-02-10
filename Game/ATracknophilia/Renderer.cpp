@@ -7,7 +7,6 @@ using namespace std;
 
 Renderer::Renderer() :sdl_renderer(NULL)
 {
-
 }
 
 SDL_Renderer * Renderer::getRenderer()
@@ -106,57 +105,58 @@ void Renderer::drawImage(SDL_Surface* img, Rect rec)
 	SDL_RenderCopyEx(sdl_renderer, ImageTexture, NULL, &sdlRec, 0, &objCentre, SDL_FLIP_NONE);
 }
 
-void Renderer::drawBox2DPolygon(b2Body * body)
+void Renderer::drawBox2DPolygon(b2PolygonShape * polygonShape, Vector2D position, float angle)
 {
+	int lenght = (int)polygonShape->GetVertexCount();
+
+	SDL_Point* points = new SDL_Point[lenght + 1];
+
+
+	for (int i = 0; i < lenght; i++)
+	{
+		Vector2D worldPoint;
+		float verticesPosX = polygonShape->GetVertex(i).x; 
+		float verticesPosY = polygonShape->GetVertex(i).y; 
+
+		float s = sin(angle);
+		float c = cos(angle);
+
+		// translate point back to origin:
+		verticesPosX -= 0;
+		verticesPosY -= 0;
+
+		// rotate point
+		float xnew = verticesPosX* c - verticesPosY * s;
+		float ynew = verticesPosX * s + verticesPosY * c;
+
+		// translate point back:
+		verticesPosX = xnew + 0;
+		verticesPosY = ynew + 0;
+
+		worldPoint.x = verticesPosX + position.x;
+		worldPoint.y = verticesPosY + position.y;
+		worldPoint = worldPoint * m_camera->getScale();
+		points[i].x = worldPoint.x;
+		points[i].y = worldPoint.y;
+	}
+
+	points[lenght].y = points[0].y;
+	points[lenght].x = points[0].x;
+
+	SDL_RenderDrawLines(sdl_renderer, points, lenght + 1);
+}
+
+void Renderer::drawBox2DBody(b2Body * body)
+{
+	SDL_SetRenderDrawColor(sdl_renderer, 255, 0, 0, 255);
 	for (b2Fixture* b2Fixture = body->GetFixtureList(); b2Fixture != 0; b2Fixture = b2Fixture->GetNext())
 	{
-
 		b2Shape::Type shapeType = b2Fixture->GetType();
-		if (shapeType == b2Shape::e_circle)
-		{
-		}
-		else if (shapeType == b2Shape::e_polygon)
+		
+		if (shapeType == b2Shape::e_polygon)
 		{
 			b2PolygonShape* polygonShape = (b2PolygonShape*)b2Fixture->GetShape();
-
-			int lenght = (int)polygonShape->GetVertexCount();
-
-			SDL_Point* points = new SDL_Point[lenght + 1];
-
-
-			for (int i = 0; i < lenght; i++)
-			{
-				Vector2D worldPoint;
-				float verticesPosX = polygonShape->GetVertex(i).x; b2Fixture->GetBody()->GetPosition().x;
-				float verticesPosY = polygonShape->GetVertex(i).y; b2Fixture->GetBody()->GetPosition().y;
-
-				float angle = b2Fixture->GetBody()->GetAngle();
-				float s = sin(angle);
-				float c = cos(angle);
-
-				// translate point back to origin:
-				verticesPosX -= 0;
-				verticesPosY -= 0;
-
-				// rotate point
-				float xnew = verticesPosX* c - verticesPosY * s;
-				float ynew = verticesPosX * s + verticesPosY * c;
-
-				// translate point back:
-				verticesPosX = xnew + 0;
-				verticesPosY = ynew + 0;
-
-				worldPoint.x = verticesPosX + b2Fixture->GetBody()->GetPosition().x;;
-				worldPoint.y = verticesPosY + b2Fixture->GetBody()->GetPosition().y;;
-				worldPoint = worldPoint * m_camera->getScale();
-				points[i].x = worldPoint.x;
-				points[i].y = worldPoint.y;
-			}
-
-			points[lenght].y = points[0].y;
-			points[lenght].x = points[0].x;
-
-			SDL_RenderDrawLines(sdl_renderer, points, lenght + 1);
+			drawBox2DPolygon(polygonShape, (b2Fixture->GetBody()->GetPosition()), b2Fixture->GetBody()->GetAngle());
 		}
 	}
 }
