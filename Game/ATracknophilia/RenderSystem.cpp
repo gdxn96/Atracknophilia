@@ -19,6 +19,11 @@ void RenderSystem::process()
 		{
 			m_renderer->drawBox2DBody(component->body);
 		}
+		auto& animationComps = AutoList::get<AnimationComponent>();
+		for (auto& component : animationComps)
+		{
+			component->animation.draw(m_renderer);
+		}
 	}
 	
 	m_renderer->present();

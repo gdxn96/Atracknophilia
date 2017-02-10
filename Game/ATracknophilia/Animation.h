@@ -11,7 +11,7 @@ public:
 	~Animation();
 
 	void update(float dt);
-	void draw(Renderer& r);
+	void draw(Renderer* r);
 
 	void changeAnimation(string name);
 	void resetAnimation();

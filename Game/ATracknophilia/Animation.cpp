@@ -120,12 +120,12 @@ void Animation::setAngleInRadians(float a)
 	m_angle = a;
 }
 
-void Animation::draw(Renderer& r)
+void Animation::draw(Renderer* r)
 {
 	if (m_isAlive)
 	{
 		float angle = m_angle * (180 / 3.14);
 
-		r.drawTextureWithAngle(m_currentSpriteSheet, m_currentFrame, m_dest, angle);
+		r->drawTextureWithAngle(m_currentSpriteSheet, m_currentFrame, m_dest, angle);
 	}
 }

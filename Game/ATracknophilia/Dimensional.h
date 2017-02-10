@@ -2,6 +2,7 @@
 #include "ECSInterfaces.h"
 #include "Vector2D.h"
 #include "box2d\Box2D.h"
+#include "Animation.h"
 
 static b2Vec2& Gravity()
 {
@@ -56,4 +57,10 @@ struct CollisionBoxComponent : public Box2DComponent, public AutoLister<Collisio
 	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) : Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
 	{
 	}
+};
+
+struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
+{
+	AnimationComponent(int objectId, Animation a) : IComponent(objectId), animation(a) {};
+	Animation animation;
 };
