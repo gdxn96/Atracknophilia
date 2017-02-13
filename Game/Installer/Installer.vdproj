@@ -993,6 +993,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_89F2AEA9D19CA8158D96769E126809E9"
+        "OwnerKey" = "8:_F4083AD63D5E4539BE7268F5CB90C35D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8A7C2F4638264412931DE8DB1D6ACF09"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1085,6 +1091,12 @@
         {
         "MsmKey" = "8:_9C60D481E7E841839D82142D247AADF5"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9CD2F7DF624E460ED510918D10742F6E"
+        "OwnerKey" = "8:_F4083AD63D5E4539BE7268F5CB90C35D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1407,6 +1419,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C47930A538D245F88B1C4F9B30E51B9D"
+        "OwnerKey" = "8:_F4083AD63D5E4539BE7268F5CB90C35D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C55998EAE0CB45BA9FE53479B2E604B1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1421,6 +1439,12 @@
         {
         "MsmKey" = "8:_C64148622DC0406FB8ED5FB3D14C7600"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C6D5A4A2DBDBF8099DB6F2A8A078D182"
+        "OwnerKey" = "8:_F4083AD63D5E4539BE7268F5CB90C35D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1601,6 +1625,12 @@
         {
         "MsmKey" = "8:_DB894CCC6A8D424281B481946F6DDB57"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DB9403A94F455E56DC6BC5D228B6F580"
+        "OwnerKey" = "8:_F4083AD63D5E4539BE7268F5CB90C35D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1795,6 +1825,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -1811,6 +1857,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -5092,6 +5154,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_89F2AEA9D19CA8158D96769E126809E9"
+            {
+            "SourcePath" = "8:SDL2.dll"
+            "TargetName" = "8:SDL2.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_06F287F378BB4B0D90BC0FF91ED6FFF5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8A7C2F4638264412931DE8DB1D6ACF09"
             {
             "SourcePath" = "8:..\\..\\dependancies\\box2d\\Dynamics\\Joints\\b2MouseJoint.h"
@@ -5410,6 +5492,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9CD2F7DF624E460ED510918D10742F6E"
+            {
+            "SourcePath" = "8:ucrtbased.dll"
+            "TargetName" = "8:ucrtbased.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_06F287F378BB4B0D90BC0FF91ED6FFF5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9E9A2268F54E412DB17535FA6ADB5002"
@@ -6532,6 +6634,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6D5A4A2DBDBF8099DB6F2A8A078D182"
+            {
+            "SourcePath" = "8:SDL2_image.dll"
+            "TargetName" = "8:SDL2_image.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_06F287F378BB4B0D90BC0FF91ED6FFF5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6F962A643EF4CAA8779652C2C6C17C2"
             {
             "SourcePath" = "8:..\\..\\dependancies\\sdl\\SDL.h"
@@ -7132,6 +7254,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DB9403A94F455E56DC6BC5D228B6F580"
+            {
+            "SourcePath" = "8:SDL2_mixer.dll"
+            "TargetName" = "8:SDL2_mixer.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_06F287F378BB4B0D90BC0FF91ED6FFF5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DC3E8D9C49834D048ECFBDA8722DF919"
             {
             "SourcePath" = "8:..\\..\\dependancies\\box2d\\Dynamics\\Joints\\b2RevoluteJoint.h"
@@ -7700,7 +7842,7 @@
         {
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_06F287F378BB4B0D90BC0FF91ED6FFF5"
             {
-            "DefaultLocation" = "8:[Desktop]\\[Atracknophilia]"
+            "DefaultLocation" = "8:[Desktop]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -8112,7 +8254,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Installer"
         "ProductCode" = "8:{065DC2C5-67FB-4D1D-B050-639EC93F6042}"
-        "PackageCode" = "8:{BD9AF489-073F-40C5-A819-E4C581BAA774}"
+        "PackageCode" = "8:{EC198903-3719-4294-B7D4-C49DB93CF882}"
         "UpgradeCode" = "8:{B5B96FC4-EFC5-445A-BC9B-574C599BC3C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -8628,12 +8770,26 @@
         }
         "MergeModule"
         {
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C47930A538D245F88B1C4F9B30E51B9D"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:microsoft_vc140_debugcrt_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
         }
         "ProjectOutput"
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F4083AD63D5E4539BE7268F5CB90C35D"
             {
-            "SourcePath" = "8:..\\ATracknophilia\\x64\\Debug\\ATracknophilia.exe"
+            "SourcePath" = "8:..\\ATracknophilia\\Debug\\ATracknophilia.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_06F287F378BB4B0D90BC0FF91ED6FFF5"
