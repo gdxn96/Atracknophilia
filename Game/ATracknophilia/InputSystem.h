@@ -9,7 +9,7 @@ public:
 	{
 	}
 
-	void process() override
+	void process(float dt) override
 	{
 		for (auto& component : AutoList::get<IControllerComponent>())
 		{
