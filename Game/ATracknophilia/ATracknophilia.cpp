@@ -11,7 +11,7 @@ InputManager* InputManager::inputManagerInstance = nullptr;
 int main()
 {
 	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
-	auto exit = Command([&](){Game::quit = true; }, EventListener::Type::Press);
+	auto exit = PressCommand([&](){Game::quit = true; });
 	InputManager::GetInstance()->AddKey(EventListener::ESCAPE, &exit, nullptr);
 
 	std::cout << "Initialising Game" << std::endl;

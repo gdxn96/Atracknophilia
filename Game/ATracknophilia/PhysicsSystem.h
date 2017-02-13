@@ -14,7 +14,7 @@ public:
 
 	static b2Vec2& Gravity()
 	{
-		static b2Vec2 gravity(0, 50);
+		static b2Vec2 gravity(0, 1000);
 		return gravity;
 	}
 
