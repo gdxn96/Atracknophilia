@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "FLInput\FLInputManager.h"
-#include "Player.h"
 #include "LevelLoader.h"
+#include "EntityFactory.h"
 
 bool Game::quit = false;
 
@@ -17,12 +17,16 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
+	auto physicsSystem = new PhysicsSystem();
 	renderSys->init(&m_renderer);
 
 	m_systems.push_back(inputSys);
+	m_systems.push_back(physicsSystem);
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
+
+	EntityFactory::SpawnPlayer(60, 60, 10, 10);
 }
 
 void Game::init()
@@ -40,9 +44,8 @@ void Game::init()
 
 void Game::loop(float dt)
 {
-	World().Step(dt, 6, 3);
 	for (auto& system : m_systems)
 	{
-		system->process();
+		system->process(dt);
 	}
 }

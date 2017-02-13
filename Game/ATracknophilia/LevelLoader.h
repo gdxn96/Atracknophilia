@@ -21,5 +21,5 @@ public:
 	static void destroyLevel();
 private:
 	static std::unordered_map<LEVELS, const char *> m_paths;
-	static std::vector<IEntity> m_entities;
+	static std::vector<IEntity*> m_entities;
 };

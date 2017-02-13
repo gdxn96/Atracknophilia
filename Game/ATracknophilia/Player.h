@@ -1,6 +1,5 @@
 #pragma once
-#include "ECSInterfaces.h"
-#include "Dimensional.h"
+#include "Components.h"
 
 class Player : public IEntity
 {
@@ -13,7 +12,6 @@ public:
 			})
 	{
 	}
-
 private:
 
 };

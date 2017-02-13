@@ -178,11 +178,13 @@
     <ClInclude Include="Drawables.h" />
     <ClInclude Include="ECSInterfaces.h" />
     <ClInclude Include="Entities.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="LTimer.h" />
+    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -197,6 +199,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="LTimer.cpp" />

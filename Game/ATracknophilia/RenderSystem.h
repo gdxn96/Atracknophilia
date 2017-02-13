@@ -8,7 +8,7 @@ class RenderSystem : public ISystem
 {
 public:
 	void init(Renderer* r);
-	void process() override;
+	void process(float dt) override;
 
 private:
 	Renderer* m_renderer;

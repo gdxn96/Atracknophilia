@@ -19,7 +19,7 @@ T* getComponentById(int id)
 class ISystem
 {
 public:
-	virtual void process() = 0;
+	virtual void process(float dt) = 0;
 };
 
 struct IComponent : public AutoLister<IComponent>
@@ -42,6 +42,16 @@ public:
 	IEntity(int id, std::vector<IComponent*> list) : ID(id), m_components(list)
 	{
 	}
+
+	virtual ~IEntity()
+	{
+		for (auto i : m_components)
+		{
+			delete i;
+		}
+		m_components.clear();
+	}
+
 	const int ID;
 protected:
 	std::vector<IComponent*> m_components;

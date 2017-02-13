@@ -34,11 +34,11 @@ struct PlayerControllerComponent : public IControllerComponent
 		{
 		case ARROW_LEFT:
 			//example
-			c->body->SetLinearVelocity(b2Vec2(-100, 0));
+			c->body->SetLinearVelocity(b2Vec2(-1000, 0));
 			break;
 		case ARROW_RIGHT:
 			//example
-			c->body->SetLinearVelocity(b2Vec2(100, 0));
+			c->body->SetLinearVelocity(b2Vec2(1000, 0));
 			break;
 		default:
 			break;

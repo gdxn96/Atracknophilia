@@ -3,7 +3,7 @@
 #include "StaticPolygon.h"
 
 
-int id()
+static int id()
 {
 	static int x = 0;
 	x++;
