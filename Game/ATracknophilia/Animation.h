@@ -6,7 +6,6 @@ class Animation
 {
 public:
 	Animation(string _animationName);
-	Animation();
 
 	~Animation();
 
@@ -38,5 +37,4 @@ private:
 	vector<Rect>		m_currentFrames;
 	SDL_Texture*		m_currentSpriteSheet;
 	Rect				m_currentFrame;
-	Rect				m_dest;
 };

@@ -13,11 +13,11 @@ Animation::Animation(string _animationName)
 	, m_selectedAnimation(_animationName)
 	, m_currentSpriteSheet(nullptr)
 	, m_currentFrame(Rect())
-	, m_dest(Rect())
 {
 	auto& data = ResourceManager::getInstance()->getAnimationByKey(_animationName);
 	m_currentSpriteSheet = data.first;
 	m_currentFrames = data.second;
+	m_currentFrame = m_currentFrames[0];
 
 	for (int i = 0; i < m_currentFrames.size(); i++)
 	{
@@ -31,21 +31,6 @@ Animation::Animation(string _animationName)
 		}
 	}
 }
-
-Animation::Animation()
-	: m_maxCellHeight(0)
-	, m_maxCellWidth(0)
-	, m_isAlive(false)
-	, m_isLooping(false)
-	, m_animationScale(1.0)
-	, m_timeSinceLastFrame(0)
-	, m_angle(0)
-	, FPS(0)
-	, m_selectedAnimation("")
-	, m_currentSpriteSheet(nullptr)
-	, m_currentFrame(Rect())
-	, m_dest(Rect())
-{}
 
 Animation::~Animation() {}
 
