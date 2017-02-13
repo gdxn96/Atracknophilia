@@ -63,8 +63,11 @@ void Animation::update(float dt)
 }
 void Animation::changeAnimation(string _animationName)
 {
-	m_selectedAnimation = _animationName;
-	resetAnimation();
+	if (_animationName != m_selectedAnimation)
+	{
+		m_selectedAnimation = _animationName;
+		resetAnimation();
+	}
 }
 
 void Animation::resetAnimation()
@@ -73,6 +76,7 @@ void Animation::resetAnimation()
 	auto& data = ResourceManager::getInstance()->getAnimationByKey(m_selectedAnimation);
 	m_currentSpriteSheet = data.first;
 	m_currentFrames = data.second;
+	m_currentFrame = m_currentFrames[0];
 }
 
 void Animation::setLooping(bool _isLooping)

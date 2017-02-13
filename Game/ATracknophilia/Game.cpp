@@ -38,4 +38,5 @@ void Game::loop(float dt)
 	{
 		system->process();
 	}
+	animComp->animation.update(dt);
 }
