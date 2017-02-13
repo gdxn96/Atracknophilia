@@ -14,6 +14,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
+	
 
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
@@ -27,6 +28,11 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(renderSys);
 
 	EntityFactory::SpawnPlayer(60, 60, 10, 10);
+	EntityFactory::SpawnPlayer(120, 60, 10, 10);
+
+	m_camera.setZoomProps(0.01f, 1.0f, 1.0f, 0.01f);
+	//m_camera.zoomTo(60, 60);
+	//m_camera.setCentre(60, 60);
 }
 
 void Game::init()
@@ -44,6 +50,7 @@ void Game::init()
 
 void Game::loop(float dt)
 {
+	//m_camera.zoomTo(60, 60);
 	for (auto& system : m_systems)
 	{
 		system->process(dt);

@@ -172,6 +172,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
+    <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Dimensional.h" />
