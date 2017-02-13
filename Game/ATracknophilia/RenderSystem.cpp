@@ -8,7 +8,7 @@ void RenderSystem::init(Renderer * r)
 	m_renderer = r;
 }
 
-void RenderSystem::process()
+void RenderSystem::process(float dt)
 {
 	m_renderer->clear(Colour(0, 0, 0));
 

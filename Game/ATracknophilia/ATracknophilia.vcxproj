@@ -172,19 +172,25 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
+    <ClInclude Include="Components.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Dimensional.h" />
     <ClInclude Include="Drawables.h" />
     <ClInclude Include="ECSInterfaces.h" />
+    <ClInclude Include="Entities.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="LTimer.h" />
+    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="StaticPolygon.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="targetver.h" />
@@ -193,7 +199,9 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
