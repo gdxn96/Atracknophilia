@@ -2,6 +2,7 @@
 #include "RenderSystem.h"
 #include "Drawables.h"
 #include "Dimensional.h"
+#include "ResourceManager.h"
 
 void RenderSystem::init(Renderer * r)
 {
@@ -11,20 +12,15 @@ void RenderSystem::init(Renderer * r)
 void RenderSystem::process(float dt)
 {
 	m_renderer->clear(Colour(0, 0, 0));
-
-	if (true) //add debug flag later
+		
+	auto& components = AutoList::get<Box2DComponent>();
+	for (auto& component : components)
 	{
-		auto& box2DComponents = AutoList::get<Box2DComponent>();
-		for (auto& component : box2DComponents)
+		if (true) //add debug flag later
 		{
 			m_renderer->drawBox2DBody(component->body);
 		}
-
-		auto& animationComps = AutoList::get<AnimationComponent>();
-		for (auto& component : animationComps)
-		{
-			component->animation.drawAtPosition(m_renderer, Vector2D(640, 360), Vector2D(64, 205));
-		}
+		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size));
 	}
 	
 	m_renderer->present();
