@@ -9,6 +9,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 {
 	Box2DComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true) 
 		:	IComponent(id) 
+		,	size(width, height)
 	{
 		b2BodyDef bodyDef;
 
@@ -31,23 +32,25 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			b2FixtureDef afixture;
 			afixture.shape = &shape;
 			afixture.density = 1.0f;
-			afixture.friction = 0.3f;
+			afixture.friction = 0.1f;
 			fixture = body->CreateFixture(&afixture);
 		}
 		body->SetUserData(this);
 	}
-	virtual ~Box2DComponent() {
+	virtual ~Box2DComponent() 
+	{
 		PhysicsSystem::World().DestroyBody(body);
 	};
 
 	b2Body* body;
 	b2Fixture* fixture;
+	Vector2D size;
 };
 
 struct CollisionBoxComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
 {
 	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) 
-		: Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
+		:	Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
 	{
 	}
 };

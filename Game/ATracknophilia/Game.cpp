@@ -14,6 +14,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
+	m_camera.setZoomMinMax(-1, 0.2);
 
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
@@ -30,13 +31,13 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	//render system must be added last
 	m_systems.push_back(renderSys);
 
-	EntityFactory::SpawnPlayer(60, 60, 10, 10);
+	EntityFactory::SpawnPlayer(60, 60, 5, 5);
 }
 
 void Game::init()
 {
-	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_UP, new Command(std::bind(&Camera2D::Camera::zoom, &m_camera, -1), EventListener::Type::Press));
-	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_DOWN, new Command(std::bind(&Camera2D::Camera::zoom, &m_camera, 1), EventListener::Type::Press));
+	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)));
+	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)));
 
 	m_resourceMgr->init(&m_renderer);
 	m_resourceMgr->loadResources("..//..//assets//resources.json");
