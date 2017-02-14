@@ -7,6 +7,16 @@
 #include "Attractor.h"
 #include "Repulsor.h"
 
+struct Direction
+{
+	enum direction {
+		NORTH = 0,
+		EAST = 1,
+		SOUTH = 2,
+		WEST = 3
+	};
+};
+
 using namespace std;
 
 namespace Camera2D

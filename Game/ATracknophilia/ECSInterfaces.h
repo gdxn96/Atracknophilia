@@ -43,6 +43,12 @@ public:
 	{
 	}
 
+	template<typename T>
+	T* getComponent()
+	{
+		return getComponentById<T>(ID);
+	}
+
 	virtual ~IEntity()
 	{
 		for (auto i : m_components)

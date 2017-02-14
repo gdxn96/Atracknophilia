@@ -19,20 +19,25 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
 	auto physicsSystem = new PhysicsSystem();
+	auto cameraSystem = new CameraSystem();
 	renderSys->init(&m_renderer);
+	cameraSystem->init(&m_camera);
+
+	cameraSystem->dir(0);
 
 	m_systems.push_back(inputSys);
 	m_systems.push_back(physicsSystem);
+	m_systems.push_back(cameraSystem);
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
+
+
 
 	EntityFactory::SpawnPlayer(60, 60, 10, 10);
 	EntityFactory::SpawnPlayer(120, 60, 10, 10);
 
 	m_camera.setZoomProps(0.01f, 1.0f, 1.0f, 0.01f);
-	//m_camera.zoomTo(60, 60);
-	//m_camera.setCentre(60, 60);
 }
 
 void Game::init()
@@ -50,7 +55,6 @@ void Game::init()
 
 void Game::loop(float dt)
 {
-	//m_camera.zoomTo(60, 60);
 	for (auto& system : m_systems)
 	{
 		system->process(dt);
