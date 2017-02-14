@@ -148,6 +148,8 @@ inline void InputManager::Execute(EventListener::Type type, EventListener::Event
 	{
 		SetPrevious(evt, true);
 	}
+
+
 }
 
 //* Used to create a key event

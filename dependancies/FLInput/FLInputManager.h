@@ -184,8 +184,8 @@ public:
 	EventListener::Type m_type;
 
 	//// Execution calls for firing custom function sent in, based on type
-	virtual void execute() { };
-	virtual void executePress() { m_function(); };
+	virtual void execute() {};
+	virtual void executePress() {};
 	virtual void executeRelease() {};
 	virtual void executeHold() {};
 
@@ -264,7 +264,7 @@ private:
 	//* Controller Timers
 	int countedButtonFrames = 0;
 	int countedTriggerFrames = 0;
-	int controllerButtonDelay = 500;
+	int controllerButtonDelay = 1;
 	int controllerTriggerDelay = 500;
 
 	//* Controller
