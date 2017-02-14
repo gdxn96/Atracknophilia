@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 Renderer::Renderer() :sdl_renderer(NULL)
 {
 
@@ -36,9 +35,9 @@ void Renderer::drawTexture(SDL_Texture* img, Rect _dst)
 	SDL_Rect dst;
 	_dst = cameraTransform(_dst);
 	dst.x = (int)_dst.pos.x;
-	dst.y = (int)_dst.pos.y + (int)_dst.size.h;
+	dst.y = (int)_dst.pos.y;
 	dst.w = (int)_dst.size.w;
-	dst.h = -(int)_dst.size.h;
+	dst.h = (int)_dst.size.h;
 	SDL_RenderCopy(sdl_renderer, img, NULL, &dst);
 }
 
@@ -47,9 +46,9 @@ void Renderer::drawTexture(SDL_Texture* img, Rect _src, Rect _dst)
 	SDL_Rect dst;
 	_dst = cameraTransform(_dst);
 	dst.x = (int)_dst.pos.x;
-	dst.y = (int)_dst.pos.y + (int)_dst.size.h;
+	dst.y = (int)_dst.pos.y;
 	dst.w = (int)_dst.size.w;
-	dst.h = -(int)_dst.size.h;
+	dst.h = (int)_dst.size.h;
 
 	SDL_Rect src;
 	src.x = (int)_src.pos.x;
@@ -75,11 +74,6 @@ void Renderer::drawImage(SDL_Surface* img, Rect rec)
 	SDL_Texture* ImageTexture = SDL_CreateTextureFromSurface(sdl_renderer, img);
 	SDL_RenderCopyEx(sdl_renderer, ImageTexture, NULL, &sdlRec, 0, &objCentre, SDL_FLIP_NONE);
 }
-
-
-
-
-
 
 void Renderer::drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, float angle)
 {
@@ -153,7 +147,6 @@ void Renderer::drawBox2DBody(b2Body * body)
 		}
 	}
 }
-
 
 /**Destroys SDL_Window and SDL_Renderer*/
 void Renderer::destroy() 
