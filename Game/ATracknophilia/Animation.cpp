@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Animation.h"
 
-Animation::Animation(string _animationName, Rect _position) 
+Animation::Animation(string _animationName) 
 	: m_maxCellHeight(0)
 	, m_maxCellWidth(0)
 	, m_isAlive(true)
@@ -13,11 +13,11 @@ Animation::Animation(string _animationName, Rect _position)
 	, m_selectedAnimation(_animationName)
 	, m_currentSpriteSheet(nullptr)
 	, m_currentFrame(Rect())
-	, m_dest(_position)
 {
 	auto& data = ResourceManager::getInstance()->getAnimationByKey(_animationName);
 	m_currentSpriteSheet = data.first;
 	m_currentFrames = data.second;
+	m_currentFrame = m_currentFrames[0];
 
 	for (int i = 0; i < m_currentFrames.size(); i++)
 	{
@@ -31,21 +31,6 @@ Animation::Animation(string _animationName, Rect _position)
 		}
 	}
 }
-
-Animation::Animation()
-	: m_maxCellHeight(0)
-	, m_maxCellWidth(0)
-	, m_isAlive(false)
-	, m_isLooping(false)
-	, m_animationScale(1.0)
-	, m_timeSinceLastFrame(0)
-	, m_angle(0)
-	, FPS(0)
-	, m_selectedAnimation("")
-	, m_currentSpriteSheet(nullptr)
-	, m_currentFrame(Rect())
-	, m_dest(Rect())
-{}
 
 Animation::~Animation() {}
 
@@ -78,8 +63,11 @@ void Animation::update(float dt)
 }
 void Animation::changeAnimation(string _animationName)
 {
-	m_selectedAnimation = _animationName;
-	resetAnimation();
+	if (_animationName != m_selectedAnimation)
+	{
+		m_selectedAnimation = _animationName;
+		resetAnimation();
+	}
 }
 
 void Animation::resetAnimation()
@@ -88,6 +76,7 @@ void Animation::resetAnimation()
 	auto& data = ResourceManager::getInstance()->getAnimationByKey(m_selectedAnimation);
 	m_currentSpriteSheet = data.first;
 	m_currentFrames = data.second;
+	m_currentFrame = m_currentFrames[0];
 }
 
 void Animation::setLooping(bool _isLooping)
@@ -100,11 +89,6 @@ void Animation::setFramesPerSecond(float _framesPerSecond)
 	FPS = 1 / _framesPerSecond;
 }
 
-void Animation::setPosition(Rect dest)
-{
-	m_dest = dest;
-}
-
 bool Animation::isAlive()
 {
 	return m_isAlive;
@@ -115,17 +99,10 @@ void Animation::setScale(float s)
 	m_animationScale = s;
 }
 
-void Animation::setAngleInRadians(float a)
-{
-	m_angle = a;
-}
-
-void Animation::draw(Renderer& r)
+void Animation::drawAtPosition(Renderer* r, Vector2D pos, Vector2D size, float angle)
 {
 	if (m_isAlive)
 	{
-		float angle = m_angle * (180 / 3.14);
-
-		r.drawTextureWithAngle(m_currentSpriteSheet, m_currentFrame, m_dest, angle);
+		r->drawTextureWithAngle(m_currentSpriteSheet, m_currentFrame, Rect(pos, size), (angle * (180 / 3.14)));
 	}
 }

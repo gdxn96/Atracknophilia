@@ -5,13 +5,12 @@
 class Animation
 {
 public:
-	Animation(string _animationName, Rect _position);
-	Animation();
+	Animation(string _animationName);
 
 	~Animation();
 
 	void update(float dt);
-	void draw(Renderer& r);
+	void drawAtPosition(Renderer* r, Vector2D pos, Vector2D size, float angle = 0);
 
 	void changeAnimation(string name);
 	void resetAnimation();
@@ -19,13 +18,9 @@ public:
 	void setLooping(bool _isLooping);
 	void setFramesPerSecond(float _framesPerSecond);
 
-	void setPosition(Rect dest);
-
 	bool isAlive();
 
 	void setScale(float s);
-	
-	void setAngleInRadians(float a);
 
 private:
 	int					m_maxCellHeight;
@@ -42,5 +37,4 @@ private:
 	vector<Rect>		m_currentFrames;
 	SDL_Texture*		m_currentSpriteSheet;
 	Rect				m_currentFrame;
-	Rect				m_dest;
 };
