@@ -88,7 +88,8 @@ struct PlayerControllerComponent : public IControllerComponent
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
-			if (c && c->body->GetContactList() && c->body->GetGravityScale() < 0) {
+			if (c && c->body->GetContactList() && c->body->GetGravityScale() < 0) 
+			{
 				c->body->SetGravityScale(1);
 			}
 		}));
