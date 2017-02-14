@@ -120,8 +120,14 @@
     <ClInclude Include="Direction.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="Logic.h">
       <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftBox.h">
+      <Filter>ECS\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

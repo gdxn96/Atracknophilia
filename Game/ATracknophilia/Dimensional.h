@@ -57,9 +57,9 @@ struct CollisionBoxComponent : public Box2DComponent, public AutoLister<Collisio
 
 struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
 {
-	AnimationComponent(int objectId, string animationName)
-		: IComponent(objectId)
-		, animation(Animation(animationName)) {};
+	AnimationComponent(int objectId, string animationName) 
+		:	IComponent(objectId)
+		,	animation(Animation(animationName)) {};
 	Animation animation;
 };
 
@@ -71,3 +71,4 @@ struct SoftObstacleComponent : public Box2DComponent, public AutoLister<Collisio
 		fixture->SetSensor(true);
 	}
 };
+

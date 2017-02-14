@@ -47,3 +47,41 @@ struct InvertGravityOnEdgeComponent : public PhysicsLogicComponent, public AutoL
 		prevScale = x->body->GetGravityScale();
 	}
 };
+
+struct CollisionResponseComponent : public AutoLister<CollisionResponseComponent>, public IComponent
+{
+	CollisionResponseComponent(int id)
+		: IComponent(id)
+	{
+
+	}
+
+	virtual void endContact()
+	{
+
+	};
+
+	virtual void beginContact()
+	{
+
+	};
+};
+
+struct PlayerCollisionResponseComponent : CollisionResponseComponent
+{
+	PlayerCollisionResponseComponent(int id)
+		: CollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact()
+	{
+
+	};
+
+	void beginContact()
+	{
+
+	};
+};

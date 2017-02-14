@@ -10,3 +10,8 @@ StaticBox* EntityFactory::SpawnStaticBox(float x, float y, float w, float h)
 {
 	return new StaticBox(id(), x, y, w, h);
 }
+
+SoftBox* EntityFactory::SpawnSoftBox(float x, float y, float w, float h)
+{
+	return new SoftBox(id(), x, y, w, h);
+}

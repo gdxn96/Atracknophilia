@@ -21,17 +21,21 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	//Declare systems
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
+	auto collisionSystem = new CollisionSystem();
 	auto physicsSystem = new PhysicsSystem();
 	auto cameraSystem = new CameraSystem();
 
 	//Init systems
+
 	renderSys->init(&m_renderer);
 	cameraSystem->init(&m_camera);
 
 	//Push back systems
 	m_systems.push_back(inputSys);
+	m_systems.push_back(collisionSystem);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(cameraSystem);
+
 	//render system must be added last
 	m_systems.push_back(renderSys);
 

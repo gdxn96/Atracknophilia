@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "StaticPolygon.h"
+#include "SoftBox.h"
 
 
 static int id()
