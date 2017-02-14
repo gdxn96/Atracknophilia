@@ -120,8 +120,8 @@
     <ClInclude Include="Direction.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="PositionManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Logic.h">
+      <Filter>ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +161,8 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PositionManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

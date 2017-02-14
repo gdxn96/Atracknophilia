@@ -58,6 +58,12 @@ public:
 		m_components.clear();
 	}
 
+	template<typename T>
+	T* getComponent()
+	{
+		return getComponentById<T>(ID);
+	}
+
 	const int ID;
 protected:
 	std::vector<IComponent*> m_components;
