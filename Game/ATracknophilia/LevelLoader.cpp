@@ -33,6 +33,16 @@ void LevelLoader::loadLevel(LEVELS lvl)
 		h = itr["height"].GetFloat() / 10.f;
 		m_entities.push_back(EntityFactory::SpawnStaticBox(x, y, w, h));
 	}
+
+	for (const auto& itr : document["softbox"].GetArray())
+	{
+		float x, y, w, h;
+		x = itr["x"].GetFloat() / 10.f;
+		y = itr["y"].GetFloat() / 10.f;
+		w = itr["width"].GetFloat() / 10.f;
+		h = itr["height"].GetFloat() / 10.f;
+		m_entities.push_back(EntityFactory::SpawnSoftBox(x, y, w, h));
+	}
 }
 
 void LevelLoader::destroyLevel()

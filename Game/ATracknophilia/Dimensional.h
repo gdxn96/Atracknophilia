@@ -21,7 +21,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		{
 			bodyDef.type = b2_staticBody;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
-			body->CreateFixture(&shape, 0.f);
+			fixture = body->CreateFixture(&shape, 0.f);
 		}
 		else
 		{
@@ -58,5 +58,14 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 		:	IComponent(objectId)
 		,	animation(Animation(animationName)) {};
 	Animation animation;
+};
+
+struct SoftObstacleComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
+{
+	SoftObstacleComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true)
+		: Box2DComponent(id, x, y, width, height, isStatic, fixedRotation)
+	{
+		fixture->SetSensor(true);
+	}
 };
 

@@ -114,6 +114,9 @@
     <ClInclude Include="Logic.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
+    <ClInclude Include="SoftBox.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

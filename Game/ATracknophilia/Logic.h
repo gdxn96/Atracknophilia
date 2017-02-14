@@ -36,8 +36,6 @@ struct PlayerCollisionResponseComponent : CollisionResponseComponent
 
 	void beginContact()
 	{
-		auto box2dcomp = getComponent<Box2DComponent>();
 
-		box2dcomp->body->SetLinearVelocity(-box2dcomp->body->GetLinearVelocity());
 	};
 };
