@@ -9,7 +9,7 @@ void PhysicsSystem::process(float dt)
 	{
 		component->execute();
 	}
-	World().Step(0.59f, 6, 3);
+	World().Step(dt, 6, 3);
 }
 
 b2Vec2 & PhysicsSystem::Gravity()
