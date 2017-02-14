@@ -8,7 +8,8 @@ public:
 		:	IEntity(id, 
 			{ 
 				new CollisionBoxComponent(id, x, y, w, h, false),	
-				new PlayerControllerComponent(id)
+				new PlayerControllerComponent(id), 
+				new PlayerCollisionResponseComponent(id)
 			})
 	{
 	}

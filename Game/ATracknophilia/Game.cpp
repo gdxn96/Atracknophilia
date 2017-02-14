@@ -17,11 +17,15 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
+	auto collisionSystem = new CollisionSystem();
 	auto physicsSystem = new PhysicsSystem();
+	
 	renderSys->init(&m_renderer);
 
 	m_systems.push_back(inputSys);
+	m_systems.push_back(collisionSystem);
 	m_systems.push_back(physicsSystem);
+
 
 	//render system must be added last
 	m_systems.push_back(renderSys);

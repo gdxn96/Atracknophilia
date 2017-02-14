@@ -7,7 +7,8 @@
 
 struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 {
-	Box2DComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true) : IComponent(id) 
+	Box2DComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true) 
+		:	IComponent(id) 
 	{
 		b2BodyDef bodyDef;
 
@@ -33,6 +34,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			afixture.friction = 0.3f;
 			fixture = body->CreateFixture(&afixture);
 		}
+		body->SetUserData(this);
 	}
 	virtual ~Box2DComponent() {
 		PhysicsSystem::World().DestroyBody(body);
@@ -44,13 +46,17 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 
 struct CollisionBoxComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
 {
-	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) : Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
+	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) 
+		: Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
 	{
 	}
 };
 
 struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
 {
-	AnimationComponent(int objectId, string animationName) : IComponent(objectId), animation(Animation(animationName)) {};
+	AnimationComponent(int objectId, string animationName) 
+		:	IComponent(objectId)
+		,	animation(Animation(animationName)) {};
 	Animation animation;
 };
+
