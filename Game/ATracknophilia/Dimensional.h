@@ -1,6 +1,8 @@
 #pragma once
 #include "ECSInterfaces.h"
 #include "Vector2D.h"
+#include "box2d\Box2D.h"
+#include "Animation.h"
 #include "PhysicsSystem.h"
 
 struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
@@ -50,4 +52,10 @@ struct CollisionBoxComponent : public Box2DComponent, public AutoLister<Collisio
 		:	Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
 	{
 	}
+};
+
+struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
+{
+	AnimationComponent(int objectId, string animationName) : IComponent(objectId), animation(Animation(animationName)) {};
+	Animation animation;
 };

@@ -6,7 +6,7 @@
 
 bool Game::quit = false;
 
-Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(nullptr)
+Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
 		{LEVELS::PROTOTYPE, "..\\..\\Prototype\\ATracknophilia\\levels\\test.json"}, 
@@ -35,7 +35,6 @@ void Game::init()
 	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)));
 	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)));
 
-	m_resourceMgr = ResourceManager::getInstance();
 	m_resourceMgr->init(&m_renderer);
 	m_resourceMgr->loadResources("..//..//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
