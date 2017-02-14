@@ -45,23 +45,9 @@ void Game::init()
 
 void Game::loop(float dt)
 {
-	/*auto x = getComponentById<CollisionBoxComponent>(1);
-	auto colliding = x->body->GetContactList();
-	static b2ContactEdge* prevColliding = nullptr;
-	static float prevScale = 0;
-
-	if (!colliding && prevColliding && x->body->GetGravityScale() < 0 && prevScale == x->body->GetGravityScale())
-	{
-		x->body->SetGravityScale(x->body->GetGravityScale() * -1);
-	}
-
-	prevColliding = colliding;
-	prevScale = x->body->GetGravityScale();
-	
 	m_camera.setCentre(Camera2D::Point(getComponentById<CollisionBoxComponent>(1)->body->GetPosition().x, getComponentById<CollisionBoxComponent>(1)->body->GetPosition().y));
-	*/for (auto& system : m_systems)
+	for (auto& system : m_systems)
 	{
 		system->process(dt);
 	}
-
 }

@@ -84,10 +84,24 @@ struct PlayerControllerComponent : public IControllerComponent
 			}
 		}));
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->SetGravityScale(c->body->GetGravityScale() * -1);
+				c->body->SetGravityScale(-1);
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
+			auto c = getComponent<CollisionBoxComponent>();
+			if (c && c->body->GetContactList() && c->body->GetGravityScale() < 0) {
+				c->body->SetGravityScale(1);
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new ReleaseCommand([&]() {
+			auto c = getComponent<CollisionBoxComponent>();
+			if (c && !c->body->GetContactList()) {
+				c->body->SetGravityScale(1);
 			}
 		}));
 	}

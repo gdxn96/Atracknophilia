@@ -264,7 +264,7 @@ private:
 	//* Controller Timers
 	int countedButtonFrames = 0;
 	int countedTriggerFrames = 0;
-	int controllerButtonDelay = 0;
+	int controllerButtonDelay = 1;
 	int controllerTriggerDelay = 500;
 
 	//* Controller

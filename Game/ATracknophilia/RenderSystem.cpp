@@ -20,7 +20,6 @@ void RenderSystem::process(float dt)
 		{
 			m_renderer->drawBox2DBody(component->body);
 			m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size));
-			m_renderer->drawRect(Rect(Vector2D(component->body->GetPosition()) - component->size * 0.5f, component->size), Colour());
 		}
 	}
 	
