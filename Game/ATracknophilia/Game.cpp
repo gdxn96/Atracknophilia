@@ -45,7 +45,6 @@ void Game::init()
 
 void Game::loop(float dt)
 {
-	m_camera.setCentre(Camera2D::Point(getComponentById<CollisionBoxComponent>(1)->body->GetPosition().x, getComponentById<CollisionBoxComponent>(1)->body->GetPosition().y));
 	for (auto& system : m_systems)
 	{
 		system->process(dt);
