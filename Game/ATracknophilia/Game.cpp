@@ -15,7 +15,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
-
 	m_camera.setZoomMinMax(-1, 0.2);
 
 	//Declare systems
@@ -40,8 +39,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(renderSys);
 
 	//temp stuff
-	auto DirectionEntity = new DirectionVolume(88, 50, 0, 110, 600, 0, Vector2D(0, 1));
-	auto DirectionEntity2 = new DirectionVolume(89, 50, 700, 1000, 100, 1, Vector2D(1, 0));
+	//auto DirectionEntity = new DirectionVolume(88, 50, 0, 110, 600, 0, Vector2D(0, 1));
+	//auto DirectionEntity2 = new DirectionVolume(89, 50, 700, 1000, 100, 1, Vector2D(1, 0));
 
 
 	EntityFactory::SpawnPlayer(60, 60, 10, 10);
