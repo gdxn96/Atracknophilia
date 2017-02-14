@@ -3,11 +3,6 @@
 #include "Dimensional.h"
 #include "FLInput\FLInputManager.h"
 
-//virtual void execute() {};
-//virtual void executePress() {};
-//virtual void executeRelease() {};
-//virtual void executeHold() {};
-
 class PressCommand : public Command
 {
 public:
