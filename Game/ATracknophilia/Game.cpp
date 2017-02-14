@@ -3,6 +3,7 @@
 #include "FLInput\FLInputManager.h"
 #include "LevelLoader.h"
 #include "EntityFactory.h"
+#include "DirectionVolume.h"
 
 bool Game::quit = false;
 
@@ -15,22 +16,26 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 	
-
+	//Declare systems
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
 	auto physicsSystem = new PhysicsSystem();
 	auto cameraSystem = new CameraSystem();
+
+	//Init systems
 	renderSys->init(&m_renderer);
 	cameraSystem->init(&m_camera);
 
-	cameraSystem->dir(0);
-
+	//Push back systems
 	m_systems.push_back(inputSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(cameraSystem);
-
 	//render system must be added last
 	m_systems.push_back(renderSys);
+
+	//temp stuff
+	auto DirectionEntity = new DirectionVolume(88, 50, 0, 110, 600, 0, Vector2D(0, 1));
+	auto DirectionEntity2 = new DirectionVolume(89, 50, 700, 1000, 100, 1, Vector2D(1, 0));
 
 
 
