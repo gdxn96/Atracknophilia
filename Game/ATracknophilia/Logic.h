@@ -1,6 +1,6 @@
 #pragma once
-#include "ECSInterfaces.h"
 #include <functional>
+#include "ECSInterfaces.h"
 #include "Dimensional.h"
 
 struct LogicComponent : public IComponent
@@ -67,7 +67,7 @@ struct CollisionResponseComponent : public AutoLister<CollisionResponseComponent
 	};
 };
 
-struct PlayerCollisionResponseComponent : CollisionResponseComponent
+struct PlayerCollisionResponseComponent : public CollisionResponseComponent
 {
 	PlayerCollisionResponseComponent(int id)
 		: CollisionResponseComponent(id)
@@ -82,6 +82,25 @@ struct PlayerCollisionResponseComponent : CollisionResponseComponent
 
 	void beginContact()
 	{
+		
+	};
+};
 
+struct SoftObstacleResponseComponent : public CollisionResponseComponent
+{
+	SoftObstacleResponseComponent(int id)
+		: CollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact()
+	{
+
+	};
+
+	void beginContact()
+	{
+		getComponent<SoftObstacleComponent>()->body->SetLinearVelocity(b2Vec2(0, 100000));
 	};
 };
