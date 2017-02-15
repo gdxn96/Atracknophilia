@@ -23,18 +23,25 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto collisionSystem = new CollisionSystem();
 	auto physicsSystem = new PhysicsSystem();
 	auto cameraSystem = new CameraSystem();
+	auto raceSystem = new RaceSystem();
 
+	EntityFactory::SpawnPlayer(60, 60, 10, 10);
+	EntityFactory::SpawnPlayer(120, 60, 10, 10);
 	//Init systems
 
 	renderSys->init(&m_renderer);
 	cameraSystem->init(&m_camera);
+
+	//Players must be adde before this is called
+	//Or this must be re called when new players are added
+	raceSystem->init();
 
 	//Push back systems
 	m_systems.push_back(inputSys);
 	m_systems.push_back(collisionSystem);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(cameraSystem);
-
+	m_systems.push_back(raceSystem);
 	//render system must be added last
 	m_systems.push_back(renderSys);
 
@@ -43,8 +50,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	//auto DirectionEntity2 = new DirectionVolume(89, 50, 700, 1000, 100, 1, Vector2D(1, 0));
 
 
-	EntityFactory::SpawnPlayer(60, 60, 10, 10);
-	EntityFactory::SpawnPlayer(120, 60, 10, 10);
+
 }
 
 void Game::init()

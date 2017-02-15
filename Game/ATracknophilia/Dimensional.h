@@ -63,7 +63,7 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 	Animation animation;
 };
 
-struct SoftObstacleComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
+struct SoftObstacleComponent : public Box2DComponent, public AutoLister<SoftObstacleComponent>
 {
 	SoftObstacleComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true)
 		: Box2DComponent(id, x, y, width, height, isStatic, fixedRotation)

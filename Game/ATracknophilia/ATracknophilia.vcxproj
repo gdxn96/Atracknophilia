@@ -193,6 +193,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionManager.h" />
     <ClInclude Include="Priority.h" />
+    <ClInclude Include="RacePosition.h" />
+    <ClInclude Include="RaceSystem.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />

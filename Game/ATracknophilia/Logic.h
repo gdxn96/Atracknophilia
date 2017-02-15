@@ -2,6 +2,7 @@
 #include "ECSInterfaces.h"
 #include <functional>
 #include "Dimensional.h"
+#include "Components.h"
 
 struct LogicComponent : public IComponent
 {
@@ -82,6 +83,11 @@ struct PlayerCollisionResponseComponent : CollisionResponseComponent
 
 	void beginContact()
 	{
-
+		//if (getComponentById<DirectionVolume>(ID))
+		//{
+			//auto priority = getComponentById<PriorityComponent>(ID)->m_priority;
+			//auto player = getComponent<Player>();
+			//player->getComponent<RacePositionComponent>()->update(priority, ID);
+		//}
 	};
 };
