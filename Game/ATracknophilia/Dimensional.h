@@ -7,7 +7,7 @@
 
 struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 {
-	Box2DComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true) 
+	Box2DComponent(int id, float x, float y, float width, float height, b2BodyType type=b2_staticBody, bool fixedRotation = true) 
 		:	IComponent(id) 
 		,	size(width, height)
 	{
@@ -18,13 +18,13 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		b2PolygonShape shape;
 		shape.SetAsBox(width / 2.f, height / 2.f);
 
-		if (isStatic)
+		if (type == b2_staticBody)
 		{
 			bodyDef.type = b2_staticBody;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
 			fixture = body->CreateFixture(&shape, 0.f);
 		}
-		else
+		else if (type == b2_dynamicBody)
 		{
 			bodyDef.type = b2_dynamicBody;
 			bodyDef.fixedRotation = true;
@@ -33,6 +33,18 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			afixture.shape = &shape;
 			afixture.density = 1.0f;
 			afixture.friction = 0.1f;
+			fixture = body->CreateFixture(&afixture);
+		}
+		else if (type == b2_kinematicBody)
+		{
+			bodyDef.type = b2_kinematicBody;
+			bodyDef.fixedRotation = true;
+			body = PhysicsSystem::World().CreateBody(&bodyDef);
+			b2FixtureDef afixture;
+			afixture.shape = &shape;
+			afixture.density = 1.0f;
+			afixture.friction = 0.1f;
+			afixture.isSensor = true;
 			fixture = body->CreateFixture(&afixture);
 		}
 		body->SetUserData(this);
@@ -47,10 +59,26 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 	Vector2D size;
 };
 
-struct CollisionBoxComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
+struct StaticBodyComponent : public Box2DComponent, public AutoLister<StaticBodyComponent>
 {
-	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) 
-		:	Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
+	StaticBodyComponent(int id, float x, float y, float width, float height, bool fixedRotation=true)
+		:	Box2DComponent(id, x, y, width, height, b2_staticBody, fixedRotation) 
+	{
+	}
+};
+
+struct DynamicBodyComponent : public Box2DComponent, public AutoLister<DynamicBodyComponent>
+{
+	DynamicBodyComponent(int id, float x, float y, float width, float height, bool fixedRotation = true)
+		: Box2DComponent(id, x, y, width, height, b2_dynamicBody, fixedRotation)
+	{
+	}
+};
+
+struct KinematicBodyComponent : public Box2DComponent, public AutoLister<KinematicBodyComponent>
+{
+	KinematicBodyComponent(int id, float x, float y, float width, float height, bool fixedRotation = true)
+		: Box2DComponent(id, x, y, width, height, b2_kinematicBody, fixedRotation)
 	{
 	}
 };
@@ -63,31 +91,11 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 	Animation animation;
 };
 
-struct SoftObstacleComponent : public CollisionBoxComponent, public AutoLister<SoftObstacleComponent>
+struct SensorComponent : public KinematicBodyComponent, public AutoLister<SensorComponent>
 {
-	SoftObstacleComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true)
-		: CollisionBoxComponent(id, x, y, width, height, isStatic, fixedRotation)
+	SensorComponent(int id, float x, float y, float width, float height)
+		: KinematicBodyComponent(id, x, y, width, height)
 	{
-		PhysicsSystem::World().DestroyBody(body);
-
-		b2BodyDef bodyDef;
-		bodyDef.position.Set(x + width / 2.f, y + height / 2.f);
-
-		b2PolygonShape shape;
-		shape.SetAsBox(width / 2.f, height / 2.f);
-
-		bodyDef.type = b2_kinematicBody;
-		bodyDef.fixedRotation = true;
-		body = PhysicsSystem::World().CreateBody(&bodyDef);
-
-		b2FixtureDef afixture;
-		afixture.shape = &shape;
-		afixture.density = 1.0f;
-		afixture.friction = 0.1f;
-		afixture.isSensor = true;
-		fixture = body->CreateFixture(&afixture);
-
-		body->SetUserData(this);
 	}
 };
 

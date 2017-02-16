@@ -22,6 +22,8 @@ public:
 	virtual void process(float dt) = 0;
 };
 
+class IEntity;
+
 struct IComponent : public AutoLister<IComponent>
 {
 	IComponent(int id) : ID(id) {};
@@ -30,6 +32,11 @@ struct IComponent : public AutoLister<IComponent>
 	T* getComponent()
 	{
 		return getComponentById<T>(ID);
+	}
+
+	IEntity* getParent()
+	{
+		return getComponentById<IEntity>(ID);
 	}
 
 	virtual ~IComponent() {};

@@ -33,7 +33,7 @@ struct InvertGravityOnEdgeComponent : public PhysicsLogicComponent, public AutoL
 
 	void update()
 	{
-		auto x = getComponent<CollisionBoxComponent>();
+		auto x = getComponent<Box2DComponent>();
 		auto colliding = x->body->GetContactList();
 		static b2ContactEdge* prevColliding = nullptr;
 		static float prevScale = 0;
@@ -48,59 +48,68 @@ struct InvertGravityOnEdgeComponent : public PhysicsLogicComponent, public AutoL
 	}
 };
 
-struct CollisionResponseComponent : public AutoLister<CollisionResponseComponent>, public IComponent
+struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
 {
-	CollisionResponseComponent(int id)
+	ICollisionResponseComponent(int id)
 		: IComponent(id)
 	{
 
 	}
 
-	virtual void endContact()
+	virtual void endContact(IEntity * e)
 	{
 
 	};
 
-	virtual void beginContact()
+	virtual void beginContact(IEntity * e)
 	{
 
 	};
 };
 
-struct PlayerCollisionResponseComponent : public CollisionResponseComponent
+struct PlayerCollisionResponseComponent : public ICollisionResponseComponent
 {
 	PlayerCollisionResponseComponent(int id)
-		: CollisionResponseComponent(id)
+		: ICollisionResponseComponent(id)
 	{
 
 	}
 
-	void endContact()
+	void endContact(IEntity * e)
 	{
 
 	};
 
-	void beginContact()
+	void beginContact(IEntity * e)
 	{
-
+		getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
 	};
 };
 
-struct SoftObstacleResponseComponent : public CollisionResponseComponent
+class Player;
+
+struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 {
 	SoftObstacleResponseComponent(int id)
-		: CollisionResponseComponent(id)
+		: ICollisionResponseComponent(id)
 	{
 
 	}
 
-	void endContact()
+	void endContact(IEntity * e)
 	{
 	
 	};
 
-	void beginContact()
+	void beginContact(IEntity * e)
 	{
-		getComponent<SoftObstacleComponent>()->body->SetLinearVelocity(b2Vec2(0, 100000));
+		auto collisionBody = e->getComponent <DynamicBodyComponent> ();
+		
+		if (collisionBody)
+		{
+			auto b = getComponent<KinematicBodyComponent>();
+			if (b)
+				b->body->SetLinearVelocity(b2Vec2(0, 100000));
+		}
 	};
 };

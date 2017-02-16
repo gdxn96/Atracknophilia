@@ -52,49 +52,49 @@ struct PlayerControllerComponent : public IControllerComponent
 	PlayerControllerComponent(int id) : IControllerComponent(id)
 	{
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_LEFT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
+			auto c = getComponent<Box2DComponent>();
 			if (c) {  
 				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
+			auto c = getComponent<Box2DComponent>();
 			if (c) {
 				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
+			auto c = getComponent<Box2DComponent>();
 			if (c) {
 				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
+			auto c = getComponent<Box2DComponent>();
 			if (c) {
 				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
+			auto c = getComponent<Box2DComponent>();
 			if (c) {
 				c->body->SetGravityScale(-1);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
+			auto c = getComponent<Box2DComponent>();
 			if (c && c->body->GetContactList() && c->body->GetGravityScale() < 0) {
 				c->body->SetGravityScale(1);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new ReleaseCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
+			auto c = getComponent<Box2DComponent>();
 			if (c && !c->body->GetContactList()) {
 				c->body->SetGravityScale(1);
 			}
@@ -104,7 +104,7 @@ struct PlayerControllerComponent : public IControllerComponent
 	void process() override
 	{
 		auto vec = InputManager::GetInstance()->GetLeftStickVectorNormal();
-		auto c = getComponent<CollisionBoxComponent>();
+		auto c = getComponent<Box2DComponent>();
 		c->body->ApplyForceToCenter(b2Vec2(vec.x * 10000, 0), true);
 	}
 };

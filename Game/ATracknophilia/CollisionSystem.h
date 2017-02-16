@@ -18,54 +18,48 @@ public:
 
 	void BeginContact(b2Contact * contact)
 	{
-		void * bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
+		void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+		void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
-		if (bodyUserData)
+		if (bodyUserDataA && bodyUserDataB)
 		{
-			auto boxComponent = static_cast<SoftObstacleComponent*>(bodyUserData);
-			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
-			if (collisionRespone)
+			auto boxComponentA = static_cast<Box2DComponent*>(bodyUserDataA);
+			auto collisionResponseA = boxComponentA->getComponent<ICollisionResponseComponent>();
+
+			auto boxComponentB = static_cast<Box2DComponent*>(bodyUserDataB);
+			auto collisionResponseB = boxComponentB->getComponent<ICollisionResponseComponent>();
+
+			if (collisionResponseA)
 			{
-				collisionRespone->beginContact(); 
+				collisionResponseA->beginContact(boxComponentB->getParent());
 			}
-		}
-
-		bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-
-		if (bodyUserData)
-		{
-			auto boxComponent = static_cast<CollisionBoxComponent*>(bodyUserData); 
-			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
-			if (collisionRespone)
+			if (collisionResponseB)
 			{
-				collisionRespone->beginContact();
+				collisionResponseB->beginContact(boxComponentA->getParent());
 			}
 		}
 	}
 
 	void EndContact(b2Contact * contact)
 	{
-		void * bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
+		void * bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+		void * bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
-		if (bodyUserData)
+		if (bodyUserDataA && bodyUserDataB)
 		{
-			auto boxComponent = static_cast<CollisionBoxComponent*>(bodyUserData);
-			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
-			if (collisionRespone)
+			auto boxComponentA = static_cast<Box2DComponent*>(bodyUserDataA);
+			auto collisionResponseA = boxComponentA->getComponent<ICollisionResponseComponent>();
+
+			auto boxComponentB = static_cast<Box2DComponent*>(bodyUserDataB);
+			auto collisionResponseB = boxComponentB->getComponent<ICollisionResponseComponent>();
+
+			if (collisionResponseA)
 			{
-				collisionRespone->endContact();
+				collisionResponseA->endContact(boxComponentB->getParent());
 			}
-		}
-
-		bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-
-		if (bodyUserData)
-		{
-			auto boxComponent = static_cast<CollisionBoxComponent*>(bodyUserData);
-			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
-			if (collisionRespone)
+			if (collisionResponseB)
 			{
-				collisionRespone->endContact();
+				collisionResponseB->endContact(boxComponentA->getParent());
 			}
 		}
 	}
