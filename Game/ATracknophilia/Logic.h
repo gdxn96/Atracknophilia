@@ -2,7 +2,8 @@
 #include "ECSInterfaces.h"
 #include <functional>
 #include "Dimensional.h"
-#include "Components.h"
+#include "DirectionVolume.h"
+#include "Player.h"
 
 struct LogicComponent : public IComponent
 {
@@ -57,12 +58,12 @@ struct CollisionResponseComponent : public AutoLister<CollisionResponseComponent
 
 	}
 
-	virtual void endContact()
+	virtual void endContact(IEntity* e)
 	{
 
 	};
 
-	virtual void beginContact()
+	virtual void beginContact(IEntity* e)
 	{
 
 	};
@@ -83,11 +84,32 @@ struct PlayerCollisionResponseComponent : CollisionResponseComponent
 
 	void beginContact()
 	{
-		//if (getComponentById<DirectionVolume>(ID))
-		//{
-			//auto priority = getComponentById<PriorityComponent>(ID)->m_priority;
-			//auto player = getComponent<Player>();
-			//player->getComponent<RacePositionComponent>()->update(priority, ID);
-		//}
+
+	};
+};
+
+struct DirectionVolumeCollisionResponseComponent : CollisionResponseComponent
+{
+	DirectionVolumeCollisionResponseComponent(int id)
+		: CollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact()
+	{
+
+	};
+
+	void beginContact()
+	{
+		int priority = getComponent<PriorityComponent>()->m_priority;
+
+		/*
+		if (getComponent<Player>()->getComponent<RacePositionComponent>()->m_priority < priority || (priority == 0 && getComponent<Player>()->getComponent<RacePositionComponent>()->m_priority > 1))
+		{
+			int volumeID = getComponent<DirectionVolume>()->ID;
+			getComponent<Player>()->getComponent<RacePositionComponent>()->update(priority, volumeID);
+		}*/	
 	};
 };

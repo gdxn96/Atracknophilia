@@ -84,6 +84,11 @@ public:
 		return m_players;
 	}
 
+	Player* getLeader()
+	{
+		return m_players.front();
+	}
+
 private:
 	std::vector<Player*> m_players;
 };

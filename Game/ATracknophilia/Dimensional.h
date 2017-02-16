@@ -63,12 +63,22 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 	Animation animation;
 };
 
-struct SoftObstacleComponent : public Box2DComponent, public AutoLister<SoftObstacleComponent>
+struct SensorComponent : public Box2DComponent, public AutoLister<SensorComponent>
 {
-	SoftObstacleComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true)
-		: Box2DComponent(id, x, y, width, height, isStatic, fixedRotation)
+	SensorComponent(int id, float x, float y, float width, float height)
+		: Box2DComponent(id, x, y, width, height, true, true)
 	{
 		fixture->SetSensor(true);
 	}
 };
 
+struct DirectionComponent : public IComponent, public AutoLister<DirectionComponent>
+{
+	DirectionComponent(int id, Vector2D direction)
+		: IComponent(id)
+		, m_direction(direction)
+	{
+	}
+
+	Vector2D m_direction;
+};
