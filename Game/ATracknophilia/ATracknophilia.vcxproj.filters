@@ -136,6 +136,11 @@
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="RaceSystem.h">
+    <ClInclude Include="Interactables.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HookSystem.h">
+
       <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
