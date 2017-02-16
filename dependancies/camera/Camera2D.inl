@@ -66,21 +66,20 @@ inline SDL_Rect Camera2D::Camera::getBounds() const
 	return m_bounds;
 }
 
-inline SDL_Rect Camera2D::Camera::worldToScreen(const SDL_Rect& r) const
+inline SDL_Rect Camera2D::Camera::worldToScreen(const CustomRect& r) const
 {
-	SDL_Rect screenR = r;
 
 	float xScale = (float)m_windowWidth / m_bounds.w;
 	float yScale = (float)m_windowHeight / m_bounds.h;
-
-	Point screenP(screenR.x, screenR.y);
+	SDL_Rect rect;
+	Point screenP(r.x, r.y);
 	screenP = worldToScreen(screenP);
-	screenR.x = screenP.x;
-	screenR.y = screenP.y;
-	screenR.w = (int)(screenR.w * xScale);
-	screenR.h = (int)(screenR.h * yScale);
+	rect.x = screenP.x;
+	rect.y = screenP.y;
+	rect.w = (int)(r.w * xScale);
+	rect.h = (int)(r.h * yScale);
 
-	return screenR;
+	return rect;
 }
 
 inline Camera2D::Point Camera2D::Camera::worldToScreen(const Point & p) const
@@ -106,13 +105,13 @@ inline Camera2D::Point Camera2D::Camera::worldToScreen(const Point & p) const
 	return screenP;
 }
 
-inline SDL_Rect Camera2D::Camera::screenToWorld(const SDL_Rect& sr) const
+inline SDL_Rect Camera2D::Camera::screenToWorld(const CustomRect& sr) const
 {
 	float xScale = (float)m_bounds.w / m_windowWidth;
 	float yScale = (float)m_bounds.h / m_windowHeight;
-	SDL_Rect r = sr;
+	SDL_Rect r;
 
-	Point p(r.x, r.y);
+	Point p(sr.x, sr.y);
 	p = screenToWorld(p);
 	r.x = p.x;
 	r.y = p.y;
@@ -837,11 +836,11 @@ inline void Camera2D::Camera::updateEffects(float deltaTime)
 		}
 		if (m_currentShake != nullptr && m_currentShake->getEnabled()) //if shaking the add shake offset
 		{
-			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(m_bounds), m_currentShake->getShakeOffset());
+			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(CustomRect(m_bounds.x, m_bounds.y, m_bounds.w, m_bounds.h)), m_currentShake->getShakeOffset());
 		}
 		else
 		{
-			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(m_bounds));
+			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(CustomRect(m_bounds.x, m_bounds.y, m_bounds.w, m_bounds.h)));
 		}
 	}
 

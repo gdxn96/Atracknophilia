@@ -27,10 +27,10 @@ void LevelLoader::loadLevel(LEVELS lvl)
 	for (const auto& itr : document["objects"].GetArray())
 	{
 		float x, y, w, h;
-		x = itr["x"].GetFloat() / 10.f;
-		y = itr["y"].GetFloat() / 10.f;
-		w = itr["width"].GetFloat() / 10.f;
-		h = itr["height"].GetFloat() / 10.f;
+		x = itr["x"].GetFloat() / 50.f;
+		y = itr["y"].GetFloat() / 50.f;
+		w = itr["width"].GetFloat() / 50.f;
+		h = itr["height"].GetFloat() / 50.f;
 		m_entities.push_back(EntityFactory::SpawnStaticBox(x, y, w, h));
 	}
 }

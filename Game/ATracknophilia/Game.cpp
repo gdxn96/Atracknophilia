@@ -28,7 +28,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	//render system must be added last
 	m_systems.push_back(renderSys);
 
-	EntityFactory::SpawnPlayer(60, 60, 5, 5);
+	EntityFactory::SpawnPlayer(12, 12, 1, 1);
 }
 
 void Game::init()
