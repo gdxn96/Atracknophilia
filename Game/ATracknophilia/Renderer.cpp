@@ -78,8 +78,8 @@ void Renderer::drawImage(SDL_Surface* img, Rect rec)
 void Renderer::drawLine(Vector2D _start, Vector2D _end, Colour c)
 {
 	SDL_SetRenderDrawColor(sdl_renderer, c.r, c.g, c.b, c.a);
-	auto start = m_camera->screenToWorld(Camera2D::Point(_start.x, _start.y));
-	auto end = m_camera->screenToWorld(Camera2D::Point(_end.x, _end.y));
+	auto start = m_camera->worldToScreen(Camera2D::Point(_start.x, _start.y));
+	auto end = m_camera->worldToScreen(Camera2D::Point(_end.x, _end.y));
 	SDL_RenderDrawLine(sdl_renderer, start.x, start.y, end.x, end.y);
 }
 

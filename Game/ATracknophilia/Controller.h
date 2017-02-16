@@ -56,28 +56,28 @@ struct PlayerControllerComponent : public IControllerComponent
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {  
-				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
 		}));
 
@@ -107,7 +107,7 @@ struct PlayerControllerComponent : public IControllerComponent
 			if (c && c->body->GetContactList()) 
 			{
 				c->body->SetGravityScale(1);
-				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -10000), true);
+				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -acceleration), true);
 			}
 
 			auto l = getComponent<HookComponent>();
@@ -124,6 +124,12 @@ struct PlayerControllerComponent : public IControllerComponent
 				c->body->SetGravityScale(1);
 			}
 		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new ReleaseCommand([&]() {
+			isHoldingA = false;
+			acceleration = acceleration * 2;
+			maxSpeed = maxSpeed * 2;
+		}));
 	}
 
 	void process(float dt) override
@@ -137,15 +143,24 @@ struct PlayerControllerComponent : public IControllerComponent
 			{
 				auto dir = Vector2D::Perpendicular((h->line->end - h->line->start).Normalize()) * vec.x / std::fabs(vec.x);
 				
-				c->body->ApplyForceToCenter((dir * 10000).toBox2DVector(), true);
+				c->body->ApplyForceToCenter((dir * acceleration).toBox2DVector(), true);
+
+				b2Vec2 vel = c->body->GetLinearVelocity();
+				float32 speed = vel.Length();
+				if (speed > maxSpeed)
+					c->body->SetLinearVelocity((maxSpeed / speed) * vel);
 			}
 			else
 			{
-				c->body->ApplyForceToCenter(b2Vec2(vec.x * 10000, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(vec.x * acceleration, 0), true);
+
+				b2Vec2 vel = c->body->GetLinearVelocity();
+				float32 speed = vel.Length();
+				if (speed > maxSpeed)
+					c->body->SetLinearVelocity((maxSpeed / speed) * vel);
 			}
 			
 		}
-			
 
 		std::cout << Vector2D(c->body->GetLinearVelocity()).Magnitude() << std::endl;
 
@@ -170,4 +185,6 @@ struct PlayerControllerComponent : public IControllerComponent
 	}
 
 	bool isHoldingA = false;
+	float32 maxSpeed = 50;
+	int acceleration = 100;
 };

@@ -3,7 +3,7 @@ inline Camera2D::Camera::Camera()
 	: m_accelerationRate(DEFAULT_ACCEL)
 	, m_maxVelocity(DEFAULT_MAX_VEL)
 	, m_drag(DEFAULT_DRAG)
-	, m_zoom(Vector2(0.2f, 0.2f))
+	, m_zoom(Vector2(1, 1))
 	, m_zoomSpeed(DEFAULT_ZOOM_SPEED)
 	, m_zoomToSpeed(DEFAULT_ZOOMTO_SPEED)
 	, m_minZoom(DEFAULT_MIN_ZOOM)
@@ -881,6 +881,9 @@ inline void Camera2D::Camera::changeBoundsZoom()
 	//problem with less than zero or x and y not changing when using zoom to
 	m_bounds.w = (int)m_windowWidth * m_zoom.x;
 	m_bounds.h = (int)m_windowHeight * m_zoom.y;
+	
+	m_bounds.x = (int)(m_centre.x - m_bounds.w * 0.5f);
+	m_bounds.y = (int)(m_centre.y - m_bounds.h * 0.5f);
 }
 
 inline float Camera2D::Camera::clampZoom(float num)

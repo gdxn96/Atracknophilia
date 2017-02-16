@@ -41,7 +41,7 @@ Vector2D PhysicsSystem::RayCast(Vector2D start, Vector2D end, float maxLength)
 
 b2Vec2 & PhysicsSystem::Gravity()
 {
-	static b2Vec2 gravity(0, 1000);
+	static b2Vec2 gravity(0, 100);
 	return gravity;
 }
 
