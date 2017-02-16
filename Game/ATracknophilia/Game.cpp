@@ -39,6 +39,11 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	//Push back systems
 	m_systems.push_back(inputSys);
 	m_systems.push_back(collisionSystem);
+
+	auto hookSys = new HookSystem();
+	renderSys->init(&m_renderer);
+	m_systems.push_back(inputSys);
+	m_systems.push_back(hookSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(cameraSystem);
 	m_systems.push_back(raceSystem);

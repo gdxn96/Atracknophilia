@@ -2,6 +2,8 @@
 #include "ECSInterfaces.h"
 #include "Dimensional.h"
 #include "FLInput\FLInputManager.h"
+#include "Drawables.h"
+#include "Interactables.h"
 
 class PressCommand : public Command
 {
@@ -44,7 +46,7 @@ struct IControllerComponent : public IComponent, public AutoLister<IControllerCo
 
 	}
 
-	virtual void process() = 0;
+	virtual void process(float dt) = 0;
 };
 
 struct PlayerControllerComponent : public IControllerComponent
@@ -81,19 +83,42 @@ struct PlayerControllerComponent : public IControllerComponent
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
+			auto hook = getComponent<HookComponent>();
 			if (c) {
-				c->body->SetGravityScale(-1);
+				if (hook)
+				{
+					isHoldingA = true;
+				}
+				else
+				{
+					float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal().x;
+					float xRay = 0;
+					if (xVelocity > 0) { xRay = 1000; }
+					else if (xVelocity < 0) { xRay = -1000; }
+					Vector2D intersectionPt = PhysicsSystem::RayCast(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
+					getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
+				}
 			}
+			
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
-			if (c && c->body->GetContactList() && c->body->GetGravityScale() < 0) {
+			if (c && c->body->GetContactList()) 
+			{
 				c->body->SetGravityScale(1);
+				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -10000), true);
+			}
+
+			auto l = getComponent<HookComponent>();
+			if (l)
+			{
+				getParent()->deleteComponent<HookComponent>();
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new ReleaseCommand([&]() {
+			isHoldingA = false;
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c && !c->body->GetContactList()) {
 				c->body->SetGravityScale(1);
@@ -101,10 +126,48 @@ struct PlayerControllerComponent : public IControllerComponent
 		}));
 	}
 
-	void process() override
+	void process(float dt) override
 	{
 		auto vec = InputManager::GetInstance()->GetLeftStickVectorNormal();
 		auto c = getComponent<CollisionBoxComponent>();
-		c->body->ApplyForceToCenter(b2Vec2(vec.x * 10000, 0), true);
+		if (c)
+		{
+			auto h = getComponent<HookComponent>();
+			if (h && vec.x != 0)
+			{
+				auto dir = Vector2D::Perpendicular((h->line->end - h->line->start).Normalize()) * vec.x / std::fabs(vec.x);
+				
+				c->body->ApplyForceToCenter((dir * 10000).toBox2DVector(), true);
+			}
+			else
+			{
+				c->body->ApplyForceToCenter(b2Vec2(vec.x * 10000, 0), true);
+			}
+			
+		}
+			
+
+		std::cout << Vector2D(c->body->GetLinearVelocity()).Magnitude() << std::endl;
+
+		auto hook = getComponent<HookComponent>();
+		if (hook)
+		{
+			auto c = getComponent<CollisionBoxComponent>();
+			if (c && c->body->GetContactList())
+			{
+				getParent()->deleteComponent<HookComponent>();
+				return;
+			}
+			if (isHoldingA)
+			{
+				hook->decreaseTetherLength(dt);
+			}
+			else
+			{
+				hook->increaseTetherLength(dt);
+			}
+		}
 	}
+
+	bool isHoldingA = false;
 };

@@ -11,16 +11,25 @@ void RenderSystem::init(Renderer * r)
 
 void RenderSystem::process(float dt)
 {
-	m_renderer->clear(Colour(0, 0, 0));
-		
-	auto& components = AutoList::get<Box2DComponent>();
-	for (auto& component : components)
+	m_renderer->clear(Colour(128, 128, 64));
+	
 	{
-		if (true) //add debug flag later
+		auto& components = AutoList::get<Box2DComponent>();
+		for (auto& component : components)
 		{
-			m_renderer->drawBox2DBody(component->body);
+			if (false) //add debug flag later
+			{
+				m_renderer->drawBox2DBody(component->body);
+			}
+			m_renderer->drawRect(Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size), Colour(0,0,0));
 		}
-		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size));
+	}
+	{
+		auto& components = AutoList::get<LineComponent>();
+		for (auto& component : components)
+		{
+			m_renderer->drawLine(component->start, component->end);
+		}
 	}
 	
 	m_renderer->present();
