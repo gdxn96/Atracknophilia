@@ -111,6 +111,12 @@
     <ClInclude Include="Logic.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Interactables.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HookSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

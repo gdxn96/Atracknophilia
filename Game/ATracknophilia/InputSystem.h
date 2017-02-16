@@ -14,7 +14,7 @@ public:
 	{
 		for (auto& component : AutoList::get<IControllerComponent>())
 		{
-			component->process();
+			component->process(dt);
 		}
 	}
 
