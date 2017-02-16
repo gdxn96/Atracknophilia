@@ -194,7 +194,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Priority.h" />
     <ClInclude Include="RacePosition.h" />
-    <ClInclude Include="RaceSystem.h" />
+    <ClInclude Include="RaceManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
@@ -216,6 +216,7 @@
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RaceManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Resource.cpp" />

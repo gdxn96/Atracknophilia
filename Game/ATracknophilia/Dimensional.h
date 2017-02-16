@@ -32,7 +32,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			b2FixtureDef afixture;
 			afixture.shape = &shape;
 			afixture.density = 1.0f;
-			afixture.friction = 0.1f;
+			afixture.friction = 0.0f;
 			fixture = body->CreateFixture(&afixture);
 		}
 		body->SetUserData(this);

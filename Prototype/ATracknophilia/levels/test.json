@@ -212,5 +212,16 @@
       "x": 5000,
       "y": 1000
     }
+  ],
+  "directions": [
+    {
+      "height": 200,
+      "width": 200,
+      "x": 5000,
+      "y": 1000,
+      "priority": 0,
+      "directionX": 0,
+      "directionY": 1
+    }
   ]
 }

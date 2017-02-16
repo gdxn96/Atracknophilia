@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "camera\Camera2D.h"
+#include "RaceManager.h"
 
 class CameraSystem : public ISystem
 {
@@ -9,7 +10,8 @@ public:
 
 	void process(float dt) override
 	{
-		//m_camera->setCentre(m_players.front()->getComponent<CollisionBoxComponent>()->body->GetPosition().x, m_players.front()->getComponent<CollisionBoxComponent>()->body->GetPosition().y);
+		Vector2D leaderPos = RaceManager::getInstance()->getLeader()->getComponent<CollisionBoxComponent>()->body->GetPosition();
+		m_camera->setCentre(leaderPos.x, leaderPos.y);
 	}
 
 	void init(Camera2D::Camera * cam)

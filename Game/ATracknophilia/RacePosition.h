@@ -3,19 +3,25 @@
 
 struct RacePositionComponent : public IComponent, public AutoLister<RacePositionComponent>
 {
-	RacePositionComponent(int id, int priority, int volumeID)
-		: IComponent(id)
-		, m_priority(priority)
-		, m_volumeID(volumeID)
+	RacePositionComponent(int id)
+		:	IComponent(id)
+		,	volumeID(88)
+		,	lap(0)
 	{
 	}
 
-	void update(int priority, int id)
+	void SetVolumeId(int id)
 	{
-		m_priority = priority;
-		m_volumeID = id;
+		if (id == 0 && volumeID != 1)
+		{
+			lap++;
+		}
+		if (volumeID == 0 && id > 1)
+		{
+			lap--;
+		}
 	}
 
-	int m_priority;
-	int m_volumeID;
+	int lap;
+	int volumeID;
 };

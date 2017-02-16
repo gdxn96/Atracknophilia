@@ -21,7 +21,7 @@ void RenderSystem::process(float dt)
 			{
 				m_renderer->drawBox2DBody(component->body);
 			}
-			m_renderer->drawRect(Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size), Colour(0,0,0));
+			m_renderer->drawRectOutline(Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size), Colour(0,0,0));
 		}
 	}
 	{

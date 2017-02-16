@@ -1,187 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ECS">
-      <UniqueIdentifier>{a5765bc7-9b49-430c-80bf-764f71f0528a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ECS\Entities">
-      <UniqueIdentifier>{5ad6f203-8897-4f36-b952-53828d9c73fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ECS\Components">
-      <UniqueIdentifier>{196a0afb-ff0b-4f8e-969b-94f36b1c00e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ECS\Systems">
-      <UniqueIdentifier>{2e1ce81f-cdc3-4548-aeca-4a03cb93d70e}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="ATracknophilia.cpp" />
+    <ClCompile Include="DirectionVolume.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="LTimer.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="RaceManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AutoList.h" />
+    <ClInclude Include="BasicTypes.h" />
+    <ClInclude Include="CameraSystem.h" />
+    <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Dimensional.h" />
+    <ClInclude Include="DirectionVolume.h" />
+    <ClInclude Include="Drawables.h" />
+    <ClInclude Include="ECSInterfaces.h" />
+    <ClInclude Include="Entities.h" />
+    <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="FileMonitor.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="HookSystem.h" />
+    <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Interactables.h" />
+    <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="Logic.h" />
+    <ClInclude Include="LTimer.h" />
+    <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Priority.h" />
+    <ClInclude Include="RacePosition.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SoftBox.h" />
+    <ClInclude Include="StaticPolygon.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Systems.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="RaceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AutoList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileMonitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ECSInterfaces.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawables.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Dimensional.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="InputSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticPolygon.h">
-      <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities.h">
-      <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionVolume.h">
-      <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Priority.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Logic.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SoftBox.h">
-      <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="RacePosition.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RaceSystem.h">
-    <ClInclude Include="Interactables.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HookSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ATracknophilia.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderSystem.cpp">
-      <Filter>ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectionVolume.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ECS\Entities</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

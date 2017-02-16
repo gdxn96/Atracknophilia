@@ -77,12 +77,12 @@ struct PlayerCollisionResponseComponent : CollisionResponseComponent
 
 	}
 
-	void endContact()
+	void endContact(IEntity* e)
 	{
 
 	};
 
-	void beginContact()
+	void beginContact(IEntity* e)
 	{
 
 	};
@@ -96,20 +96,17 @@ struct DirectionVolumeCollisionResponseComponent : CollisionResponseComponent
 
 	}
 
-	void endContact()
+	void endContact(IEntity* e)
 	{
 
 	};
 
-	void beginContact()
+	void beginContact(IEntity* e)
 	{
-		int priority = getComponent<PriorityComponent>()->m_priority;
-
-		/*
-		if (getComponent<Player>()->getComponent<RacePositionComponent>()->m_priority < priority || (priority == 0 && getComponent<Player>()->getComponent<RacePositionComponent>()->m_priority > 1))
-		{
-			int volumeID = getComponent<DirectionVolume>()->ID;
-			getComponent<Player>()->getComponent<RacePositionComponent>()->update(priority, volumeID);
-		}*/	
+		int volumeID = this->ID;
+		auto racePositionComponent = e->getComponent<RacePositionComponent>();
+		
+		if(racePositionComponent)
+		racePositionComponent->SetVolumeId(volumeID);
 	};
 };
