@@ -63,29 +63,42 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 	Animation animation;
 };
 
-struct SoftObstacleComponent : public CollisionBoxComponent, public AutoLister<SoftObstacleComponent>
+struct ObstacleComponent : public AutoLister<ObstacleComponent>, public IComponent
 {
-	SoftObstacleComponent(int id, float x, float y, float width, float height, bool isStatic = false, bool fixedRotation = true)
-		: CollisionBoxComponent(id, 400, y, width, height, isStatic, fixedRotation)
+	ObstacleComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true)
+		: IComponent(id)
+		, size(width, height)
 	{
 		b2BodyDef bodyDef;
 		bodyDef.position.Set(x + width / 2.f, y + height / 2.f);
+
 		b2PolygonShape shape;
 		shape.SetAsBox(width / 2.f, height / 2.f);
+
 		bodyDef.type = b2_kinematicBody;
 		bodyDef.fixedRotation = true;
 		body = PhysicsSystem::World().CreateBody(&bodyDef);
+
 		b2FixtureDef afixture;
 		afixture.shape = &shape;
 		afixture.density = 1.0f;
 		afixture.friction = 0.1f;
 		afixture.isSensor = true;
 		fixture = body->CreateFixture(&afixture);
+
 		body->SetUserData(this);
 	}
-
 	b2Body* body;
 	b2Fixture* fixture;
 	Vector2D size;
+};
+
+struct SoftObstacleComponent : public ObstacleComponent, public AutoLister<SoftObstacleComponent>
+{
+	SoftObstacleComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true)
+		: ObstacleComponent(id, x, y, width, height, isStatic, fixedRotation)
+	{
+		fixture->SetSensor(true);
+	}
 };
 

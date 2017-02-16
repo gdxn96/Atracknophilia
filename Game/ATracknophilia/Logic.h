@@ -82,7 +82,7 @@ struct PlayerCollisionResponseComponent : public CollisionResponseComponent
 
 	void beginContact()
 	{
-		
+
 	};
 };
 
@@ -96,7 +96,7 @@ struct SoftObstacleResponseComponent : public CollisionResponseComponent
 
 	void endContact()
 	{
-
+	
 	};
 
 	void beginContact()

@@ -24,15 +24,15 @@ void RenderSystem::process(float dt)
 		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size));
 	}
 
-	//auto& sft = AutoList::get<SoftObstacleComponent>();
-	//for (auto& sft : sft)
-	//{
-	//	if (true) //add debug flag later
-	//	{
-	//		m_renderer->drawBox2DBody(sft->body);
-	//	}
-	//	m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(sft->body->GetPosition()) - sft->size* 0.5, sft->size));
-	//}
+	auto& obstacles = AutoList::get<ObstacleComponent>();
+	for (auto& obstacle : obstacles)
+	{
+		if (true) //add debug flag later
+		{
+			m_renderer->drawBox2DBody(obstacle->body);
+		}
+		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(obstacle->body->GetPosition()) - obstacle->size* 0.5, obstacle->size));
+	}
 	
 	m_renderer->present();
 }

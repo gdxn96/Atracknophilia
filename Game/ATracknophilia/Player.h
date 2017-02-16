@@ -9,7 +9,8 @@ public:
 			{ 
 				new CollisionBoxComponent(id, x, y, w, h, false),	
 				new PlayerControllerComponent(id),
-				new InvertGravityOnEdgeComponent(id)
+				new InvertGravityOnEdgeComponent(id), 
+				new PlayerCollisionResponseComponent(id)
 			})
 	{
 	}

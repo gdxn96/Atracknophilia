@@ -22,11 +22,11 @@ public:
 
 		if (bodyUserData)
 		{
-			auto boxComponent = static_cast<CollisionBoxComponent*>(bodyUserData);
+			auto boxComponent = static_cast<SoftObstacleComponent*>(bodyUserData);
 			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
 			if (collisionRespone)
 			{
-				collisionRespone->beginContact();
+				collisionRespone->beginContact(); 
 			}
 		}
 
@@ -34,7 +34,7 @@ public:
 
 		if (bodyUserData)
 		{
-			auto boxComponent = static_cast<CollisionBoxComponent*>(bodyUserData);
+			auto boxComponent = static_cast<CollisionBoxComponent*>(bodyUserData); 
 			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
 			if (collisionRespone)
 			{
