@@ -7,6 +7,12 @@
 #include "Attractor.h"
 #include "Repulsor.h"
 
+struct CustomRect
+{
+	float x, y, w, h;
+	CustomRect(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {}
+};
+
 using namespace std;
 
 namespace Camera2D
@@ -33,10 +39,10 @@ namespace Camera2D
 		Vector2 getCentre() const;
 		Vector2 getSize() const;
 		SDL_Rect getBounds() const;
-		SDL_Rect worldToScreen(const SDL_Rect& r) const;
+		SDL_Rect worldToScreen(const CustomRect& r) const;
 		Point worldToScreen(const Point& p) const;
 
-		SDL_Rect screenToWorld(const SDL_Rect& sr) const;
+		SDL_Rect screenToWorld(const CustomRect& sr) const;
 		Point screenToWorld(const Point& sp) const;
 
 		bool intersects(const SDL_Rect& r) const; //check if world rect is within camera

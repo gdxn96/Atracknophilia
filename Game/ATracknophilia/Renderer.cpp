@@ -244,8 +244,7 @@ void Renderer::drawRect(const Rect& r, const Colour& c)
 
 Rect Renderer::cameraTransform(Rect r)
 {
-	SDL_Rect rect = r.toSDLRect();
-	rect = m_camera->worldToScreen(rect);
+	SDL_Rect rect = m_camera->worldToScreen(CustomRect(r.pos.x, r.pos.y, r.size.w, r.size.h));
 	
 	return Rect(rect.x, rect.y, rect.w, rect.h);
 }
