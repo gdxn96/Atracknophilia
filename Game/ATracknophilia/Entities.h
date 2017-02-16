@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "StaticPolygon.h"
+#include "DirectionVolume.h"
 #include "SoftBox.h"
 
 

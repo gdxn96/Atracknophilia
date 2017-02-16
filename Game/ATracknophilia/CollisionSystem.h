@@ -26,7 +26,7 @@ public:
 			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
 			if (collisionRespone)
 			{
-				collisionRespone->beginContact();
+				collisionRespone->beginContact(boxComponent->getParent());
 			}
 		}
 
@@ -38,7 +38,7 @@ public:
 			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
 			if (collisionRespone)
 			{
-				collisionRespone->beginContact();
+				collisionRespone->beginContact(boxComponent->getParent());
 			}
 		}
 	}
@@ -53,7 +53,7 @@ public:
 			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
 			if (collisionRespone)
 			{
-				collisionRespone->endContact();
+				collisionRespone->endContact(boxComponent->getParent());
 			}
 		}
 
@@ -65,7 +65,7 @@ public:
 			auto collisionRespone = boxComponent->getComponent<CollisionResponseComponent>();
 			if (collisionRespone)
 			{
-				collisionRespone->endContact();
+				collisionRespone->endContact(boxComponent->getParent());
 			}
 		}
 	}

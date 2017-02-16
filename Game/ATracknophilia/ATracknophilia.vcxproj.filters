@@ -117,9 +117,6 @@
     <ClInclude Include="Priority.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Direction.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
@@ -129,9 +126,6 @@
     <ClInclude Include="SoftBox.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="PositionManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RacePosition.h">
       <Filter>ECS\Components</Filter>
     </ClInclude>
@@ -140,7 +134,6 @@
       <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="HookSystem.h">
-
       <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
@@ -182,7 +175,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionVolume.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ECS\Entities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

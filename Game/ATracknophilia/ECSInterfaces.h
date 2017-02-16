@@ -66,6 +66,7 @@ public:
 		m_components.clear();
 	}
 
+
 	void AddComponent(IComponent* component)
 	{
 		m_components.push_back(component);
@@ -84,6 +85,7 @@ public:
 		}
 		return false;
 	}
+
 	const int ID;
 protected:
 	std::vector<IComponent*> m_components;
