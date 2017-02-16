@@ -26,14 +26,12 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 	void decreaseTetherLength(float dt)
 	{
 		tetherLength -= 100 * dt;
-		std::cout << tetherLength << endl;
 		joint->SetLength(tetherLength);
 	}
 
 	void increaseTetherLength(float dt)
 	{
 		tetherLength += 20 * dt;
-		std::cout << tetherLength << endl;
 		joint->SetLength(tetherLength);
 	}
 
