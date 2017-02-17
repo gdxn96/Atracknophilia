@@ -36,10 +36,13 @@ void CameraManager::moveTo(Vector2D destination, float dt)
 {
 	Vector2D position = Vector2D(m_camera->getCentre().x, m_camera->getCentre().y);
 	Vector2D difference = destination - position;
+	Vector2D directionToPan = difference.Normalize();
+	float distanceSq = difference.Distance(position, difference);
 
+	std::cout << difference.Magnitude() << std::endl;
 	if (difference.Magnitude() > 1)
 	{
-		Vector2D result = position + (difference * dt * 1.4f);
+		Vector2D result = position + (directionToPan * distanceSq * dt);
 
 		m_camera->setCentre(result.x, result.y);
 
@@ -76,6 +79,36 @@ void CameraManager::moveTo(Vector2D destination, float dt)
 	else
 	{
 		m_camera->setCentre(destination.x, destination.y);
+
+		auto cameraBounds = m_camera->getBounds();
+
+		int halfCameraWidth = cameraBounds.w / 2.0f;
+		int halfCameraHeight = cameraBounds.h / 2.0f;
+
+		auto centre = m_camera->getCentre();
+		if (cameraBounds.x < 0)
+		{
+			m_camera->setCentre(halfCameraWidth, centre.y);
+			centre = m_camera->getCentre();
+		}
+
+		if (cameraBounds.y < 0)
+		{
+			m_camera->setCentre(centre.x, halfCameraHeight);
+			centre = m_camera->getCentre();
+		}
+
+		if (cameraBounds.x + cameraBounds.w > m_levelSize.w)
+		{
+			m_camera->setCentre(m_levelSize.w - halfCameraWidth, centre.y);
+			centre = m_camera->getCentre();
+		}
+
+		if (cameraBounds.y + cameraBounds.h >  m_levelSize.h)
+		{
+			m_camera->setCentre(centre.x, m_levelSize.h - halfCameraHeight);
+			centre = m_camera->getCentre();
+		}
 	}
 }
 

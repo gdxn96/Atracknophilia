@@ -207,8 +207,8 @@
   ],
   "directions": [
     {
-      "height": 6000,
-      "width": 1100,
+      "height": 600,
+      "width": 600,
       "x": 500,
       "y": 0,
       "priority": 0,
