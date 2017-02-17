@@ -5,21 +5,27 @@ struct RacePositionComponent : public IComponent, public AutoLister<RacePosition
 {
 	RacePositionComponent(int id)
 		:	IComponent(id)
-		,	volumeID(88)
+		,	volumeID(-1)
 		,	lap(0)
 	{
 	}
 
 	void SetVolumeId(int id)
 	{
-		if (id == 0 && volumeID != 1)
+		if (volumeID != -1)
 		{
-			lap++;
+			int priority = getComponentById<PriorityComponent>(volumeID)->m_priority;
+			if (id == 0 && priority != 1)
+			{
+				lap++;
+			}
+			if (priority == 0 && id > 1)
+			{
+				lap--;
+			}
 		}
-		if (volumeID == 0 && id > 1)
-		{
-			lap--;
-		}
+
+		volumeID = id;
 	}
 
 	int lap;

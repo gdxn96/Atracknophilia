@@ -10,6 +10,7 @@ public:
 
 	std::vector<Player*> Sort();
 	std::vector<Player*> getPlayers();
+	std::vector<Player*> getOnScreenPlayers(Camera2D::Camera * camera);
 	Player* getLeader();
 
 	static RaceManager *getInstance()

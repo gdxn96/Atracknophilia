@@ -9,5 +9,4 @@ DirectionVolume::DirectionVolume(int id, float x, float y, float w, float h, int
 		new DirectionComponent(id, direction)
 	})
 {
-	std::cout << x << ", " << y << ": " << id << std::endl;
 }

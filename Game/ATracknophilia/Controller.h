@@ -53,74 +53,18 @@ struct PlayerControllerComponent : public IControllerComponent
 {
 	PlayerControllerComponent(int id) : IControllerComponent(id)
 	{
-		InputManager::GetInstance()->AddKey(EventListener::ARROW_LEFT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
-			if (c) {  
-				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
-			}
-		}));
-
-		InputManager::GetInstance()->AddKey(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
-			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
-			}
-		}));
-
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
-			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
-			}
-		}));
-
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
-			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
-			}
-		}));
-
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new HoldCommand([&]() {
-			auto c = getComponent<CollisionBoxComponent>();
-			auto hook = getComponent<HookComponent>();
-			if (c) {
-				if (hook)
-				{
-					isHoldingA = true;
-				}
-				else
-				{
-					float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal().x;
-					float xRay = 0;
-					if (xVelocity > 0) { xRay = 1000; }
-					else if (xVelocity < 0) { xRay = -1000; }
-					Vector2D intersectionPt = PhysicsSystem::RayCast(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
-					getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
-				}
-			}
-			
-		}));
-
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
-			if (c && c->body->GetContactList()) 
+			if (c) 
 			{
-				c->body->SetGravityScale(1);
-				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -10000), true);
-			}
-
-			auto l = getComponent<HookComponent>();
-			if (l)
-			{
-				getParent()->deleteComponent<HookComponent>();
+				c->body->SetGravityScale( -1);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new ReleaseCommand([&]() {
 			isHoldingA = false;
 			auto c = getComponent<CollisionBoxComponent>();
-			if (c && !c->body->GetContactList()) {
+			if (c) {
 				c->body->SetGravityScale(1);
 			}
 		}));
@@ -145,9 +89,6 @@ struct PlayerControllerComponent : public IControllerComponent
 			}
 			
 		}
-			
-
-		std::cout << Vector2D(c->body->GetLinearVelocity()).Magnitude() << std::endl;
 
 		auto hook = getComponent<HookComponent>();
 		if (hook)

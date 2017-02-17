@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "RaceManager.h"
 #include <set>
+#include <climits>
 
 RaceManager *RaceManager::m_instance = 0;
 
@@ -45,15 +46,16 @@ std::vector<Player*> RaceManager::Sort()
 	
 	*/
 
-	for (auto lapVolumes : playerLapsMap)
+	for (auto& lapVolumes : playerLapsMap)
 	{
-		for (auto volumePlayers : lapVolumes.second)
+		for (auto& volumePlayers : lapVolumes.second)
 		{
 			int volumeId = volumePlayers.second.first;
 			auto& players = volumePlayers.second.second;
 			Vector2D volumeDirection = getComponentById<DirectionVolume>(volumeId)->getComponent<DirectionComponent>()->m_direction;
-			std::sort(players.begin(), players.end(), [&](Player* p1, Player* p2) {
-				return	Vector2D::DotProduct(volumeDirection, p1->getComponent<Box2DComponent>()->body->GetPosition()) >
+			std::sort(players.begin(), players.end(), [&](Player* p1, Player* p2) 
+			{
+				return	Vector2D::DotProduct(volumeDirection, p1->getComponent<Box2DComponent>()->body->GetPosition()) <
 					Vector2D::DotProduct(volumeDirection, p2->getComponent<Box2DComponent>()->body->GetPosition());
 			});
 		}
@@ -76,6 +78,34 @@ std::vector<Player*> RaceManager::Sort()
 std::vector<Player*> RaceManager::getPlayers()
 {
 	return Sort();
+}
+
+std::vector<Player*> RaceManager::getOnScreenPlayers(Camera2D::Camera * camera)
+{
+	SDL_Rect cameraBounds = camera->getBounds();
+	std::vector<Player*> returnVector;
+	SDL_Point playerPos;
+
+	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it)
+	{
+		auto player = (*it)->getComponent<CollisionBoxComponent>();
+		if (player)
+		{
+			playerPos.x = (*it)->getComponent<CollisionBoxComponent>()->body->GetPosition().x;
+			playerPos.y = (*it)->getComponent<CollisionBoxComponent>()->body->GetPosition().y;
+		}
+		else
+		{
+			playerPos.x = INT_MAX;
+			playerPos.y = INT_MAX;
+		}
+		
+		if (SDL_PointInRect(&playerPos, &cameraBounds))
+		{
+			returnVector.push_back(*it);
+		}
+	}
+	return returnVector;
 }
 
 Player* RaceManager::getLeader()

@@ -69,6 +69,8 @@ struct SensorComponent : public Box2DComponent, public AutoLister<SensorComponen
 		: Box2DComponent(id, x, y, width, height, true, true)
 	{
 		fixture->SetSensor(true);
+		fixture->SetFriction(0);
+		fixture->SetDensity(0);
 	}
 };
 
