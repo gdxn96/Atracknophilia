@@ -117,6 +117,9 @@
     <ClInclude Include="HookSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

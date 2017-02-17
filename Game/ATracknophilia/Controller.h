@@ -4,6 +4,7 @@
 #include "FLInput\FLInputManager.h"
 #include "Drawables.h"
 #include "Interactables.h"
+#include "Property.h"
 
 class PressCommand : public Command
 {
@@ -56,28 +57,32 @@ struct PlayerControllerComponent : public IControllerComponent
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {  
-				c->body->ApplyForceToCenter(b2Vec2(-100, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(100, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(-100, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(100, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
 		}));
 
@@ -135,16 +140,15 @@ struct PlayerControllerComponent : public IControllerComponent
 		if (c)
 		{
 			auto h = getComponent<HookComponent>();
+			auto acceleration = getComponent<MaxAccelerationComponent>();
 			if (h && vec.x != 0)
 			{
 				auto dir = Vector2D::Perpendicular((h->line->end - h->line->start).Normalize()) * vec.x / std::fabs(vec.x);
-				
-				c->body->ApplyForceToCenter((dir * 100).toBox2DVector(), true);
+				c->body->ApplyForceToCenter((dir * acceleration->m_maxAcceleration).toBox2DVector(), true);
 			}
 			else
 			{
-				c->body->ApplyForceToCenter(b2Vec2(vec.x * 100, 0), true);
-
+				c->body->ApplyForceToCenter(b2Vec2(vec.x * acceleration->m_maxAcceleration, 0), true);
 			}
 			
 		}

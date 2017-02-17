@@ -189,6 +189,7 @@
     <ClInclude Include="LTimer.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Property.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />

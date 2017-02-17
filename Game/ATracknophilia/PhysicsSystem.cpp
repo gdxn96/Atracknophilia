@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PhysicsSystem.h"
 #include "Logic.h"
+#include "Property.h"
 
 void PhysicsSystem::process(float dt)
 {
@@ -15,10 +16,11 @@ void PhysicsSystem::process(float dt)
 	auto& boxComponents = AutoList::get<Box2DComponent>();
 	for (auto& c : boxComponents)
 	{
+		auto maxVel = getComponentById<MaxVelocityComponent>(c->ID);
 		b2Vec2 vel = c->body->GetLinearVelocity();
 		float32 speed = vel.Length();
-		if (speed > 50)
-			c->body->SetLinearVelocity((50 / speed) * vel);
+		if (maxVel != nullptr && speed > maxVel->m_maxVelocity)
+			c->body->SetLinearVelocity((maxVel->m_maxVelocity / speed) * vel);
 	}
 }
 
