@@ -12,7 +12,8 @@ public:
 				new MaxAccelerationComponent(id, 100),
 				new MaxVelocityComponent(id, 50),
 				new PlayerControllerComponent(id),
-				new InvertGravityOnEdgeComponent(id)
+				new InvertGravityOnEdgeComponent(id),
+				new BoostComponent(id)
 			})
 	{
 	}

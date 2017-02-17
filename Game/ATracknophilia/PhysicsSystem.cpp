@@ -16,12 +16,34 @@ void PhysicsSystem::process(float dt)
 	auto& boxComponents = AutoList::get<Box2DComponent>();
 	for (auto& c : boxComponents)
 	{
-		auto maxVel = getComponentById<MaxVelocityComponent>(c->ID);
+		auto maxVelComp = getComponentById<MaxVelocityComponent>(c->ID);
+		auto boostComp = getComponentById<BoostComponent>(c->ID);
+		auto stamComp = getComponentById<StaminaComponent>(c->ID);
+
+		if (stamComp && stamComp->m_stamina <= 0)
+		{
+			boostComp->m_boostActive = false;
+		}
+
+		if (boostComp && boostComp->m_boostActive)
+		{
+			boostComp->m_boostTime += dt;
+			if (stamComp->m_stamina > 0)
+				stamComp->m_stamina --;
+		}
+		
+		if (boostComp && boostComp->m_boostActive == false)
+		{
+			DecelerateBoost(dt, c->ID);
+		}
+
 		b2Vec2 vel = c->body->GetLinearVelocity();
 		float32 speed = vel.Length();
-		if (maxVel != nullptr && speed > maxVel->m_maxVelocity)
-			c->body->SetLinearVelocity((maxVel->m_maxVelocity / speed) * vel);
+		if (maxVelComp != nullptr && speed > maxVelComp->m_maxVelocity)
+			c->body->SetLinearVelocity((maxVelComp->m_maxVelocity / speed) * vel);
 	}
+
+	
 }
 
 Vector2D PhysicsSystem::RayCast(Vector2D start, Vector2D end, float maxLength)
@@ -62,4 +84,27 @@ b2World & PhysicsSystem::World()
 	static b2World world(Gravity());
 	world.SetGravity(Gravity());
 	return world;
+}
+
+void PhysicsSystem::DecelerateBoost(float dt, int id)
+{
+	auto boostComp = getComponentById<BoostComponent>(id);
+	auto maxVelComp = getComponentById<MaxVelocityComponent>(id);
+
+	boostComp->m_decelerateTime += dt;
+
+	if (maxVelComp->m_maxVelocity > boostComp->MAX_VELOCITY)
+	{
+		float decelPercentage = boostComp->m_decelerateTime / boostComp->m_boostTime;
+		float initialValue = boostComp->BOOSTED_MAX_VELOCITY - boostComp->MAX_VELOCITY;
+		float finalValue = 0;
+		float decelRate = (initialValue - finalValue) * decelPercentage;
+		maxVelComp->m_maxVelocity = boostComp->BOOSTED_MAX_VELOCITY - decelRate;
+	}
+	else
+	{
+		maxVelComp->m_maxVelocity = boostComp->MAX_VELOCITY;
+		boostComp->m_decelerateTime = 0;
+		boostComp->m_boostTime = 0;
+	}
 }

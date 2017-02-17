@@ -130,7 +130,24 @@ struct PlayerControllerComponent : public IControllerComponent
 			}
 		}));
 
-		
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new HoldCommand([&]() {
+			auto boostComp = getComponent<BoostComponent>();
+			auto stamComp = getComponent<StaminaComponent>();
+			if (boostComp && stamComp && stamComp->m_stamina > 0)
+			{
+				getComponent<MaxVelocityComponent>()->m_maxVelocity = boostComp->BOOSTED_MAX_VELOCITY;
+				getComponent<MaxAccelerationComponent>()->m_maxAcceleration = boostComp->BOOSTED_ACCELERATION;
+				boostComp->m_boostActive = true;
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new ReleaseCommand([&]() {
+			auto boostComp = getComponent<BoostComponent>();
+			if (boostComp)
+			{
+				boostComp->m_boostActive = false;
+			}
+		}));
 	}
 
 	void process(float dt) override
@@ -152,8 +169,6 @@ struct PlayerControllerComponent : public IControllerComponent
 			}
 			
 		}
-
-		std::cout << Vector2D(c->body->GetLinearVelocity()).Magnitude() << std::endl;
 
 		auto hook = getComponent<HookComponent>();
 		if (hook)
