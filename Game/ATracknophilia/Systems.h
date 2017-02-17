@@ -3,4 +3,5 @@
 #include "InputSystem.h"
 #include "RenderSystem.h"
 #include "PhysicsSystem.h"
+#include "CollisionSystem.h"
 #include "HookSystem.h"

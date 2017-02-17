@@ -51,6 +51,12 @@ public:
 	{
 	}
 
+	template<typename T>
+	T* getComponent()
+	{
+		return getComponentById<T>(ID);
+	}
+
 	virtual ~IEntity()
 	{
 		for (auto i : m_components)
@@ -59,6 +65,7 @@ public:
 		}
 		m_components.clear();
 	}
+
 
 	void AddComponent(IComponent* component)
 	{
@@ -77,12 +84,6 @@ public:
 			return true;
 		}
 		return false;
-	}
-
-	template<typename T>
-	T* getComponent()
-	{
-		return getComponentById<T>(ID);
 	}
 
 	const int ID;

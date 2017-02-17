@@ -109,7 +109,7 @@ struct PlayerControllerComponent : public IControllerComponent
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
-			if (c && c->body->GetContactList()) 
+			if (c) 
 			{
 				c->body->SetGravityScale(1);
 				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -100), true);
@@ -125,7 +125,7 @@ struct PlayerControllerComponent : public IControllerComponent
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new ReleaseCommand([&]() {
 			isHoldingA = false;
 			auto c = getComponent<CollisionBoxComponent>();
-			if (c && !c->body->GetContactList()) {
+			if (c) {
 				c->body->SetGravityScale(1);
 			}
 		}));

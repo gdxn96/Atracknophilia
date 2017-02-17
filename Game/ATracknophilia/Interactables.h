@@ -8,7 +8,7 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 {
 	HookComponent(int id, Vector2D start, Vector2D end, b2Body* bodyToAttach) 
 		:	IComponent(id)
-		,	pivot( new CollisionBoxComponent(-1, end.x, end.y, 1, 1, true, true))
+		,	pivot( new CollisionBoxComponent(-1, end.x, end.y, 0, 0, true, true))
 		,	tetherLength(Vector2D::Distance(start, end) * 0.9f)
 		,	line(new LineComponent(-1, start, end))
 	{
@@ -25,13 +25,13 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 
 	void decreaseTetherLength(float dt)
 	{
-		tetherLength -= 25 * dt;
+		tetherLength -= 30 * dt;
 		joint->SetLength(tetherLength);
 	}
 
 	void increaseTetherLength(float dt)
 	{
-		tetherLength += 10 * dt;
+		tetherLength += 2 * dt;
 		joint->SetLength(tetherLength);
 	}
 

@@ -2,6 +2,8 @@
 #include "ECSInterfaces.h"
 #include <functional>
 #include "Dimensional.h"
+#include "DirectionVolume.h"
+#include "Player.h"
 
 struct LogicComponent : public IComponent
 {
@@ -16,34 +18,65 @@ private:
 	std::function<void()> m_function;
 };
 
-struct PhysicsLogicComponent : public LogicComponent, public AutoLister<PhysicsLogicComponent>
+struct CollisionResponseComponent : public AutoLister<CollisionResponseComponent>, public IComponent
 {
-public:
-	PhysicsLogicComponent(int id, std::function<void()> fn) : LogicComponent(id, fn) {};
-	virtual ~PhysicsLogicComponent() {};
+	CollisionResponseComponent(int id)
+		: IComponent(id)
+	{
+
+	}
+
+	virtual void endContact(IEntity* e)
+	{
+
+	};
+
+	virtual void beginContact(IEntity* e)
+	{
+
+	};
 };
 
-//this logic allows any body to invert their gravity if they are falling upwards and reach the end of a platform
-struct InvertGravityOnEdgeComponent : public PhysicsLogicComponent, public AutoLister<InvertGravityOnEdgeComponent>
+struct PlayerCollisionResponseComponent : CollisionResponseComponent
 {
-	InvertGravityOnEdgeComponent(int id)
-		:	PhysicsLogicComponent(id, std::bind(&InvertGravityOnEdgeComponent::update, this))
+	PlayerCollisionResponseComponent(int id)
+		: CollisionResponseComponent(id)
 	{
+
 	}
 
-	void update()
+	void endContact(IEntity* e)
 	{
-		auto x = getComponent<CollisionBoxComponent>();
-		auto colliding = x->body->GetContactList();
-		static b2ContactEdge* prevColliding = nullptr;
-		static float prevScale = 0;
 
-		if (!colliding && prevColliding && x->body->GetGravityScale() < 0 && prevScale == x->body->GetGravityScale())
+	};
+
+	void beginContact(IEntity* e)
+	{
+
+	};
+};
+
+struct DirectionVolumeCollisionResponseComponent : CollisionResponseComponent
+{
+	DirectionVolumeCollisionResponseComponent(int id)
+		: CollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity* e)
+	{
+
+	};
+
+	void beginContact(IEntity* e)
+	{
+		int volumeID = this->ID;
+		auto racePositionComponent = e->getComponent<RacePositionComponent>();
+		
+		if (racePositionComponent)
 		{
-			x->body->SetGravityScale(x->body->GetGravityScale() * -1);
+			racePositionComponent->SetVolumeId(volumeID);
 		}
-
-		prevColliding = colliding;
-		prevScale = x->body->GetGravityScale();
-	}
+	};
 };

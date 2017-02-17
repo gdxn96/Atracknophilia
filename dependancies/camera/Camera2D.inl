@@ -3,7 +3,7 @@ inline Camera2D::Camera::Camera()
 	: m_accelerationRate(DEFAULT_ACCEL)
 	, m_maxVelocity(DEFAULT_MAX_VEL)
 	, m_drag(DEFAULT_DRAG)
-	, m_zoom(Vector2(1, 1))
+	, m_zoom(Vector2(0.1f, 0.1f))
 	, m_zoomSpeed(DEFAULT_ZOOM_SPEED)
 	, m_zoomToSpeed(DEFAULT_ZOOMTO_SPEED)
 	, m_minZoom(DEFAULT_MIN_ZOOM)
@@ -15,14 +15,18 @@ inline Camera2D::Camera::Camera()
 	, m_allowedVertical(true)
 	, m_bounds({0,0,0,0})
 {
+	m_zoom.x = clampZoom(m_zoom.x);
+	m_zoom.y = clampZoom(m_zoom.y);
+
+	changeBoundsZoom();
 }
 
-inline void Camera2D::Camera::init(int windowWidth, int windowHeight, SDL_Renderer * renderer)
+inline void Camera2D::Camera::init(float windowWidth, float windowHeight, SDL_Renderer * renderer)
 {
 	m_windowWidth = windowWidth;
 	m_windowHeight = windowHeight;
 
-	m_bounds = { 0, 0, m_windowWidth, m_windowHeight };
+	m_bounds = CustomRect( 0, 0, m_windowWidth, m_windowHeight );
 	m_renderer = renderer;
 }
 
@@ -61,7 +65,7 @@ inline Camera2D::Vector2 Camera2D::Camera::getSize() const
 	return Vector2(m_bounds.w, m_bounds.h);
 }
 
-inline SDL_Rect Camera2D::Camera::getBounds() const
+inline CustomRect Camera2D::Camera::getBounds() const
 {
 	return m_bounds;
 }
@@ -1071,11 +1075,18 @@ inline void Camera2D::Camera::addEffect(Effect& effect, const std::string & name
 	if (effect.getName() == "") //name hasnt been set yet
 		effect.setName(name);
 
+	auto bounds = SDL_Rect();
+	bounds.x = m_bounds.x;
+	bounds.y = m_bounds.y;
+	bounds.w = m_bounds.w;
+	bounds.h = m_bounds.h;
+
 	switch (effect.getType())
 	{
 	case Effect::Type::Parallax:
 		m_parallaxEffects.push_back((static_cast<ParallaxEffect&>(effect)));
-		m_parallaxEffects.back().init(m_renderer, m_bounds);
+		
+		m_parallaxEffects.back().init(m_renderer, bounds);
 		break;
 	case Effect::Type::Shake:
 		m_shakeEffects.push_back((static_cast<ShakeEffect&>(effect)));

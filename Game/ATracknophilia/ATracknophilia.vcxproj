@@ -128,11 +128,12 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     </Link>
     <PostBuildEvent>
       <Command>copy "..\..\dependancies\dlls\x64\*.dll" "$(OutDir)"; 
-mkdir  $(OutDir)assets\Animations; 
-mkdir  $(OutDir)assets\levels; 
-mkdir  $(OutDir)assets\Music; 
-mkdir  $(OutDir)assets\SoundEffects; 
-mkdir  $(OutDir)assets\Textures; 
+mkdir $(OutDir)assets\;
+mkdir  $(OutDir)assets\Animations\; 
+mkdir  $(OutDir)assets\levels\; 
+mkdir  $(OutDir)assets\Music\; 
+mkdir  $(OutDir)assets\SoundEffects\; 
+mkdir  $(OutDir)assets\Textures\; 
 copy  ".\assets\*" "$(OutDir)assets";
 copy  ".\assets\Animations\*" "$(OutDir)assets\Animations";
 copy  ".\assets\levels\*" "$(OutDir)assets\levels";
@@ -217,9 +218,12 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
+    <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Dimensional.h" />
+    <ClInclude Include="DirectionVolume.h" />
     <ClInclude Include="Drawables.h" />
     <ClInclude Include="ECSInterfaces.h" />
     <ClInclude Include="Entities.h" />
@@ -234,11 +238,14 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="LTimer.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Property.h" />
+    <ClInclude Include="Priority.h" />
+    <ClInclude Include="RacePosition.h" />
+    <ClInclude Include="RaceManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SoftBox.h" />
     <ClInclude Include="StaticPolygon.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems.h" />
@@ -248,11 +255,14 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="DirectionVolume.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="RaceManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Resource.cpp" />

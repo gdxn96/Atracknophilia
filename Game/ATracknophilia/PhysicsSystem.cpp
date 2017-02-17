@@ -5,11 +5,6 @@
 
 void PhysicsSystem::process(float dt)
 {
-	auto& components = AutoList::get<PhysicsLogicComponent>();
-	for (auto& component : components)
-	{
-		component->execute();
-	}
 	World().Step(dt, 7, 3);
 
 

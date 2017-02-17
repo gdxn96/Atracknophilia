@@ -7,6 +7,7 @@
 #include "Attractor.h"
 #include "Repulsor.h"
 
+
 struct CustomRect
 {
 	float x, y, w, h;
@@ -25,20 +26,20 @@ namespace Camera2D
 	const float DEFAULT_ZOOM_SPEED = 0.01f;
 	const float DEFAULT_ZOOMTO_SPEED = 1.f;
 	const float DEFAULT_MIN_ZOOM = 1.5f;
-	const float DEFAULT_MAX_ZOOM = 0.5f;
+	const float DEFAULT_MAX_ZOOM = 0.1f;
 
 
 	class Camera
 	{
 	public:
 		Camera();
-		void init(int windowWidth, int windowHeight, SDL_Renderer* renderer);
+		void init(float windowWidth, float windowHeight, SDL_Renderer* renderer);
 		void setCentre(float x, float y);
 		void setCentre(const Point& p);
 		void setSize(int width, int height);
 		Vector2 getCentre() const;
 		Vector2 getSize() const;
-		SDL_Rect getBounds() const;
+		CustomRect getBounds() const;
 		SDL_Rect worldToScreen(const CustomRect& r) const;
 		Point worldToScreen(const Point& p) const;
 
@@ -135,7 +136,7 @@ namespace Camera2D
 		std::vector<Repulsor> m_repulsors;
 
 
-		SDL_Rect m_bounds;
+		CustomRect m_bounds;
 		SDL_Renderer* m_renderer;
 
 		int m_windowWidth;

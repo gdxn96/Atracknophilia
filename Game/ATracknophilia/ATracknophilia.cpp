@@ -14,8 +14,6 @@ int main()
 	auto exit = PressCommand([&](){ Game::quit = true; });
 	InputManager::GetInstance()->AddKey(EventListener::ESCAPE, &exit, nullptr);
 
-	std::cout << "Initialising Game" << std::endl;
-
 	game.init();
 
 	//run the game loop
