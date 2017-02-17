@@ -35,20 +35,18 @@ struct BoostComponent : public IComponent, public AutoLister<BoostComponent>
 {
 	BoostComponent(int id)
 		: IComponent(id)
-		, BOOSTED_MAX_VELOCITY(8000)
-		, BOOSTED_ACCELERATION(15000)
+		, MAX_VELOCITY(50)
+		, BOOSTED_MAX_VELOCITY(80)
+		, BOOSTED_ACCELERATION(150)
+		, m_boostTime(0)
+		, m_decelerateTime(0)
+		, m_boostActive(false)
 	{}
 
-	void UseBoostedMax()
-	{
-		getComponent<MaxVelocityComponent>()->m_maxVelocity = BOOSTED_MAX_VELOCITY;
-	}
-
-	void UseBoostedAccel()
-	{
-		getComponent<MaxAccelerationComponent>()->m_maxAcceleration = BOOSTED_ACCELERATION;
-	}
-
+	const float MAX_VELOCITY;
 	const float BOOSTED_MAX_VELOCITY;
 	const float BOOSTED_ACCELERATION;
+	float m_boostTime;
+	float m_decelerateTime;
+	bool m_boostActive;
 };
