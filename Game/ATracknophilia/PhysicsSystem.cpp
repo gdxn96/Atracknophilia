@@ -22,11 +22,13 @@ void PhysicsSystem::process(float dt)
 
 		if (stamComp && stamComp->m_stamina <= 0)
 		{
+			// cannot boost if there is no stamina
 			boostComp->m_boostActive = false;
 		}
 
 		if (boostComp && boostComp->m_boostActive)
 		{
+			// boost time is the time the boost button on controller is held for
 			boostComp->m_boostTime += dt;
 			if (stamComp->m_stamina > 0)
 				stamComp->m_stamina --;
@@ -34,9 +36,11 @@ void PhysicsSystem::process(float dt)
 		
 		if (boostComp && boostComp->m_boostActive == false)
 		{
+			// lerp deceleration over time 
 			DecelerateBoost(dt, c->ID);
 		}
 
+		// limiting the max velocity
 		b2Vec2 vel = c->body->GetLinearVelocity();
 		float32 speed = vel.Length();
 		if (maxVelComp != nullptr && speed > maxVelComp->m_maxVelocity)
@@ -93,6 +97,7 @@ void PhysicsSystem::DecelerateBoost(float dt, int id)
 
 	boostComp->m_decelerateTime += dt;
 
+	// while the velocity is greater than original max velocity - reduce the velocity evenly over time (lerp)
 	if (maxVelComp->m_maxVelocity > boostComp->MAX_VELOCITY)
 	{
 		float decelPercentage = boostComp->m_decelerateTime / boostComp->m_boostTime;
