@@ -23,9 +23,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto physicsSystem = new PhysicsSystem();
 	auto hookSys = new HookSystem();
 
-	EntityFactory::SpawnPlayer(60, 60, 10, 10);
-	EntityFactory::SpawnPlayer(120, 60, 10, 10);
-
 	m_cameraManager = CameraManager();
 
 	//Init systems
@@ -40,6 +37,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(physicsSystem);
 	//render system must be added last
 	m_systems.push_back(renderSys);
+
+	EntityFactory::SpawnPlayer(12, 12, 1, 1);
 }
 
 void Game::init()

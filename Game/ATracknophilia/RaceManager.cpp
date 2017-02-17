@@ -28,24 +28,6 @@ std::vector<Player*> RaceManager::Sort()
 		}
 	}
 
-	/*
-		playerLapsMap 
-		{
-			lapNum : {
-					volumeId : [
-							Player,
-							Player
-						],
-					volumeId : [
-						Player,
-						Player
-					]
-				}
-		}
-	
-	
-	*/
-
 	for (auto& lapVolumes : playerLapsMap)
 	{
 		for (auto& volumePlayers : lapVolumes.second)
@@ -72,6 +54,9 @@ std::vector<Player*> RaceManager::Sort()
 		}
 	}
 
+	//players are not in direction volumes when spawned
+	assert(sortedList.size() != 0);
+
 	return sortedList;
 }
 
@@ -82,7 +67,7 @@ std::vector<Player*> RaceManager::getPlayers()
 
 std::vector<Player*> RaceManager::getOnScreenPlayers(Camera2D::Camera * camera)
 {
-	SDL_Rect cameraBounds = camera->getBounds();
+	CustomRect cameraBounds = camera->getBounds();
 	std::vector<Player*> returnVector;
 	SDL_Point playerPos;
 
@@ -99,8 +84,14 @@ std::vector<Player*> RaceManager::getOnScreenPlayers(Camera2D::Camera * camera)
 			playerPos.x = INT_MAX;
 			playerPos.y = INT_MAX;
 		}
+
+		auto bounds = SDL_Rect();
+		bounds.x = cameraBounds.x;
+		bounds.y = cameraBounds.y;
+		bounds.w = cameraBounds.w;
+		bounds.h = cameraBounds.h;
 		
-		if (SDL_PointInRect(&playerPos, &cameraBounds))
+		if (SDL_PointInRect(&playerPos, &bounds))
 		{
 			returnVector.push_back(*it);
 		}
@@ -110,6 +101,10 @@ std::vector<Player*> RaceManager::getOnScreenPlayers(Camera2D::Camera * camera)
 
 Player* RaceManager::getLeader()
 {
-	 auto x = Sort().back();
-	 return x;
+	auto sortedPlayers = Sort();
+	if (sortedPlayers.size() != 0)
+	{
+		return sortedPlayers.back();
+	}
+	 return nullptr;
 }

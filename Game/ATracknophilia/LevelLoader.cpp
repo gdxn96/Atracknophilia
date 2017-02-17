@@ -31,10 +31,10 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 		for (const auto& itr : document["objects"].GetArray())
 		{
 			float x, y, w, h;
-			x = itr["x"].GetFloat() / 10.f;
-			y = itr["y"].GetFloat() / 10.f;
-			w = itr["width"].GetFloat() / 10.f;
-			h = itr["height"].GetFloat() / 10.f;
+			x = itr["x"].GetFloat() / 50.f;
+			y = itr["y"].GetFloat() / 50.f;
+			w = itr["width"].GetFloat() / 50.f;
+			h = itr["height"].GetFloat() / 50.f;
 			m_entities.push_back(EntityFactory::SpawnStaticBox(x, y, w, h));
 
 			if (x + w > biggest.w)
@@ -53,10 +53,10 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 		for (const auto& itr : document["softbox"].GetArray())
 		{
 			float x, y, w, h;
-			x = itr["x"].GetFloat() / 10.f;
-			y = itr["y"].GetFloat() / 10.f;
-			w = itr["width"].GetFloat() / 10.f;
-			h = itr["height"].GetFloat() / 10.f;
+			x = itr["x"].GetFloat() / 50.f;
+			y = itr["y"].GetFloat() / 50.f;
+			w = itr["width"].GetFloat() / 50.f;
+			h = itr["height"].GetFloat() / 50.f;
 			m_entities.push_back(EntityFactory::SpawnSoftBox(x, y, w, h));
 
 			if (x + w > biggest.w)
@@ -75,13 +75,13 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 		for (const auto& itr : document["directions"].GetArray())
 		{
 			float x, y, w, h, priority, directionX, directionY;
-			x = itr["x"].GetFloat() / 10.f;
-			y = itr["y"].GetFloat() / 10.f;
-			w = itr["width"].GetFloat() / 10.f;
-			h = itr["height"].GetFloat() / 10.f;
-			priority = itr["priority"].GetFloat() / 10.f;
-			directionX = itr["directionX"].GetFloat() / 10.f;
-			directionY = itr["directionY"].GetFloat() / 10.f;
+			x = itr["x"].GetFloat() / 50.f;
+			y = itr["y"].GetFloat() / 50.f;
+			w = itr["width"].GetFloat() / 50.f;
+			h = itr["height"].GetFloat() / 50.f;
+			priority = itr["priority"].GetFloat() / 50.f;
+			directionX = itr["directionX"].GetFloat() / 50.f;
+			directionY = itr["directionY"].GetFloat() / 50.f;
 			m_entities.push_back(EntityFactory::SpawnDirectionVolume(x, y, w, h, priority, Vector2D(directionX, directionY)));
 
 			if (x + w > biggest.w)

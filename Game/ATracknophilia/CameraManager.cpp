@@ -11,16 +11,19 @@ void CameraManager::update(float dt)
 
 	int volumeID;
 
-	auto raceComponent = leader->getComponent<RacePositionComponent>();
-
-	if (raceComponent)
+	if (leader)
 	{
-		volumeID = raceComponent->volumeID;
-	}
+		auto raceComponent = leader->getComponent<RacePositionComponent>();
 
-	if (RaceManager::getInstance()->getLeader()->getComponent<CollisionBoxComponent>())
-	{
-		moveTo(RaceManager::getInstance()->getLeader()->getComponent<CollisionBoxComponent>()->body->GetPosition(), dt);
+		if (raceComponent)
+		{
+			volumeID = raceComponent->volumeID;
+		}
+
+		if (RaceManager::getInstance()->getLeader()->getComponent<CollisionBoxComponent>())
+		{
+			moveTo(RaceManager::getInstance()->getLeader()->getComponent<CollisionBoxComponent>()->body->GetPosition(), dt);
+		}
 	}
 }
 
@@ -36,7 +39,7 @@ void CameraManager::moveTo(Vector2D destination, float dt)
 
 	if (difference.Magnitude() > 1)
 	{
-		Vector2D result = position + (difference * dt);
+		Vector2D result = position + (difference * dt * 1.4f);
 
 		m_camera->setCentre(result.x, result.y);
 
@@ -75,8 +78,6 @@ void CameraManager::moveTo(Vector2D destination, float dt)
 		m_camera->setCentre(destination.x, destination.y);
 	}
 }
-
-
 
 void CameraManager::SetLevelSize(Vector2D size)
 {

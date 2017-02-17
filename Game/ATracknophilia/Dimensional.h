@@ -22,7 +22,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		{
 			bodyDef.type = b2_staticBody;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
-			fixture = body->CreateFixture(&shape, 0.f);
+			fixture = body->CreateFixture(&shape, 0.5f);
 		}
 		else
 		{

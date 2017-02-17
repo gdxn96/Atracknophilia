@@ -4,6 +4,7 @@
 #include "FLInput\FLInputManager.h"
 #include "Drawables.h"
 #include "Interactables.h"
+#include "Property.h"
 
 class PressCommand : public Command
 {
@@ -53,11 +54,71 @@ struct PlayerControllerComponent : public IControllerComponent
 {
 	PlayerControllerComponent(int id) : IControllerComponent(id)
 	{
+		InputManager::GetInstance()->AddKey(EventListener::ARROW_LEFT, new HoldCommand([&]() {
+			auto c = getComponent<CollisionBoxComponent>();
+			if (c) {  
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
+			auto c = getComponent<CollisionBoxComponent>();
+			if (c) {
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
+			auto c = getComponent<CollisionBoxComponent>();
+			if (c) {
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
+			auto c = getComponent<CollisionBoxComponent>();
+			if (c) {
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new HoldCommand([&]() {
+			auto c = getComponent<CollisionBoxComponent>();
+			auto hook = getComponent<HookComponent>();
+			if (c) {
+				if (hook)
+				{
+					isHoldingA = true;
+				}
+				else
+				{
+					float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal().x;
+					float xRay = 0;
+					if (xVelocity > 0) { xRay = 1000; }
+					else if (xVelocity < 0) { xRay = -1000; }
+					Vector2D intersectionPt = PhysicsSystem::RayCast(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
+					getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
+				}
+			}
+			
+		}));
+
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) 
 			{
-				c->body->SetGravityScale( -1);
+				c->body->SetGravityScale(1);
+				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -100), true);
+			}
+
+			auto l = getComponent<HookComponent>();
+			if (l)
+			{
+				getParent()->deleteComponent<HookComponent>();
 			}
 		}));
 
@@ -66,6 +127,25 @@ struct PlayerControllerComponent : public IControllerComponent
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
 				c->body->SetGravityScale(1);
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new HoldCommand([&]() {
+			auto boostComp = getComponent<BoostComponent>();
+			auto stamComp = getComponent<StaminaComponent>();
+			if (boostComp && stamComp && stamComp->m_stamina > 0)
+			{
+				getComponent<MaxVelocityComponent>()->m_maxVelocity = boostComp->BOOSTED_MAX_VELOCITY;
+				getComponent<MaxAccelerationComponent>()->m_maxAcceleration = boostComp->BOOSTED_ACCELERATION;
+				boostComp->m_boostActive = true;
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new ReleaseCommand([&]() {
+			auto boostComp = getComponent<BoostComponent>();
+			if (boostComp)
+			{
+				boostComp->m_boostActive = false;
 			}
 		}));
 	}
@@ -77,15 +157,15 @@ struct PlayerControllerComponent : public IControllerComponent
 		if (c)
 		{
 			auto h = getComponent<HookComponent>();
+			auto acceleration = getComponent<MaxAccelerationComponent>();
 			if (h && vec.x != 0)
 			{
 				auto dir = Vector2D::Perpendicular((h->line->end - h->line->start).Normalize()) * vec.x / std::fabs(vec.x);
-				
-				c->body->ApplyForceToCenter((dir * 10000).toBox2DVector(), true);
+				c->body->ApplyForceToCenter((dir * acceleration->m_maxAcceleration).toBox2DVector(), true);
 			}
 			else
 			{
-				c->body->ApplyForceToCenter(b2Vec2(vec.x * 10000, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(vec.x * acceleration->m_maxAcceleration, 0), true);
 			}
 			
 		}

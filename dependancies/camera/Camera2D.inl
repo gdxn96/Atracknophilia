@@ -3,7 +3,7 @@ inline Camera2D::Camera::Camera()
 	: m_accelerationRate(DEFAULT_ACCEL)
 	, m_maxVelocity(DEFAULT_MAX_VEL)
 	, m_drag(DEFAULT_DRAG)
-	, m_zoom(Vector2(0.2f, 0.2f))
+	, m_zoom(Vector2(0.1f, 0.1f))
 	, m_zoomSpeed(DEFAULT_ZOOM_SPEED)
 	, m_zoomToSpeed(DEFAULT_ZOOMTO_SPEED)
 	, m_minZoom(DEFAULT_MIN_ZOOM)
@@ -21,12 +21,12 @@ inline Camera2D::Camera::Camera()
 	changeBoundsZoom();
 }
 
-inline void Camera2D::Camera::init(int windowWidth, int windowHeight, SDL_Renderer * renderer)
+inline void Camera2D::Camera::init(float windowWidth, float windowHeight, SDL_Renderer * renderer)
 {
 	m_windowWidth = windowWidth;
 	m_windowHeight = windowHeight;
 
-	m_bounds = { 0, 0, m_windowWidth, m_windowHeight };
+	m_bounds = CustomRect( 0, 0, m_windowWidth, m_windowHeight );
 	m_renderer = renderer;
 }
 
@@ -65,26 +65,25 @@ inline Camera2D::Vector2 Camera2D::Camera::getSize() const
 	return Vector2(m_bounds.w, m_bounds.h);
 }
 
-inline SDL_Rect Camera2D::Camera::getBounds() const
+inline CustomRect Camera2D::Camera::getBounds() const
 {
 	return m_bounds;
 }
 
-inline SDL_Rect Camera2D::Camera::worldToScreen(const SDL_Rect& r) const
+inline SDL_Rect Camera2D::Camera::worldToScreen(const CustomRect& r) const
 {
-	SDL_Rect screenR = r;
 
 	float xScale = (float)m_windowWidth / m_bounds.w;
 	float yScale = (float)m_windowHeight / m_bounds.h;
-
-	Point screenP(screenR.x, screenR.y);
+	SDL_Rect rect;
+	Point screenP(r.x, r.y);
 	screenP = worldToScreen(screenP);
-	screenR.x = screenP.x;
-	screenR.y = screenP.y;
-	screenR.w = (int)(screenR.w * xScale);
-	screenR.h = (int)(screenR.h * yScale);
+	rect.x = screenP.x;
+	rect.y = screenP.y;
+	rect.w = (int)(r.w * xScale);
+	rect.h = (int)(r.h * yScale);
 
-	return screenR;
+	return rect;
 }
 
 inline Camera2D::Point Camera2D::Camera::worldToScreen(const Point & p) const
@@ -110,13 +109,13 @@ inline Camera2D::Point Camera2D::Camera::worldToScreen(const Point & p) const
 	return screenP;
 }
 
-inline SDL_Rect Camera2D::Camera::screenToWorld(const SDL_Rect& sr) const
+inline SDL_Rect Camera2D::Camera::screenToWorld(const CustomRect& sr) const
 {
 	float xScale = (float)m_bounds.w / m_windowWidth;
 	float yScale = (float)m_bounds.h / m_windowHeight;
-	SDL_Rect r = sr;
+	SDL_Rect r;
 
-	Point p(r.x, r.y);
+	Point p(sr.x, sr.y);
 	p = screenToWorld(p);
 	r.x = p.x;
 	r.y = p.y;
@@ -841,11 +840,11 @@ inline void Camera2D::Camera::updateEffects(float deltaTime)
 		}
 		if (m_currentShake != nullptr && m_currentShake->getEnabled()) //if shaking the add shake offset
 		{
-			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(m_bounds), m_currentShake->getShakeOffset());
+			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(CustomRect(m_bounds.x, m_bounds.y, m_bounds.w, m_bounds.h)), m_currentShake->getShakeOffset());
 		}
 		else
 		{
-			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(m_bounds));
+			m_currentParallax->update(parallaxVel * deltaTime, worldToScreen(CustomRect(m_bounds.x, m_bounds.y, m_bounds.w, m_bounds.h)));
 		}
 	}
 
@@ -886,6 +885,9 @@ inline void Camera2D::Camera::changeBoundsZoom()
 	//problem with less than zero or x and y not changing when using zoom to
 	m_bounds.w = (int)m_windowWidth * m_zoom.x;
 	m_bounds.h = (int)m_windowHeight * m_zoom.y;
+	
+	m_bounds.x = (int)(m_centre.x - m_bounds.w * 0.5f);
+	m_bounds.y = (int)(m_centre.y - m_bounds.h * 0.5f);
 }
 
 inline float Camera2D::Camera::clampZoom(float num)
@@ -1073,11 +1075,18 @@ inline void Camera2D::Camera::addEffect(Effect& effect, const std::string & name
 	if (effect.getName() == "") //name hasnt been set yet
 		effect.setName(name);
 
+	auto bounds = SDL_Rect();
+	bounds.x = m_bounds.x;
+	bounds.y = m_bounds.y;
+	bounds.w = m_bounds.w;
+	bounds.h = m_bounds.h;
+
 	switch (effect.getType())
 	{
 	case Effect::Type::Parallax:
 		m_parallaxEffects.push_back((static_cast<ParallaxEffect&>(effect)));
-		m_parallaxEffects.back().init(m_renderer, m_bounds);
+		
+		m_parallaxEffects.back().init(m_renderer, bounds);
 		break;
 	case Effect::Type::Shake:
 		m_shakeEffects.push_back((static_cast<ShakeEffect&>(effect)));

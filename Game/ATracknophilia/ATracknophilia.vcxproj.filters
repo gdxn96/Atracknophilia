@@ -179,9 +179,6 @@
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RaceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
