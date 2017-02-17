@@ -5,9 +5,9 @@ struct PriorityComponent : public IComponent, public AutoLister<PriorityComponen
 {
 	PriorityComponent(int id, int priority) 
 		:	IComponent(id)
-		,	m_priority(priority)
+		,	priority(priority)
 	{
 	}
 
-	int m_priority;
+	int priority;
 };

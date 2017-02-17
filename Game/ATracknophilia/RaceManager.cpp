@@ -18,7 +18,7 @@ std::vector<Player*> RaceManager::Sort()
 		auto dirVolume = getComponentById<DirectionVolume>(player->getComponent<RacePositionComponent>()->volumeID);
 		if (dirVolume)
 		{
-			int volume = dirVolume->getComponent<PriorityComponent>()->m_priority;
+			int volume = dirVolume->getComponent<PriorityComponent>()->priority;
 			int volumeId = dirVolume->ID;
 			int lap = player->getComponent<RacePositionComponent>()->lap;
 			playerLapsMap[lap][volume].first = volumeId;

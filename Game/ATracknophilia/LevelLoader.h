@@ -17,7 +17,7 @@ class LevelLoader
 {
 public:
 	static void RegisterLevels(std::vector<std::pair<LEVELS, const char*>> map);
-	static void loadLevel(LEVELS lvl);
+	static Vector2D loadLevel(LEVELS lvl);
 	static void destroyLevel();
 private:
 	static std::unordered_map<LEVELS, const char *> m_paths;

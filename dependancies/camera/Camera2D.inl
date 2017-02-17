@@ -15,6 +15,10 @@ inline Camera2D::Camera::Camera()
 	, m_allowedVertical(true)
 	, m_bounds({0,0,0,0})
 {
+	m_zoom.x = clampZoom(m_zoom.x);
+	m_zoom.y = clampZoom(m_zoom.y);
+
+	changeBoundsZoom();
 }
 
 inline void Camera2D::Camera::init(int windowWidth, int windowHeight, SDL_Renderer * renderer)

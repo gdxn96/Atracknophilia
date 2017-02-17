@@ -4,6 +4,7 @@
 #include "FLInput\FLInputManager.h"
 #include "Animation.h"
 #include "ECSInterfaces.h"
+#include "CameraManager.h"
 #include "Systems.h"
 
 class Game
@@ -19,6 +20,7 @@ private:
 
 	b2Body* m_body;
 	b2PolygonShape m_box;
+	CameraManager m_cameraManager;
 
 	ResourceManager* m_resourceMgr;
 	std::vector<ISystem*> m_systems;

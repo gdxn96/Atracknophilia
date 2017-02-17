@@ -14,24 +14,23 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	});
 
 	m_renderer.init(windowSize, windowName, &m_camera);
-
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
-	m_camera.setZoomMinMax(-1, 0.2);
 
 	//Declare systems
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
 	auto collisionSystem = new CollisionSystem();
 	auto physicsSystem = new PhysicsSystem();
-	auto cameraSystem = new CameraSystem();
 	auto hookSys = new HookSystem();
 
 	EntityFactory::SpawnPlayer(60, 60, 10, 10);
 	EntityFactory::SpawnPlayer(120, 60, 10, 10);
 
+	m_cameraManager = CameraManager();
+
 	//Init systems
 	renderSys->init(&m_renderer);
-	cameraSystem->init(&m_camera);
+	m_cameraManager.init(&m_camera);
 	
 	//Push back systems
 	m_systems.push_back(inputSys);
@@ -39,13 +38,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(inputSys);
 	m_systems.push_back(hookSys);
 	m_systems.push_back(physicsSystem);
-	m_systems.push_back(cameraSystem);
 	//render system must be added last
 	m_systems.push_back(renderSys);
-
-	//temp stuff
-	//auto DirectionEntity = new DirectionVolume(88, 50, 0, 110, 600, 0, Vector2D(0, 1));
-	//auto DirectionEntity2 = new DirectionVolume(89, 50, 600, 1000, 100, 1, Vector2D(1, 0));
 }
 
 void Game::init()
@@ -57,7 +51,8 @@ void Game::init()
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
 
-	LevelLoader::loadLevel(LEVELS::PROTOTYPE);
+	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
+	m_camera.zoom(-1);
 }
 
 void Game::loop(float dt)
@@ -66,4 +61,6 @@ void Game::loop(float dt)
 	{
 		system->process(dt);
 	}
+
+	m_cameraManager.update(dt);
 }

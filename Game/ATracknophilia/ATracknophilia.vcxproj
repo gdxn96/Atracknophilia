@@ -128,11 +128,12 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     </Link>
     <PostBuildEvent>
       <Command>copy "..\..\dependancies\dlls\x64\*.dll" "$(OutDir)"; 
-mkdir  $(OutDir)assets\Animations; 
-mkdir  $(OutDir)assets\levels; 
-mkdir  $(OutDir)assets\Music; 
-mkdir  $(OutDir)assets\SoundEffects; 
-mkdir  $(OutDir)assets\Textures; 
+mkdir $(OutDir)assets\;
+mkdir  $(OutDir)assets\Animations\; 
+mkdir  $(OutDir)assets\levels\; 
+mkdir  $(OutDir)assets\Music\; 
+mkdir  $(OutDir)assets\SoundEffects\; 
+mkdir  $(OutDir)assets\Textures\; 
 copy  ".\assets\*" "$(OutDir)assets";
 copy  ".\assets\Animations\*" "$(OutDir)assets\Animations";
 copy  ".\assets\levels\*" "$(OutDir)assets\levels";
@@ -217,7 +218,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
-    <ClInclude Include="CameraSystem.h" />
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Controller.h" />
@@ -254,6 +255,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="DirectionVolume.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />

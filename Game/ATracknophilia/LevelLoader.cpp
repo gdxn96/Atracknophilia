@@ -13,7 +13,7 @@ void LevelLoader::RegisterLevels(std::vector<std::pair<LEVELS, const char*>> map
 	}
 }
 
-void LevelLoader::loadLevel(LEVELS lvl)
+Vector2D LevelLoader::loadLevel(LEVELS lvl)
 {
 	destroyLevel();
 	FILE* file = new FILE();
@@ -24,38 +24,79 @@ void LevelLoader::loadLevel(LEVELS lvl)
 	document.ParseStream(is);
 	fclose(file);
 
-	for (const auto& itr : document["objects"].GetArray())
+	Vector2D biggest;
+
+	if (document.HasMember("objects"))
 	{
-		float x, y, w, h;
-		x = itr["x"].GetFloat() / 10.f;
-		y = itr["y"].GetFloat() / 10.f;
-		w = itr["width"].GetFloat() / 10.f;
-		h = itr["height"].GetFloat() / 10.f;
-		m_entities.push_back(EntityFactory::SpawnStaticBox(x, y, w, h));
+		for (const auto& itr : document["objects"].GetArray())
+		{
+			float x, y, w, h;
+			x = itr["x"].GetFloat() / 10.f;
+			y = itr["y"].GetFloat() / 10.f;
+			w = itr["width"].GetFloat() / 10.f;
+			h = itr["height"].GetFloat() / 10.f;
+			m_entities.push_back(EntityFactory::SpawnStaticBox(x, y, w, h));
+
+			if (x + w > biggest.w)
+			{
+				biggest.w = x + w;
+			}
+			if (y + h > biggest.h)
+			{
+				biggest.h = y + h;
+			}
+		}
 	}
 
-	for (const auto& itr : document["softbox"].GetArray())
+	if (document.HasMember("softbox"))
 	{
-		float x, y, w, h;
-		x = itr["x"].GetFloat() / 10.f;
-		y = itr["y"].GetFloat() / 10.f;
-		w = itr["width"].GetFloat() / 10.f;
-		h = itr["height"].GetFloat() / 10.f;
-		m_entities.push_back(EntityFactory::SpawnSoftBox(x, y, w, h));
+		for (const auto& itr : document["softbox"].GetArray())
+		{
+			float x, y, w, h;
+			x = itr["x"].GetFloat() / 10.f;
+			y = itr["y"].GetFloat() / 10.f;
+			w = itr["width"].GetFloat() / 10.f;
+			h = itr["height"].GetFloat() / 10.f;
+			m_entities.push_back(EntityFactory::SpawnSoftBox(x, y, w, h));
+
+			if (x + w > biggest.w)
+			{
+				biggest.w = x + w;
+			}
+			if (y + h > biggest.h)
+			{
+				biggest.h = y + h;
+			}
+		}
+	}
+	
+	if (document.HasMember("directions"))
+	{
+		for (const auto& itr : document["directions"].GetArray())
+		{
+			float x, y, w, h, priority, directionX, directionY;
+			x = itr["x"].GetFloat() / 10.f;
+			y = itr["y"].GetFloat() / 10.f;
+			w = itr["width"].GetFloat() / 10.f;
+			h = itr["height"].GetFloat() / 10.f;
+			priority = itr["priority"].GetFloat() / 10.f;
+			directionX = itr["directionX"].GetFloat() / 10.f;
+			directionY = itr["directionY"].GetFloat() / 10.f;
+			m_entities.push_back(EntityFactory::SpawnDirectionVolume(x, y, w, h, priority, Vector2D(directionX, directionY)));
+
+			if (x + w > biggest.w)
+			{
+				biggest.w = x + w;
+			}
+			if (y + h > biggest.h)
+			{
+				biggest.h = y + h;
+			}
+		}
 	}
 
-	for (const auto& itr : document["directions"].GetArray())
-	{
-		float x, y, w, h, priority, directionX, directionY;
-		x = itr["x"].GetFloat() / 10.f;
-		y = itr["y"].GetFloat() / 10.f;
-		w = itr["width"].GetFloat() / 10.f;
-		h = itr["height"].GetFloat() / 10.f;
-		priority = itr["priority"].GetFloat() / 10.f;
-		directionX = itr["directionX"].GetFloat() / 10.f;
-		directionY = itr["directionY"].GetFloat() / 10.f;
-		m_entities.push_back(EntityFactory::SpawnDirectionVolume(x,y,w,h,priority,Vector2D(directionX, directionY)));
-	}
+	return biggest;
+
 }
 
 void LevelLoader::destroyLevel()
