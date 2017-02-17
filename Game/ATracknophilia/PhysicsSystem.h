@@ -13,6 +13,8 @@ public:
 	static b2Vec2& Gravity();
 
 	static b2World& World();
+
+	void DecelerateBoost(float dt, int id);
 private:
 
 };

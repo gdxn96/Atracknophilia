@@ -4,6 +4,7 @@
 #include "FLInput\FLInputManager.h"
 #include "Drawables.h"
 #include "Interactables.h"
+#include "Property.h"
 
 class PressCommand : public Command
 {
@@ -56,28 +57,32 @@ struct PlayerControllerComponent : public IControllerComponent
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {  
-				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(-10000, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
 		}));
 
 		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
-				c->body->ApplyForceToCenter(b2Vec2(10000, 0), true);
+				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
+				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
 		}));
 
@@ -107,7 +112,7 @@ struct PlayerControllerComponent : public IControllerComponent
 			if (c && c->body->GetContactList()) 
 			{
 				c->body->SetGravityScale(1);
-				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -10000), true);
+				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -100), true);
 			}
 
 			auto l = getComponent<HookComponent>();
@@ -124,6 +129,25 @@ struct PlayerControllerComponent : public IControllerComponent
 				c->body->SetGravityScale(1);
 			}
 		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new HoldCommand([&]() {
+			auto boostComp = getComponent<BoostComponent>();
+			auto stamComp = getComponent<StaminaComponent>();
+			if (boostComp && stamComp && stamComp->m_stamina > 0)
+			{
+				getComponent<MaxVelocityComponent>()->m_maxVelocity = boostComp->BOOSTED_MAX_VELOCITY;
+				getComponent<MaxAccelerationComponent>()->m_maxAcceleration = boostComp->BOOSTED_ACCELERATION;
+				boostComp->m_boostActive = true;
+			}
+		}));
+
+		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new ReleaseCommand([&]() {
+			auto boostComp = getComponent<BoostComponent>();
+			if (boostComp)
+			{
+				boostComp->m_boostActive = false;
+			}
+		}));
 	}
 
 	void process(float dt) override
@@ -133,21 +157,18 @@ struct PlayerControllerComponent : public IControllerComponent
 		if (c)
 		{
 			auto h = getComponent<HookComponent>();
+			auto acceleration = getComponent<MaxAccelerationComponent>();
 			if (h && vec.x != 0)
 			{
 				auto dir = Vector2D::Perpendicular((h->line->end - h->line->start).Normalize()) * vec.x / std::fabs(vec.x);
-				
-				c->body->ApplyForceToCenter((dir * 10000).toBox2DVector(), true);
+				c->body->ApplyForceToCenter((dir * acceleration->m_maxAcceleration).toBox2DVector(), true);
 			}
 			else
 			{
-				c->body->ApplyForceToCenter(b2Vec2(vec.x * 10000, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(vec.x * acceleration->m_maxAcceleration, 0), true);
 			}
 			
 		}
-			
-
-		std::cout << Vector2D(c->body->GetLinearVelocity()).Magnitude() << std::endl;
 
 		auto hook = getComponent<HookComponent>();
 		if (hook)

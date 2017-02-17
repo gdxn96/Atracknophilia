@@ -14,6 +14,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
+	m_camera.setCentre(100, 50);
 	m_camera.setZoomMinMax(-1, 0.2);
 
 	auto inputSys = new InputSystem();
