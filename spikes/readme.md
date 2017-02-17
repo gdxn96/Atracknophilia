@@ -1,1 +1,0 @@
-This folder is reserved specifically for everybodys spikes. Spikes are experimental throwaway code to test the viability of an engineering idea. Do not bother with extensive commenting, just ensure it is a standalone application that demonstrates the implementation of a potentially curious piece of code.
