@@ -10,6 +10,16 @@ void PhysicsSystem::process(float dt)
 		component->execute();
 	}
 	World().Step(dt, 7, 3);
+
+
+	auto& boxComponents = AutoList::get<Box2DComponent>();
+	for (auto& c : boxComponents)
+	{
+		b2Vec2 vel = c->body->GetLinearVelocity();
+		float32 speed = vel.Length();
+		if (speed > 50)
+			c->body->SetLinearVelocity((50 / speed) * vel);
+	}
 }
 
 Vector2D PhysicsSystem::RayCast(Vector2D start, Vector2D end, float maxLength)
