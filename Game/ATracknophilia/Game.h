@@ -7,7 +7,7 @@
 #include "CameraManager.h"
 #include "Systems.h"
 
-class Game
+class Game : public EventListener
 {
 public:
 	Game(Vector2D windowSize, Vector2D levelSize, const char* windowName);

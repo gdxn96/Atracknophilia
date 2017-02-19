@@ -38,13 +38,14 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	//render system must be added last
 	m_systems.push_back(renderSys);
 
-	EntityFactory::SpawnPlayer(12, 12, 1, 1);
+	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0 );
+	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
 }
 
 void Game::init()
 {
-	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)));
-	InputManager::GetInstance()->AddKey(EventListener::Event::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)));
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)), this);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)), this);
 
 	m_resourceMgr->init(&m_renderer);
 	m_resourceMgr->loadResources(".//assets//resources.json");
