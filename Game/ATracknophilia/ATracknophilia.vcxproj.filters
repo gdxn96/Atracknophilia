@@ -117,6 +117,12 @@
     <ClInclude Include="SoftBox.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="SlowShot.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="AISystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -157,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,18 +20,19 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto renderSys = new RenderSystem();
 	auto collisionSystem = new CollisionSystem();
 	auto physicsSystem = new PhysicsSystem();
+	auto aiSystem = new AISystem();
 	
 	renderSys->init(&m_renderer);
 
 	m_systems.push_back(inputSys);
 	m_systems.push_back(collisionSystem);
 	m_systems.push_back(physicsSystem);
-
+	m_systems.push_back(aiSystem);
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
 
-	EntityFactory::SpawnPlayer(60, 60, 5, 5);
+	
 }
 
 void Game::init()
@@ -44,10 +45,12 @@ void Game::init()
 	m_resourceMgr->loadResourceQueue();
 
 	LevelLoader::loadLevel(LEVELS::PROTOTYPE);
+	EntityFactory::SpawnPlayer(60, 60, 5, 5);
 }
 
 void Game::loop(float dt)
 {
+	LevelLoader::destroyObjects();
 	for (auto& system : m_systems)
 	{
 		system->process(dt);
