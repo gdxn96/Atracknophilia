@@ -5,13 +5,40 @@
 #include <fstream>
 #include <cstring>
 #include <string>
-#include<map>
+#include<unordered_map>
 #include<vector>
 #include<iostream>
 #include<queue>
 #include<thread>
 #include<functional>
 
+#define MAX_CONTROLLERS 4
+
+struct ControllerData
+{
+	//* Joy Stick Axis
+	const int stick_Dead_Zone = 8000;
+	const int controllerButtonDelay = 1;
+	const int controllerTriggerDelay = 500;
+
+	//* Left Stick Variables
+	float stick_Left_X = 0;
+	float stick_Left_Y = 0;
+	float stick_Left_T = 0;
+
+	//* Right Stick Variables
+	float stick_Right_X = 0;
+	float stick_Right_Y = 0;
+	float stick_Right_T = 0;
+
+	//* Controller Timers
+	int countedButtonFrames = -controllerButtonDelay * 8;;
+	int countedTriggerFrames = 0;
+
+	int controllerId = -1;
+
+	SDL_GameController* mGameController = nullptr;
+};
 
 //* Vector2f Class for JoyStick values
 class Vector2f
@@ -39,7 +66,7 @@ class EventListener
 {
 public:
 	//* List of possible input events
-	enum Event {
+	enum KeyboardEvent {
 		UNKNOWN = 0,
 
 		RETURN = '\r',
@@ -112,6 +139,21 @@ public:
 		x = 'x',
 		y = 'y',
 		z = 'z',
+		// Arrows
+		ARROW_UP = 3001,
+		ARROW_LEFT,
+		ARROW_DOWN,
+		ARROW_RIGHT,
+
+		// Mouse
+		MOUSE_LEFT = 2001, // A Space Odyssey
+		MOUSE_RIGHT,
+		MOUSE_MIDDLE,
+		MOUSE_WHEEL_UP,
+		MOUSE_WHEEL_DOWN
+	};
+
+	enum ControllerEvent {
 		// Controller
 		BUTTON_INVALID = 999,
 		BUTTON_A = 1000,
@@ -132,35 +174,18 @@ public:
 		TRIGGER_SOFT_LEFT,
 		TRIGGER_LEFT,
 		TRIGGER_SOFT_RIGHT,
-		TRIGGER_RIGHT,
-		// Mouse
-		MOUSE_LEFT = 2001, // A Space Odyssey
-		MOUSE_RIGHT,
-		MOUSE_MIDDLE,
-		MOUSE_WHEEL_UP,
-		MOUSE_WHEEL_DOWN,
-		// Arrows
-		ARROW_UP = 3001,
-		ARROW_LEFT,
-		ARROW_DOWN,
-		ARROW_RIGHT
-
-		//\\ Add your own events here
+		TRIGGER_RIGHT
 	};
 
 	//* List of possible event types
-	enum Type {
+	enum EventType {
 		Press,
 		Release,
 		Hold,
 		None
-
-		//\\ Add your own events here
 	};
 
-	//* Pure virtual function that can be overriden inside any class that inherites from EventListener if needed
-	//* Not required to execute keys, ideal for standard event dispatch/ listen procedure for custom events
-	virtual void onEvent(Event) = 0;
+	virtual ~EventListener();
 };
 
 //* Abstract class for input commands
@@ -169,33 +194,20 @@ class Command
 {
 public:
 	//* Constructor for Custom/ once off calls
-	Command(std::function<void()> function) : m_function(function) {}
+	Command() {}
 	//* Constructor for Keys with Event Type
-	Command(std::function<void()> function, EventListener::Type type) : m_function(function), m_type(type) { m_functions.push_back(m_function); }
+	Command(EventListener::EventType type) : m_type(type) { }
 	//* Default Destructor
 	virtual ~Command() {}
 
-	//* Function Object for executing custom function
-	std::function<void()> m_function;
-	//* Vector of functions for multiple functions per Key
-	std::vector<std::function<void()>> m_functions;
-
 	//* Type of Event used to differentiate commands
-	EventListener::Type m_type;
+	EventListener::EventType m_type;
 
 	//// Execution calls for firing custom function sent in, based on type
 	virtual void execute() {};
 	virtual void executePress() {};
 	virtual void executeRelease() {};
 	virtual void executeHold() {};
-
-	void clearKeys()
-	{
-		for (std::vector<std::function<void()>>::iterator it = m_functions.begin(); it != m_functions.end(); ++it)
-		{
-			delete &it;
-		}
-	}
 };
 
 //* Singleton class for input management
@@ -204,28 +216,26 @@ class InputManager
 public:
 	//* Default Constructor
 	InputManager();
-	//* Default Deconstructor
+	//* Default Destructor
 	~InputManager();
 
-	//// Dictionaries
-private:
-	//* Dictionary holding a list of litener objects for each event
-	std::map<EventListener::Event, std::vector<EventListener*>*> listeners; //* Pointer to vector of EventListeners
-
-																			//* Dictionary holding a bool for each event
-	std::map<EventListener::Event, bool> beingHeld; //* Bool used to detect if the desired Event was previously being held
-
-													//* Dictionary holding a list of command objects for each event
-	std::map<EventListener::Event, std::vector<Command*>*> commands; //* Pointer to vector of Commands
-
-																	 //* Dictionary holding a bool for each event
-	std::map<EventListener::Event, bool> controllerHeld; //* Bool used to detect if the desired Event was previously being held
-
-														 //// Instance Variables
-public:
 	//* Used to get the Class Instance
 	static InputManager* GetInstance();
+
+	void DeleteCallbacksOwnedBy(EventListener* owner);
+
 private:
+
+	std::unordered_map<int, ControllerData> m_controllerVars;
+
+	//* Dictionary holding a bool for each event
+	std::unordered_map<EventListener::KeyboardEvent, bool> m_eventWasFiring; //* Bool used to detect if the desired Event was firing last frame
+	std::unordered_map<EventListener::KeyboardEvent, std::vector<Command*>> m_eventCommands;
+	std::unordered_map<EventListener*, std::vector<Command*>> m_eventOwnerMap;
+	std::unordered_map<Uint8, EventListener::ControllerEvent> m_controllerEvents;
+
+	std::unordered_map<EventListener::ControllerEvent, std::vector<Command*>> m_controllerCommands[MAX_CONTROLLERS];
+	std::unordered_map<EventListener::ControllerEvent, bool> m_controllerEventWasFiring[MAX_CONTROLLERS];
 	//* Used to return the same instance of the Class
 	static InputManager* inputManagerInstance;
 
@@ -233,48 +243,17 @@ public:
 	//* Required to update the input
 	void ProcessInput();
 
-	//* Create an EventListener object
-	void AddListener(EventListener::Event, EventListener*);
-
-	//* Used to create a key event
-	void AddKey(EventListener::Event, Command*, EventListener* x = nullptr);
-	//* Reset a Key and remove its Commands
-	void ResetKey(EventListener::Event);
+	void RegisterEventCallback(EventListener::KeyboardEvent evt, Command* command, EventListener* owner);
+	void RegisterEventCallback(EventListener::ControllerEvent evt, Command* command, EventListener* owner, int controllerId);
 
 	//// Input Functions
 private:
-	//* Find a specific Event listener in the listeners dictionary, and call its onEvent() function
-	void Dispatch(EventListener::Type, EventListener::Event);
 
-	//* Set the hold for a specific Event in the beingHeld dictionary 
-	void SetPrevious(EventListener::Event, bool);
-	//* Check to see if a specific Event is being held down
-	void CheckPrevious(EventListener::Type, EventListener::Event);
-
-	//* Create a Command object
-	void AddCommand(EventListener::Event, Command*);
 	//* Find a Command object in the commands dictionary, and call its execute function based on Event Type
-	void Execute(EventListener::Type, EventListener::Event);
+	void Execute(EventListener::EventType, EventListener::KeyboardEvent);
+	void Execute(EventListener::EventType, EventListener::ControllerEvent, int controllerId=0);
 
-	//* Combine a Command* and an EventListener to work together
-	Command*& bindCommand(EventListener::Event);
-
-	//// Controller Variables
-private:
-	//* Controller Timers
-	int countedButtonFrames = 0;
-	int countedTriggerFrames = 0;
-	int controllerButtonDelay = 1;
-	int controllerTriggerDelay = 500;
-
-	//* Controller
-	SDL_GameController* mGameController = SDL_GameControllerOpen(0);
-	SDL_Joystick* mJoyStick = SDL_JoystickOpen(0);
-
-	//* Used to get current Controller event for the map and see if it's being held
-	EventListener::Event mControllerButton;
-	bool mIsConnected = false;
-	bool mIsPressed = false;
+	int getJoystickIdByControllerId(int controllerId);
 
 	//* Add Contoller if Detected
 	void AddController(int id);
@@ -282,180 +261,19 @@ private:
 	void RemoveController(int id);
 
 public:
-	//* Set Delay of Controller Update
-	void SetControllerButtonDelay(int delayInMilliseconds);
-	void SetControllerTriggerDelay(int delayInMilliseconds);
-
-	//// Controller Sticks
-private:
-	//* Joy Stick Axis
-	int stick_Dead_Zone = 4000;
-
-	//* Left Stick Variables
-	float stick_Left_X = 0;
-	float stick_Left_Y = 0;
-	float stick_Left_T = 0;
-
-	//* Right Stick Variables
-	float stick_Right_X = 0;
-	float stick_Right_Y = 0;
-	float stick_Right_T = 0;
-
-public:
-	//* Set the size of the Stick Dead Zone
-	void SetStickDeadZone(int deadZone);
+	//* Left Stick Functions
+	Vector2f GetLeftStickVector(int controllerId);
+	Vector2f GetLeftStickVectorNormal(int controllerId);
+	float GetLeftStickAngle(int controllerId);
+	float GetLeftTrigger(int controllerId);
 
 	//* Left Stick Functions
-	Vector2f GetLeftStickVector();
-	Vector2f GetLeftStickVectorNormal();
-	float GetLeftStickAngle();
-	float GetLeftTrigger();
-
-	//* Left Stick Functions
-	Vector2f GetRightStickVector();
-	Vector2f GetRightStickVectorNormal();
-	float GetRightStickAngle();
-	float GetRightTrigger();
-
-
-	//// Logger
-private:
-	//* Log File Name
-	std::string logFileName;
-	//* Log File Values
-	std::vector<std::string> logFileValues;
-
-	//* Add Event to Output Log
-	void logEvent(std::string str);
-	//* Fill the Map for Key Logger
-	void createKeyMap();
-
-	//* Maps of Strings from Event Names
-	std::map<EventListener::Event, std::string> keyNames;
-	std::map<EventListener::Type, std::string> keyTypes;
-
-	//* Track Previous Event for Hold
-	EventListener::Event previousEvent;
-	//* Count Hold Time
-	float holdDuration = 0;
-
-public:
-	//* Save the Log File
-	void saveFile();
-	//* Return the Current System Time
-	std::string GetTimeStamp(bool save);
-
-	//// Commands
-public:
-	// Keys
-	Command* Key_UNKNOWN;
-	Command* Key_RETURN;
-	Command* Key_ESCAPE;
-	Command* Key_BACKSPACE;
-	Command* Key_TAB;
-	Command* Key_SPACE;
-	Command* Key_EXCLAIM;
-	Command* Key_QUOTEDBL;
-	Command* Key_HASH;
-	Command* Key_PERCENT;
-	Command* Key_DOLLAR;
-	Command* Key_AMPERSAND;
-	Command* Key_QUOTE;
-	Command* Key_LEFTPAREN;
-	Command* Key_RIGHTPAREN;
-	Command* Key_ASTERISK;
-	Command* Key_PLUS;
-	Command* Key_COMMA;
-	Command* Key_MINUS;
-	Command* Key_PERIOD;
-	Command* Key_SLASH;
-	Command* Key_NUM_0;
-	Command* Key_NUM_1;
-	Command* Key_NUM_2;
-	Command* Key_NUM_3;
-	Command* Key_NUM_4;
-	Command* Key_NUM_5;
-	Command* Key_NUM_6;
-	Command* Key_NUM_7;
-	Command* Key_NUM_8;
-	Command* Key_NUM_9;
-	Command* Key_COLON;
-	Command* Key_SEMICOLON;
-	Command* Key_LESS;
-	Command* Key_EQUALS;
-	Command* Key_GREATER;
-	Command* Key_QUESTION;
-	Command* Key_AT;
-	Command* Key_LEFTBRACKET;
-	Command* Key_BACKSLASH;
-	Command* Key_RIGHTBRACKET;
-	Command* Key_CARET;
-	Command* Key_UNDERSCORE;
-	Command* Key_BACKQUOTE;
-	Command* Key_a;
-	Command* Key_b;
-	Command* Key_c;
-	Command* Key_d;
-	Command* Key_e;
-	Command* Key_f;
-	Command* Key_g;
-	Command* Key_h;
-	Command* Key_i;
-	Command* Key_j;
-	Command* Key_k;
-	Command* Key_l;
-	Command* Key_m;
-	Command* Key_n;
-	Command* Key_o;
-	Command* Key_p;
-	Command* Key_q;
-	Command* Key_r;
-	Command* Key_s;
-	Command* Key_t;
-	Command* Key_u;
-	Command* Key_v;
-	Command* Key_w;
-	Command* Key_x;
-	Command* Key_y;
-	Command* Key_z;
-
-	// Controller
-	Command* Button_INVALID;
-	Command* Button_A;
-	Command* Button_B;
-	Command* Button_X;
-	Command* Button_Y;
-	Command* Button_BACK;
-	Command* Button_GUIDE;
-	Command* Button_START;
-	Command* Button_LEFTSTICK;
-	Command* Button_RIGHTSTICK;
-	Command* Button_LEFTSHOULDER;
-	Command* Button_RIGHTSHOULDER;
-	Command* Button_DPAD_UP;
-	Command* Button_DPAD_DOWN;
-	Command* Button_DPAD_LEFT;
-	Command* Button_DPAD_RIGHT;
-	Command* Trigger_SOFT_LEFT;
-	Command* Trigger_LEFT;
-	Command* Trigger_SOFT_RIGHT;
-	Command* Trigger_RIGHT;
-
-	// Mouse
-	Command* Mouse_Left;
-	Command* Mouse_Right;
-	Command* Mouse_Middle;
-	Command* Mouse_Wheel_Up;
-	Command* Mouse_Wheel_Down;
-
-	// Arrows
-	Command* Arrow_Up;
-	Command* Arrow_Left;
-	Command* Arrow_Down;
-	Command* Arrow_Right;
-
-
-	//\\ Add new Command* here for custom inputs
+	Vector2f GetRightStickVector(int controllerId);
+	Vector2f GetRightStickVectorNormal(int controllerId);
+	float GetRightStickAngle(int controllerId);
+	float GetRightTrigger(int controllerId);
 };
+
+EventListener* CLEANUP_HANDLED;
 
 #include "FLInputManager.inl"

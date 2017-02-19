@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "EntityFactory.h"
 
-Player* EntityFactory::SpawnPlayer(float x, float y, float w, float h)
+Player* EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId)
 {
-	return new Player(id(), x, y, w, h);
+	return new Player(id(), x, y, w, h, controllerId);
 }
 
 StaticBox* EntityFactory::SpawnStaticBox(float x, float y, float w, float h)

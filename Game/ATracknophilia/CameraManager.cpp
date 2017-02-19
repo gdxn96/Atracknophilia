@@ -39,7 +39,6 @@ void CameraManager::moveTo(Vector2D destination, float dt)
 	Vector2D directionToPan = difference.Normalize();
 	float distanceSq = difference.Distance(position, difference);
 
-	std::cout << difference.Magnitude() << std::endl;
 	if (difference.Magnitude() > 1)
 	{
 		Vector2D result = position + (directionToPan * distanceSq * dt);

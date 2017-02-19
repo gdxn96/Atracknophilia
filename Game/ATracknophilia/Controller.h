@@ -9,84 +9,86 @@
 class PressCommand : public Command
 {
 public:
-	PressCommand(std::function<void()> fn) : Command(fn, EventListener::Type::Press) {};
-	void executePress() {
+	PressCommand(std::function<void()> fn) : m_function(fn), Command(EventListener::EventType::Press) {};
+	void executePress() override {
 		m_function();
 	};
 
 private:
-
+	std::function<void()> m_function;
 };
 class HoldCommand : public Command
 {
 public:
-	HoldCommand(std::function<void()> fn) : Command(fn, EventListener::Type::Hold) {};
-	void executeHold() {
+	HoldCommand(std::function<void()> fn) : m_function(fn), Command(EventListener::EventType::Hold) {};
+	void executeHold() override {
 		m_function();
 	};
 private:
-
+	std::function<void()> m_function;
 };
 class ReleaseCommand : public Command
 {
 public:
-	ReleaseCommand(std::function<void()> fn) : Command(fn, EventListener::Type::Release) {};
-	void executeRelease() {
+	ReleaseCommand(std::function<void()> fn) : m_function(fn), Command(EventListener::EventType::Release) {};
+	void executeRelease() override {
 		m_function();
 	};
 
 private:
-
+	std::function<void()> m_function;
 };
 
 
 struct IControllerComponent : public IComponent, public AutoLister<IControllerComponent>
 {
-	IControllerComponent(int id) : IComponent(id)
+	IControllerComponent(int id, Uint8 controllerId) : m_controllerId(controllerId), IComponent(id)
 	{
 
 	}
 
 	virtual void process(float dt) = 0;
+
+	Uint8 m_controllerId;
 };
 
-struct PlayerControllerComponent : public IControllerComponent
+struct PlayerControllerComponent : public IControllerComponent, public EventListener
 {
-	PlayerControllerComponent(int id) : IControllerComponent(id)
+	PlayerControllerComponent(int id, int controllerId) : IControllerComponent(id, controllerId)
 	{
-		InputManager::GetInstance()->AddKey(EventListener::ARROW_LEFT, new HoldCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::ARROW_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {  
 				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
 				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
-		}));
+		}), this);
 
-		InputManager::GetInstance()->AddKey(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
 				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
 				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
-		}));
+		}), this);
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
 				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
 				c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 			}
-		}));
+		}), this, m_controllerId);
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
 				auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
 				c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 			}
-		}));
+		}), this, m_controllerId);
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new HoldCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new HoldCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			auto hook = getComponent<HookComponent>();
 			if (c) {
@@ -96,7 +98,7 @@ struct PlayerControllerComponent : public IControllerComponent
 				}
 				else
 				{
-					float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal().x;
+					float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal(m_controllerId).x;
 					float xRay = 0;
 					if (xVelocity > 0) { xRay = 1000; }
 					else if (xVelocity < 0) { xRay = -1000; }
@@ -105,9 +107,9 @@ struct PlayerControllerComponent : public IControllerComponent
 				}
 			}
 			
-		}));
+		}), this, m_controllerId);
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new PressCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand([&]() {
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) 
 			{
@@ -120,17 +122,17 @@ struct PlayerControllerComponent : public IControllerComponent
 			{
 				getParent()->deleteComponent<HookComponent>();
 			}
-		}));
+		}), this, m_controllerId);
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_A, new ReleaseCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new ReleaseCommand([&]() {
 			isHoldingA = false;
 			auto c = getComponent<CollisionBoxComponent>();
 			if (c) {
 				c->body->SetGravityScale(1);
 			}
-		}));
+		}), this, m_controllerId);
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new HoldCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_X, new HoldCommand([&]() {
 			auto boostComp = getComponent<BoostComponent>();
 			auto stamComp = getComponent<StaminaComponent>();
 			if (boostComp && stamComp && stamComp->m_stamina > 0)
@@ -139,20 +141,20 @@ struct PlayerControllerComponent : public IControllerComponent
 				getComponent<MaxAccelerationComponent>()->m_maxAcceleration = boostComp->BOOSTED_ACCELERATION;
 				boostComp->m_boostActive = true;
 			}
-		}));
+		}), this, m_controllerId);
 
-		InputManager::GetInstance()->AddKey(EventListener::BUTTON_X, new ReleaseCommand([&]() {
+		InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_X, new ReleaseCommand([&]() {
 			auto boostComp = getComponent<BoostComponent>();
 			if (boostComp)
 			{
 				boostComp->m_boostActive = false;
 			}
-		}));
+		}), this, m_controllerId);
 	}
 
 	void process(float dt) override
 	{
-		auto vec = InputManager::GetInstance()->GetLeftStickVectorNormal();
+		auto vec = InputManager::GetInstance()->GetLeftStickVectorNormal(m_controllerId);
 		auto c = getComponent<CollisionBoxComponent>();
 		if (c)
 		{
