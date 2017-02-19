@@ -240,6 +240,7 @@ private:
 	static InputManager* inputManagerInstance;
 
 public:
+
 	//* Required to update the input
 	void ProcessInput();
 
@@ -274,6 +275,6 @@ public:
 	float GetRightTrigger(int controllerId);
 };
 
-EventListener* CLEANUP_HANDLED;
+
 
 #include "FLInputManager.inl"
