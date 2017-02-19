@@ -2,7 +2,6 @@
 #include "ECSInterfaces.h"
 #include "Vector2D.h"
 #include "box2d\Box2D.h"
-#include "Animation.h"
 #include "PhysicsSystem.h"
 
 struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
@@ -83,19 +82,24 @@ struct KinematicBodyComponent : public Box2DComponent, public AutoLister<Kinemat
 	}
 };
 
-struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
-{
-	AnimationComponent(int objectId, string animationName) 
-		:	IComponent(objectId)
-		,	animation(Animation(animationName)) {};
-	Animation animation;
-};
-
 struct SensorComponent : public KinematicBodyComponent, public AutoLister<SensorComponent>
 {
 	SensorComponent(int id, float x, float y, float width, float height)
 		: KinematicBodyComponent(id, x, y, width, height)
 	{
+	}
+};
+
+struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowShotComponent>
+{
+	SlowShotComponent(int id, float x, float y, float width, float height, bool isGravity = true, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height, fixedRotation)
+	{
+		if (!isGravity)
+		{
+			body->SetGravityScale(0);
+			fixture->SetDensity(0);
+			body->ResetMassData();
+		}
 	}
 };
 

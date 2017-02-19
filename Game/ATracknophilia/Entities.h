@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "StaticPolygon.h"
 #include "SoftBox.h"
+#include "SlowShot.h"
 
 
 static int id()
