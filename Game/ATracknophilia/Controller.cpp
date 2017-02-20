@@ -51,8 +51,12 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 				float xRay = 0;
 				if (xVelocity > 0) { xRay = 1000; }
 				else if (xVelocity < 0) { xRay = -1000; }
-				Vector2D intersectionPt = PhysicsSystem::RayCast(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
-				getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
+				auto intersection = PhysicsSystem::RayCastToStaticObject(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
+				Vector2D intersectionPt = intersection.second;
+				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
+				float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersectionPt);
+				if (distance > 10 && isStatic)
+					getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
 			}
 		}
 
@@ -77,7 +81,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 		if (c)
 		{
 			c->body->SetGravityScale(1);
-			c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -100), true);
+			c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -10), true);
 		}
 
 		auto l = getComponent<HookComponent>();
@@ -138,8 +142,7 @@ void PlayerControllerComponent::process(float dt)
 	auto hook = getComponent<HookComponent>();
 	if (hook)
 	{
-		auto c = getComponent<Box2DComponent>();
-		if (c && c->body->GetContactList())
+		if (!hook->alive)
 		{
 			getParent()->deleteComponent<HookComponent>();
 			return;

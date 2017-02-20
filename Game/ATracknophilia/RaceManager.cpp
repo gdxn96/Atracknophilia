@@ -2,6 +2,7 @@
 #include "RaceManager.h"
 #include <set>
 #include <climits>
+#include "DirectionVolume.h"
 
 RaceManager *RaceManager::m_instance = 0;
 

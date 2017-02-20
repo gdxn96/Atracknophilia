@@ -26,7 +26,7 @@ void PhysicsSystem::process(float dt)
 			// boost time is the time the boost button on controller is held for
 			boostComp->m_boostTime += dt;
 			if (stamComp->m_stamina > 0)
-				stamComp->m_stamina --;
+				stamComp->m_stamina--;
 		}
 		
 		if (boostComp && boostComp->m_boostActive == false)
@@ -72,44 +72,38 @@ Vector2D PhysicsSystem::RayCast(Vector2D start, Vector2D end, float maxLength)
 	return intersectionPoint;
 }
 
-IEntity* PhysicsSystem::RayCastToObject(Vector2D start, Vector2D end, float maxLength)
+std::pair<IEntity*, Vector2D> PhysicsSystem::RayCastToStaticObject(Vector2D start, Vector2D end, float maxLength)
 {
 	b2RayCastInput input;
 	input.p1 = start.toBox2DVector();
 	input.p2 = end.toBox2DVector();
 	input.maxFraction = 1;
 
-	IEntity* p = nullptr;
+	IEntity* collidedEntity = nullptr;
 
 	//check every fixture of every body to find closest
 	float closestFraction = 1; //start with end of line as p2
 	b2Vec2 intersectionNormal(0, 0);
 	for (b2Body* b = World().GetBodyList(); b; b = b->GetNext()) {
 		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext()) {
-
 			b2RayCastOutput output;
 			if (!f->RayCast(&output, input, 0))
 				continue;
 			if (output.fraction < closestFraction) {
-				auto s = static_cast<Box2DComponent*>(b->GetUserData());
-				auto f = s->getComponent<StaticBodyComponent>();
-				if (!f)
+				auto isStatic = ((Box2DComponent*)(b->GetUserData()))->getComponent<StaticBodyComponent>();
+				if (!isStatic)
 				{
 					continue;
 				}
-				p = s->getParent();
+				collidedEntity = isStatic->getParent();
 				closestFraction = output.fraction;
 				intersectionNormal = output.normal;
 			}
 		}
 	}
 
-	if (p)
-	{
-		return p;
-	}
-
-	return nullptr;
+	Vector2D intersectionPoint = start + (end - start) * closestFraction;
+	return{ collidedEntity, intersectionPoint };
 }
 
 b2Vec2 & PhysicsSystem::Gravity()

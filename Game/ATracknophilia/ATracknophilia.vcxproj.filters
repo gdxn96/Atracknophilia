@@ -194,6 +194,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
-    <None Include="..\..\assets\resources.json" />
   </ItemGroup>
 </Project>

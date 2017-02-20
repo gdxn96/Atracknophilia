@@ -2,8 +2,7 @@
 #include <functional>
 #include "ECSInterfaces.h"
 #include "Dimensional.h"
-#include "DirectionVolume.h"
-#include "Player.h"
+#include "RacePosition.h"
 
 struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
 {
@@ -28,7 +27,7 @@ struct ICollisionResponseComponent : public AutoLister<ICollisionResponseCompone
 struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 {
 	SoftObstacleResponseComponent(int id)
-		: ICollisionResponseComponent(id)
+		:	ICollisionResponseComponent(id)
 	{
 
 	}
@@ -53,41 +52,10 @@ struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 	};
 };
 
-struct WebDropResponseComponent : public ICollisionResponseComponent
-{
-	WebDropResponseComponent(int id, int shooter_id)
-		: ICollisionResponseComponent(id)
-		, shooterID(shooter_id)
-	{
-
-	}
-
-	void endContact(IEntity * e)
-	{
-
-	};
-
-	void beginContact(IEntity * e)
-	{
-		if (e)
-		{
-			auto staticBox = e->getComponent<StaticBodyComponent>();
-			
-			if (staticBox){ }
-			else if (shooterID != e->ID)
-			{
-				getParent()->alive = false;
-				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
-			}
-		}
-	};
-
-	int shooterID;
-};
-
 struct AIComponent : public IComponent, public AutoLister<AIComponent>
 {
-	AIComponent(int id) :IComponent(id)
+	AIComponent(int id) 
+		:	IComponent(id)
 	{
 	}
 
@@ -96,7 +64,7 @@ struct AIComponent : public IComponent, public AutoLister<AIComponent>
 
 struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 {
-	SeekAIComponent(int id, int target_id, int shooter_id) 
+	SeekAIComponent(int id, int target_id, int shooter_id)
 		: AIComponent(id)
 		, target(getComponentById<Box2DComponent>(target_id))
 		, shooterID(shooter_id)
@@ -143,17 +111,46 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 
 	void beginContact(IEntity * e)
 	{
+		auto ai = getComponent<SeekAIComponent>();
+
+		if (ai && ai->shooterID != e->ID)
+		{
+			getParent()->alive = false;
+			e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+		}
+	}
+};
+
+struct WebDropResponseComponent : public ICollisionResponseComponent
+{
+	WebDropResponseComponent(int id, int shooter_id)
+		: ICollisionResponseComponent(id)
+		, shooterID(shooter_id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e)
+	{
 		if (e)
 		{
-			auto ai = getComponent<SeekAIComponent>();
+			auto staticBox = e->getComponent<StaticBodyComponent>();
 
-			if (ai && ai->shooterID != e->ID)
+			if (staticBox) {}
+			else if (shooterID != e->ID)
 			{
 				getParent()->alive = false;
 				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
 			}
 		}
-	}
+	};
+
+	int shooterID;
 };
 
 struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComponent
@@ -181,34 +178,34 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 	};
 };
 
-//struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
-//{
-//	BoostPadResponseComponent(int id)
-//		: ICollisionResponseComponent(id)
-//	{
-//
-//	}
-//
-//	void endContact(IEntity * e)
-//	{
-//
-//	};
-//
-//	void beginContact(IEntity * e)
-//	{
-//		if (e)
-//		{
-//			auto& players = AutoList::get<Player>();
-//			for (auto player : players)
-//			{
-//				if (e->ID == player->ID)
-//				{
-//					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
-//					break;
-//				}
-//			}
-//		}
-//	};
-//
-//	int shooterID;
-//};
+struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
+{
+	BoostPadResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e)
+	{
+		if (e)
+		{
+			auto& players = AutoList::get<Player>();
+			for (auto player : players)
+			{
+				if (e->ID == player->ID)
+				{
+					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+					break;
+				}
+			}
+		}
+	};
+
+	int shooterID;
+};
