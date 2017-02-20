@@ -1,5 +1,6 @@
 #pragma once
 #include "ECSInterfaces.h"
+#include "Priority.h"
 
 struct RacePositionComponent : public IComponent, public AutoLister<RacePositionComponent>
 {

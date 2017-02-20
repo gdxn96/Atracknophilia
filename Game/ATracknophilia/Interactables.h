@@ -11,6 +11,7 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 		,	pivot( new StaticBodyComponent(-1, end.x, end.y, 0, 0, true))
 		,	tetherLength(Vector2D::Distance(start, end) * 0.9f)
 		,	line(new LineComponent(-1, start, end))
+		,	alive(true)
 	{
 		b2DistanceJointDef jointDef;
 		jointDef.bodyA = bodyToAttach;
@@ -46,4 +47,5 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 	Box2DComponent* pivot;
 	LineComponent* line;
 	float tetherLength;
+	bool alive;
 };
