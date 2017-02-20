@@ -35,7 +35,7 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 			y = itr["y"].GetFloat() / 50.f;
 			w = itr["width"].GetFloat() / 50.f;
 			h = itr["height"].GetFloat() / 50.f;
-			m_entities.push_back(EntityFactory::SpawnStaticBox(x, y, w, h));
+			EntityFactory::SpawnStaticBox(x, y, w, h);
 
 			if (x + w > biggest.w)
 			{
@@ -57,7 +57,7 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 			y = itr["y"].GetFloat() / 50.f;
 			w = itr["width"].GetFloat() / 50.f;
 			h = itr["height"].GetFloat() / 50.f;
-			m_entities.push_back(EntityFactory::SpawnSoftBox(x, y, w, h));
+			EntityFactory::SpawnSoftBox(x, y, w, h);
 
 			if (x + w > biggest.w)
 			{
@@ -82,7 +82,7 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 			priority = itr["priority"].GetFloat() / 50.f;
 			directionX = itr["directionX"].GetFloat() / 50.f;
 			directionY = itr["directionY"].GetFloat() / 50.f;
-			m_entities.push_back(EntityFactory::SpawnDirectionVolume(x, y, w, h, priority, Vector2D(directionX, directionY)));
+			EntityFactory::SpawnDirectionVolume(x, y, w, h, priority, Vector2D(directionX, directionY));
 
 			if (x + w > biggest.w)
 			{
@@ -106,4 +106,25 @@ void LevelLoader::destroyLevel()
 		delete i;
 	}
 	m_entities.clear();
+}
+
+void LevelLoader::destroyObjects()
+{
+	for (vector<IEntity*>::iterator it = m_entities.begin(); it != m_entities.end();)
+	{
+		if (!(*it)->alive)
+		{
+			delete *it;
+			it = m_entities.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+void LevelLoader::appendToEntities(IEntity* entity)
+{
+	m_entities.push_back(entity);
 }

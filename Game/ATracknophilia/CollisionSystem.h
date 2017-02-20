@@ -8,7 +8,7 @@ class CollisionSystem : public ISystem, public b2ContactListener
 public:
 	void process(float dt) override
 	{
-
+	
 	}
 
 	CollisionSystem()
@@ -24,10 +24,10 @@ public:
 		if (bodyUserDataA && bodyUserDataB)
 		{
 			auto boxComponentA = static_cast<Box2DComponent*>(bodyUserDataA);
-			auto collisionResponseA = boxComponentA->getComponent<CollisionResponseComponent>();
+			auto collisionResponseA = boxComponentA->getComponent<ICollisionResponseComponent>();
 
 			auto boxComponentB = static_cast<Box2DComponent*>(bodyUserDataB);
-			auto collisionResponseB = boxComponentB->getComponent<CollisionResponseComponent>();
+			auto collisionResponseB = boxComponentB->getComponent<ICollisionResponseComponent>();
 
 			if (collisionResponseA)
 			{
@@ -48,10 +48,10 @@ public:
 		if (bodyUserDataA && bodyUserDataB)
 		{
 			auto boxComponentA = static_cast<Box2DComponent*>(bodyUserDataA);
-			auto collisionResponseA = boxComponentA->getComponent<CollisionResponseComponent>();
+			auto collisionResponseA = boxComponentA->getComponent<ICollisionResponseComponent>();
 
 			auto boxComponentB = static_cast<Box2DComponent*>(bodyUserDataB);
-			auto collisionResponseB = boxComponentB->getComponent<CollisionResponseComponent>();
+			auto collisionResponseB = boxComponentB->getComponent<ICollisionResponseComponent>();
 
 			if (collisionResponseA)
 			{

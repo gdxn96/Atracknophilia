@@ -73,11 +73,11 @@ std::vector<Player*> RaceManager::getOnScreenPlayers(Camera2D::Camera * camera)
 
 	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it)
 	{
-		auto player = (*it)->getComponent<CollisionBoxComponent>();
+		auto player = (*it)->getComponent<Box2DComponent>();
 		if (player)
 		{
-			playerPos.x = (*it)->getComponent<CollisionBoxComponent>()->body->GetPosition().x;
-			playerPos.y = (*it)->getComponent<CollisionBoxComponent>()->body->GetPosition().y;
+			playerPos.x = (*it)->getComponent<Box2DComponent>()->body->GetPosition().x;
+			playerPos.y = (*it)->getComponent<Box2DComponent>()->body->GetPosition().y;
 		}
 		else
 		{

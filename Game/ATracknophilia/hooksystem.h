@@ -11,7 +11,7 @@ public:
 		auto components = AutoList::get<HookComponent>();
 		for (auto hook : components)
 		{
-			auto collider = hook->getComponent<CollisionBoxComponent>();
+			auto collider = hook->getComponent<Box2DComponent>();
 			if (collider)
 			{
 				hook->line->start = collider->body->GetPosition();

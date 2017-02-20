@@ -20,9 +20,9 @@ void CameraManager::update(float dt)
 			volumeID = raceComponent->volumeID;
 		}
 
-		if (RaceManager::getInstance()->getLeader()->getComponent<CollisionBoxComponent>())
+		if (RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>())
 		{
-			moveTo(RaceManager::getInstance()->getLeader()->getComponent<CollisionBoxComponent>()->body->GetPosition(), dt);
+			moveTo(RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>()->body->GetPosition(), dt);
 		}
 	}
 }

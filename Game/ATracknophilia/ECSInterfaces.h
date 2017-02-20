@@ -49,6 +49,7 @@ class IEntity : public AutoLister<IEntity>
 public:
 	IEntity(int id, std::vector<IComponent*> list) : ID(id), m_components(list)
 	{
+		alive = true;
 	}
 
 	template<typename T>
@@ -87,6 +88,7 @@ public:
 	}
 
 	const int ID;
+	bool alive;
 protected:
 	std::vector<IComponent*> m_components;
 

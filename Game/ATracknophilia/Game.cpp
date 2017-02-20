@@ -16,14 +16,15 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 
+	m_cameraManager = CameraManager();
+
 	//Declare systems
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
 	auto collisionSystem = new CollisionSystem();
 	auto physicsSystem = new PhysicsSystem();
+	auto aiSystem = new AISystem();
 	auto hookSys = new HookSystem();
-
-	m_cameraManager = CameraManager();
 
 	//Init systems
 	renderSys->init(&m_renderer);
@@ -35,11 +36,10 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(inputSys);
 	m_systems.push_back(hookSys);
 	m_systems.push_back(physicsSystem);
+	m_systems.push_back(aiSystem);
+
 	//render system must be added last
 	m_systems.push_back(renderSys);
-
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0 );
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
 }
 
 void Game::init()
@@ -53,10 +53,14 @@ void Game::init()
 
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
 	m_camera.zoom(-1);
+
+	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
+	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
 }
 
 void Game::loop(float dt)
 {
+	LevelLoader::destroyObjects();
 	for (auto& system : m_systems)
 	{
 		system->process(dt);
