@@ -55,7 +55,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 				Vector2D intersectionPt = intersection.second;
 				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
 				float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersectionPt);
-				if (distance > 15 && isStatic)
+				if (distance > 10 && isStatic)
 					getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
 			}
 		}
