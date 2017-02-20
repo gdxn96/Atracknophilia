@@ -25,25 +25,6 @@ struct ICollisionResponseComponent : public AutoLister<ICollisionResponseCompone
 	};
 };
 
-struct PlayerCollisionResponseComponent : public ICollisionResponseComponent
-{
-	PlayerCollisionResponseComponent(int id)
-		: ICollisionResponseComponent(id)
-	{
-
-	}
-
-
-	void beginContact(IEntity* e) override
-	{
-	};
-
-	void endContact(IEntity * e) override
-	{
-
-	};
-};
-
 struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 {
 	SoftObstacleResponseComponent(int id)
@@ -66,6 +47,8 @@ struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 			auto b = getComponent<KinematicBodyComponent>();
 			if (b)
 				b->body->SetLinearVelocity(b2Vec2(0, 100000));
+			
+			collisionBody->body->SetLinearVelocity(b2Vec2(0, 0));
 		}
 	};
 };

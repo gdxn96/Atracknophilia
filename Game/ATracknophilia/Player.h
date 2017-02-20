@@ -8,7 +8,6 @@ public:
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
-			new PlayerCollisionResponseComponent(id),
 			new StaminaComponent(id, 100),
 			new MaxAccelerationComponent(id, 20),
 			new MaxVelocityComponent(id, 50),
