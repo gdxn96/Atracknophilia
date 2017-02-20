@@ -1,5 +1,6 @@
 #pragma once
 #include "AutoList.h"
+#include <algorithm>
 
 template<typename T>
 T* getComponentById(int id)
@@ -51,6 +52,12 @@ public:
 		alive = true;
 	}
 
+	template<typename T>
+	T* getComponent()
+	{
+		return getComponentById<T>(ID);
+	}
+
 	virtual ~IEntity()
 	{
 		for (auto i : m_components)
@@ -60,10 +67,24 @@ public:
 		m_components.clear();
 	}
 
-	template<typename T>
-	T* getComponent()
+
+	void AddComponent(IComponent* component)
 	{
-		return getComponentById<T>(ID);
+		m_components.push_back(component);
+	}
+
+	template<typename T>
+	bool deleteComponent()
+	{
+		auto component = getComponentById<T>(ID);
+
+		if (component)
+		{
+			delete component;
+			m_components.erase(std::remove(m_components.begin(), m_components.end(), component), m_components.end());
+			return true;
+		}
+		return false;
 	}
 
 	const int ID;

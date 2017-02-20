@@ -21,7 +21,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		{
 			bodyDef.type = b2_staticBody;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
-			fixture = body->CreateFixture(&shape, 0.f);
+			fixture = body->CreateFixture(&shape, 0.5f);
 		}
 		else if (type == b2_dynamicBody)
 		{
@@ -31,7 +31,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			b2FixtureDef afixture;
 			afixture.shape = &shape;
 			afixture.density = 1.0f;
-			afixture.friction = 0.1f;
+			afixture.friction = 0.0f;
 			fixture = body->CreateFixture(&afixture);
 		}
 		else if (type == b2_kinematicBody)
@@ -48,7 +48,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		}
 		body->SetUserData(this);
 	}
-	virtual ~Box2DComponent() 
+	virtual ~Box2DComponent()
 	{
 		PhysicsSystem::World().DestroyBody(body);
 	};
@@ -87,6 +87,9 @@ struct SensorComponent : public KinematicBodyComponent, public AutoLister<Sensor
 	SensorComponent(int id, float x, float y, float width, float height)
 		: KinematicBodyComponent(id, x, y, width, height)
 	{
+		fixture->SetSensor(true);
+		fixture->SetFriction(0);
+		fixture->SetDensity(0);
 	}
 };
 
@@ -103,3 +106,14 @@ struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowSh
 	}
 };
 
+
+struct DirectionComponent : public IComponent, public AutoLister<DirectionComponent>
+{
+	DirectionComponent(int id, Vector2D direction)
+		: IComponent(id)
+		, m_direction(direction)
+	{
+	}
+
+	Vector2D m_direction;
+};

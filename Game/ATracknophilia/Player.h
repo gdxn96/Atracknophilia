@@ -1,17 +1,21 @@
 #pragma once
 #include "Components.h"
 
-class Player : public IEntity
+class Player : public IEntity, public AutoLister<Player>
 {
 public:
-	Player(int id, float x, float y, float w, float h) 
-		:	IEntity(id, 
-			{ 
-				new DynamicBodyComponent(id, x, y, w, h, false),	
-				new PlayerControllerComponent(id),
-				new InvertGravityOnEdgeComponent(id), 
-				new PlayerCollisionResponseComponent(id)
-			})
+	Player(int id, float x, float y, float w, float h, int controllerId)
+		: IEntity(id,
+		{
+			new DynamicBodyComponent(id, x, y, w, h, false),
+			new PlayerCollisionResponseComponent(id),
+			new StaminaComponent(id, 100),
+			new MaxAccelerationComponent(id, 20),
+			new MaxVelocityComponent(id, 50),
+			new PlayerControllerComponent(id, controllerId),
+			new BoostComponent(id),
+			new RacePositionComponent(id),
+		})
 	{
 	}
 private:

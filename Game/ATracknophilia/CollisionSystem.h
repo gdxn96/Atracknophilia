@@ -6,7 +6,7 @@
 class CollisionSystem : public ISystem, public b2ContactListener
 {
 public:
-	void process(float dt) override 
+	void process(float dt) override
 	{
 	
 	}

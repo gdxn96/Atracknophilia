@@ -123,6 +123,12 @@
     <ClInclude Include="AISystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="RaceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionVolume.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -165,6 +171,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RaceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionVolume.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>

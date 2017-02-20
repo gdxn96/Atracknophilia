@@ -75,6 +75,14 @@ void Renderer::drawImage(SDL_Surface* img, Rect rec)
 	SDL_RenderCopyEx(sdl_renderer, ImageTexture, NULL, &sdlRec, 0, &objCentre, SDL_FLIP_NONE);
 }
 
+void Renderer::drawLine(Vector2D _start, Vector2D _end, Colour c)
+{
+	SDL_SetRenderDrawColor(sdl_renderer, c.r, c.g, c.b, c.a);
+	auto start = m_camera->worldToScreen(Camera2D::Point(_start.x, _start.y));
+	auto end = m_camera->worldToScreen(Camera2D::Point(_end.x, _end.y));
+	SDL_RenderDrawLine(sdl_renderer, start.x, start.y, end.x, end.y);
+}
+
 void Renderer::drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, float angle)
 {
 	SDL_Rect dst;
@@ -236,8 +244,7 @@ void Renderer::drawRect(const Rect& r, const Colour& c)
 
 Rect Renderer::cameraTransform(Rect r)
 {
-	SDL_Rect rect = r.toSDLRect();
-	rect = m_camera->worldToScreen(rect);
+	SDL_Rect rect = m_camera->worldToScreen(CustomRect(r.pos.x, r.pos.y, r.size.w, r.size.h));
 	
 	return Rect(rect.x, rect.y, rect.w, rect.h);
 }

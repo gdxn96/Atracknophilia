@@ -11,6 +11,7 @@ public:
 				new SoftObstacleResponseComponent(id)
 			})
 	{
+
 	}
 private:
 
