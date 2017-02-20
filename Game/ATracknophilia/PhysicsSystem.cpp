@@ -72,6 +72,46 @@ Vector2D PhysicsSystem::RayCast(Vector2D start, Vector2D end, float maxLength)
 	return intersectionPoint;
 }
 
+IEntity* PhysicsSystem::RayCastToObject(Vector2D start, Vector2D end, float maxLength)
+{
+	b2RayCastInput input;
+	input.p1 = start.toBox2DVector();
+	input.p2 = end.toBox2DVector();
+	input.maxFraction = 1;
+
+	IEntity* p = nullptr;
+
+	//check every fixture of every body to find closest
+	float closestFraction = 1; //start with end of line as p2
+	b2Vec2 intersectionNormal(0, 0);
+	for (b2Body* b = World().GetBodyList(); b; b = b->GetNext()) {
+		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext()) {
+
+			b2RayCastOutput output;
+			if (!f->RayCast(&output, input, 0))
+				continue;
+			if (output.fraction < closestFraction) {
+				auto s = static_cast<Box2DComponent*>(b->GetUserData());
+				auto f = s->getComponent<StaticBodyComponent>();
+				if (!f)
+				{
+					continue;
+				}
+				p = s->getParent();
+				closestFraction = output.fraction;
+				intersectionNormal = output.normal;
+			}
+		}
+	}
+
+	if (p)
+	{
+		return p;
+	}
+
+	return nullptr;
+}
+
 b2Vec2 & PhysicsSystem::Gravity()
 {
 	static b2Vec2 gravity(0, 100);

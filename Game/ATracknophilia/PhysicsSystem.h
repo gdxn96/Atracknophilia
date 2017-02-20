@@ -10,6 +10,8 @@ public:
 
 	static Vector2D RayCast(Vector2D start, Vector2D end, float maxLength=100);
 
+	static IEntity* RayCastToObject(Vector2D start, Vector2D end, float maxLength = 100);
+
 	static b2Vec2& Gravity();
 
 	static b2World& World();
