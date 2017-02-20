@@ -7,7 +7,7 @@ public:
 	BoostPad(int id, int x, int y, int w, int h) : IEntity(id,
 	{
 		new SensorComponent(id, x, y, w, h),
-		new BoostPadResponseComponent(id),
+		new BoostPadResponseComponent(id)
 	})
 	{};
 

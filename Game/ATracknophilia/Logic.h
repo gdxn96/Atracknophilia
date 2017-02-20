@@ -111,12 +111,15 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 
 	void beginContact(IEntity * e)
 	{
-		auto ai = getComponent<SeekAIComponent>();
-
-		if (ai && ai->shooterID != e->ID)
+		if (e)
 		{
-			getParent()->alive = false;
-			e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+			auto ai = getComponent<SeekAIComponent>();
+
+			if (ai && ai->shooterID != e->ID)
+			{
+				getParent()->alive = false;
+				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+			}
 		}
 	}
 };
@@ -140,12 +143,16 @@ struct WebDropResponseComponent : public ICollisionResponseComponent
 		if (e)
 		{
 			auto staticBox = e->getComponent<StaticBodyComponent>();
+			auto dynBox = e->getComponent<DynamicBodyComponent>();
 
 			if (staticBox) {}
-			else if (shooterID != e->ID)
+			else if (dynBox)
 			{
-				getParent()->alive = false;
-				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+				if (shooterID != e->ID)
+				{
+					getParent()->alive = false;
+					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+				}
 			}
 		}
 	};
@@ -191,21 +198,5 @@ struct BoostPadResponseComponent : public ICollisionResponseComponent, public Au
 
 	};
 
-	void beginContact(IEntity * e)
-	{
-		if (e)
-		{
-			auto& players = AutoList::get<Player>();
-			for (auto player : players)
-			{
-				if (e->ID == player->ID)
-				{
-					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
-					break;
-				}
-			}
-		}
-	};
-
-	int shooterID;
+	void beginContact(IEntity * e);
 };
