@@ -214,6 +214,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AISystem.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
@@ -237,6 +238,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SlowShot.h" />
     <ClInclude Include="SoftBox.h" />
     <ClInclude Include="StaticPolygon.h" />
     <ClInclude Include="stdafx.h" />
@@ -247,6 +249,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelLoader.cpp" />

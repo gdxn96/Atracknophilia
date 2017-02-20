@@ -31,7 +31,7 @@ void LevelLoader::loadLevel(LEVELS lvl)
 		y = itr["y"].GetFloat() / 10.f;
 		w = itr["width"].GetFloat() / 10.f;
 		h = itr["height"].GetFloat() / 10.f;
-		m_entities.push_back(EntityFactory::SpawnStaticBox(x, y, w, h));
+		EntityFactory::SpawnStaticBox(x, y, w, h);
 	}
 
 	for (const auto& itr : document["softbox"].GetArray())
@@ -41,7 +41,7 @@ void LevelLoader::loadLevel(LEVELS lvl)
 		y = itr["y"].GetFloat() / 10.f;
 		w = itr["width"].GetFloat() / 10.f;
 		h = itr["height"].GetFloat() / 10.f;
-		m_entities.push_back(EntityFactory::SpawnSoftBox(x, y, w, h));
+		EntityFactory::SpawnSoftBox(x, y, w, h);
 	}
 }
 
@@ -52,4 +52,25 @@ void LevelLoader::destroyLevel()
 		delete i;
 	}
 	m_entities.clear();
+}
+
+void LevelLoader::destroyObjects()
+{
+	for (vector<IEntity*>::iterator it = m_entities.begin(); it != m_entities.end();)
+	{
+		if (!(*it)->alive)
+		{
+			delete *it;
+			it = m_entities.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+void LevelLoader::appendToEntities(IEntity* entity)
+{
+	m_entities.push_back(entity);
 }

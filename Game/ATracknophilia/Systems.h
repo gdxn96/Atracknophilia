@@ -4,3 +4,4 @@
 #include "RenderSystem.h"
 #include "PhysicsSystem.h"
 #include "CollisionSystem.h"
+#include "AISystem.h"

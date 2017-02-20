@@ -19,6 +19,8 @@ public:
 	static void RegisterLevels(std::vector<std::pair<LEVELS, const char*>> map);
 	static void loadLevel(LEVELS lvl);
 	static void destroyLevel();
+	static void destroyObjects();
+	static void appendToEntities(IEntity* entity);
 private:
 	static std::unordered_map<LEVELS, const char *> m_paths;
 	static std::vector<IEntity*> m_entities;
