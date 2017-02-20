@@ -62,6 +62,7 @@ void Game::init()
 
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
+	EntityFactory::SpawnSoftBox(25, 20, 5, 5);
 }
 
 void Game::loop(float dt)
