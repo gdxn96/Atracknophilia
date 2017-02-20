@@ -275,7 +275,6 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
-    <None Include="..\..\assets\resources.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

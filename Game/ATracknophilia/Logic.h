@@ -2,8 +2,7 @@
 #include <functional>
 #include "ECSInterfaces.h"
 #include "Dimensional.h"
-#include "DirectionVolume.h"
-#include "Player.h"
+#include "RacePosition.h"
 
 struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
 {
@@ -28,7 +27,7 @@ struct ICollisionResponseComponent : public AutoLister<ICollisionResponseCompone
 struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 {
 	SoftObstacleResponseComponent(int id)
-		: ICollisionResponseComponent(id)
+		:	ICollisionResponseComponent(id)
 	{
 
 	}
@@ -55,7 +54,8 @@ struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 
 struct AIComponent : public IComponent, public AutoLister<AIComponent>
 {
-	AIComponent(int id) :IComponent(id)
+	AIComponent(int id) 
+		:	IComponent(id)
 	{
 	}
 

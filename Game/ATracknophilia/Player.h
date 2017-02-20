@@ -1,5 +1,38 @@
 #pragma once
 #include "Components.h"
+#include "Logic.h"
+
+class ICollisionResponseComponent;
+struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
+{
+	PlayerStaticObjectResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e)
+	{
+		if (e)
+		{
+			auto isStaticObject = e->getComponent<StaticBodyComponent>();
+			if (isStaticObject)
+			{
+				auto hook = getComponent<HookComponent>();
+				if (hook)
+				{
+					hook->alive = false;
+				}
+				return;
+			}
+		}
+	}
+};
 
 class Player : public IEntity, public AutoLister<Player>
 {
@@ -14,6 +47,7 @@ public:
 			new PlayerControllerComponent(id, controllerId),
 			new BoostComponent(id),
 			new RacePositionComponent(id),
+			new PlayerStaticObjectResponseComponent(id)
 		})
 	{
 	}
