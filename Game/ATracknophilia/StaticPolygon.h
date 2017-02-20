@@ -15,3 +15,18 @@ public:
 private:
 
 };
+
+class StaticPoly : public IEntity
+{
+public:
+	StaticPoly(int id, const b2Vec2 * vec) : IEntity(id,
+	{
+		new CollisionPolyComponent(id, vec, true, true)
+	})
+	{
+	};
+
+private:
+
+};
+
