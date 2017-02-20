@@ -16,17 +16,15 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 
+	m_cameraManager = CameraManager();
+
 	//Declare systems
 	auto inputSys = new InputSystem();
 	auto renderSys = new RenderSystem();
 	auto collisionSystem = new CollisionSystem();
 	auto physicsSystem = new PhysicsSystem();
 	auto aiSystem = new AISystem();
-	
-	renderSys->init(&m_renderer);
 	auto hookSys = new HookSystem();
-
-	m_cameraManager = CameraManager();
 
 	//Init systems
 	renderSys->init(&m_renderer);
@@ -42,8 +40,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
-
-	
 }
 
 void Game::init()
@@ -54,8 +50,6 @@ void Game::init()
 	m_resourceMgr->init(&m_renderer);
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
-
-	
 
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
 	m_camera.zoom(-1);
