@@ -19,9 +19,9 @@ private:
 class StaticPoly : public IEntity
 {
 public:
-	StaticPoly(int id, const b2Vec2 * vec) : IEntity(id,
+	StaticPoly(int id, std::vector<b2Vec2> points) : IEntity(id,
 	{
-		new CollisionPolyComponent(id, vec, true, true)
+		new CollisionPolyComponent(id, points, true, true),
 	})
 	{
 	};

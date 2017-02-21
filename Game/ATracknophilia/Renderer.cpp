@@ -100,8 +100,9 @@ void Renderer::drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, floa
 	SDL_RenderCopyEx(sdl_renderer, img, &src, &dst, angle, NULL, SDL_FLIP_NONE);
 }
 
-void Renderer::drawBox2DPolygon(b2PolygonShape * polygonShape, Vector2D position, float angle)
+void Renderer::drawBox2DPolygon(b2PolygonShape * polygonShape, float angle)
 {
+	SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
 	int lenght = (int)polygonShape->GetVertexCount();
 
 	SDL_Point* points = new SDL_Point[lenght + 1];
@@ -128,8 +129,8 @@ void Renderer::drawBox2DPolygon(b2PolygonShape * polygonShape, Vector2D position
 		verticesPosX = xnew + 0;
 		verticesPosY = ynew + 0;
 
-		worldPoint.x = verticesPosX + position.x;
-		worldPoint.y = verticesPosY + position.y;
+		worldPoint.x = verticesPosX;
+		worldPoint.y = verticesPosY;
 		worldPoint = m_camera->worldToScreen(worldPoint);
 		points[i].x = worldPoint.x;
 		points[i].y = worldPoint.y;
@@ -151,7 +152,7 @@ void Renderer::drawBox2DBody(b2Body * body)
 		if (shapeType == b2Shape::e_polygon)
 		{
 			b2PolygonShape* polygonShape = (b2PolygonShape*)b2Fixture->GetShape();
-			drawBox2DPolygon(polygonShape, (b2Fixture->GetBody()->GetPosition()), b2Fixture->GetBody()->GetAngle());
+			drawBox2DPolygon(polygonShape, b2Fixture->GetBody()->GetAngle());
 		}
 	}
 }

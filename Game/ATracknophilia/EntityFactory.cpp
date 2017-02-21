@@ -29,7 +29,7 @@ void EntityFactory::SpawnDirectionVolume(float x, float y, float w, float h, int
 	LevelLoader::appendToEntities(new DirectionVolume(id(), x, y, w, h, priority, direction));
 }
 
-void EntityFactory::SpawnStaticPoly(const b2Vec2 * vec)
+void EntityFactory::SpawnStaticPoly(std::vector<b2Vec2> points)
 {
-	LevelLoader::appendToEntities(new StaticPoly(id(), vec));
+	LevelLoader::appendToEntities(new StaticPoly(id(), points));
 }

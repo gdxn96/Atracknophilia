@@ -30,20 +30,49 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 	{
 		for (const auto& itr : document["objects"].GetArray())
 		{
-			float x, y, w, h;
-			x = itr["x"].GetFloat() / 50.f;
-			y = itr["y"].GetFloat() / 50.f;
-			w = itr["width"].GetFloat() / 50.f;
-			h = itr["height"].GetFloat() / 50.f;
-			EntityFactory::SpawnStaticBox(x, y, w, h);
+			if (itr.HasMember("polygon"))
+			{
+				std::vector<b2Vec2> points;
 
-			if (x + w > biggest.w)
-			{
-				biggest.w = x + w;
+				float xPos, yPos;
+				xPos = itr["x"].GetFloat() / 25.f;
+				yPos = itr["y"].GetFloat() / 25.f;
+				for (const auto& it2 : itr["polygon"].GetArray())
+				{
+					float x, y;
+					x = it2["x"].GetFloat() / 25.f;
+					y = it2["y"].GetFloat() / 25.f;
+					
+					points.push_back(b2Vec2(x + xPos, y + yPos));
+
+					if (x > biggest.w)
+					{
+						biggest.w = x;
+					}
+					if (y > biggest.h)
+					{
+						biggest.h = y;
+					}
+				}
+				EntityFactory::SpawnStaticPoly(points);
 			}
-			if (y + h > biggest.h)
+			else
 			{
-				biggest.h = y + h;
+				float x, y, w, h;
+				x = itr["x"].GetFloat() / 50.f;
+				y = itr["y"].GetFloat() / 50.f;
+				w = itr["width"].GetFloat() / 50.f;
+				h = itr["height"].GetFloat() / 50.f;
+				EntityFactory::SpawnStaticBox(x, y, w, h);
+
+				if (x + w > biggest.w)
+				{
+					biggest.w = x + w;
+				}
+				if (y + h > biggest.h)
+				{
+					biggest.h = y + h;
+				}
 			}
 		}
 	}

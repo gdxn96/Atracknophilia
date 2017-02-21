@@ -60,17 +60,24 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 
 struct Box2DPolyComponent : public AutoLister<Box2DPolyComponent>, public IComponent
 {
-	Box2DPolyComponent(int id, const b2Vec2* vec, bool isStatic = true, bool fixedRotation = true) : IComponent(id)
+	Box2DPolyComponent(int id, std::vector<b2Vec2> points, bool isStatic = true, bool fixedRotation = true) : IComponent(id)
 {
 	b2BodyDef bodyDef;
 
-	bodyPoly->Set(vec, vec->Length());
+	b2Vec2 vec[10];
+
+	for (int i = 0; i < points.size(); i++)
+	{
+		vec[i].Set(points.at(i).x, points.at(i).y);
+	}
+
+	bodyPoly.Set(&vec[0], points.size());
 
 	if (isStatic)
 	{
 		bodyDef.type = b2_staticBody;
 		body = PhysicsSystem::World().CreateBody(&bodyDef);
-		body->CreateFixture(bodyPoly, 0.0f);
+		body->CreateFixture(&bodyPoly, 0.5f);
 	}
 	else
 	{
@@ -78,7 +85,7 @@ struct Box2DPolyComponent : public AutoLister<Box2DPolyComponent>, public ICompo
 		bodyDef.fixedRotation = fixedRotation;
 		body = PhysicsSystem::World().CreateBody(&bodyDef);
 		b2FixtureDef afixture;
-		afixture.shape = bodyPoly;
+		afixture.shape = &bodyPoly;
 		afixture.density = 0.5;
 		afixture.friction = 0.5;
 		afixture.restitution = 0.5;
@@ -92,7 +99,7 @@ virtual ~Box2DPolyComponent()
 
 b2Body* body;
 b2Fixture* fixture;
-b2PolygonShape* bodyPoly;
+b2PolygonShape bodyPoly;
 };
 
 
@@ -122,8 +129,8 @@ struct KinematicBodyComponent : public Box2DComponent, public AutoLister<Kinemat
 
 struct CollisionPolyComponent : public Box2DPolyComponent, public AutoLister<CollisionPolyComponent >
 {
-	CollisionPolyComponent(int id, const b2Vec2* vec, bool isStatic = true, bool fixedRotation = true)
-		: Box2DPolyComponent(id, vec, isStatic, fixedRotation)
+	CollisionPolyComponent(int id, std::vector<b2Vec2> points, bool isStatic = true, bool fixedRotation = true)
+		: Box2DPolyComponent(id, points, isStatic, fixedRotation)
 	{
 
 	}

@@ -44,9 +44,9 @@ void RenderSystem::process(float dt)
 		{
 			if (true) //add debug flag later
 			{
-				m_renderer->drawBox2DPolygon(component->bodyPoly, Vector2D(10, 10), 0.0f);
+				m_renderer->drawBox2DPolygon(&component->bodyPoly, 0.0f);
 			}
-			m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size));
+			//m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size));
 		}
 	}
 	
