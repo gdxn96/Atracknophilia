@@ -64,35 +64,39 @@ struct AIComponent : public IComponent, public AutoLister<AIComponent>
 
 struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 {
-	SeekAIComponent(int id, int target_id, int shooter_id) 
+	SeekAIComponent(int id, int target_id, int shooter_id)
 		: AIComponent(id)
-		, targetID(target_id)
+		, target(getComponentById<Box2DComponent>(target_id))
 		, shooterID(shooter_id)
-	{}
+	{
+		assert(target != nullptr);
+	}
 
 	void think()
 	{
-		auto target = getComponentById<Box2DComponent>(targetID);
-		auto object = getComponent<Box2DComponent>();
+		if (target != nullptr)
+		{
+			auto object = getComponent<Box2DComponent>();
 
-		b2Vec2 pos = object->body->GetPosition();
-		b2Vec2 targetPos = target->body->GetPosition();
+			b2Vec2 pos = object->body->GetPosition();
+			b2Vec2 targetPos = target->body->GetPosition();
 
-		auto direction = target->body->GetPosition() - object->body->GetPosition();
-		float length = sqrt((direction.x * direction.x) + (direction.y * direction.y));
-		direction = b2Vec2(direction.x / length, direction.y / length);
-		b2Vec2 velocity = b2Vec2(direction.x * 1000, direction.y * 1000);
-		object->body->SetLinearVelocity(velocity);
+			auto direction = target->body->GetPosition() - object->body->GetPosition();
+			float length = sqrt((direction.x * direction.x) + (direction.y * direction.y));
+			direction = b2Vec2(direction.x / length, direction.y / length);
+			b2Vec2 velocity = b2Vec2(direction.x * 1000, direction.y * 1000);
+			object->body->SetLinearVelocity(velocity);
 
-		// change orienation of sprite if needed
-		//if (sqrt((direction.x * direction.x) + (direction.y * direction.y)) >= 0)
-		//{
-		//	float orientation = atan2(direction.x, -direction.y) * (180 / 3.141592654);
-		//	// set sprite rotation
-		//}
+			// change orienation of sprite if needed
+			//if (sqrt((direction.x * direction.x) + (direction.y * direction.y)) >= 0)
+			//{
+			//	float orientation = atan2(direction.x, -direction.y) * (180 / 3.141592654);
+			//	// set sprite rotation
+			//}
+		}
 	}
 
-	int targetID;
+	Box2DComponent* target;
 	int shooterID;
 };
 
@@ -107,14 +111,59 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 
 	void beginContact(IEntity * e)
 	{
-		auto ai = getComponent<SeekAIComponent>();
-
-		if (ai && ai->shooterID != e->ID)
+		if (e)
 		{
-			getParent()->alive = false;
-			e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+			if (e->getComponent<DirectionComponent>())
+			{}
+			else
+			{
+				auto ai = getComponent<SeekAIComponent>();
+
+				if (ai && ai->shooterID != e->ID)
+				{
+					getParent()->alive = false;
+					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+				}
+			}
 		}
 	}
+};
+
+struct WebDropResponseComponent : public ICollisionResponseComponent
+{
+	WebDropResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e)
+	{
+		if (e)
+		{
+			auto staticBox = e->getComponent<StaticBodyComponent>();
+			auto dynBox = e->getComponent<DynamicBodyComponent>();
+
+			if (staticBox) {}
+			else if (dynBox && !firstContact)
+			{
+				getParent()->alive = false;
+				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+	
+			}
+			else
+			{
+				firstContact = false;
+			}
+		}
+	};
+
+	bool firstContact = true;
 };
 
 struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComponent
@@ -140,4 +189,20 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 			racePositionComponent->SetVolumeId(volumeID);
 		}
 	};
+};
+
+struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
+{
+	BoostPadResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e);
 };

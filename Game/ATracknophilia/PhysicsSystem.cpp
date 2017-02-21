@@ -26,7 +26,7 @@ void PhysicsSystem::process(float dt)
 			// boost time is the time the boost button on controller is held for
 			boostComp->m_boostTime += dt;
 			if (stamComp->m_stamina > 0)
-				stamComp->m_stamina--;
+				stamComp->m_stamina-=0.5f;
 		}
 		
 		if (boostComp && boostComp->m_boostActive == false)
@@ -80,6 +80,7 @@ std::pair<IEntity*, Vector2D> PhysicsSystem::RayCastToStaticObject(Vector2D star
 	input.maxFraction = 1;
 
 	IEntity* collidedEntity = nullptr;
+
 	//check every fixture of every body to find closest
 	float closestFraction = 1; //start with end of line as p2
 	b2Vec2 intersectionNormal(0, 0);

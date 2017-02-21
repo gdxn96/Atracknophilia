@@ -218,6 +218,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
+    <ClInclude Include="BoostPad.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
@@ -248,6 +249,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="Systems.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="WebDrop.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -258,6 +260,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="Logic.cpp" />
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RaceManager.cpp" />
