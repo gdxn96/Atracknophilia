@@ -17,7 +17,7 @@ struct RacePositionComponent : public IComponent, public AutoLister<RacePosition
 		{
 			int priority = getComponentById<PriorityComponent>(volumeID)->priority;
 			int newPriority = getComponentById<PriorityComponent>(id)->priority;
-			if (newPriority == 0 && priority != 1)
+			if (newPriority == 0 && priority > 1)
 			{
 				lap++;
 			}
@@ -25,6 +25,8 @@ struct RacePositionComponent : public IComponent, public AutoLister<RacePosition
 			{
 				lap--;
 			}
+
+			std::cout << "Player " << ID << " Position: " << newPriority << " Lap: " << lap << std::endl;
 		}
 
 		volumeID = id;

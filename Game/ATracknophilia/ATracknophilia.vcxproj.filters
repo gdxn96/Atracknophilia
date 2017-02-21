@@ -126,9 +126,6 @@
     <ClInclude Include="RaceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionVolume.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="CameraManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
       <Filter>ECS\Entities</Filter>
     </ClInclude>
     <ClInclude Include="BoostPad.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
   </ItemGroup>
@@ -188,11 +188,11 @@
     <ClCompile Include="RaceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionVolume.cpp">
-      <Filter>ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Logic.cpp">
       <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionVolume.cpp">
+      <Filter>ECS\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
