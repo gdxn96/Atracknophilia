@@ -207,13 +207,40 @@
   ],
   "directions": [
     {
-      "height": 600,
-      "width": 600,
+      "height": 5900,
+      "width": 1100,
       "x": 500,
       "y": 0,
       "priority": 0,
       "directionX": 0,
       "directionY": 1
+    },
+    {
+      "height": 1000,
+      "width": 12000,
+      "x": 500,
+      "y": 5900,
+      "priority": 1,
+      "directionX": 1,
+      "directionY": 0
+    },
+    {
+      "height": 5900,
+      "width": 1100,
+      "x": 11200,
+      "y": 0,
+      "priority": 2,
+      "directionX": 0,
+      "directionY": -1
+    },
+        {
+      "height": 2000,
+      "width": 9600,
+      "x": 1600,
+      "y": 0,
+      "priority": 3,
+      "directionX": -1,
+      "directionY": 0
     }
   ]
 }
