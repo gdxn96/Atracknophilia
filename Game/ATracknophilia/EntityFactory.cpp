@@ -42,9 +42,9 @@ void EntityFactory::SpawnDirectionVolume(float x, float y, float w, float h, int
 	LevelLoader::appendToEntities(new DirectionVolume(id(), x, y, w, h, priority, direction));
 }
 
-void EntityFactory::SpawnWebDrop(float x, float y, float w, float h, int shooterID)
+void EntityFactory::SpawnWebDrop(float x, float y, float w, float h)
 {
-	LevelLoader::appendToEntities(new WebDrop(id(), x, y, w, h, shooterID));
+	LevelLoader::appendToEntities(new WebDrop(id(), x, y, w, h));
 }
 
 void EntityFactory::SpawnBoostPad(float x, float y, float w, float h)

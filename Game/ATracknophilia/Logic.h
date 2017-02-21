@@ -131,9 +131,8 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 
 struct WebDropResponseComponent : public ICollisionResponseComponent
 {
-	WebDropResponseComponent(int id, int shooter_id)
+	WebDropResponseComponent(int id)
 		: ICollisionResponseComponent(id)
-		, shooterID(shooter_id)
 	{
 
 	}
@@ -151,18 +150,20 @@ struct WebDropResponseComponent : public ICollisionResponseComponent
 			auto dynBox = e->getComponent<DynamicBodyComponent>();
 
 			if (staticBox) {}
-			else if (dynBox)
+			else if (dynBox && !firstContact)
 			{
-				if (shooterID != e->ID)
-				{
-					getParent()->alive = false;
-					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
-				}
+				getParent()->alive = false;
+				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+	
+			}
+			else
+			{
+				firstContact = false;
 			}
 		}
 	};
 
-	int shooterID;
+	bool firstContact = true;
 };
 
 struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComponent

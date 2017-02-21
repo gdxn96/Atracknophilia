@@ -4,10 +4,10 @@
 class WebDrop : public IEntity
 {
 public:
-	WebDrop(int id, int x, int y, int w, int h, int shooterID) : IEntity(id,
+	WebDrop(int id, int x, int y, int w, int h) : IEntity(id,
 	{
 		new WebDropComponent(id, x, y, w, h),
-		new WebDropResponseComponent(id, shooterID),
+		new WebDropResponseComponent(id),
 	})
 	{};
 

@@ -104,13 +104,13 @@ struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowSh
 	}
 };
 
-struct WebDropComponent : public DynamicBodyComponent, public AutoLister<SlowShotComponent>
+struct WebDropComponent : public StaticBodyComponent, public AutoLister<SlowShotComponent>
 {
-	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height)
+	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : StaticBodyComponent(id, x, y, width, height)
 	{
 		//fixture->SetSensor(true);
-		fixture->SetFriction(0);
-		fixture->SetDensity(0);
+		fixture->SetFriction(10);
+		fixture->SetDensity(10);
 	}
 };
 
