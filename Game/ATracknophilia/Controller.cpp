@@ -107,7 +107,6 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			getComponent<MaxVelocityComponent>()->m_maxVelocity = boostComp->BOOSTED_MAX_VELOCITY;
 			getComponent<MaxAccelerationComponent>()->m_maxAcceleration = boostComp->BOOSTED_ACCELERATION;
 			boostComp->m_boostActive = true;
-			std::cout << "Stamina: " + std::to_string(stamComp->m_stamina) << std::endl;
 		}
 	}), this, m_controllerId);
 
