@@ -16,11 +16,12 @@ struct RacePositionComponent : public IComponent, public AutoLister<RacePosition
 		if (volumeID != -1)
 		{
 			int priority = getComponentById<PriorityComponent>(volumeID)->priority;
-			if (id == 0 && priority != 1)
+			int newPriority = getComponentById<PriorityComponent>(id)->priority;
+			if (newPriority == 0 && priority != 1)
 			{
 				lap++;
 			}
-			if (priority == 0 && id > 1)
+			if (priority == 0 && newPriority > 1)
 			{
 				lap--;
 			}
