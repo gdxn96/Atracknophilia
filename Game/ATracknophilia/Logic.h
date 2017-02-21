@@ -113,12 +113,17 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 	{
 		if (e)
 		{
-			auto ai = getComponent<SeekAIComponent>();
-
-			if (ai && ai->shooterID != e->ID)
+			if (e->getComponent<DirectionComponent>())
+			{}
+			else
 			{
-				getParent()->alive = false;
-				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+				auto ai = getComponent<SeekAIComponent>();
+
+				if (ai && ai->shooterID != e->ID)
+				{
+					getParent()->alive = false;
+					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+				}
 			}
 		}
 	}

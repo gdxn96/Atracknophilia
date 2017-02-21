@@ -95,7 +95,7 @@ struct SensorComponent : public KinematicBodyComponent, public AutoLister<Sensor
 
 struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowShotComponent>
 {
-	SlowShotComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height, fixedRotation)
+	SlowShotComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height/*, fixedRotation*/)
 	{
 		body->SetGravityScale(0);
 		fixture->SetSensor(true);

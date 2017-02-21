@@ -9,7 +9,7 @@ void BoostPadResponseComponent::beginContact(IEntity * e)
 		auto players = AutoList::get<Player>();
 		for (auto player : players)
 		{
-			if (e->ID == player->ID)
+			if (e->ID == player->ID && e->getComponent<StaminaComponent>()->m_stamina < 100)
 			{
 				e->getComponent<StaminaComponent>()->m_stamina += 20;
 				std::cout << "Stamina: " + std::to_string(e->getComponent<StaminaComponent>()->m_stamina) << std::endl;

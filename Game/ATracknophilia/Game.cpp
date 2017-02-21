@@ -56,7 +56,7 @@ void Game::init()
 
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
-	EntityFactory::SpawnBoostPad(50, 29, 3, 1);
+	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
 }
 
 void Game::loop(float dt)
