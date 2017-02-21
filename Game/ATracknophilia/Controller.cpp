@@ -37,6 +37,26 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 		}
 	}), this, m_controllerId);
 
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
+		auto c = getComponent<Box2DComponent>();
+		if (c) {
+			EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y, 5, 5, 32, ID);
+		}
+	}), this, m_controllerId);
+
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
+		auto c = getComponent<Box2DComponent>();
+		if (c) {
+			auto swap = getComponent<SwapComponent>();
+			if (swap)
+			{}
+			else
+			{
+				PhysicsSystem::RayCastToObject(c->body->GetPosition(), Vector2D(), 50);
+			}
+		}
+	}), this, m_controllerId);
+
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new HoldCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
 		auto hook = getComponent<HookComponent>();
@@ -56,13 +76,6 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			}
 		}
 
-	}), this, m_controllerId);
-
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
-		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y, 5, 5, 32, ID);
-		}
 	}), this, m_controllerId);
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand([&]() {
