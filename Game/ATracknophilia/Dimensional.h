@@ -64,7 +64,7 @@ struct Box2DPolyComponent : public AutoLister<Box2DPolyComponent>, public ICompo
 {
 	b2BodyDef bodyDef;
 
-	b2Vec2 vec[10];
+	b2Vec2 vec[16];
 
 	for (int i = 0; i < points.size(); i++)
 	{
@@ -127,9 +127,9 @@ struct KinematicBodyComponent : public Box2DComponent, public AutoLister<Kinemat
 	}
 };
 
-struct CollisionPolyComponent : public Box2DPolyComponent, public AutoLister<CollisionPolyComponent >
+struct StaticPolyComponent : public Box2DPolyComponent, public AutoLister<StaticPolyComponent >
 {
-	CollisionPolyComponent(int id, std::vector<b2Vec2> points, bool isStatic = true, bool fixedRotation = true)
+	StaticPolyComponent(int id, std::vector<b2Vec2> points, bool isStatic = true, bool fixedRotation = true)
 		: Box2DPolyComponent(id, points, isStatic, fixedRotation)
 	{
 

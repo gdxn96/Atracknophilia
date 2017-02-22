@@ -58,10 +58,6 @@ void Game::init()
 
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
-
-	/*std::vector<b2Vec2> vec = { b2Vec2(10,10), b2Vec2(20,10), b2Vec2(10,20) };
-
-	EntityFactory::SpawnStaticPoly(vec);*/
 }
 
 void Game::loop(float dt)
