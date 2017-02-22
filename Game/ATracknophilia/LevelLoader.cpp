@@ -25,104 +25,121 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 	fclose(file);
 
 	Vector2D biggest;
-
-	if (document.HasMember("objects"))
+	if (document.HasMember("layers"))
 	{
-		for (const auto& itr : document["objects"].GetArray())
+		for (const auto& layer : document["layers"].GetArray())
 		{
-			if (itr.HasMember("polygon"))
+			if (layer["name"] == "Map Layer")
 			{
-				std::vector<b2Vec2> points;
-
-				float xPos, yPos;
-				xPos = itr["x"].GetFloat() / 25.f;
-				yPos = itr["y"].GetFloat() / 25.f;
-				for (const auto& it2 : itr["polygon"].GetArray())
+				if (layer.HasMember("objects"))
 				{
-					float x, y;
-					x = it2["x"].GetFloat() / 25.f;
-					y = it2["y"].GetFloat() / 25.f;
-					
-					points.push_back(b2Vec2(x + xPos, y + yPos));
-
-					if (x > biggest.w)
+					for (const auto& itr : layer["objects"].GetArray())
 					{
-						biggest.w = x;
+						if (itr.HasMember("polygon"))
+						{
+							std::vector<b2Vec2> points;
+
+							float xPos, yPos;
+							xPos = itr["x"].GetFloat() / 50.f;
+							yPos = itr["y"].GetFloat() / 50.f;
+							for (const auto& it2 : itr["polygon"].GetArray())
+							{
+								float x, y;
+								x = it2["x"].GetFloat() / 50.f;
+								y = it2["y"].GetFloat() / 50.f;
+
+								points.push_back(b2Vec2(x + xPos, y + yPos));
+
+								if (x > biggest.w)
+								{
+									biggest.w = x;
+								}
+								if (y > biggest.h)
+								{
+									biggest.h = y;
+								}
+							}
+							EntityFactory::SpawnStaticPoly(points);
+						}
+						else
+						{
+							float x, y, w, h;
+							x = itr["x"].GetFloat() / 50.f;
+							y = itr["y"].GetFloat() / 50.f;
+							w = itr["width"].GetFloat() / 50.f;
+							h = itr["height"].GetFloat() / 50.f;
+							EntityFactory::SpawnStaticBox(x, y, w, h);
+
+							if (x + w > biggest.w)
+							{
+								biggest.w = x + w;
+							}
+							if (y + h > biggest.h)
+							{
+								biggest.h = y + h;
+							}
+						}
 					}
-					if (y > biggest.h)
+				}
+			}
+			else if (layer["name"] == "Obstacle layer")
+			{
+				if (layer.HasMember("objects"))
+				{
+					for (const auto& itr : layer["objects"].GetArray())
 					{
-						biggest.h = y;
+						float x, y, w, h;
+						x = itr["x"].GetFloat() / 50.f;
+						y = itr["y"].GetFloat() / 50.f;
+						w = itr["width"].GetFloat() / 50.f;
+						h = itr["height"].GetFloat() / 50.f;
+						EntityFactory::SpawnSoftBox(x, y, w, h);
+
+						if (x + w > biggest.w)
+						{
+							biggest.w = x + w;
+						}
+						if (y + h > biggest.h)
+						{
+							biggest.h = y + h;
+						}
 					}
 				}
-				EntityFactory::SpawnStaticPoly(points);
 			}
-			else
+			else if (layer["name"] == "Direction Layer")
 			{
-				float x, y, w, h;
-				x = itr["x"].GetFloat() / 50.f;
-				y = itr["y"].GetFloat() / 50.f;
-				w = itr["width"].GetFloat() / 50.f;
-				h = itr["height"].GetFloat() / 50.f;
-				EntityFactory::SpawnStaticBox(x, y, w, h);
-
-				if (x + w > biggest.w)
+				if (layer.HasMember("objects"))
 				{
-					biggest.w = x + w;
-				}
-				if (y + h > biggest.h)
-				{
-					biggest.h = y + h;
-				}
-			}
-		}
-	}
+					for (const auto& itr : layer["objects"].GetArray())
+					{
+						float x, y, w, h, priority, directionX, directionY;
+						x = itr["x"].GetFloat() / 50.f;
+						y = itr["y"].GetFloat() / 50.f;
+						w = itr["width"].GetFloat() / 50.f;
+						h = itr["height"].GetFloat() / 50.f;
+						priority = itr["properties"]["priority"].GetFloat() / 50.f;
+						directionX = itr["properties"]["directionX"].GetFloat() / 50.f;
+						directionY = itr["properties"]["directionY"].GetFloat() / 50.f;
+						EntityFactory::SpawnDirectionVolume(x, y, w, h, priority, Vector2D(directionX, directionY));
 
-	if (document.HasMember("softbox"))
-	{
-		for (const auto& itr : document["softbox"].GetArray())
-		{
-			float x, y, w, h;
-			x = itr["x"].GetFloat() / 50.f;
-			y = itr["y"].GetFloat() / 50.f;
-			w = itr["width"].GetFloat() / 50.f;
-			h = itr["height"].GetFloat() / 50.f;
-			EntityFactory::SpawnSoftBox(x, y, w, h);
+						if (x + w > biggest.w)
+						{
+							biggest.w = x + w;
+						}
+						if (y + h > biggest.h)
+						{
+							biggest.h = y + h;
+						}
+					}
+				}
 
-			if (x + w > biggest.w)
-			{
-				biggest.w = x + w;
-			}
-			if (y + h > biggest.h)
-			{
-				biggest.h = y + h;
 			}
 		}
 	}
 	
-	if (document.HasMember("directions"))
-	{
-		for (const auto& itr : document["directions"].GetArray())
-		{
-			float x, y, w, h, priority, directionX, directionY;
-			x = itr["x"].GetFloat() / 50.f;
-			y = itr["y"].GetFloat() / 50.f;
-			w = itr["width"].GetFloat() / 50.f;
-			h = itr["height"].GetFloat() / 50.f;
-			priority = itr["priority"].GetFloat() / 50.f;
-			directionX = itr["directionX"].GetFloat() / 50.f;
-			directionY = itr["directionY"].GetFloat() / 50.f;
-			EntityFactory::SpawnDirectionVolume(x, y, w, h, priority, Vector2D(directionX, directionY));
 
-			if (x + w > biggest.w)
-			{
-				biggest.w = x + w;
-			}
-			if (y + h > biggest.h)
-			{
-				biggest.h = y + h;
-			}
-		}
-	}
+	
+	
 
 	return biggest;
 
