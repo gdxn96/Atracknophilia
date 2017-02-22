@@ -53,32 +53,27 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 
 struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
 {
-	SwapComponent(int id, Vector2D start, Vector2D end, b2Body* bodyToAttach)
+	SwapComponent(int id, Vector2D start, Vector2D end, b2Body* myBody, b2Body* targetBody)
 		: IComponent(id)
-		//, pivot(new StaticBodyComponent(-1, end.x, end.y, 0, 0, true))
-		, tetherLength(Vector2D::Distance(start, end) * 0.9f)
 		, line(new LineComponent(-1, start, end))
 	{
-		b2DistanceJointDef jointDef;
-		jointDef.bodyA = bodyToAttach;
-		//jointDef.bodyB = pivot->body;
+		b2WheelJointDef jointDef;
+		jointDef.bodyA = myBody;
+		jointDef.bodyB = targetBody;
 		jointDef.collideConnected = false;
-		jointDef.length = tetherLength;
 		jointDef.dampingRatio = 0.5;
 		jointDef.frequencyHz = 60;
 
-		joint = (b2DistanceJoint*)PhysicsSystem::World().CreateJoint(&jointDef);
+		joint = (b2WheelJoint*)PhysicsSystem::World().CreateJoint(&jointDef);
 	}
 
 	virtual ~SwapComponent()
 	{
 		PhysicsSystem::World().DestroyJoint(joint);
-		//delete pivot;
 		delete line;
 	}
 
-	b2DistanceJoint* joint;
-	//Box2DComponent* pivot;
+	b2WheelJoint* joint;
 	LineComponent* line;
 	float tetherLength;
 };

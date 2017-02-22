@@ -140,6 +140,11 @@ std::pair<IEntity*, Vector2D> PhysicsSystem::RayCastToDynamicObject(Vector2D sta
 	return{ collidedEntity, intersectionPoint };
 }
 
+//Vector2D PhysicsSystem::RayCastToObject(Vector2D start, Vector2D end, float maxLength = 100)
+//{
+//
+//}
+
 b2Vec2 & PhysicsSystem::Gravity()
 {
 	static b2Vec2 gravity(0, 100);

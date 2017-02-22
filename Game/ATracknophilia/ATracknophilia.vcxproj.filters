@@ -138,6 +138,9 @@
     <ClInclude Include="BoostPad.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="SwapSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -246,6 +246,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="SoftBox.h" />
     <ClInclude Include="StaticPolygon.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SwapSystem.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector2D.h" />

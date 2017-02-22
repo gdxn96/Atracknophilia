@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Controller.h"
 #include "EntityFactory.h"
-
+#include "RaceManager.h"
 	
 PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) : IControllerComponent(id, controllerId)
 {
@@ -44,17 +44,17 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 		}
 	}), this, m_controllerId);
 
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
+	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
 		if (c) {
 			EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
 		}
-	}), this, m_controllerId);
+	}), this, m_controllerId);*/
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
 		if (c) {
-			auto swap = getComponent<SwapComponent>();
+			/*auto swap = getComponent<SwapComponent>();
 			if (swap)
 			{}
 			else
@@ -64,7 +64,49 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 				if (xVelocity > 0) { xRay = 1000; }
 				else if (xVelocity < 0) { xRay = -1000; }
 				auto target = PhysicsSystem::RayCastToDynamicObject(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000), 50);
+
+				Vector2D intersectionPt = target.second;
+				
+				if (target.first)
+				{
+					auto isDynamic = target.first->getComponent<DynamicBodyComponent>();
+					if (isDynamic)
+						getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), intersectionPt, c->body, target.first->getComponent<Box2DComponent>()->body));
+				}
+			}*/
+
+			vector<Player*> players = RaceManager::getInstance()->getPlayers();
+			int targetID = 1;
+
+			for (int i = 0; i < players.size(); i++)
+			{
+				if (i + 1 == players.size())
+				{
+				}
+				else if (players[i]->ID == ID)
+				{
+					auto targetBody = players[i + 1]->getComponent<Box2DComponent>()->body;
+
+					float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal(m_controllerId).x;
+					float xRay = 0;
+					if (xVelocity > 0) { xRay = 1000; }
+					else if (xVelocity < 0) { xRay = -1000; }
+					auto target = PhysicsSystem::RayCastToDynamicObject(c->body->GetPosition(), targetBody->GetPosition(), 50);
+
+					Vector2D intersectionPt = target.second;
+
+					getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), intersectionPt, c->body, players[i+1]->getComponent<Box2DComponent>()->body));
+				}
 			}
+		}
+	}), this, m_controllerId);
+
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
+
+		auto l = getComponent<SwapComponent>();
+		if (l)
+		{
+			getParent()->deleteComponent<SwapComponent>();
 		}
 	}), this, m_controllerId);
 
@@ -87,7 +129,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 				auto isDynamic = intersection.first->getComponent<StaticBodyComponent>();
 				float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersectionPt);
 				if (distance > 10 && isDynamic)
-					getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
+					getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
 			}
 		}
 
