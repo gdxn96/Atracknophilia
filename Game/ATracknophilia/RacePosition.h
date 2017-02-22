@@ -25,8 +25,6 @@ struct RacePositionComponent : public IComponent, public AutoLister<RacePosition
 			{
 				lap--;
 			}
-
-			std::cout << "Player " << ID << " Position: " << newPriority << " Lap: " << lap << std::endl;
 		}
 
 		volumeID = id;
