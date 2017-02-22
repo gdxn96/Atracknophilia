@@ -21,7 +21,7 @@ class StaticPoly : public IEntity
 public:
 	StaticPoly(int id, std::vector<b2Vec2> points) : IEntity(id,
 	{
-		new StaticPolyComponent(id, points, true, true),
+		new StaticBodyComponent(id, points, true),
 	})
 	{
 	};
