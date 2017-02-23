@@ -93,6 +93,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			afixture.isSensor = true;
 			fixture = body->CreateFixture(&afixture);
 		}
+		body->SetUserData(this);
 	}
 
 	virtual ~Box2DComponent()
@@ -114,7 +115,7 @@ struct StaticBodyComponent : public Box2DComponent, public AutoLister<StaticBody
 	{
 	}
 	StaticBodyComponent(int id, std::vector<b2Vec2> points, bool fixedRotation = true)
-		: Box2DComponent(id, points, b2_staticBody, fixedRotation)
+		:	Box2DComponent(id, points, b2_staticBody, fixedRotation)
 	{
 	}
 };
