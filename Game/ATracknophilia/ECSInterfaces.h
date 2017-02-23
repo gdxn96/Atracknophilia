@@ -1,5 +1,6 @@
 #pragma once
 #include "AutoList.h"
+#include <algorithm>
 
 template<typename T>
 T* getComponentById(int id)
@@ -22,6 +23,8 @@ public:
 	virtual void process(float dt) = 0;
 };
 
+class IEntity;
+
 struct IComponent : public AutoLister<IComponent>
 {
 	IComponent(int id) : ID(id) {};
@@ -30,6 +33,11 @@ struct IComponent : public AutoLister<IComponent>
 	T* getComponent()
 	{
 		return getComponentById<T>(ID);
+	}
+
+	IEntity* getParent()
+	{
+		return getComponentById<IEntity>(ID);
 	}
 
 	virtual ~IComponent() {};
@@ -41,6 +49,13 @@ class IEntity : public AutoLister<IEntity>
 public:
 	IEntity(int id, std::vector<IComponent*> list) : ID(id), m_components(list)
 	{
+		alive = true;
+	}
+
+	template<typename T>
+	T* getComponent()
+	{
+		return getComponentById<T>(ID);
 	}
 
 	virtual ~IEntity()
@@ -52,13 +67,28 @@ public:
 		m_components.clear();
 	}
 
-	template<typename T>
-	T* getComponent()
+
+	void AddComponent(IComponent* component)
 	{
-		return getComponentById<T>(ID);
+		m_components.push_back(component);
+	}
+
+	template<typename T>
+	bool deleteComponent()
+	{
+		auto component = getComponentById<T>(ID);
+
+		if (component)
+		{
+			delete component;
+			m_components.erase(std::remove(m_components.begin(), m_components.end(), component), m_components.end());
+			return true;
+		}
+		return false;
 	}
 
 	const int ID;
+	bool alive;
 protected:
 	std::vector<IComponent*> m_components;
 

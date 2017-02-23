@@ -2,12 +2,11 @@
 #include "ECSInterfaces.h"
 #include "Vector2D.h"
 #include "box2d\Box2D.h"
-#include "Animation.h"
 #include "PhysicsSystem.h"
 
 struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 {
-	Box2DComponent(int id, float x, float y, float width, float height, bool isStatic = true, bool fixedRotation = true) 
+	Box2DComponent(int id, float x, float y, float width, float height, b2BodyType type=b2_staticBody, bool fixedRotation = true) 
 		:	IComponent(id) 
 		,	size(width, height)
 	{
@@ -18,13 +17,13 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		b2PolygonShape shape;
 		shape.SetAsBox(width / 2.f, height / 2.f);
 
-		if (isStatic)
+		if (type == b2_staticBody)
 		{
 			bodyDef.type = b2_staticBody;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
-			body->CreateFixture(&shape, 0.f);
+			fixture = body->CreateFixture(&shape, 0.5f);
 		}
-		else
+		else if (type == b2_dynamicBody)
 		{
 			bodyDef.type = b2_dynamicBody;
 			bodyDef.fixedRotation = true;
@@ -32,11 +31,24 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			b2FixtureDef afixture;
 			afixture.shape = &shape;
 			afixture.density = 1.0f;
-			afixture.friction = 0.1f;
+			afixture.friction = 0.0f;
 			fixture = body->CreateFixture(&afixture);
 		}
+		else if (type == b2_kinematicBody)
+		{
+			bodyDef.type = b2_kinematicBody;
+			bodyDef.fixedRotation = true;
+			body = PhysicsSystem::World().CreateBody(&bodyDef);
+			b2FixtureDef afixture;
+			afixture.shape = &shape;
+			afixture.density = 1.0f;
+			afixture.friction = 0.1f;
+			afixture.isSensor = true;
+			fixture = body->CreateFixture(&afixture);
+		}
+		body->SetUserData(this);
 	}
-	virtual ~Box2DComponent() 
+	virtual ~Box2DComponent()
 	{
 		PhysicsSystem::World().DestroyBody(body);
 	};
@@ -46,16 +58,70 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 	Vector2D size;
 };
 
-struct CollisionBoxComponent : public Box2DComponent, public AutoLister<CollisionBoxComponent>
+struct StaticBodyComponent : public Box2DComponent, public AutoLister<StaticBodyComponent>
 {
-	CollisionBoxComponent(int id, float x, float y, float width, float height, bool isStatic=true, bool fixedRotation=true) 
-		:	Box2DComponent(id, x, y, width, height, isStatic, fixedRotation) 
+	StaticBodyComponent(int id, float x, float y, float width, float height, bool fixedRotation=true)
+		:	Box2DComponent(id, x, y, width, height, b2_staticBody, fixedRotation) 
 	{
 	}
 };
 
-struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
+struct DynamicBodyComponent : public Box2DComponent, public AutoLister<DynamicBodyComponent>
 {
-	AnimationComponent(int objectId, string animationName) : IComponent(objectId), animation(Animation(animationName)) {};
-	Animation animation;
+	DynamicBodyComponent(int id, float x, float y, float width, float height, bool fixedRotation = true)
+		: Box2DComponent(id, x, y, width, height, b2_dynamicBody, fixedRotation)
+	{
+	}
+};
+
+struct KinematicBodyComponent : public Box2DComponent, public AutoLister<KinematicBodyComponent>
+{
+	KinematicBodyComponent(int id, float x, float y, float width, float height, bool fixedRotation = true)
+		: Box2DComponent(id, x, y, width, height, b2_kinematicBody, fixedRotation)
+	{
+	}
+};
+
+struct SensorComponent : public KinematicBodyComponent, public AutoLister<SensorComponent>
+{
+	SensorComponent(int id, float x, float y, float width, float height)
+		: KinematicBodyComponent(id, x, y, width, height)
+	{
+		fixture->SetSensor(true);
+		fixture->SetFriction(0);
+		fixture->SetDensity(0);
+	}
+};
+
+struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowShotComponent>
+{
+	SlowShotComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height/*, fixedRotation*/)
+	{
+		body->SetGravityScale(0);
+		fixture->SetSensor(true);
+		fixture->SetFriction(0);
+		fixture->SetDensity(0);
+	}
+};
+
+struct WebDropComponent : public StaticBodyComponent, public AutoLister<SlowShotComponent>
+{
+	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : StaticBodyComponent(id, x, y, width, height)
+	{
+		//fixture->SetSensor(true);
+		fixture->SetFriction(10);
+		fixture->SetDensity(10);
+	}
+};
+
+
+struct DirectionComponent : public IComponent, public AutoLister<DirectionComponent>
+{
+	DirectionComponent(int id, Vector2D direction)
+		: IComponent(id)
+		, m_direction(direction)
+	{
+	}
+
+	Vector2D m_direction;
 };

@@ -30,6 +30,7 @@ public:
 	Vector2D(float, float);
 	Vector2D(const Vector2D& v);
 	void limit(float maxMagnitude);
+	b2Vec2 toBox2DVector();
 
 	/*The following operators simply return Vector2ds that
 	have operations performed on the relative (x, y) values*/

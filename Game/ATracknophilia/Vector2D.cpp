@@ -49,6 +49,11 @@ void Vector2D::limit(float maxMagnitude)
 	}
 }
 
+b2Vec2 Vector2D::toBox2DVector()
+{
+	return b2Vec2(this->x, this->y);
+}
+
 Vector2D Vector2D::operator+(const Vector2D &v) const
 {
 	return Vector2D(x + v.x, y + v.y);
@@ -188,7 +193,7 @@ Vector2D Vector2D::Normal(const Vector2D &v)
 
 Vector2D Vector2D::Perpendicular(const Vector2D &v)
 {
-	return Vector2D(v.y, -v.x);
+	return Vector2D(-v.y, v.x);
 }
 Vector2D Vector2D::DirectionVectorBetweenTwoPoints(const Vector2D &v1, const Vector2D & v2)
 {

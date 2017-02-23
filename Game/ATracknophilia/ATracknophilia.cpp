@@ -12,9 +12,7 @@ int main()
 {
 	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
 	auto exit = PressCommand([&](){ Game::quit = true; });
-	InputManager::GetInstance()->AddKey(EventListener::ESCAPE, &exit, nullptr);
-
-	std::cout << "Initialising Game" << std::endl;
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::ESCAPE, &exit, &game);
 
 	game.init();
 

@@ -108,8 +108,35 @@
     <ClInclude Include="EntityFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="Logic.h">
       <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftBox.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="SlowShot.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="AISystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="RaceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebDrop.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="BoostPad.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionVolume.h">
+      <Filter>ECS\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -150,11 +177,25 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>ECS\Systems</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RaceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic.cpp">
+      <Filter>ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionVolume.cpp">
+      <Filter>ECS\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
-    <None Include="..\..\assets\resources.json" />
   </ItemGroup>
 </Project>

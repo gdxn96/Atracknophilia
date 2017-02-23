@@ -1,49 +1,208 @@
 #pragma once
-#include "ECSInterfaces.h"
 #include <functional>
+#include "ECSInterfaces.h"
 #include "Dimensional.h"
+#include "RacePosition.h"
 
-struct LogicComponent : public IComponent
+struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
 {
-public:
-	LogicComponent(int id, std::function<void()> fn) : IComponent(id), m_function(fn) {};
-	void execute()
+	ICollisionResponseComponent(int id)
+		: IComponent(id)
+	{}
+
+	virtual ~ICollisionResponseComponent() {};
+
+	virtual void endContact(IEntity* e)
 	{
-		m_function();
-	}
-	virtual ~LogicComponent() {};
-private:
-	std::function<void()> m_function;
+
+	};
+
+
+	virtual void beginContact(IEntity* e)
+	{
+
+	};
 };
 
-struct PhysicsLogicComponent : public LogicComponent, public AutoLister<PhysicsLogicComponent>
+struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 {
-public:
-	PhysicsLogicComponent(int id, std::function<void()> fn) : LogicComponent(id, fn) {};
-	virtual ~PhysicsLogicComponent() {};
-};
-
-//this logic allows any body to invert their gravity if they are falling upwards and reach the end of a platform
-struct InvertGravityOnEdgeComponent : public PhysicsLogicComponent, public AutoLister<InvertGravityOnEdgeComponent>
-{
-	InvertGravityOnEdgeComponent(int id)
-		:	PhysicsLogicComponent(id, std::bind(&InvertGravityOnEdgeComponent::update, this))
+	SoftObstacleResponseComponent(int id)
+		:	ICollisionResponseComponent(id)
 	{
+
 	}
 
-	void update()
+	void endContact(IEntity * e)
 	{
-		auto x = getComponent<CollisionBoxComponent>();
-		auto colliding = x->body->GetContactList();
-		static b2ContactEdge* prevColliding = nullptr;
-		static float prevScale = 0;
+	
+	};
 
-		if (!colliding && prevColliding && x->body->GetGravityScale() < 0 && prevScale == x->body->GetGravityScale())
+	void beginContact(IEntity * e)
+	{
+		auto collisionBody = e->getComponent <DynamicBodyComponent> ();
+		
+		if (collisionBody)
 		{
-			x->body->SetGravityScale(x->body->GetGravityScale() * -1);
+			auto b = getComponent<KinematicBodyComponent>();
+			if (b)
+				b->body->SetLinearVelocity(b2Vec2(0, 100000));
+			
+			collisionBody->body->SetLinearVelocity(b2Vec2(0, 0));
 		}
+	};
+};
 
-		prevColliding = colliding;
-		prevScale = x->body->GetGravityScale();
+struct AIComponent : public IComponent, public AutoLister<AIComponent>
+{
+	AIComponent(int id) 
+		:	IComponent(id)
+	{
 	}
+
+	virtual void think() {}
+};
+
+struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
+{
+	SeekAIComponent(int id, int target_id, int shooter_id)
+		: AIComponent(id)
+		, target(getComponentById<Box2DComponent>(target_id))
+		, shooterID(shooter_id)
+	{
+		assert(target != nullptr);
+	}
+
+	void think()
+	{
+		if (target != nullptr)
+		{
+			auto object = getComponent<Box2DComponent>();
+
+			b2Vec2 pos = object->body->GetPosition();
+			b2Vec2 targetPos = target->body->GetPosition();
+
+			auto direction = target->body->GetPosition() - object->body->GetPosition();
+			float length = sqrt((direction.x * direction.x) + (direction.y * direction.y));
+			direction = b2Vec2(direction.x / length, direction.y / length);
+			b2Vec2 velocity = b2Vec2(direction.x * 1000, direction.y * 1000);
+			object->body->SetLinearVelocity(velocity);
+
+			// change orienation of sprite if needed
+			//if (sqrt((direction.x * direction.x) + (direction.y * direction.y)) >= 0)
+			//{
+			//	float orientation = atan2(direction.x, -direction.y) * (180 / 3.141592654);
+			//	// set sprite rotation
+			//}
+		}
+	}
+
+	Box2DComponent* target;
+	int shooterID;
+};
+
+struct SlowShotResponseComponent : public ICollisionResponseComponent
+{
+	SlowShotResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{}
+
+	void endContact(IEntity * e)
+	{};
+
+	void beginContact(IEntity * e)
+	{
+		if (e)
+		{
+			if (e->getComponent<DirectionComponent>())
+			{}
+			else
+			{
+				auto ai = getComponent<SeekAIComponent>();
+
+				if (ai && ai->shooterID != e->ID)
+				{
+					getParent()->alive = false;
+					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+				}
+			}
+		}
+	}
+};
+
+struct WebDropResponseComponent : public ICollisionResponseComponent
+{
+	WebDropResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e)
+	{
+		if (e)
+		{
+			auto staticBox = e->getComponent<StaticBodyComponent>();
+			auto dynBox = e->getComponent<DynamicBodyComponent>();
+
+			if (staticBox) {}
+			else if (dynBox && !firstContact)
+			{
+				getParent()->alive = false;
+				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+	
+			}
+			else
+			{
+				firstContact = false;
+			}
+		}
+	};
+
+	bool firstContact = true;
+};
+
+struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComponent
+{
+	DirectionVolumeCollisionResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity* e)
+	{
+
+	};
+
+	void beginContact(IEntity* e)
+	{
+		int volumeID = this->ID;
+		auto racePositionComponent = e->getComponent<RacePositionComponent>();
+
+		if (racePositionComponent)
+		{
+			racePositionComponent->SetVolumeId(volumeID);
+		}
+	};
+};
+
+struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
+{
+	BoostPadResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e);
 };
