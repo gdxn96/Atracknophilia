@@ -31,6 +31,13 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 				return;
 			}
 		}
+		auto collisionBody = e->getComponent <KinematicBodyComponent>(); // collision with sensor component
+		if (collisionBody)
+		{
+			auto b = getComponent<DynamicBodyComponent>();
+			if (b)
+				b->body->SetLinearVelocity(b2Vec2(0, 0)); // stop the player's velocity on collision
+		}
 	}
 };
 
