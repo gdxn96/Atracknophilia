@@ -25,6 +25,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto physicsSystem = new PhysicsSystem();
 	auto aiSystem = new AISystem();
 	auto hookSys = new HookSystem();
+	auto swapSys = new SwapSystem();
 
 	//Init systems
 	renderSys->init(&m_renderer);
@@ -35,6 +36,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(collisionSystem);
 	m_systems.push_back(inputSys);
 	m_systems.push_back(hookSys);
+	m_systems.push_back(swapSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
 

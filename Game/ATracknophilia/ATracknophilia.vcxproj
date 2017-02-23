@@ -232,6 +232,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Interactables.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="LTimer.h" />

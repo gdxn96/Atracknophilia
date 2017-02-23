@@ -47,34 +47,56 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
 		if (c) {
-			EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+			auto a = getComponent<PowerupComponent>();
+			if(a && a->type != NONE)
+			{
+				switch(a->type)
+				{
+				case WEB_DROP:
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+					break;
+				case SLOW_SHOT:
+					EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
+					break;
+				case SWAP_SHOT:
+					vector<Player*> players = RaceManager::getInstance()->getPlayers();
+					int targetID = 1;
+
+					for (int i = 0; i < players.size(); i++)
+					{
+						if (i + 1 == players.size())
+						{
+							// Set powerup to be none
+						}
+						else if (players[i]->ID == ID)
+						{
+							auto targetBody = players[i + 1]->getComponent<Box2DComponent>()->body;
+							auto obstacle = PhysicsSystem::RayCastToStaticObject(c->body->GetPosition(), targetBody->GetPosition(), 50);
+							if (!obstacle.first)
+							{
+								getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), targetBody->GetPosition(), c->body, targetBody));
+
+								b2Vec2 dis = (c->body->GetPosition() - targetBody->GetPosition());
+								targetBody->ApplyForceToCenter(b2Vec2(dis.x * 100000, dis.y * 100000), true);
+								c->body->ApplyForceToCenter(b2Vec2(-dis.x * 100000, -dis.y * 100000), true);
+							}
+						}
+					}
+					break;
+				}
+				a->type = NONE;
+			}
 		}
 	}), this, m_controllerId);*/
 
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new PressCommand([&]() {
+		auto h = getComponent<HookComponent>();
+		if (h)
+		{
+			getParent()->deleteComponent<HookComponent>();
+		}
 		auto c = getComponent<Box2DComponent>();
 		if (c) {
-			/*auto swap = getComponent<SwapComponent>();
-			if (swap)
-			{}
-			else
-			{
-				float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal(m_controllerId).x;
-				float xRay = 0;
-				if (xVelocity > 0) { xRay = 1000; }
-				else if (xVelocity < 0) { xRay = -1000; }
-				auto target = PhysicsSystem::RayCastToDynamicObject(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000), 50);
-
-				Vector2D intersectionPt = target.second;
-				
-				if (target.first)
-				{
-					auto isDynamic = target.first->getComponent<DynamicBodyComponent>();
-					if (isDynamic)
-						getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), intersectionPt, c->body, target.first->getComponent<Box2DComponent>()->body));
-				}
-			}*/
-
 			vector<Player*> players = RaceManager::getInstance()->getPlayers();
 			int targetID = 1;
 
@@ -82,33 +104,40 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			{
 				if (i + 1 == players.size())
 				{
+					// Set powerup to be none
 				}
 				else if (players[i]->ID == ID)
 				{
 					auto targetBody = players[i + 1]->getComponent<Box2DComponent>()->body;
+					auto obstacle = PhysicsSystem::RayCastToStaticObject(c->body->GetPosition(), targetBody->GetPosition(), 50);
+					if (!obstacle.first)
+					{
+						getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), targetBody->GetPosition(), c->body, targetBody));
 
-					float xVelocity = InputManager::GetInstance()->GetLeftStickVectorNormal(m_controllerId).x;
-					float xRay = 0;
-					if (xVelocity > 0) { xRay = 1000; }
-					else if (xVelocity < 0) { xRay = -1000; }
-					auto target = PhysicsSystem::RayCastToDynamicObject(c->body->GetPosition(), targetBody->GetPosition(), 50);
-
-					Vector2D intersectionPt = target.second;
-
-					getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), intersectionPt, c->body, players[i+1]->getComponent<Box2DComponent>()->body));
+						b2Vec2 dis = (c->body->GetPosition() - targetBody->GetPosition());
+						if (dis.Normalize() < 100)
+						{
+							targetBody->SetLinearVelocity(b2Vec2(0, 0));
+							targetBody->ApplyForceToCenter(b2Vec2(dis.x * 10000, dis.y * 10000), true);
+							c->body->ApplyForceToCenter(b2Vec2(-dis.x * 10000, -dis.y * 10000), true);
+						}
+						else
+						{
+							// Set powerup to be none
+						}
+					}
 				}
 			}
 		}
 	}), this, m_controllerId);
 
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
-
+	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
 		auto l = getComponent<SwapComponent>();
 		if (l)
 		{
 			getParent()->deleteComponent<SwapComponent>();
 		}
-	}), this, m_controllerId);
+	}), this, m_controllerId);*/
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new HoldCommand([&]() {
 		auto c = getComponent<Box2DComponent>();

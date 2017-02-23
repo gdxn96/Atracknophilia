@@ -55,16 +55,18 @@ struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
 {
 	SwapComponent(int id, Vector2D start, Vector2D end, b2Body* myBody, b2Body* targetBody)
 		: IComponent(id)
+		, target(targetBody)
 		, line(new LineComponent(-1, start, end))
+		, tetherLength(Vector2D::Distance(start, end) * 0.9f)
+		, isShot(true)
 	{
-		b2WheelJointDef jointDef;
+		b2RopeJointDef jointDef;
 		jointDef.bodyA = myBody;
 		jointDef.bodyB = targetBody;
 		jointDef.collideConnected = false;
-		jointDef.dampingRatio = 0.5;
-		jointDef.frequencyHz = 60;
+		jointDef.maxLength = tetherLength;
 
-		joint = (b2WheelJoint*)PhysicsSystem::World().CreateJoint(&jointDef);
+		joint = (b2RopeJoint*)PhysicsSystem::World().CreateJoint(&jointDef);
 	}
 
 	virtual ~SwapComponent()
@@ -73,7 +75,9 @@ struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
 		delete line;
 	}
 
-	b2WheelJoint* joint;
+	b2Body* target;
+	b2RopeJoint* joint;
 	LineComponent* line;
 	float tetherLength;
+	bool isShot;
 };
