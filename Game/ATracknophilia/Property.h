@@ -37,6 +37,7 @@ struct BoostComponent : public IComponent, public AutoLister<BoostComponent>
 		: IComponent(id)
 		, MAX_VELOCITY(50)
 		, BOOSTED_MAX_VELOCITY(80)
+		, MAX_ACCELERATION(20)
 		, BOOSTED_ACCELERATION(150)
 		, m_boostTime(0)
 		, m_decelerateTime(0)
@@ -44,6 +45,7 @@ struct BoostComponent : public IComponent, public AutoLister<BoostComponent>
 	{}
 
 	const float MAX_VELOCITY;
+	const float MAX_ACCELERATION;
 	const float BOOSTED_MAX_VELOCITY;
 	const float BOOSTED_ACCELERATION;
 	float m_boostTime;

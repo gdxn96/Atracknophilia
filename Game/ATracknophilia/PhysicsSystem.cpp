@@ -3,6 +3,9 @@
 #include "Logic.h"
 #include "Property.h"
 
+#include <iostream>
+#include <string>
+
 void PhysicsSystem::process(float dt)
 {
 	World().Step(dt, 7, 3);
@@ -11,9 +14,9 @@ void PhysicsSystem::process(float dt)
 	auto& boxComponents = AutoList::get<Box2DComponent>();
 	for (auto& c : boxComponents)
 	{
-		auto maxVelComp = getComponentById<MaxVelocityComponent>(c->ID);
-		auto boostComp = getComponentById<BoostComponent>(c->ID);
-		auto stamComp = getComponentById<StaminaComponent>(c->ID);
+		auto maxVelComp = c->getComponent<MaxVelocityComponent>();
+		auto boostComp = c->getComponent<BoostComponent>();
+		auto stamComp = c->getComponent<StaminaComponent>();
 
 		if (stamComp && stamComp->m_stamina <= 0)
 		{
@@ -32,7 +35,7 @@ void PhysicsSystem::process(float dt)
 		if (boostComp && boostComp->m_boostActive == false)
 		{
 			// lerp deceleration over time 
-			DecelerateBoost(dt, c->ID);
+			DecelerateBoost(dt, c);
 		}
 
 		// limiting the max velocity
@@ -119,12 +122,15 @@ b2World & PhysicsSystem::World()
 	return world;
 }
 
-void PhysicsSystem::DecelerateBoost(float dt, int id)
+void PhysicsSystem::DecelerateBoost(float dt, Box2DComponent* b)
 {
-	auto boostComp = getComponentById<BoostComponent>(id);
-	auto maxVelComp = getComponentById<MaxVelocityComponent>(id);
+	auto maxVelComp = b->getComponent<MaxVelocityComponent>();
+	auto boostComp = b->getComponent<BoostComponent>();
+	auto maxAccelComp = b->getComponent<MaxAccelerationComponent>();
 
 	boostComp->m_decelerateTime += dt;
+
+	std::cout << "ID " + std::to_string(b->ID) + "Speed: " + std::to_string(maxVelComp->m_maxVelocity) << std::endl;
 
 	// while the velocity is greater than original max velocity - reduce the velocity evenly over time (lerp)
 	if (maxVelComp->m_maxVelocity > boostComp->MAX_VELOCITY)
@@ -138,6 +144,7 @@ void PhysicsSystem::DecelerateBoost(float dt, int id)
 	else
 	{
 		maxVelComp->m_maxVelocity = boostComp->MAX_VELOCITY;
+		maxAccelComp->m_maxAcceleration = boostComp->MAX_ACCELERATION;
 		boostComp->m_decelerateTime = 0;
 		boostComp->m_boostTime = 0;
 	}
