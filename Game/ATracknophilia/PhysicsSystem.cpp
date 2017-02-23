@@ -3,9 +3,6 @@
 #include "Logic.h"
 #include "Property.h"
 
-#include <iostream>
-#include <string>
-
 void PhysicsSystem::process(float dt)
 {
 	World().Step(dt, 7, 3);
@@ -129,8 +126,6 @@ void PhysicsSystem::DecelerateBoost(float dt, Box2DComponent* b)
 	auto maxAccelComp = b->getComponent<MaxAccelerationComponent>();
 
 	boostComp->m_decelerateTime += dt;
-
-	std::cout << "ID " + std::to_string(b->ID) + "Speed: " + std::to_string(maxVelComp->m_maxVelocity) << std::endl;
 
 	// while the velocity is greater than original max velocity - reduce the velocity evenly over time (lerp)
 	if (maxVelComp->m_maxVelocity > boostComp->MAX_VELOCITY)
