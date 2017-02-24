@@ -31,7 +31,7 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 				return;
 			}
 		}
-		auto collisionBody = e->getComponent <KinematicBodyComponent>(); // collision with sensor component
+		auto collisionBody = e->getComponent <SoftObstacleResponseComponent>(); // collision with sensor component
 		if (collisionBody)
 		{
 			auto b = getComponent<DynamicBodyComponent>();
