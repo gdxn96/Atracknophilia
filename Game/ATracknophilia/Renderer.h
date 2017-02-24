@@ -31,6 +31,7 @@ public:
 	void drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, float angle);
 	void drawImage(SDL_Surface * img, Rect rec);
 	void drawLine(Vector2D start, Vector2D end, Colour c = Colour());
+	int drawFilledPoly(b2Body * body);
 
 	void drawBox2DPolygon(b2PolygonShape* poly, float angle = 0);
 	void drawBox2DBody(b2Body * body);

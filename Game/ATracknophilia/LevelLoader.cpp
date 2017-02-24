@@ -35,9 +35,10 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 				{
 					for (const auto& itr : layer["objects"].GetArray())
 					{
+						std::vector<b2Vec2> points;
 						if (itr.HasMember("polygon"))
 						{
-							std::vector<b2Vec2> points;
+							
 
 							float xPos, yPos;
 							xPos = itr["x"].GetFloat() / 50.f;
@@ -68,6 +69,14 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 							y = itr["y"].GetFloat() / 50.f;
 							w = itr["width"].GetFloat() / 50.f;
 							h = itr["height"].GetFloat() / 50.f;
+
+							//std::vector<b2Vec2> points;
+							//points.push_back(b2Vec2(x, y));
+							//points.push_back(b2Vec2(x + w, y));
+							//points.push_back(b2Vec2(x + w, y + h));
+							//points.push_back(b2Vec2(x, y + h));
+
+							//EntityFactory::SpawnStaticPoly(points);
 							EntityFactory::SpawnStaticBox(x, y, w, h);
 
 							if (x + w > biggest.w)
