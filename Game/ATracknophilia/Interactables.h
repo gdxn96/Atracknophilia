@@ -53,7 +53,7 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 
 struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
 {
-	SwapComponent(int id, Vector2D start, Vector2D end, b2Body* myBody, b2Body* targetBody)
+	SwapComponent(int id, Vector2D start, Vector2D end, b2Body* myBody, IEntity* targetBody)
 		: IComponent(id)
 		, target(targetBody)
 		, line(new LineComponent(-1, start, end))
@@ -62,7 +62,7 @@ struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
 	{
 		b2RopeJointDef jointDef;
 		jointDef.bodyA = myBody;
-		jointDef.bodyB = targetBody;
+		jointDef.bodyB = targetBody->getComponent<Box2DComponent>()->body;
 		jointDef.collideConnected = false;
 		jointDef.maxLength = tetherLength;
 
@@ -75,7 +75,7 @@ struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
 		delete line;
 	}
 
-	b2Body* target;
+	IEntity* target;
 	b2RopeJoint* joint;
 	LineComponent* line;
 	float tetherLength;

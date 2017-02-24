@@ -31,10 +31,10 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 		for (const auto& itr : document["objects"].GetArray())
 		{
 			float x, y, w, h;
-			x = itr["x"].GetFloat() / 50.f;
-			y = itr["y"].GetFloat() / 50.f;
-			w = itr["width"].GetFloat() / 50.f;
-			h = itr["height"].GetFloat() / 50.f;
+			x = itr["x"].GetFloat() / 60.f;
+			y = itr["y"].GetFloat() / 60.f;
+			w = itr["width"].GetFloat() / 60.f;
+			h = itr["height"].GetFloat() / 60.f;
 			EntityFactory::SpawnStaticBox(x, y, w, h);
 
 			if (x + w > biggest.w)
@@ -53,10 +53,10 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 		for (const auto& itr : document["softbox"].GetArray())
 		{
 			float x, y, w, h;
-			x = itr["x"].GetFloat() / 50.f;
-			y = itr["y"].GetFloat() / 50.f;
-			w = itr["width"].GetFloat() / 50.f;
-			h = itr["height"].GetFloat() / 50.f;
+			x = itr["x"].GetFloat() / 60.f;
+			y = itr["y"].GetFloat() / 60.f;
+			w = itr["width"].GetFloat() / 60.f;
+			h = itr["height"].GetFloat() / 60.f;
 			EntityFactory::SpawnSoftBox(x, y, w, h);
 
 			if (x + w > biggest.w)
@@ -75,10 +75,10 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 		for (const auto& itr : document["directions"].GetArray())
 		{
 			float x, y, w, h, priority, directionX, directionY;
-			x = itr["x"].GetFloat() / 50.f;
-			y = itr["y"].GetFloat() / 50.f;
-			w = itr["width"].GetFloat() / 50.f;
-			h = itr["height"].GetFloat() / 50.f;
+			x = itr["x"].GetFloat() / 60.f;
+			y = itr["y"].GetFloat() / 60.f;
+			w = itr["width"].GetFloat() / 60.f;
+			h = itr["height"].GetFloat() / 60.f;
 			priority = itr["priority"].GetFloat();
 			directionX = itr["directionX"].GetFloat();
 			directionY = itr["directionY"].GetFloat();
