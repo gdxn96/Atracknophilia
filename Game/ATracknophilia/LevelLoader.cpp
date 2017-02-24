@@ -117,9 +117,9 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 						y = itr["y"].GetFloat() / 50.f;
 						w = itr["width"].GetFloat() / 50.f;
 						h = itr["height"].GetFloat() / 50.f;
-						priority = itr["properties"]["priority"].GetFloat() / 50.f;
-						directionX = itr["properties"]["directionX"].GetFloat() / 50.f;
-						directionY = itr["properties"]["directionY"].GetFloat() / 50.f;
+						priority = itr["properties"]["priority"].GetFloat();
+						directionX = itr["properties"]["directionX"].GetFloat();
+						directionY = itr["properties"]["directionY"].GetFloat();
 						EntityFactory::SpawnDirectionVolume(x, y, w, h, priority, Vector2D(directionX, directionY));
 
 						if (x + w > biggest.w)
@@ -136,9 +136,6 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 			}
 		}
 	}
-	
-
-	
 	
 
 	return biggest;
