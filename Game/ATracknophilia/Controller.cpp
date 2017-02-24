@@ -112,32 +112,29 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 					auto obstacle = PhysicsSystem::RayCastToStaticObject(c->body->GetPosition(), targetBody->GetPosition(), 50);
 					if (!obstacle.first)
 					{
-						getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), targetBody->GetPosition(), c->body, targetBody));
-
 						b2Vec2 dis = (c->body->GetPosition() - targetBody->GetPosition());
-						if (dis.Normalize() < 100)
+						if (dis.Normalize() < 55)
 						{
+							getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), targetBody->GetPosition(), c->body, targetBody));
+							auto hook = players[i + 1]->getComponent<HookComponent>();
+							if (hook)
+							{
+								players[i + 1]->deleteComponent<HookComponent>();
+							}
 							targetBody->SetLinearVelocity(b2Vec2(0, 0));
-							targetBody->ApplyForceToCenter(b2Vec2(dis.x * 10000, dis.y * 10000), true);
-							c->body->ApplyForceToCenter(b2Vec2(-dis.x * 10000, -dis.y * 10000), true);
+							targetBody->ApplyForceToCenter(b2Vec2(dis.x * 100000, dis.y * 100000), true);
+							c->body->ApplyForceToCenter(b2Vec2(-dis.x * 100000, -dis.y * 100000), true);
 						}
 						else
 						{
 							// Set powerup to be none
 						}
 					}
+					i = players.size();
 				}
 			}
 		}
 	}), this, m_controllerId);
-
-	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
-		auto l = getComponent<SwapComponent>();
-		if (l)
-		{
-			getParent()->deleteComponent<SwapComponent>();
-		}
-	}), this, m_controllerId);*/
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new HoldCommand([&]() {
 		auto c = getComponent<Box2DComponent>();

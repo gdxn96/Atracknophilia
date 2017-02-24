@@ -17,13 +17,15 @@ public:
 				swap->line->start = collider->body->GetPosition();
 				swap->line->end = swap->target->GetPosition();
 
-				float dis = (collider->body->GetPosition() - swap->target->GetPosition()).Normalize();
+				float dis = Vector2D::Distance(Vector2D(collider->body->GetPosition()), Vector2D(swap->target->GetPosition()));
+				std::cout << "Distance: " << dis << " Length: " << swap->tetherLength << std::endl;
 				if (swap->isShot)
 				{
 					swap->isShot = false;
 				}
-				else if (dis >= swap->tetherLength || dis <= -swap->tetherLength)
+				else if (dis >= swap->tetherLength - 2)
 				{
+					std::cout << "Destroyed => Distance: " << dis << " Length: " << swap->tetherLength << std::endl;
 					collider->getParent()->deleteComponent<SwapComponent>();
 				}
 			}

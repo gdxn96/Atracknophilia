@@ -57,7 +57,7 @@ struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
 		: IComponent(id)
 		, target(targetBody)
 		, line(new LineComponent(-1, start, end))
-		, tetherLength(Vector2D::Distance(start, end) * 0.9f)
+		, tetherLength(Vector2D::Distance(start, end))
 		, isShot(true)
 	{
 		b2RopeJointDef jointDef;
