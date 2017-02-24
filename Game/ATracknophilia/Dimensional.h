@@ -150,14 +150,22 @@ struct SensorComponent : public KinematicBodyComponent, public AutoLister<Sensor
 
 struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowShotComponent>
 {
-	SlowShotComponent(int id, float x, float y, float width, float height, bool isGravity = true, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height, fixedRotation)
+	SlowShotComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height/*, fixedRotation*/)
 	{
-		if (!isGravity)
-		{
-			body->SetGravityScale(0);
-			fixture->SetDensity(0);
-			body->ResetMassData();
-		}
+		body->SetGravityScale(0);
+		fixture->SetSensor(true);
+		fixture->SetFriction(0);
+		fixture->SetDensity(0);
+	}
+};
+
+struct WebDropComponent : public StaticBodyComponent, public AutoLister<SlowShotComponent>
+{
+	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : StaticBodyComponent(id, x, y, width, height)
+	{
+		//fixture->SetSensor(true);
+		fixture->SetFriction(10);
+		fixture->SetDensity(10);
 	}
 };
 

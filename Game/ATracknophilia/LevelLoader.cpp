@@ -136,8 +136,6 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 			}
 		}
 	}
-	
-
 	return biggest;
 
 }

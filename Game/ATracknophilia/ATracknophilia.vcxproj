@@ -196,8 +196,8 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
       <AdditionalDependencies>SDL2_image.lib;SDL2_mixer.lib;Box2D.lib;lua52.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "..\..\dependancies\dlls\x64\*.dll" 
-mkdir  $(OutDir)assets\Animations; 
+      <Command>copy "..\..\dependancies\dlls\x64\*.dll" "$(OutDir)";
+ mkdir  $(OutDir)assets\Animations; 
 mkdir  $(OutDir)assets\levels; 
 mkdir  $(OutDir)assets\Music; 
 mkdir  $(OutDir)assets\SoundEffects; 
@@ -218,6 +218,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
+    <ClInclude Include="BoostPad.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
@@ -248,6 +249,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="Systems.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="WebDrop.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -258,6 +260,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="Logic.cpp" />
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RaceManager.cpp" />

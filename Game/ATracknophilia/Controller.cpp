@@ -65,7 +65,14 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
 		if (c) {
-			EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y, 5, 5, 32, ID);
+			EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
+		}
+	}), this, m_controllerId);
+
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
+		auto c = getComponent<Box2DComponent>();
+		if (c) {
+			EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
 		}
 	}), this, m_controllerId);
 

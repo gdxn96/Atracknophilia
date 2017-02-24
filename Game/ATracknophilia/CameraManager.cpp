@@ -37,11 +37,11 @@ void CameraManager::moveTo(Vector2D destination, float dt)
 	Vector2D position = Vector2D(m_camera->getCentre().x, m_camera->getCentre().y);
 	Vector2D difference = destination - position;
 	Vector2D directionToPan = difference.Normalize();
-	float distanceSq = difference.Distance(position, difference);
+	float distance = difference.Distance(position, difference);
 
 	if (difference.Magnitude() > 1)
 	{
-		Vector2D result = position + (directionToPan * distanceSq * dt);
+		Vector2D result = position + (directionToPan * distance * dt / 2.f);
 
 		m_camera->setCentre(result.x, result.y);
 
