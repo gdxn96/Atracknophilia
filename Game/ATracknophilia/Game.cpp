@@ -40,6 +40,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
+
+	
 }
 
 void Game::init()
