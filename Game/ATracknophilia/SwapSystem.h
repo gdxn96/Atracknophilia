@@ -11,7 +11,7 @@ public:
 		auto components = AutoList::get<SwapComponent>();
 		for (auto& swap : components)
 		{
-			swap->breakTimer += dt;
+			swap->ttl += dt;
 
 			auto collider = swap->getComponent<Box2DComponent>();
 			if (collider)
@@ -50,7 +50,7 @@ public:
 				}
 			}
 
-			if (swap && swap->breakTimer >= 0.9f)
+			if (swap && swap->ttl >= 0.9f)
 			{
 				collider->getComponent<IControllerComponent>()->isHooked = false;
 				collider->body->SetGravityScale(1);
