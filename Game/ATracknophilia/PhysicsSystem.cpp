@@ -11,25 +11,24 @@ void PhysicsSystem::process(float dt)
 	auto& boxComponents = AutoList::get<Box2DComponent>();
 	for (auto& c : boxComponents)
 	{
-		auto maxVelComp = c->getComponent<MaxVelocityComponent>();
-		auto boostComp = c->getComponent<BoostComponent>();
+		auto velComp = c->getComponent<VelocityComponent>();
 		auto stamComp = c->getComponent<StaminaComponent>();
 
-		if (stamComp && stamComp->m_stamina <= 0)
+		if (stamComp && stamComp->stamina <= 0)
 		{
 			// cannot boost if there is no stamina
-			boostComp->m_boostActive = false;
+			stamComp->boostActive = false;
 		}
 
-		if (boostComp && boostComp->m_boostActive)
+		if (stamComp && stamComp->boostActive)
 		{
 			// boost time is the time the boost button on controller is held for
-			boostComp->m_boostTime += dt;
-			if (stamComp->m_stamina > 0)
-				stamComp->m_stamina-=0.5f;
+			stamComp->boostTime += dt;
+			if (stamComp->stamina > 0)
+				stamComp->stamina -= 0.5f;
 		}
-		
-		if (boostComp && boostComp->m_boostActive == false)
+
+		if (stamComp && !stamComp->boostActive)
 		{
 			// lerp deceleration over time 
 			DecelerateBoost(dt, c);
@@ -38,11 +37,10 @@ void PhysicsSystem::process(float dt)
 		// limiting the max velocity
 		b2Vec2 vel = c->body->GetLinearVelocity();
 		float32 speed = vel.Length();
-		if (maxVelComp != nullptr && speed > maxVelComp->m_maxVelocity)
-			c->body->SetLinearVelocity((maxVelComp->m_maxVelocity / speed) * vel);
+		if (velComp != nullptr && speed > velComp->velocity)
+			c->body->SetLinearVelocity((velComp->velocity / speed) * vel);
 	}
 
-	
 }
 
 Vector2D PhysicsSystem::RayCast(Vector2D start, Vector2D end, float maxLength)
@@ -121,26 +119,31 @@ b2World & PhysicsSystem::World()
 
 void PhysicsSystem::DecelerateBoost(float dt, Box2DComponent* b)
 {
-	auto maxVelComp = b->getComponent<MaxVelocityComponent>();
-	auto boostComp = b->getComponent<BoostComponent>();
-	auto maxAccelComp = b->getComponent<MaxAccelerationComponent>();
+	auto stamComp = b->getComponent<StaminaComponent>();
+	auto velComp = b->getComponent<VelocityComponent>();
+	auto maxVelComp = b->getComponent<ConstMaxVelocityComponent>();
+	auto boostedVelComp = b->getComponent<ConstBoostedVelocityComponent>();
+	auto accComp = b->getComponent<AccelerationComponent>();
+	auto maxAccComp = b->getComponent<ConstMaxAccelerationComponent>();
+	auto boostedAccComp = b->getComponent<ConstBoostedAccelerationComponent>();
 
-	boostComp->m_decelerateTime += dt;
+	stamComp->decelerateTime += dt;
 
 	// while the velocity is greater than original max velocity - reduce the velocity evenly over time (lerp)
-	if (maxVelComp->m_maxVelocity > boostComp->MAX_VELOCITY)
+	if (velComp->velocity > maxVelComp->MAX_VELOCITY)
 	{
-		float decelPercentage = boostComp->m_decelerateTime / boostComp->m_boostTime;
-		float initialValue = boostComp->BOOSTED_MAX_VELOCITY - boostComp->MAX_VELOCITY;
+		float decelPercentage = stamComp->decelerateTime / stamComp->boostTime;
+		float initialValue = boostedVelComp->BOOSTED_VELOCITY - maxVelComp->MAX_VELOCITY;
 		float finalValue = 0;
 		float decelRate = (initialValue - finalValue) * decelPercentage;
-		maxVelComp->m_maxVelocity = boostComp->BOOSTED_MAX_VELOCITY - decelRate;
+		velComp->velocity = boostedVelComp->BOOSTED_VELOCITY - decelRate;
+		accComp->acceleration = maxAccComp->MAX_ACCELERATION;
 	}
 	else
 	{
-		maxVelComp->m_maxVelocity = boostComp->MAX_VELOCITY;
-		maxAccelComp->m_maxAcceleration = boostComp->MAX_ACCELERATION;
-		boostComp->m_decelerateTime = 0;
-		boostComp->m_boostTime = 0;
+		velComp->velocity = maxVelComp->MAX_VELOCITY;
+		stamComp->decelerateTime = 0;
+		stamComp->boostTime = 0;
 	}
+
 }

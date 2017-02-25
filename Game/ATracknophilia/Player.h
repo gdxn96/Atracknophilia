@@ -42,10 +42,13 @@ public:
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
 			new StaminaComponent(id, 100),
-			new MaxAccelerationComponent(id, 20),
-			new MaxVelocityComponent(id, 50),
+			new AccelerationComponent(id, 20),
+			new ConstMaxAccelerationComponent(id, 20),
+			new ConstBoostedAccelerationComponent(id, 150),
+			new VelocityComponent(id, 50),
+			new ConstMaxVelocityComponent(id, 50),
+			new ConstBoostedVelocityComponent(id, 80),
 			new PlayerControllerComponent(id, controllerId),
-			new BoostComponent(id),
 			new RacePositionComponent(id),
 			new PlayerStaticObjectResponseComponent(id)
 		})
@@ -54,4 +57,5 @@ public:
 private:
 
 };
+
 
