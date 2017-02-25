@@ -12,20 +12,22 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 	{
 		b2BodyDef bodyDef;
 
+		//b2Vec2 vec[4] = { b2Vec2(x,y), b2Vec2(x,y + height) ,b2Vec2(x + width,y + height) ,b2Vec2(x + width,y) };
+
 		bodyDef.position.Set(x + width / 2.f, y + height / 2.f);
 
 		b2PolygonShape shape;
 		shape.SetAsBox(width / 2.f, height / 2.f);
+		//shape.Set( &vec[0], 4 );
+		bodyDef.type = type;
 
 		if (type == b2_staticBody)
 		{
-			bodyDef.type = b2_staticBody;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
 			fixture = body->CreateFixture(&shape, 0.5f);
 		}
 		else if (type == b2_dynamicBody)
 		{
-			bodyDef.type = b2_dynamicBody;
 			bodyDef.fixedRotation = true;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
 			b2FixtureDef afixture;
@@ -36,7 +38,6 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		}
 		else if (type == b2_kinematicBody)
 		{
-			bodyDef.type = b2_kinematicBody;
 			bodyDef.fixedRotation = true;
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
 			b2FixtureDef afixture;
@@ -48,6 +49,53 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 		}
 		body->SetUserData(this);
 	}
+
+	Box2DComponent(int id, std::vector<b2Vec2> points, b2BodyType type = b2_staticBody, bool fixedRotation = true) : IComponent(id)
+	{
+		b2BodyDef bodyDef;
+
+		b2Vec2 vec[16];
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			vec[i].Set(points.at(i).x, points.at(i).y);
+		}
+
+		b2PolygonShape shape;
+		shape.Set(&vec[0], points.size());
+
+		bodyDef.type = type;
+
+		if (type == b2_staticBody)
+		{	
+			body = PhysicsSystem::World().CreateBody(&bodyDef);
+			body->CreateFixture(&shape, 0.5f);
+		}
+		else if (type == b2_kinematicBody)
+		{
+			bodyDef.fixedRotation = fixedRotation;
+			body = PhysicsSystem::World().CreateBody(&bodyDef);
+			b2FixtureDef afixture;
+			afixture.shape = &shape;
+			afixture.density = 0.5;
+			afixture.friction = 0.5;
+			afixture.restitution = 0.5;
+			fixture = body->CreateFixture(&afixture);
+		}
+		else if (type == b2_dynamicBody)
+		{
+			bodyDef.fixedRotation = fixedRotation;
+			body = PhysicsSystem::World().CreateBody(&bodyDef);
+			b2FixtureDef afixture;
+			afixture.shape = &shape;
+			afixture.density = 1.0;
+			afixture.friction = 0.1;
+			afixture.isSensor = true;
+			fixture = body->CreateFixture(&afixture);
+		}
+		body->SetUserData(this);
+	}
+
 	virtual ~Box2DComponent()
 	{
 		PhysicsSystem::World().DestroyBody(body);
@@ -58,10 +106,16 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 	Vector2D size;
 };
 
+
+
 struct StaticBodyComponent : public Box2DComponent, public AutoLister<StaticBodyComponent>
 {
 	StaticBodyComponent(int id, float x, float y, float width, float height, bool fixedRotation=true)
 		:	Box2DComponent(id, x, y, width, height, b2_staticBody, fixedRotation) 
+	{
+	}
+	StaticBodyComponent(int id, std::vector<b2Vec2> points, bool fixedRotation = true)
+		:	Box2DComponent(id, points, b2_staticBody, fixedRotation)
 	{
 	}
 };
@@ -81,6 +135,7 @@ struct KinematicBodyComponent : public Box2DComponent, public AutoLister<Kinemat
 	{
 	}
 };
+
 
 struct SensorComponent : public KinematicBodyComponent, public AutoLister<SensorComponent>
 {

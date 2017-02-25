@@ -46,8 +46,6 @@ struct SoftObstacleResponseComponent : public ICollisionResponseComponent
 			auto b = getComponent<KinematicBodyComponent>();
 			if (b)
 				b->body->SetLinearVelocity(b2Vec2(0, 100000));
-			
-			collisionBody->body->SetLinearVelocity(b2Vec2(0, 0));
 		}
 	};
 };

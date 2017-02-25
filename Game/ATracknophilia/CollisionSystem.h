@@ -8,7 +8,7 @@ class CollisionSystem : public ISystem, public b2ContactListener
 public:
 	void process(float dt) override
 	{
-	
+
 	}
 
 	CollisionSystem()
@@ -29,13 +29,23 @@ public:
 			auto boxComponentB = static_cast<Box2DComponent*>(bodyUserDataB);
 			auto collisionResponseB = boxComponentB->getComponent<ICollisionResponseComponent>();
 
+			IEntity* parent = nullptr;
+
 			if (collisionResponseA)
 			{
-				collisionResponseA->beginContact(boxComponentB->getParent());
+				parent = boxComponentB->getParent();
+				if (parent)
+				{
+					collisionResponseA->beginContact(parent);
+				}
 			}
 			if (collisionResponseB)
 			{
-				collisionResponseB->beginContact(boxComponentA->getParent());
+				parent = boxComponentA->getParent();
+				if (parent)
+				{
+					collisionResponseB->beginContact(parent);
+				}
 			}
 		}
 	}
@@ -53,13 +63,23 @@ public:
 			auto boxComponentB = static_cast<Box2DComponent*>(bodyUserDataB);
 			auto collisionResponseB = boxComponentB->getComponent<ICollisionResponseComponent>();
 
+			IEntity* parent = nullptr;
+
 			if (collisionResponseA)
 			{
-				collisionResponseA->endContact(boxComponentB->getParent());
+				parent = boxComponentB->getParent();
+				if (parent)
+				{
+					collisionResponseA->endContact(parent);
+				}
 			}
 			if (collisionResponseB)
 			{
-				collisionResponseB->endContact(boxComponentA->getParent());
+				parent = boxComponentA->getParent();
+				if (parent)
+				{
+					collisionResponseB->endContact(parent);
+				}
 			}
 		}
 	}

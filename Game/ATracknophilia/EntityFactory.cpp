@@ -43,6 +43,11 @@ void EntityFactory::SpawnDirectionVolume(float x, float y, float w, float h, int
 	LevelLoader::appendToEntities(new DirectionVolume(id(), x, y, w, h, priority, direction));
 }
 
+void EntityFactory::SpawnStaticPoly(std::vector<b2Vec2> points)
+{
+	LevelLoader::appendToEntities(new StaticPoly(id(), points));
+}
+
 void EntityFactory::SpawnWebDrop(float x, float y, float w, float h)
 {
 	LevelLoader::appendToEntities(new WebDrop(id(), x, y, w, h));

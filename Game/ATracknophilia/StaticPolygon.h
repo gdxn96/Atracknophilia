@@ -15,3 +15,18 @@ public:
 private:
 
 };
+
+class StaticPoly : public IEntity
+{
+public:
+	StaticPoly(int id, std::vector<b2Vec2> points) : IEntity(id,
+	{
+		new StaticBodyComponent(id, points, true),
+	})
+	{
+	};
+
+private:
+
+};
+
