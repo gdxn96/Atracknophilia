@@ -11,6 +11,8 @@ public:
 		auto components = AutoList::get<SwapComponent>();
 		for (auto& swap : components)
 		{
+			swap->breakTimer += dt;
+
 			auto collider = swap->getComponent<Box2DComponent>();
 			if (collider)
 			{
@@ -46,6 +48,17 @@ public:
 						collider->getParent()->deleteComponent<SwapComponent>();
 					}
 				}
+			}
+
+			if (swap && swap->breakTimer >= 0.9f)
+			{
+				collider->getComponent<IControllerComponent>()->isHooked = false;
+				collider->body->SetGravityScale(1);
+
+				swap->target->getComponent<IControllerComponent>()->isHooked = false;
+				swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+
+				collider->getParent()->deleteComponent<SwapComponent>();
 			}
 		}
 	}
