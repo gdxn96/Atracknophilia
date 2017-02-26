@@ -5,6 +5,7 @@ StartScene::StartScene(Vector2D windowSize)
 	: Scene(Scenes::SPLASH)
 	, m_textureRect(0, 0, windowSize.x, windowSize.y)
 {
+	m_startBtn = Button();
 	loadMedia();
 }
 
@@ -42,6 +43,8 @@ bool StartScene::loadMedia()
 
 	//Load splash image here..
 	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("startscreen");
+
+	m_startBtn.setRect(Rect{ 0,0,100,100 });
 
 	return success;
 }

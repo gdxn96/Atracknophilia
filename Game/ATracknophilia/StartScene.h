@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "Game.h"
+#include "Button.h"
 
 class StartScene : public Scene
 {
@@ -18,4 +19,5 @@ private:
 	//The image we will load and show on the screen
 	SDL_Texture* m_splashScreen = NULL;
 	Rect m_textureRect;
+	Button m_startBtn;
 };
