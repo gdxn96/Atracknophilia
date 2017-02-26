@@ -10,7 +10,7 @@ bool Game::quit = false;
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{LEVELS::PROTOTYPE, "./assets/levels/map2.json"}, 
+		{LEVELS::PROTOTYPE, "./assets/levels/map1.json"}, 
 	});
 
 	m_renderer.init(windowSize, windowName, &m_camera);
@@ -58,7 +58,6 @@ void Game::init()
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
 	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
-	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
 }
 
 void Game::loop(float dt)
