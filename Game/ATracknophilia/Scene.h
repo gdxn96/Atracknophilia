@@ -3,10 +3,9 @@
 #include <iostream>
 using namespace std;
 
-#include "FLInput\FLInputManager.h"  // added for EventListener
 #include "Renderer.h"
 
-class Scene : public EventListener
+class Scene
 {
 public:
 

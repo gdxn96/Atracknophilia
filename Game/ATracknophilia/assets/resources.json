@@ -13,6 +13,14 @@
       {
         "key": "placeholder",
         "path": "assets/Textures/placeholder.png"
+      }, 
+      {
+        "key": "gameover",
+        "path": "assets/Textures/gameover.png"
+      },
+      {
+        "key": "startscreen",
+        "path": "assets/Textures/space.png"
       }
     ],
 

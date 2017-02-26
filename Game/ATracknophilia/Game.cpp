@@ -9,10 +9,6 @@ bool Game::quit = false;
 
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
 {
-	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{LEVELS::PROTOTYPE, "./assets/levels/test.json"}, 
-	});
-
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 
@@ -41,7 +37,22 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	//render system must be added last
 	m_systems.push_back(renderSys);
 
-	
+	m_resourceMgr->init(&m_renderer);
+	m_resourceMgr->loadResources(".//assets//resources.json");
+	m_resourceMgr->loadResourceQueue();
+
+	//create scenes
+	GameScene * gameScene = new GameScene();
+	StartScene * startScene = new StartScene(windowSize);
+	EndGameScene * endGame = new EndGameScene(windowSize);
+
+	//add scenes to sceneMgr
+	SceneManager::getInstance()->addScene(gameScene);
+	SceneManager::getInstance()->addScene(startScene);
+	SceneManager::getInstance()->addScene(endGame);
+
+	//switch to splash
+	SceneManager::getInstance()->switchTo(Scenes::SPLASH);
 }
 
 void Game::init()
@@ -49,25 +60,23 @@ void Game::init()
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)), this);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)), this);
 
-	m_resourceMgr->init(&m_renderer);
-	m_resourceMgr->loadResources(".//assets//resources.json");
-	m_resourceMgr->loadResourceQueue();
-
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
 	m_camera.zoom(-1);
 
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
-	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
+	SceneManager::getInstance()->init(m_renderer);
 }
 
 void Game::loop(float dt)
 {
 	LevelLoader::destroyObjects();
-	for (auto& system : m_systems)
+	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::GAME)
 	{
-		system->process(dt);
+		for (auto& system : m_systems)
+		{
+			system->process(dt);
+		}
 	}
-
 	m_cameraManager.update(dt);
+	SceneManager::getInstance()->update(dt);
+	SceneManager::getInstance()->render(m_renderer);
 }

@@ -6,15 +6,9 @@
 GameScene::GameScene() 
 	:	Scene(Scenes::GAME)
 {
-	// level stuff
-
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
 		{ LEVELS::PROTOTYPE, "./assets/levels/test.json" },
 	});
-
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
-	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
 }
 
 void GameScene::destroy()
@@ -38,6 +32,10 @@ bool GameScene::init(Renderer & r)
 
 	LevelLoader::loadLevel(LEVELS::PROTOTYPE);
 
+	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
+	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
+	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
+
 	return success;
 }
 
@@ -57,5 +55,5 @@ void GameScene::update(float dt)
 
 void GameScene::render(Renderer & r)
 {
-	// not needing on this scene as the render system draws and this gets done in the update above
+	// not needing on this scene as the render system draws and this gets done in render system update
 }

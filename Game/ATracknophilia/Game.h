@@ -6,6 +6,9 @@
 #include "ECSInterfaces.h"
 #include "CameraManager.h"
 #include "Systems.h"
+#include "GameScene.h"
+#include "EndGameScene.h"
+#include "StartScene.h"
 
 class Game : public EventListener
 {

@@ -8,11 +8,10 @@ enum class Scenes { SPLASH, GAME, ENDGAME };
 
 #include "Scene.h"
 #include <vector>
-#include "FLInput\FLInputManager.h"  // added for EventListener
 #include "Renderer.h"
 
 class Scene;
-class SceneManager : public EventListener
+class SceneManager
 {
 public:
 
