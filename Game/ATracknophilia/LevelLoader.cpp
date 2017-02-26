@@ -91,7 +91,7 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 					}
 				}
 			}
-			else if (layer["name"] == "Obstacle layer")
+			else if (layer["name"] == "Obstacle Layer")
 			{
 				if (layer.HasMember("objects"))
 				{
@@ -102,7 +102,31 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 						y = itr["y"].GetFloat() / 50.f;
 						w = itr["width"].GetFloat() / 50.f;
 						h = itr["height"].GetFloat() / 50.f;
-						EntityFactory::SpawnSoftBox(x, y, w, h);
+						EntityFactory::SpawnWebDrop(x, y, w, h);
+
+						if (x + w > biggest.w)
+						{
+							biggest.w = x + w;
+						}
+						if (y + h > biggest.h)
+						{
+							biggest.h = y + h;
+						}
+					}
+				}
+			}
+			else if (layer["name"] == "Boost Layer")
+			{
+				if (layer.HasMember("objects"))
+				{
+					for (const auto& itr : layer["objects"].GetArray())
+					{
+						float x, y, w, h;
+						x = itr["x"].GetFloat() / 50.f;
+						y = itr["y"].GetFloat() / 50.f;
+						w = itr["width"].GetFloat() / 50.f;
+						h = itr["height"].GetFloat() / 50.f;
+						EntityFactory::SpawnBoostPad(x, y, w, h);
 
 						if (x + w > biggest.w)
 						{

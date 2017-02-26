@@ -1430,6 +1430,128 @@
         {
          "draworder":"topdown",
          "height":100,
+         "name":"Boost Layer",
+         "objects":[
+                {
+                 "height":100,
+                 "id":374,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":2800,
+                 "y":1000
+                }, 
+                {
+                 "height":100,
+                 "id":375,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":10500,
+                 "y":1000
+                }, 
+                {
+                 "height":100,
+                 "id":376,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":11800,
+                 "y":5400
+                }, 
+                {
+                 "height":100,
+                 "id":377,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":11600,
+                 "y":7600
+                }, 
+                {
+                 "height":100,
+                 "id":378,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":8600,
+                 "y":7600
+                }, 
+                {
+                 "height":100,
+                 "id":379,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":6700,
+                 "y":3000
+                }, 
+                {
+                 "height":100,
+                 "id":380,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":2800,
+                 "y":4200
+                }, 
+                {
+                 "height":100,
+                 "id":381,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":2800,
+                 "y":3000
+                }, 
+                {
+                 "height":100,
+                 "id":382,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":2800,
+                 "y":6000
+                }, 
+                {
+                 "height":100,
+                 "id":383,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":400,
+                 "x":2800,
+                 "y":7200
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":200,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":100,
          "name":"Obstacle Layer",
          "objects":[
                 {
@@ -2748,7 +2870,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":374,
+ "nextobjectid":384,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":100,

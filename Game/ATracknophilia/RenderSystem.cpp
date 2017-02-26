@@ -17,10 +17,6 @@ void RenderSystem::process(float dt)
 		auto& components = AutoList::get<Box2DComponent>();
 		for (auto& component : components)
 		{
-			if (false) //add debug flag later
-			{
-				m_renderer->drawBox2DBody(component->body);
-			}
 			if (component->body->GetFixtureList()[0].GetDensity() > 0)
 			{
 				if (!(component->size == Vector2D::ZERO))
@@ -33,14 +29,11 @@ void RenderSystem::process(float dt)
 				}
 				
 			}
-			//else if (true)
-			//{
-			//	m_renderer->drawBox2DPolygon(&component->shape, 0.0f);
-			//}
-			//else
-			//{
-			//	
-			//}
+			else if (true)
+			{
+				m_renderer->drawRectOutline(Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size), Colour(0, 0, 0));
+			}
+
 		}
 	}
 	{
