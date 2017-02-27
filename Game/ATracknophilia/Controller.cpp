@@ -52,11 +52,14 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 				if (xVelocity > 0) { xRay = 1000; }
 				else if (xVelocity < 0) { xRay = -1000; }
 				auto intersection = PhysicsSystem::RayCastToStaticObject(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
-				Vector2D intersectionPt = intersection.second;
-				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
-				float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersectionPt);
-				if (distance > 10 && isStatic)
-					getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
+				if (intersection.first)
+				{
+					Vector2D intersectionPt = intersection.second;
+					auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
+					float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersectionPt);
+					if (distance > 10 && isStatic)
+						getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
+				}
 			}
 		}
 

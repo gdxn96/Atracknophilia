@@ -269,7 +269,7 @@
   </object>
   <object id="373" x="1400" y="1600" width="13500" height="200"/>
  </objectgroup>
- <objectgroup name="Boost Layer">
+ <objectgroup name="Boost Layer" visible="0">
   <object id="374" x="2800" y="1000" width="400" height="100"/>
   <object id="375" x="10500" y="1000" width="400" height="100"/>
   <object id="376" x="11800" y="5400" width="400" height="100"/>
@@ -281,10 +281,10 @@
   <object id="382" x="2800" y="6000" width="400" height="100"/>
   <object id="383" x="2800" y="7200" width="400" height="100"/>
  </objectgroup>
- <objectgroup name="Spawn Layer">
+ <objectgroup name="Spawn Layer" visible="0">
   <object id="384" x="1900" y="700" width="400" height="400"/>
  </objectgroup>
- <objectgroup name="Powerup Layer">
+ <objectgroup name="Powerup Layer" visible="0">
   <object id="385" x="6100" y="100" width="196" height="188"/>
   <object id="386" x="15400" y="2900" width="200" height="200"/>
   <object id="389" x="13900" y="6200" width="200" height="200"/>
@@ -297,7 +297,7 @@
   <object id="400" x="400" y="5500" width="200" height="200"/>
   <object id="401" x="800" y="6700" width="200" height="200"/>
  </objectgroup>
- <objectgroup name="Obstacle Layer">
+ <objectgroup name="Obstacle Layer" visible="0">
   <object id="266" x="6300" y="4200" width="200" height="200"/>
   <object id="267" x="11400" y="6700" width="200" height="200"/>
   <object id="268" x="1400" y="4300" width="200" height="200"/>
@@ -390,7 +390,7 @@
   <object id="369" x="400" y="500" width="200" height="200"/>
   <object id="370" x="200" y="1100" width="200" height="200"/>
  </objectgroup>
- <objectgroup name="Direction Layer" visible="0">
+ <objectgroup name="Direction Layer">
   <object id="85" x="10700" y="1600" width="5200" height="2300">
    <properties>
     <property name="directionX" type="float" value="-1"/>
@@ -454,7 +454,7 @@
     <property name="priority" type="float" value="8"/>
    </properties>
   </object>
-  <object id="111" x="0" y="0" width="1200" height="7512">
+  <object id="111" x="200" y="300" width="1000" height="7212">
    <properties>
     <property name="directionX" type="float" value="0"/>
     <property name="directionY" type="float" value="-1"/>
