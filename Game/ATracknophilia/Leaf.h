@@ -19,37 +19,6 @@ protected:
 	AIPlayer* player;
 };
 
-class isObstructed : public Leaf
-{
-public:
-	isObstructed() {}
-	~isObstructed() {}
-	isObstructed(AIPlayer* p) : Leaf(p) {}
-
-	Status Update()
-	{
-		auto c = player->getComponent<Box2DComponent>();
-		if (c)
-		{
-			float xVelocity = c->body->GetLinearVelocity().x;
-			float xRay = 0;
-			if (xVelocity > 0) { xRay = 1000; }
-			else if (xVelocity < 0) { xRay = -1000; }
-			auto intersection = PhysicsSystem::RayCastToStaticObject(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
-			if (intersection.first)
-			{
-				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
-				float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersection.second);
-				if (distance > 10 && isStatic)
-				{
-					return Status::Success;
-				}
-			}
-		}
-		return Status::Failure;
-	}
-};
-
 class UseHook : public Leaf
 {
 public:
@@ -68,8 +37,16 @@ public:
 			if (xVelocity > 0) { xRay = 1000; }
 			else if (xVelocity < 0) { xRay = -1000; }
 			auto intersection = PhysicsSystem::RayCastToStaticObject(c->body->GetPosition(), Vector2D(c->body->GetPosition()) + Vector2D(xRay, -1000));
-			player->AddComponent(new HookComponent(player->ID, c->body->GetPosition(), intersection.second, c->body));
-			return Status::Success;
+			if (intersection.first)
+			{
+				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
+				float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersection.second);
+				if (distance > 10 && isStatic)
+				{
+					player->AddComponent(new HookComponent(player->ID, c->body->GetPosition(), intersection.second, c->body));
+					return Status::Success;
+				}
+			}
 		}
 		return Status::Failure;
 	}
@@ -198,6 +175,23 @@ public:
 			}
 		}
 
+		return Status::Failure;
+	}
+
+};
+
+
+class Move : public Leaf
+{
+public:
+	Move() {}
+	~Move() {}
+	Move(AIPlayer* p) : Leaf(p) {}
+
+	Status Update()
+	{
+		auto dirVol = getComponentById<DirectionVolume>(player->getComponent<RacePositionComponent>()->volumeID);
+		auto direction = dirVol->getComponent<DirectionComponent>()->m_direction;
 		return Status::Failure;
 	}
 
