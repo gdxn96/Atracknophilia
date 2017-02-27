@@ -21,6 +21,26 @@
       {
         "key": "startscreen",
         "path": "assets/Textures/space.png"
+      },
+      {
+        "key": "startgamebtn",
+        "path": "assets/Textures/startgamebtn.png"
+      },
+      {
+        "key": "creditsbtn",
+        "path": "assets/Textures/creditsbtn.png"
+      },
+      {
+        "key": "levelselectbtn",
+        "path": "assets/Textures/levelselectbtn.png"
+      },
+      {
+        "key": "optionsbtn",
+        "path": "assets/Textures/optionsbtn.png"
+      },
+      {
+        "key": "highlight",
+        "path": "assets/Textures/highlight.png"
       }
     ],
 

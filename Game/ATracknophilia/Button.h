@@ -11,10 +11,16 @@ public:
 
 	void setRect(Rect buttonRect);
 
-private:
+	void setTexture(SDL_Texture* texture);
 
-	bool loadContent();
+	void setDirection(float dir);
+
+	float getDirection();
+
+	Rect getRect();
+private:
 
 	SDL_Texture* m_texture = NULL;
 	Rect m_textureRect;
+	float m_direction;
 };

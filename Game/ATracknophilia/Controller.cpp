@@ -21,21 +21,21 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 		}
 	}), this);
 
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
+	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
 		if (c) {
 			auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
 			c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
 		}
-	}), this, m_controllerId);
+	}), this, m_controllerId);*/
 
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
+	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
 		if (c) {
 			auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
 			c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
 		}
-	}), this, m_controllerId);
+	}), this, m_controllerId);*/
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new HoldCommand([&]() {
 		auto c = getComponent<Box2DComponent>();

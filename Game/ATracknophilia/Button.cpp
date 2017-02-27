@@ -5,19 +5,18 @@
 
 Button::Button()
 {
-	loadContent();
+	
 }
 
 Button::Button(Rect buttonRect)
 	:	m_textureRect(buttonRect)
 {
-	loadContent();
+
 }
 
 void Button::render(Renderer & r)
 {
 	r.drawTexture(m_texture, m_textureRect);
-	r.present();
 }
 
 void Button::setRect(Rect buttonRect)
@@ -25,12 +24,22 @@ void Button::setRect(Rect buttonRect)
 	m_textureRect = buttonRect;
 }
 
-bool Button::loadContent()
+void Button::setTexture(SDL_Texture * texture)
 {
-	//Loading success flag
-	bool success = true;
+	m_texture = texture;
+}
 
-	m_texture = ResourceManager::getInstance()->getTextureByKey("startscreen");
+float Button::getDirection()
+{
+	return m_direction;
+}
 
-	return success;
+Rect Button::getRect()
+{
+	return m_textureRect;
+}
+
+void Button::setDirection(float dir)
+{
+	m_direction = dir;
 }
