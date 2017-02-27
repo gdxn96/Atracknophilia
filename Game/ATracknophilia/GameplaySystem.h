@@ -12,6 +12,7 @@ public:
 	{
 		for (auto& component : AutoList::get<ScoreComponent>())
 		{
+
 		}
 	}
 
