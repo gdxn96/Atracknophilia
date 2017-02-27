@@ -5,38 +5,6 @@
 	
 PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) : IControllerComponent(id, controllerId)
 {
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::ARROW_LEFT, new HoldCommand([&]() {
-		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
-			c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
-		}
-	}), this);
-
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::ARROW_RIGHT, new HoldCommand([&]() {
-		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
-			c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
-		}
-	}), this);
-
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
-		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
-			c->body->ApplyForceToCenter(b2Vec2(-acceleration, 0), true);
-		}
-	}), this, m_controllerId);
-
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new HoldCommand([&]() {
-		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			auto& acceleration = getComponent<MaxAccelerationComponent>()->m_maxAcceleration;
-			c->body->ApplyForceToCenter(b2Vec2(acceleration, 0), true);
-		}
-	}), this, m_controllerId);
-
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
 		if (!isHooked)
 		{
@@ -96,27 +64,20 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 						if (!obstacle.first)
 						{
 							b2Vec2 dis = (c->body->GetPosition() - targetBody->GetPosition());
-							/*if (dis.Normalize() < 55) //Limit the distance we can shoot
-							{*/
-								getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), targetBody->GetPosition(), c->body, players[i + 1]));
-								auto hook = players[i + 1]->getComponent<HookComponent>();
-								if (hook)
-								{
-									players[i + 1]->deleteComponent<HookComponent>();
-								}
-								targetBody->SetLinearVelocity(b2Vec2(0, 0));
-								targetBody->ApplyForceToCenter(b2Vec2(dis.x * 100000, dis.y * 100000), true);
-								c->body->ApplyForceToCenter(b2Vec2(-dis.x * 100000, -dis.y * 100000), true);
-								auto p = c->getParent();
-								isHooked = true;
-								players[i + 1]->getComponent<IControllerComponent>()->isHooked = true;
-								targetBody->SetGravityScale(0);
-								c->body->SetGravityScale(0);
-							//}
-							//else
-							//{
-							//	// Set powerup to be none
-							//}
+							getParent()->AddComponent(new SwapComponent(ID, c->body->GetPosition(), targetBody->GetPosition(), c->body, players[i + 1]));
+							auto hook = players[i + 1]->getComponent<HookComponent>();
+							if (hook)
+							{
+								players[i + 1]->deleteComponent<HookComponent>();
+							}
+							targetBody->SetLinearVelocity(b2Vec2(0, 0));
+							targetBody->ApplyForceToCenter(b2Vec2(dis.x * 100000, dis.y * 100000), true);
+							c->body->ApplyForceToCenter(b2Vec2(-dis.x * 100000, -dis.y * 100000), true);
+							auto p = c->getParent();
+							isHooked = true;
+							players[i + 1]->getComponent<IControllerComponent>()->isHooked = true;
+							targetBody->SetGravityScale(0);
+							c->body->SetGravityScale(0);
 						}
 						i = players.size();
 					}
@@ -187,13 +148,12 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_X, new HoldCommand([&]() {
 		if (!isHooked)
 		{
-			auto boostComp = getComponent<BoostComponent>();
 			auto stamComp = getComponent<StaminaComponent>();
-			if (boostComp && stamComp && stamComp->m_stamina > 0)
+			if (stamComp && stamComp->stamina > 0)
 			{
-				getComponent<MaxVelocityComponent>()->m_maxVelocity = boostComp->BOOSTED_MAX_VELOCITY;
-				getComponent<MaxAccelerationComponent>()->m_maxAcceleration = boostComp->BOOSTED_ACCELERATION;
-				boostComp->m_boostActive = true;
+				getComponent<VelocityComponent>()->velocity = getComponent<ConstBoostedVelocityComponent>()->BOOSTED_VELOCITY;
+				getComponent<AccelerationComponent>()->acceleration = getComponent<ConstBoostedAccelerationComponent>()->BOOSTED_ACCELERATION;
+				stamComp->boostActive = true;
 			}
 		}
 	}), this, m_controllerId);
@@ -201,10 +161,10 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_X, new ReleaseCommand([&]() {
 		if (!isHooked)
 		{
-			auto boostComp = getComponent<BoostComponent>();
-			if (boostComp)
+			auto stamComp = getComponent<StaminaComponent>();
+			if (stamComp)
 			{
-				boostComp->m_boostActive = false;
+				stamComp->boostActive = false;
 			}
 		}
 	}), this, m_controllerId);
@@ -219,17 +179,16 @@ void PlayerControllerComponent::process(float dt)
 		if (c)
 		{
 			auto h = getComponent<HookComponent>();
-			auto acceleration = getComponent<MaxAccelerationComponent>();
-			if (h && vec.x != 0)
+			auto a = getComponent<AccelerationComponent>();
+			if (h && vec.x != 0 && a)
 			{
 				auto dir = Vector2D::Perpendicular((h->line->end - h->line->start).Normalize()) * vec.x / std::fabs(vec.x);
-				c->body->ApplyForceToCenter((dir * acceleration->m_maxAcceleration).toBox2DVector(), true);
+				c->body->ApplyForceToCenter((dir * a->acceleration).toBox2DVector(), true);
 			}
 			else
 			{
-				c->body->ApplyForceToCenter(b2Vec2(vec.x * acceleration->m_maxAcceleration, 0), true);
+				c->body->ApplyForceToCenter(b2Vec2(vec.x * a->acceleration, 0), true);
 			}
-
 		}
 
 		auto hook = getComponent<HookComponent>();
