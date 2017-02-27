@@ -54,7 +54,9 @@ public:
 			new PlayerControllerComponent(id, controllerId),
 			new BoostComponent(id),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id)
+			new PlayerStaticObjectResponseComponent(id),
+			new InputPauseComponent(id, 0, false),
+			new ScoreComponent(id)
 		})
 	{
 	}

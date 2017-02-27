@@ -60,6 +60,48 @@ struct AIComponent : public IComponent, public AutoLister<AIComponent>
 	virtual void think() {}
 };
 
+struct InputPauseComponent : public AutoLister<InputPauseComponent>, public IComponent
+{
+	float time;
+	bool isPaused;
+
+	InputPauseComponent(int id, float t, bool p)
+		: IComponent(id),
+		time(t),
+		isPaused(p)
+	{
+
+	}
+};
+
+struct ScoreComponent : public AutoLister<ScoreComponent>, public IComponent
+{
+	int rounds;
+	bool alive;
+
+	ScoreComponent(int id)
+		: IComponent(id),
+		rounds(0),
+		alive(true)
+	{
+
+	}
+
+	void reset()
+	{
+		rounds = 0;
+		alive = true;
+	}
+	void kill()
+	{
+		alive = false;
+	}
+	void score()
+	{
+		rounds++;
+	}
+};
+
 struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 {
 	SeekAIComponent(int id, int target_id, int shooter_id)

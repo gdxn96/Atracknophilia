@@ -117,6 +117,13 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			boostComp->m_boostActive = false;
 		}
 	}), this, m_controllerId);
+
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand([&]() {
+		for (auto& component : AutoList::get<InputPauseComponent>())
+		{
+			component->isPaused = true;
+		}
+	}), this, m_controllerId);
 }
 
 void PlayerControllerComponent::process(float dt)
