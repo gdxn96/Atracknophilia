@@ -219,10 +219,13 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
     <ClInclude Include="BoostPad.h" />
+    <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="Composite.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Decorator.h" />
     <ClInclude Include="Dimensional.h" />
     <ClInclude Include="DirectionVolume.h" />
     <ClInclude Include="Drawables.h" />
@@ -232,9 +235,11 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Leaf.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="LTimer.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RaceManager.h" />
@@ -242,6 +247,8 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Selector.h" />
+    <ClInclude Include="Sequence.h" />
     <ClInclude Include="SlowShot.h" />
     <ClInclude Include="SoftBox.h" />
     <ClInclude Include="StaticPolygon.h" />
