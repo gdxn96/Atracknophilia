@@ -3,6 +3,7 @@
 #include "box2d\Box2D.h"
 #include "Vector2D.h"
 
+class Box2DComponent;
 class PhysicsSystem : public ISystem
 {
 public:
@@ -18,7 +19,7 @@ public:
 
 	static b2World& World();
 
-	void DecelerateBoost(float dt, int id);
+	void DecelerateBoost(float dt, Box2DComponent *b);
 private:
 
 };
