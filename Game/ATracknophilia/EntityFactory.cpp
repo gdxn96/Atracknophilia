@@ -56,3 +56,8 @@ void EntityFactory::SpawnBoostPad(float x, float y, float w, float h)
 {
 	LevelLoader::appendToEntities(new BoostPad(id(), x, y, w, h));
 }
+
+void EntityFactory::SpawnAIPlayer(float x, float y, float w, float h)
+{
+	LevelLoader::appendToEntities(new AIPlayer(id(), x, y, w, h));
+}

@@ -65,7 +65,7 @@ private:
 class AIPlayer : public IEntity, public AutoLister<AIPlayer>
 {
 public:
-	AIPlayer(int id, float x, float y, float w, float h, int controllerId)
+	AIPlayer(int id, float x, float y, float w, float h)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),

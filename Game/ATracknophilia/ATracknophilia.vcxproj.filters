@@ -156,12 +156,6 @@
     <ClInclude Include="Node.h">
       <Filter>BehaviourTree</Filter>
     </ClInclude>
-    <ClInclude Include="Sequence.h">
-      <Filter>BehaviourTree</Filter>
-    </ClInclude>
-    <ClInclude Include="Selector.h">
-      <Filter>BehaviourTree</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

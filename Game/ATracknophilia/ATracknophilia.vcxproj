@@ -247,8 +247,6 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Selector.h" />
-    <ClInclude Include="Sequence.h" />
     <ClInclude Include="SlowShot.h" />
     <ClInclude Include="SoftBox.h" />
     <ClInclude Include="StaticPolygon.h" />
