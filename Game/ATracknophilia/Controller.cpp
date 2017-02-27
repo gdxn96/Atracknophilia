@@ -103,7 +103,6 @@ void PlayerControllerComponent::process(float dt)
 		{
 			c->body->ApplyForceToCenter(b2Vec2(vec.x * a->acceleration, 0), true);
 		}
-		std::cout << "Acceleration: " << a->acceleration << std::endl;
 	}
 
 	auto hook = getComponent<HookComponent>();
