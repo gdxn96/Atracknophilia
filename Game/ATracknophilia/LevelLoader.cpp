@@ -102,7 +102,7 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 						y = itr["y"].GetFloat() / 50.f;
 						w = itr["width"].GetFloat() / 50.f;
 						h = itr["height"].GetFloat() / 50.f;
-						EntityFactory::SpawnWebDrop(x, y, w, h);
+						EntityFactory::SpawnSoftBox(x, y, w, h);
 
 						if (x + w > biggest.w)
 						{

@@ -57,7 +57,7 @@ void Game::init()
 	m_camera.zoom(-1);
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
-	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
+	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
 }
 
 void Game::loop(float dt)
