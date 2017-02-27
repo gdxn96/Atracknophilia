@@ -27,13 +27,7 @@ void RenderSystem::process(float dt)
 				{
 					m_renderer->drawFilledPoly(component->body);
 				}
-				
 			}
-			//else if (true)
-			//{
-			//	m_renderer->drawRectOutline(Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size), Colour(0, 0, 0));
-			//}
-
 		}
 	}
 	{
