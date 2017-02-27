@@ -8,6 +8,9 @@
 #include "Systems.h"
 #include "GameScene.h"
 #include "EndGameScene.h"
+#include "CreditsScene.h"
+#include "OptionsScene.h"
+#include "LevelSelectScene.h"
 #include "StartScene.h"
 
 class Game : public EventListener
@@ -27,4 +30,6 @@ private:
 
 	ResourceManager* m_resourceMgr;
 	std::vector<ISystem*> m_systems;
+
+	bool initGameCamera;
 };

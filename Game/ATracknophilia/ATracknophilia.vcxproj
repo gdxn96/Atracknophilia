@@ -224,6 +224,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="CreditsScene.h" />
     <ClInclude Include="Dimensional.h" />
     <ClInclude Include="DirectionVolume.h" />
     <ClInclude Include="Drawables.h" />
@@ -236,8 +237,10 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="LevelSelectScene.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="LTimer.h" />
+    <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RaceManager.h" />
@@ -263,14 +266,17 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="CreditsScene.cpp" />
     <ClCompile Include="DirectionVolume.cpp" />
     <ClCompile Include="EndGameScene.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="LevelSelectScene.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="LTimer.cpp" />
+    <ClCompile Include="OptionsScene.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RaceManager.cpp" />
     <ClCompile Include="Renderer.cpp" />

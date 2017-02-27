@@ -54,10 +54,6 @@ bool StartScene::loadMedia()
 	//Loading success flag
 	bool success = true;
 
-	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new HoldCommand([&]() {
-		
-	}), this, 1);*/
-
 	//Load splash image here..
 	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("startscreen");
 
@@ -80,7 +76,8 @@ bool StartScene::loadMedia()
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&StartScene::moveHighlightBtn, this, right)), this, 0);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_UP, new PressCommand(std::bind(&StartScene::moveHighlightBtn, this, up)), this, 0);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_DOWN, new PressCommand(std::bind(&StartScene::moveHighlightBtn, this, down)), this, 0);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&StartScene::executeScene, this, m_highlightedBtn.getRect())), this, 0);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&StartScene::executeScene, this)), this, 0);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&StartScene::executeScene, this)), this, 0);
 
 	return success;
 }
@@ -129,23 +126,22 @@ void StartScene::moveHighlightBtn(direction dir)
 	}
 }
 
-void StartScene::executeScene(Rect highlightedBtn)
+void StartScene::executeScene()
 {
-	if (m_startBtn.getRect() == highlightedBtn)
+	if (m_startBtn.getRect() == m_highlightedBtn.getRect())
 	{
-		// do start btn logic
 		changeScene(Scenes::GAME);
 	}
-	if (m_creditBtn.getRect() == highlightedBtn)
+	if (m_creditBtn.getRect() == m_highlightedBtn.getRect())
 	{
-		// do credits btn logic
+		changeScene(Scenes::CREDITS);
 	}
-	if (m_lvlselectBtn.getRect() == highlightedBtn)
+	if (m_lvlselectBtn.getRect() == m_highlightedBtn.getRect())
 	{
-		// do lvl select btn logic
+		changeScene(Scenes::LEVELSELECT);
 	}
-	if (m_optionsBtn.getRect() == highlightedBtn)
+	if (m_optionsBtn.getRect() == m_highlightedBtn.getRect())
 	{
-		// do options btn logic
+		changeScene(Scenes::OPTIONS);
 	}
 }

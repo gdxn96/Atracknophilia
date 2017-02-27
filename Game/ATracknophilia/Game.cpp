@@ -45,11 +45,17 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	GameScene * gameScene = new GameScene();
 	StartScene * startScene = new StartScene(windowSize);
 	EndGameScene * endGame = new EndGameScene(windowSize);
+	CreditsScene * creditsScene = new CreditsScene(windowSize);
+	OptionsScene * optionsScene = new OptionsScene(windowSize);
+	LevelSelectScene * lvlSelectScene = new LevelSelectScene(windowSize);
 
 	//add scenes to sceneMgr
 	SceneManager::getInstance()->addScene(gameScene);
 	SceneManager::getInstance()->addScene(startScene);
 	SceneManager::getInstance()->addScene(endGame);
+	SceneManager::getInstance()->addScene(creditsScene);
+	SceneManager::getInstance()->addScene(optionsScene);
+	SceneManager::getInstance()->addScene(lvlSelectScene);
 
 	//switch to splash
 	SceneManager::getInstance()->switchTo(Scenes::SPLASH);
@@ -62,6 +68,7 @@ void Game::init()
 
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
 	//m_camera.zoom(-1);
+	initGameCamera = false;
 
 	SceneManager::getInstance()->init(m_renderer);
 }
@@ -71,6 +78,11 @@ void Game::loop(float dt)
 	LevelLoader::destroyObjects();
 	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::GAME)
 	{
+		if (initGameCamera == false)
+		{
+			m_camera.zoom(-1);
+			initGameCamera = true;
+		}
 		for (auto& system : m_systems)
 		{
 			system->process(dt);

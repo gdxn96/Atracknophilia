@@ -20,7 +20,19 @@
       },
       {
         "key": "startscreen",
-        "path": "assets/Textures/space.png"
+        "path": "assets/Textures/startscreen.png"
+      },
+      {
+        "key": "optionsscreen",
+        "path": "assets/Textures/options.png"
+      },
+      {
+        "key": "levelselect",
+        "path": "assets/Textures/levelselect.png"
+      },
+      {
+        "key": "creditsscreen",
+        "path": "assets/Textures/credits.png"
       },
       {
         "key": "startgamebtn",
@@ -37,6 +49,22 @@
       {
         "key": "optionsbtn",
         "path": "assets/Textures/optionsbtn.png"
+      },
+      {
+        "key": "lvl1btn",
+        "path": "assets/Textures/lvl1.png"
+      },
+      {
+        "key": "lvl2btn",
+        "path": "assets/Textures/lvl2.png"
+      },
+      {
+        "key": "lvl3btn",
+        "path": "assets/Textures/lvl3.png"
+      },
+      {
+        "key": "lvl4btn",
+        "path": "assets/Textures/lvl4.png"
       },
       {
         "key": "highlight",
