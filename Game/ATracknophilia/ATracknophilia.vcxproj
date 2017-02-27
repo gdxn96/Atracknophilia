@@ -127,8 +127,19 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
       <AdditionalDependencies>SDL2_mixer.lib;SDL2_image.lib;Box2D-d.lib;lua52.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "..\..\dependancies\dlls\x64\*.dll" "$(OutDir)"; 
+mkdir  $(OutDir)assets\Animations; 
+mkdir  $(OutDir)assets\levels; 
+mkdir  $(OutDir)assets\Music; 
+mkdir  $(OutDir)assets\SoundEffects; 
+mkdir  $(OutDir)assets\Textures; 
+copy  ".\assets\*" "$(OutDir)assets";
+copy  ".\assets\Animations\*" "$(OutDir)assets\Animations";
+copy  ".\assets\levels\*" "$(OutDir)assets\levels";
+copy  ".\assets\Music\*" "$(OutDir)assets\Music";
+copy  ".\assets\SoundEffects\*" "$(OutDir)assets\SoundEffects";
+copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -220,7 +231,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameplaySystem.h" />
+    <ClInclude Include="ScoreSystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Logic.h" />

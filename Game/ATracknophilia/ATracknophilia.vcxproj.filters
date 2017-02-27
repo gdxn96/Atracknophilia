@@ -138,7 +138,7 @@
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="GameplaySystem.h">
+    <ClInclude Include="ScoreSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>

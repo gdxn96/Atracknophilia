@@ -6,6 +6,11 @@
 
 RaceManager *RaceManager::m_instance = 0;
 
+void RaceManager::init(Camera2D::Camera * camera)
+{
+	m_camera = camera;
+}
+
 std::vector<Player*> RaceManager::Sort()
 {
 	auto players = AutoList::get<Player>();
@@ -66,9 +71,9 @@ std::vector<Player*> RaceManager::getPlayers()
 	return Sort();
 }
 
-std::vector<Player*> RaceManager::getOnScreenPlayers(Camera2D::Camera * camera)
+std::vector<Player*> RaceManager::getOnScreenPlayers()
 {
-	CustomRect cameraBounds = camera->getBounds();
+	CustomRect cameraBounds = m_camera->getBounds();
 	std::vector<Player*> returnVector;
 	SDL_Point playerPos;
 
@@ -92,7 +97,7 @@ std::vector<Player*> RaceManager::getOnScreenPlayers(Camera2D::Camera * camera)
 		bounds.w = cameraBounds.w;
 		bounds.h = cameraBounds.h;
 		
-		if (SDL_PointInRect(&playerPos, &bounds))
+		if (SDL_PointInRect(&playerPos, &bounds) && getComponentById<ScoreComponent>(player->ID)->alive)
 		{
 			returnVector.push_back(*it);
 		}

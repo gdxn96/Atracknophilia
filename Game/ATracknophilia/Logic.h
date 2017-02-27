@@ -86,20 +86,6 @@ struct ScoreComponent : public AutoLister<ScoreComponent>, public IComponent
 	{
 
 	}
-
-	void reset()
-	{
-		rounds = 0;
-		alive = true;
-	}
-	void kill()
-	{
-		alive = false;
-	}
-	void score()
-	{
-		rounds++;
-	}
 };
 
 struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>

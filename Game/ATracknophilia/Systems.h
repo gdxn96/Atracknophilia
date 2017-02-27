@@ -6,4 +6,4 @@
 #include "CollisionSystem.h"
 #include "AISystem.h"
 #include "HookSystem.h"
-#include "GameplaySystem.h"
+#include "ScoreSystem.h"
