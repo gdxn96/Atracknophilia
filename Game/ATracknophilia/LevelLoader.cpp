@@ -69,14 +69,6 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 							y = itr["y"].GetFloat() / 50.f;
 							w = itr["width"].GetFloat() / 50.f;
 							h = itr["height"].GetFloat() / 50.f;
-
-							//std::vector<b2Vec2> points;
-							//points.push_back(b2Vec2(x, y));
-							//points.push_back(b2Vec2(x + w, y));
-							//points.push_back(b2Vec2(x + w, y + h));
-							//points.push_back(b2Vec2(x, y + h));
-
-							//EntityFactory::SpawnStaticPoly(points);
 							EntityFactory::SpawnStaticBox(x, y, w, h);
 
 							if (x + w > biggest.w)
@@ -115,30 +107,30 @@ Vector2D LevelLoader::loadLevel(LEVELS lvl)
 					}
 				}
 			}
-			//else if (layer["name"] == "Boost Layer")
-			//{
-			//	if (layer.HasMember("objects"))
-			//	{
-			//		for (const auto& itr : layer["objects"].GetArray())
-			//		{
-			//			float x, y, w, h;
-			//			x = itr["x"].GetFloat() / 50.f;
-			//			y = itr["y"].GetFloat() / 50.f;
-			//			w = itr["width"].GetFloat() / 50.f;
-			//			h = itr["height"].GetFloat() / 50.f;
-			//			EntityFactory::SpawnBoostPad(x, y, w, h);
+			else if (layer["name"] == "Boost Layer")
+			{
+				if (layer.HasMember("objects"))
+				{
+					for (const auto& itr : layer["objects"].GetArray())
+					{
+						float x, y, w, h;
+						x = itr["x"].GetFloat() / 50.f;
+						y = itr["y"].GetFloat() / 50.f;
+						w = itr["width"].GetFloat() / 50.f;
+						h = itr["height"].GetFloat() / 50.f;
+						EntityFactory::SpawnBoostPad(x, y, w, h);
 
-			//			if (x + w > biggest.w)
-			//			{
-			//				biggest.w = x + w;
-			//			}
-			//			if (y + h > biggest.h)
-			//			{
-			//				biggest.h = y + h;
-			//			}
-			//		}
-			//	}
-			//}
+						if (x + w > biggest.w)
+						{
+							biggest.w = x + w;
+						}
+						if (y + h > biggest.h)
+						{
+							biggest.h = y + h;
+						}
+					}
+				}
+			}
 			else if (layer["name"] == "Direction Layer")
 			{
 				if (layer.HasMember("objects"))
