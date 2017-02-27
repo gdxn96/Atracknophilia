@@ -3,6 +3,7 @@
 #include "ECSInterfaces.h"
 #include "Dimensional.h"
 #include "RacePosition.h"
+#include "BehaviourTree.h"
 
 struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
 {
@@ -97,6 +98,27 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 	Box2DComponent* target;
 	int shooterID;
 };
+struct PlayerAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
+{
+	PlayerAIComponent(int id)
+		: AIComponent(id)
+		, bt(BehaviourTree())
+	{
+		bt.SetAIPlayer(getComponent<Box2DComponent>()->getParent());
+
+		// create nodes here....
+
+		bt.SetRoot(nullptr);
+	}
+
+	void think()
+	{
+		
+	}
+
+	BehaviourTree bt;
+};
+
 
 struct SlowShotResponseComponent : public ICollisionResponseComponent
 {

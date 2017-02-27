@@ -2,11 +2,20 @@
 #include "Node.h"
 #include "Entities.h"
 
-class BehaviorTree : public Node
+class BehaviourTree : public Node
 {
 public:
-	BehaviorTree(AIPlayer* p) : player(p) {}
-	BehaviorTree(AIPlayer* p, Node* rootNode)
+	BehaviourTree()
+		: player(nullptr)
+		, root(nullptr)
+	{}
+
+	BehaviourTree(AIPlayer* p) 
+		: player(p)
+		, root(nullptr)
+	{}
+
+	BehaviourTree(AIPlayer* p, Node* rootNode)
 		: player(p)
 		, root(rootNode)
 	{}
@@ -14,6 +23,7 @@ public:
 	Status Update() { return root->Tick(); }
 
 	void SetRoot(Node* node) { root = node; }
+	void SetAIPlayer(AIPlayer* p) { player = p; }
 	AIPlayer* GetAIPlayer() { return player; }
 
 private:
