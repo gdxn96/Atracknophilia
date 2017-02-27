@@ -221,6 +221,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="BoostPad.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="ChoosePlayerScene.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Controller.h" />
@@ -265,6 +266,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClCompile Include="ATracknophilia.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="ChoosePlayerScene.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CreditsScene.cpp" />
     <ClCompile Include="DirectionVolume.cpp" />

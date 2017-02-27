@@ -48,6 +48,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	CreditsScene * creditsScene = new CreditsScene(windowSize);
 	OptionsScene * optionsScene = new OptionsScene(windowSize);
 	LevelSelectScene * lvlSelectScene = new LevelSelectScene(windowSize);
+	ChoosePlayerScene * choosePlayerScene = new ChoosePlayerScene(windowSize);
 
 	//add scenes to sceneMgr
 	SceneManager::getInstance()->addScene(gameScene);
@@ -56,6 +57,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	SceneManager::getInstance()->addScene(creditsScene);
 	SceneManager::getInstance()->addScene(optionsScene);
 	SceneManager::getInstance()->addScene(lvlSelectScene);
+	SceneManager::getInstance()->addScene(choosePlayerScene);
 
 	//switch to splash
 	SceneManager::getInstance()->switchTo(Scenes::SPLASH);

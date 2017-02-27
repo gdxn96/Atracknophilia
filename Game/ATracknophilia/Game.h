@@ -11,6 +11,7 @@
 #include "CreditsScene.h"
 #include "OptionsScene.h"
 #include "LevelSelectScene.h"
+#include "ChoosePlayerScene.h"
 #include "StartScene.h"
 
 class Game : public EventListener

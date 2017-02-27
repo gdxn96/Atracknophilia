@@ -35,16 +35,16 @@
         "path": "assets/Textures/credits.png"
       },
       {
-        "key": "startgamebtn",
-        "path": "assets/Textures/startgamebtn.png"
+        "key": "localgamebtn",
+        "path": "assets/Textures/localgamebtn.png"
       },
       {
         "key": "creditsbtn",
         "path": "assets/Textures/creditsbtn.png"
       },
       {
-        "key": "levelselectbtn",
-        "path": "assets/Textures/levelselectbtn.png"
+        "key": "onlinegamebtn",
+        "path": "assets/Textures/onlinegamebtn.png"
       },
       {
         "key": "optionsbtn",
@@ -65,6 +65,22 @@
       {
         "key": "lvl4btn",
         "path": "assets/Textures/lvl4.png"
+      },
+      {
+        "key": "playerAbtn",
+        "path": "assets/Textures/playerA.png"
+      },
+      {
+        "key": "playerBbtn",
+        "path": "assets/Textures/playerB.png"
+      },
+      {
+        "key": "playerCbtn",
+        "path": "assets/Textures/playerC.png"
+      },
+      {
+        "key": "playerDbtn",
+        "path": "assets/Textures/playerD.png"
       },
       {
         "key": "highlight",

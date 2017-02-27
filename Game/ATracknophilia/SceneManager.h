@@ -4,7 +4,7 @@
 
 using namespace std;
 
-enum class Scenes { SPLASH, GAME, ENDGAME, CREDITS, OPTIONS, LEVELSELECT };
+enum class Scenes { SPLASH, GAME, ENDGAME, CREDITS, OPTIONS, LEVELSELECT, CHOOSEPLAYER };
 
 #include "Scene.h"
 #include <vector>

@@ -11,9 +11,9 @@ StartScene::StartScene(Vector2D windowSize)
 	, m_btnHeight(50)
 	, m_btnWidth(250)
 {
-	m_startBtn = Button();
+	m_localGameBtn = Button();
 	m_creditBtn = Button();
-	m_lvlselectBtn = Button();
+	m_onlineGameBtn = Button();
 	m_optionsBtn = Button();
 	m_highlightedBtn = Button();
 	loadMedia();
@@ -27,9 +27,9 @@ void StartScene::update(float dt)
 void StartScene::render(Renderer& r)
 {
 	r.drawTexture(m_splashScreen, m_textureRect);
-	m_startBtn.render(r);
+	m_localGameBtn.render(r);
 	m_creditBtn.render(r);
-	m_lvlselectBtn.render(r);
+	m_onlineGameBtn.render(r);
 	m_optionsBtn.render(r);
 	m_highlightedBtn.render(r);
 	r.present();
@@ -57,15 +57,15 @@ bool StartScene::loadMedia()
 	//Load splash image here..
 	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("startscreen");
 
-	m_startBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+	m_localGameBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 	m_creditBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
-	m_lvlselectBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
+	m_onlineGameBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 	m_optionsBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 
-	m_startBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("startgamebtn"));
+	m_localGameBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("localgamebtn"));
 	m_creditBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("creditsbtn"));
-	m_lvlselectBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("levelselectbtn"));
+	m_onlineGameBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("onlinegamebtn"));
 	m_optionsBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("optionsbtn"));
 	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
 
@@ -128,15 +128,15 @@ void StartScene::moveHighlightBtn(direction dir)
 
 void StartScene::executeScene()
 {
-	if (m_startBtn.getRect() == m_highlightedBtn.getRect())
+	if (m_localGameBtn.getRect() == m_highlightedBtn.getRect())
 	{
-		changeScene(Scenes::GAME);
+		changeScene(Scenes::CHOOSEPLAYER);
 	}
 	if (m_creditBtn.getRect() == m_highlightedBtn.getRect())
 	{
 		changeScene(Scenes::CREDITS);
 	}
-	if (m_lvlselectBtn.getRect() == m_highlightedBtn.getRect())
+	if (m_onlineGameBtn.getRect() == m_highlightedBtn.getRect())
 	{
 		changeScene(Scenes::LEVELSELECT);
 	}
