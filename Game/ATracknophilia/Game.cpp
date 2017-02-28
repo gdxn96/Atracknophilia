@@ -10,7 +10,10 @@ bool Game::quit = false;
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{LEVELS::PROTOTYPE, "./assets/levels/map4.json"}, 
+		{ LEVELS::LEVEL1, "./assets/levels/map1.json" },
+		{ LEVELS::LEVEL2, "./assets/levels/map2.json" },
+		{ LEVELS::LEVEL3, "./assets/levels/map3.json" },
+		{ LEVELS::LEVEL4, "./assets/levels/map4.json" }
 	});
 
 	m_renderer.init(windowSize, windowName, &m_camera);
