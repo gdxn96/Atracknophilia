@@ -13,7 +13,7 @@ public:
 	{
 		for (auto& component : AutoList::get<IControllerComponent>())
 		{
-			if (!getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->isPaused)
+			if (!getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->isPaused || !getComponentById<Player>(component->ID)->getComponent<ScoreComponent>()->alive)
 			{
 				component->process(dt);
 			}	

@@ -19,7 +19,7 @@ public:
 	void process(float dt) override
 	{
 		std::vector<Player*> onScreen = RaceManager::getInstance()->getOnScreenPlayers();
-		if (onScreen.size() == 1)
+		if (onScreen.size() == 1 && AutoList::get<Player>().size() > 1)
 		{
 			Player* winner = onScreen.at(0);
 			getComponentById<ScoreComponent>(winner->ID)->rounds++;
@@ -32,7 +32,8 @@ public:
 				player->getComponent<InputPauseComponent>()->isPaused = true;
 				player->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
 				player->getComponent<InputPauseComponent>()->timeToPause = 2000;
-				
+				player->getComponent<ScoreComponent>()->alive = true;
+				player->getComponent<DynamicBodyComponent>()->fixture->SetSensor(false);
 			}
 			physicsSys->setPausePhysics(true);
 			PhysicsSystem::World().Step(dt * 2, 7, 3);
@@ -41,7 +42,8 @@ public:
 			cout << "round: " << winner->ID << endl;
 			if (getComponentById<ScoreComponent>(winner->ID)->rounds >= 3)
 			{
-				//DO WIN & New game
+				//DO WIN 
+				//Sean's scene code here
 				cout << "winner: " << winner->ID << endl;
 				reset();
 			}
@@ -56,6 +58,7 @@ public:
 					if ((*it)->getComponent<ScoreComponent>()->alive)
 					{
 						(*it)->getComponent<ScoreComponent>()->alive = false;
+						(*it)->getComponent<DynamicBodyComponent>()->fixture->SetSensor(true);
 					}
 				}
 			}
@@ -87,11 +90,6 @@ public:
 		std::vector<Player*>::iterator it;
 
 		std::set_difference(s1.begin(), s1.end(), s2.begin(), s2.end(), std::back_inserter(result));
-
-		if (result.size() > 0)
-		{
-			int i = 0;
-		}
 
 		return result;
 	}

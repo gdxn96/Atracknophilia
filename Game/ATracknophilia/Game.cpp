@@ -10,7 +10,7 @@ bool Game::quit = false;
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{LEVELS::PROTOTYPE, "./assets/levels/map4.json"}, 
+		{LEVELS::PROTOTYPE, "./assets/levels/map3.json"}, 
 	});
 
 	m_renderer.init(windowSize, windowName, &m_camera);
@@ -66,7 +66,7 @@ void Game::init()
 	EntityFactory::SpawnPlayer(50, 13, 1, 1, 0);
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 1);
 	EntityFactory::SpawnPlayer(50, 11, 1, 1, 2);
-	EntityFactory::SpawnPlayer(50, 10, 1, 1, 3);
+	//EntityFactory::SpawnPlayer(50, 10, 1, 1, 3);
 
 	for (auto& player : AutoList::get<Player>())
 	{
