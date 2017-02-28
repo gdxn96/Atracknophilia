@@ -55,13 +55,16 @@ private:
 	// the textures used for each different player option
 	SDL_Texture* m_blueTex = NULL;
 	SDL_Texture* m_greenTex = NULL;
-	SDL_Texture* m_yellowTex = NULL;
 	SDL_Texture* m_redTex = NULL;
+	SDL_Texture* m_yellowTex = NULL;
+	
 
 	// update the player colour when changed
 	void updatePlayer(Button::colour c, IDs id);
 	Button::colour updateCurrentColour(direction dir);
 
+	int m_blueID, m_greenID, m_redID, m_yellowID;
+
 	// used to lock in the player's chosen colour character
-	void executeScene(IDs id, Button b);
+	void executeScene(IDs id);
 };
