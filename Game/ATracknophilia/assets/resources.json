@@ -83,6 +83,22 @@
         "path": "assets/Textures/playerD.png"
       },
       {
+        "key": "bluehighlight",
+        "path": "assets/Textures/bluehighlight.png"
+      },
+      {
+        "key": "greenhighlight",
+        "path": "assets/Textures/greenhighlight.png"
+      },
+      {
+        "key": "yellowhighlight",
+        "path": "assets/Textures/yellowhighlight.png"
+      },
+      {
+        "key": "redhighlight",
+        "path": "assets/Textures/redhighlight.png"
+      },
+      {
         "key": "highlight",
         "path": "assets/Textures/highlight.png"
       }

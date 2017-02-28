@@ -18,6 +18,12 @@ public:
 	float getDirection();
 
 	Rect getRect();
+
+	enum colour { blue, green, yellow, red };
+
+	void setColour(colour c);
+
+	colour m_col;
 private:
 
 	SDL_Texture* m_texture = NULL;

@@ -39,6 +39,11 @@ Rect Button::getRect()
 	return m_textureRect;
 }
 
+void Button::setColour(colour c)
+{
+	m_col = c;
+}
+
 void Button::setDirection(float dir)
 {
 	m_direction = dir;
