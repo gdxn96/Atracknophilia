@@ -56,7 +56,7 @@ void Game::init()
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
 
-	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
+	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL1));
 	m_camera.zoom(-1);
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
