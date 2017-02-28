@@ -17,10 +17,6 @@ void RenderSystem::process(float dt)
 		auto& components = AutoList::get<Box2DComponent>();
 		for (auto& component : components)
 		{
-			if (false) //add debug flag later
-			{
-				m_renderer->drawBox2DBody(component->body);
-			}
 			if (component->body->GetFixtureList()[0].GetDensity() > 0)
 			{
 				if (!(component->size == Vector2D::ZERO))
@@ -31,16 +27,7 @@ void RenderSystem::process(float dt)
 				{
 					m_renderer->drawFilledPoly(component->body);
 				}
-				
 			}
-			//else if (true)
-			//{
-			//	m_renderer->drawBox2DPolygon(&component->shape, 0.0f);
-			//}
-			//else
-			//{
-			//	
-			//}
 		}
 	}
 	{
@@ -50,17 +37,6 @@ void RenderSystem::process(float dt)
 			m_renderer->drawLine(component->start, component->end);
 		}
 	}
-	//{
-	//	auto& components = AutoList::get<Box2DPolyComponent>();
-	//	for (auto& component : components)
-	//	{
-	//		if (true) //add debug flag later
-	//		{
-	//			m_renderer->drawBox2DPolygon(&component->bodyPoly, 0.0f);
-	//		}
-	//		//m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey(""), Rect(Vector2D(component->body->GetPosition()) - component->size* 0.5, component->size));
-	//	}
-	//}
 	
 	m_renderer->present();
 }
