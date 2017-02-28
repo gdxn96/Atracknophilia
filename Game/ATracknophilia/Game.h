@@ -24,4 +24,6 @@ private:
 
 	ResourceManager* m_resourceMgr;
 	std::vector<ISystem*> m_systems;
+
+	BehaviourTree bt;
 };

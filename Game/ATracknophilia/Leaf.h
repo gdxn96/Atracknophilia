@@ -1,22 +1,10 @@
 #pragma once
 #include "Node.h"
-#include "Entities.h"
-#include <vector>
-#include <memory>
 
 class Leaf : public Node
 {
 public:
-	Leaf() {}
 	virtual ~Leaf() {}
-	Leaf(AIPlayer* p) : player(p) {}
-
-	void SetPlayer(AIPlayer* p) { player = p; }
-
-	virtual Status Update() = 0;
-
-protected:
-	AIPlayer* player;
 };
 
 class UseAbility : public Leaf
@@ -24,9 +12,8 @@ class UseAbility : public Leaf
 public:
 	UseAbility() {}
 	~UseAbility() {}
-	UseAbility(AIPlayer* p) : Leaf(p) {}
 
-	Status Update()
+	Status Update(IEntity* p)
 	{
 		// auto a = player->getComponent<AbilityComponent>();
 		// auto c = player->getComponent<Box2DComponent>();
@@ -60,13 +47,12 @@ class MoveInDirectionOfVolume : public Leaf
 public:
 	MoveInDirectionOfVolume() {}
 	~MoveInDirectionOfVolume() {}
-	MoveInDirectionOfVolume(AIPlayer* p) : Leaf(p) {}
 
-	Status Update()
+	Status Update(IEntity* p)
 	{
-		auto b = player->getComponent<Box2DComponent>();
-		auto a = player->getComponent<MaxAccelerationComponent>();
-		auto rp = player->getComponent<RacePositionComponent>();
+		auto b = p->getComponent<Box2DComponent>();
+		auto a = p->getComponent<MaxAccelerationComponent>();
+		auto rp = p->getComponent<RacePositionComponent>();
 
 		if (a && b && rp)
 		{
@@ -77,11 +63,11 @@ public:
 				if (dirComp)
 				{
 					auto direction = dirComp->m_direction;
-					auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + direction);
+					auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, direction.y * 1000));
 					if (obstacle.first)
 					{
 						float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-						if (distance > 10)
+						if (distance < 5)
 						{
 							std::cout << "obstacle too close" << std::endl;
 							return Status::Failure;
@@ -103,13 +89,12 @@ class MoveInXDirection : public Leaf
 public:
 	MoveInXDirection() {}
 	~MoveInXDirection() {}
-	MoveInXDirection(AIPlayer* p) : Leaf(p) {}
 
-	Status Update()
+	Status Update(IEntity* p)
 	{
-		auto b = player->getComponent<Box2DComponent>();
-		auto a = player->getComponent<MaxAccelerationComponent>();
-		auto rp = player->getComponent<RacePositionComponent>();
+		auto b = p->getComponent<Box2DComponent>();
+		auto a = p->getComponent<MaxAccelerationComponent>();
+		auto rp = p->getComponent<RacePositionComponent>();
 
 		if (a && b && rp)
 		{
@@ -129,11 +114,11 @@ public:
 					{
 						dirX = -1;
 					}
-					auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(dirX, 0));
+					auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(dirX * 1000, 0));
 					if (obstacle.first)
 					{
 						float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-						if (distance > 10)
+						if (distance < 5)
 						{
 							std::cout << "obstacle too close" << std::endl;
 							return Status::Failure;
@@ -155,12 +140,11 @@ class UseHook : public Leaf
 public:
 	UseHook() {}
 	~UseHook() {}
-	UseHook(AIPlayer* p) : Leaf(p) {}
 
-	Status Update()
+	Status Update(IEntity* p)
 	{
-		auto b = player->getComponent<Box2DComponent>();
-		auto h = player->getComponent<HookComponent>();
+		auto b = p->getComponent<Box2DComponent>();
+		auto h = p->getComponent<HookComponent>();
 		if (!h && b)
 		{
 			float xVelocity = b->body->GetLinearVelocity().x;
@@ -172,16 +156,16 @@ public:
 			{
 				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
 				float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
-				if (distance > 10 && isStatic)
+				if (distance > 5 && isStatic)
 				{
-					player->AddComponent(new HookComponent(player->ID, b->body->GetPosition(), intersection.second, b->body));
+					p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
 					std::cout << "hook created" << std::endl;
 					return Status::Success;
 				}
 			}
 		}
-		std::cout << "use hook failed" << std::endl;
-		return Status::Failure;
+		//std::cout << "use hook failed" << std::endl;
+		return Status::Success;
 	}
 };
 
@@ -190,26 +174,58 @@ class RaiseHook : public Leaf
 public:
 	RaiseHook() {}
 	~RaiseHook() {}
-	RaiseHook(AIPlayer* p) : Leaf(p) {}
 
-	Status Update()
+	Status Update(IEntity* p)
 	{
-		auto h = player->getComponent<HookComponent>();
+		auto h = p->getComponent<HookComponent>();
+		// get y value of direction volume and move up and down accordingly
 		if (h)
 		{
-			if (h->tetherLength < 20)
+			if (h->tetherLength < 5)
 			{
 				std::cout << "tether removed" << std::endl;
+				h->getParent()->deleteComponent<HookComponent>();
 				return Status::Success;
 			}
 			else
 			{
-				h->decreaseTetherLength(0.001);
+				h->decreaseTetherLength(0.01);
 				std::cout << "tether decreasing" << std::endl;
-				return Status::Running;
+				return Status::Success;
 			}
 		}
 		std::cout << "raise hook failed" << std::endl;
+		return Status::Failure;
+	}
+};
+
+class ActivateStamina : public Leaf
+{
+public:
+	ActivateStamina() {}
+	~ActivateStamina() {}
+
+	Status Update(IEntity* p)
+	{
+		return Status::Failure;
+	}
+};
+
+class CheckHooked : public Leaf
+{
+public:
+	CheckHooked() {}
+	~CheckHooked() {}
+
+	Status Update(IEntity* p)
+	{
+		auto h = p->getComponent<HookComponent>();
+		if (h)
+		{
+			std::cout << "has hook" << std::endl;
+			return Status::Success;
+		}
+		std::cout << "no hook" << std::endl;
 		return Status::Failure;
 	}
 };

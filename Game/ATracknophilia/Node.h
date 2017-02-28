@@ -1,6 +1,14 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include "ECSInterfaces.h"
+
+struct State
+{
+	Vector2D position;
+	Vector2D velocity;
+	bool isHooked;
+};
 
 class Node
 {
@@ -15,17 +23,17 @@ public:
 
 	virtual ~Node() {}
 
-	virtual Status Update() = 0;
+	virtual Status Update(IEntity* p) = 0;
 	virtual void Initialize() {}
-	virtual void Terminate(Status s) {}
+	virtual void Terminate(Status status) {}
 
-	Status Tick()
+	Status Tick(IEntity* p)
 	{
 		if (status != Status::Running) {
 			Initialize();
 		}
 
-		status = Update();
+		status = Update(p);
 
 		if (status != Status::Running) {
 			Terminate(status);
@@ -40,7 +48,7 @@ public:
 	bool IsTerminated() const { return IsSuccess() || IsFailure(); }
 	void Reset() { status = Status::Invalid; }
 
-	std::vector<Node*> nodes;
+	//static std::map<IEntity*, Node*> playersLastNode;
 
 protected:
 	Status status = Status::Invalid;

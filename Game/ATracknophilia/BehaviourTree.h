@@ -1,32 +1,31 @@
 #pragma once
 #include "Node.h"
-#include "Entities.h"
 
 class BehaviourTree : public Node
 {
 public:
 	BehaviourTree()
-		: player(nullptr)
-		, root(nullptr)
+		: root(nullptr)
 	{}
 
-	BehaviourTree(AIPlayer* p) 
-		: player(p)
-		, root(nullptr)
+	BehaviourTree(Node* rootNode)
+		: root(rootNode)
 	{}
 
-	BehaviourTree(AIPlayer* p, Node* rootNode)
-		: player(p)
-		, root(rootNode)
-	{}
-
-	Status Update() { return root->Tick(); }
+	Status Update(IEntity* p)
+	{
+		if (p != nullptr)
+		{
+			return root->Tick(p);
+		}
+		else
+		{
+			return Status::Failure;
+		}
+	}
 
 	void SetRoot(Node* node) { root = node; }
-	void SetAIPlayer(AIPlayer* p) { player = p; }
-	AIPlayer* GetAIPlayer() { return player; }
 
 private:
-	Node* root = nullptr;
-	AIPlayer* player = nullptr;
+	Node* root;
 };

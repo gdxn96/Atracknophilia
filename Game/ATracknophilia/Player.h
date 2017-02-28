@@ -65,7 +65,7 @@ private:
 class AIPlayer : public IEntity, public AutoLister<AIPlayer>
 {
 public:
-	AIPlayer(int id, float x, float y, float w, float h)
+	AIPlayer(int id, float x, float y, float w, float h, BehaviourTree* bt)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -74,11 +74,11 @@ public:
 			new MaxVelocityComponent(id, 50),
 			new BoostComponent(id),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id)
+			new PlayerStaticObjectResponseComponent(id),
+			new PlayerAIComponent(id, bt)
 		})
 	{
 	}
 private:
 
 };
-

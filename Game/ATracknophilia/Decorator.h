@@ -16,9 +16,9 @@ protected:
 class Succeeder : public Decorator
 {
 public:
-	Status Update() override
+	Status Update(IEntity* p) override
 	{
-		child->Tick();
+		child->Tick(p);
 		return Status::Success;
 	}
 };
@@ -26,9 +26,9 @@ public:
 class Failer : public Decorator
 {
 public:
-	Status Update() override
+	Status Update(IEntity* p) override
 	{
-		child->Tick();
+		child->Tick(p);
 		return Status::Failure;
 	}
 };
@@ -36,9 +36,9 @@ public:
 class Inverter : public Decorator
 {
 public:
-	Status Update() override
+	Status Update(IEntity* p) override
 	{
-		auto s = child->Tick();
+		auto s = child->Tick(p);
 
 		if (s == Status::Success) 
 		{
@@ -63,11 +63,11 @@ public:
 		counter = 0;
 	}
 
-	Status Update() override
+	Status Update(IEntity* p) override
 	{
 		while (1) 
 		{
-			auto s = child->Tick();
+			auto s = child->Tick(p);
 
 			if (s == Status::Running)
 			{
@@ -96,19 +96,15 @@ protected:
 class UntilFail : public Decorator
 {
 public:
-	Status Update() override
+	Status Update(IEntity* p) override
 	{
 		while (1) 
 		{
-			auto status = child->Tick();
+			auto status = child->Tick(p);
 
 			if (status == Status::Failure) 
 			{
 				return Status::Success;
-			}
-			else
-			{
-				return Status::Failure;
 			}
 		}
 	}
@@ -117,19 +113,15 @@ public:
 class UntilSuccess : public Decorator
 {
 public:
-	Status Update() override
+	Status Update(IEntity* p) override
 	{
 		while (1) 
 		{
-			auto status = child->Tick();
+			auto status = child->Tick(p);
 
 			if (status == Status::Success)
 			{
 				return Status::Success;
-			}
-			else
-			{
-				return Status::Failure;
 			}
 		}
 	}

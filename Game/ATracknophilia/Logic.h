@@ -98,25 +98,20 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 	Box2DComponent* target;
 	int shooterID;
 };
+
 struct PlayerAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 {
-	PlayerAIComponent(int id)
+	PlayerAIComponent(int id, BehaviourTree* beTree)
 		: AIComponent(id)
-		, bt(BehaviourTree())
-	{
-		bt.SetAIPlayer(getComponent<Box2DComponent>()->getParent());
-
-		// create nodes here....
-
-		bt.SetRoot(nullptr);
-	}
+		, bt(beTree)
+	{}
 
 	void think()
 	{
-		
+		bt->Tick(getParent());
 	}
 
-	BehaviourTree bt;
+	BehaviourTree* bt;
 };
 
 

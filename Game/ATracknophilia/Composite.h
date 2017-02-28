@@ -4,7 +4,7 @@
 class Composite : public Node
 {
 public:
-	virtual ~Composite() {}
+	virtual ~Composite() { children.clear(); }
 
 	void AddChild(Node* child) { children.push_back(child); }
 	bool HasNoChildren() const { return children.empty(); }
@@ -23,7 +23,7 @@ public:
 		index = 0;
 	}
 
-	Status Update() override
+	Status Update(IEntity* p)
 	{
 		if (HasNoChildren()) 
 		{
@@ -33,8 +33,8 @@ public:
 		// Keep going until a child behavior says it's running.
 		while (1) 
 		{
-			auto &child = children.at(index);
-			auto status = child->Tick();
+			auto& child = children.at(index);
+			auto status = child->Tick(p);
 
 			// If the child succeeds, or keeps running, do the same.
 			if (status != Status::Failure) 
@@ -59,7 +59,7 @@ public:
 		index = 0;
 	}
 
-	Status Update() override
+	Status Update(IEntity* p)
 	{
 		if (HasNoChildren()) 
 		{
@@ -67,9 +67,10 @@ public:
 		}
 
 		// Keep going until a child behavior says it's running.
-		while (1) {
-			auto &child = children.at(index);
-			auto status = child->Tick();
+		while (1) 
+		{
+			auto& child = children.at(index);
+			auto status = child->Tick(p);
 
 			// If the child fails, or keeps running, do the same.
 			if (status != Status::Success) 

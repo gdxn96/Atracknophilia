@@ -5,9 +5,15 @@
 #include "EntityFactory.h"
 #include "DirectionVolume.h"
 
+#include "Composite.h"
+#include "Decorator.h"
+#include "Leaf.h"
+
 bool Game::quit = false;
 
-Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
+Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) 
+	: m_resourceMgr(ResourceManager::getInstance())
+	, bt(BehaviourTree())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
 		{LEVELS::PROTOTYPE, "./assets/levels/test.json"}, 
@@ -40,8 +46,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
-
-	
 }
 
 void Game::init()
@@ -56,8 +60,39 @@ void Game::init()
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
 	m_camera.zoom(-1);
 
+	Selector* root = new Selector();
+	root->Initialize();
+	root->AddChild(new UseAbility());
+
+	Sequence* checkHook = new Sequence();
+	checkHook->AddChild(new CheckHooked());
+	checkHook->AddChild(new RaiseHook());
+	root->AddChild(checkHook);
+
+	Selector* moveSelector = new Selector();
+	moveSelector->Initialize();
+	moveSelector->AddChild(new MoveInDirectionOfVolume());
+
+	Selector* altMoveSelector = new Selector();
+	altMoveSelector->Initialize();
+	altMoveSelector->AddChild(new MoveInXDirection());
+
+	Sequence* hookSelector = new Sequence();
+	hookSelector->Initialize();
+	hookSelector->AddChild(new UseHook());
+	hookSelector->AddChild(new RaiseHook());
+	hookSelector->AddChild(new MoveInDirectionOfVolume());
+
+	altMoveSelector->AddChild(hookSelector);
+	moveSelector->AddChild(altMoveSelector);
+	root->AddChild(moveSelector);
+
+	bt.SetRoot(root);
+
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
+	EntityFactory::SpawnAIPlayer(20, 13, 1, 1, &bt);
+	//EntityFactory::SpawnAIPlayer(22, 13, 1, 1, &bt);
 	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
 }
 
