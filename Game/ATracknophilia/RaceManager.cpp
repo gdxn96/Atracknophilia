@@ -77,6 +77,8 @@ std::vector<Player*> RaceManager::getOnScreenPlayers()
 	std::vector<Player*> returnVector;
 	SDL_Point playerPos;
 
+	m_players = AutoList::get<Player>();
+
 	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it)
 	{
 		auto player = (*it)->getComponent<Box2DComponent>();
