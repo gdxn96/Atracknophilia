@@ -168,6 +168,9 @@
     <ClInclude Include="ChoosePlayerScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -252,6 +255,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ChoosePlayerScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

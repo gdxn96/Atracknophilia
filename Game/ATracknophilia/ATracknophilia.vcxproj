@@ -236,6 +236,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="LevelSelectScene.h" />
@@ -274,6 +275,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="LevelSelectScene.cpp" />
     <ClCompile Include="Logic.cpp" />

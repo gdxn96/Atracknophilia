@@ -138,7 +138,7 @@ void StartScene::executeScene()
 	}
 	if (m_onlineGameBtn.getRect() == m_highlightedBtn.getRect())
 	{
-		changeScene(Scenes::LEVELSELECT);
+		changeScene(Scenes::LOBBY);
 	}
 	if (m_optionsBtn.getRect() == m_highlightedBtn.getRect())
 	{

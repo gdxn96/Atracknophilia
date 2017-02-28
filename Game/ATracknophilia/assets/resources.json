@@ -27,8 +27,8 @@
         "path": "assets/Textures/options.png"
       },
       {
-        "key": "levelselect",
-        "path": "assets/Textures/levelselect.png"
+        "key": "lobbyselect",
+        "path": "assets/Textures/lobbyselect.png"
       },
       {
         "key": "creditsscreen",
@@ -49,6 +49,14 @@
       {
         "key": "optionsbtn",
         "path": "assets/Textures/optionsbtn.png"
+      },
+      {
+        "key": "hostbtn",
+        "path": "assets/Textures/hostbtn.png"
+      },
+      {
+        "key": "joinbtn",
+        "path": "assets/Textures/joinbtn.png"
       },
       {
         "key": "lvl1btn",
