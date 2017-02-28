@@ -31,6 +31,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	//Init systems
 	renderSys->init(&m_renderer);
+	scoreSys->init(physicsSystem);
 	m_cameraManager.init(&m_camera);
 	
 	//Push back systems
@@ -62,10 +63,17 @@ void Game::init()
 
 
 	
-	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
-	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
-	EntityFactory::SpawnPlayer(51, 12, 1, 1, 2);
-r
+	EntityFactory::SpawnPlayer(50, 13, 1, 1, 0);
+	EntityFactory::SpawnPlayer(50, 12, 1, 1, 1);
+	EntityFactory::SpawnPlayer(50, 11, 1, 1, 2);
+	EntityFactory::SpawnPlayer(50, 10, 1, 1, 3);
+
+	for (auto& player : AutoList::get<Player>())
+	{
+		player->getComponent<InputPauseComponent>()->isPaused = true;
+		player->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
+		player->getComponent<InputPauseComponent>()->timeToPause = 2000;
+	}
 }
 
 void Game::loop(float dt)

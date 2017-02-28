@@ -11,6 +11,11 @@ public:
 	{
 	}
 
+	void init(PhysicsSystem* p)
+	{
+		physicsSys = p;
+	}
+
 	void process(float dt) override
 	{
 		std::vector<Player*> onScreen = RaceManager::getInstance()->getOnScreenPlayers();
@@ -22,7 +27,18 @@ public:
 			for (auto& player : AutoList::get<Player>())
 			{
 				player->getComponent<DynamicBodyComponent>()->body->SetTransform(winner->getComponent<DynamicBodyComponent>()->body->GetPosition(), 0);
+				player->getComponent<RacePositionComponent>()->lap = winner->getComponent<RacePositionComponent>()->lap;
+				player->getComponent<RacePositionComponent>()->volumeID = winner->getComponent<RacePositionComponent>()->volumeID;
+				player->getComponent<InputPauseComponent>()->isPaused = true;
+				player->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
+				player->getComponent<InputPauseComponent>()->timeToPause = 2000;
+				
 			}
+			physicsSys->setPausePhysics(true);
+			PhysicsSystem::World().Step(dt * 2, 7, 3);
+
+
+			cout << "round: " << winner->ID << endl;
 			if (getComponentById<ScoreComponent>(winner->ID)->rounds >= 3)
 			{
 				//DO WIN & New game
@@ -44,6 +60,13 @@ public:
 				}
 			}
 		}
+
+
+		if (SDL_GetTicks() - onScreen.at(0)->getComponent<InputPauseComponent>()->startTime > onScreen.at(0)->getComponent<InputPauseComponent>()->timeToPause)
+		{
+			physicsSys->setPausePhysics(false);
+		}
+
 	}
 
 	void reset()
@@ -74,5 +97,5 @@ public:
 	}
 
 private:
-
+	PhysicsSystem* physicsSys;
 };

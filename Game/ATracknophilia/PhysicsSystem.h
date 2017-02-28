@@ -20,6 +20,10 @@ public:
 	static b2World& World();
 
 	void DecelerateBoost(float dt, Box2DComponent *b);
+
+	void setPausePhysics(bool b);
+
 private:
 
+	bool pausePhysics;
 };

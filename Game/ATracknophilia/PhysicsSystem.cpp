@@ -5,7 +5,11 @@
 
 void PhysicsSystem::process(float dt)
 {
-	World().Step(dt, 7, 3);
+	if (!pausePhysics)
+	{
+		World().Step(dt, 7, 3);
+	}
+	
 
 
 	auto& boxComponents = AutoList::get<Box2DComponent>();
@@ -146,4 +150,9 @@ void PhysicsSystem::DecelerateBoost(float dt, Box2DComponent* b)
 		stamComp->boostTime = 0;
 	}
 
+}
+
+ void PhysicsSystem::setPausePhysics(bool b)
+{
+	pausePhysics = b;
 }
