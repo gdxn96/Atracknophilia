@@ -62,6 +62,7 @@ void Game::init()
 
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
 	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
+	EntityFactory::SpawnPlayer(12, 12, 1, 1, 2);
 	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
 }
 

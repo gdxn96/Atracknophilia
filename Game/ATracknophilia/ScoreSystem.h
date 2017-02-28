@@ -16,10 +16,17 @@ public:
 		std::vector<Player*> onScreen = RaceManager::getInstance()->getOnScreenPlayers();
 		if (onScreen.size() == 1)
 		{
-			getComponentById<ScoreComponent>(RaceManager::getInstance()->getOnScreenPlayers().at(0)->ID)->rounds++;
-			if (getComponentById<ScoreComponent>(RaceManager::getInstance()->getOnScreenPlayers().at(0)->ID)->rounds >= 3)
+			Player* winner = onScreen.at(0);
+			getComponentById<ScoreComponent>(winner->ID)->rounds++;
+			//new round
+			for (auto& player : AutoList::get<Player>())
 			{
-				//DO WIN
+				player->getComponent<DynamicBodyComponent>()->body->SetTransform(winner->getComponent<DynamicBodyComponent>()->body->GetPosition(), 0);
+			}
+			if (getComponentById<ScoreComponent>(winner->ID)->rounds >= 3)
+			{
+				//DO WIN & New game
+				cout << "winner: " << winner->ID << endl;
 				reset();
 			}
 		}
@@ -54,8 +61,14 @@ public:
 		std::set<Player*> s2(v2.begin(), v2.end());
 
 		std::vector<Player*> result;
+		std::vector<Player*>::iterator it;
 
-		std::set_difference(v1.begin(), v1.end(), v2.begin(), v2.end(), result.begin());
+		std::set_difference(s1.begin(), s1.end(), s2.begin(), s2.end(), std::back_inserter(result));
+
+		if (result.size() > 0)
+		{
+			int i = 0;
+		}
 
 		return result;
 	}
