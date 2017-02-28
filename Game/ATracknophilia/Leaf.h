@@ -51,7 +51,7 @@ public:
 	Status Update(IEntity* p)
 	{
 		auto b = p->getComponent<Box2DComponent>();
-		auto a = p->getComponent<MaxAccelerationComponent>();
+		auto a = p->getComponent<AccelerationComponent>();
 		auto rp = p->getComponent<RacePositionComponent>();
 
 		if (a && b && rp)
@@ -72,7 +72,7 @@ public:
 							std::cout << "obstacle too close" << std::endl;
 							return Status::Failure;
 						}
-						b->body->ApplyForceToCenter(b2Vec2(direction.x * a->m_maxAcceleration, direction.y * a->m_maxAcceleration), true);
+						b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, direction.y * a->acceleration), true);
 						std::cout << "moving in direction of volume" << std::endl;
 						return Status::Running;
 					}
@@ -93,7 +93,7 @@ public:
 	Status Update(IEntity* p)
 	{
 		auto b = p->getComponent<Box2DComponent>();
-		auto a = p->getComponent<MaxAccelerationComponent>();
+		auto a = p->getComponent<AccelerationComponent>();
 		auto rp = p->getComponent<RacePositionComponent>();
 
 		if (a && b && rp)
@@ -118,12 +118,12 @@ public:
 					if (obstacle.first)
 					{
 						float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-						if (distance < 5)
+						if (distance < 10)
 						{
 							std::cout << "obstacle too close" << std::endl;
 							return Status::Failure;
 						}
-						b->body->ApplyForceToCenter(b2Vec2(dirX * a->m_maxAcceleration, 0), true);
+						b->body->ApplyForceToCenter(b2Vec2(dirX * a->acceleration, 0), true);
 						std::cout << "moving in X direction" << std::endl;
 						return Status::Running;
 					}
@@ -156,7 +156,7 @@ public:
 			{
 				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
 				float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
-				if (distance > 5 && isStatic)
+				if (distance > 10 && isStatic)
 				{
 					p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
 					std::cout << "hook created" << std::endl;

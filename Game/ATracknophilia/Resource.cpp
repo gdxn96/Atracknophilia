@@ -19,8 +19,8 @@ void Texture::load()
 	// Destroy the old texture and set the new one and the new time data
 	if (textures->find(m_key) != textures->end())
 		SDL_DestroyTexture((*textures)[m_key].first);
-	(*textures)[m_key].first = _temp;
-	(*textures)[m_key].second = ResourceManager::getInstance()->getTimeInfo(m_textureDir.c_str());
+	(*textures)[m_key] = std::make_pair(_temp, ResourceManager::getInstance()->getTimeInfo(m_textureDir.c_str()));
+
 }
 
 void Music::load()
