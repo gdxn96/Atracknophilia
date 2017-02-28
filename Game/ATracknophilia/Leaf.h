@@ -63,18 +63,30 @@ public:
 				if (dirComp)
 				{
 					auto direction = dirComp->m_direction;
-					auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, direction.y * 1000));
-					if (obstacle.first)
+					if (direction.x == 0)
 					{
-						float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-						if (distance < 5)
-						{
-							std::cout << "obstacle too close" << std::endl;
+						if (direction.y > 0)
+							// move left then right
+							return Status::Success;
+						else 
+							// use hook to go up
 							return Status::Failure;
+					}
+					else
+					{
+						auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, direction.y * 1000));
+						if (obstacle.first)
+						{
+							float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
+							if (distance < 7)
+							{
+								std::cout << "obstacle too close" << std::endl;
+								return Status::Failure;
+							}
+							b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, direction.y * a->acceleration), true);
+							std::cout << "moving in direction of volume" << std::endl;
+							return Status::Running;
 						}
-						b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, direction.y * a->acceleration), true);
-						std::cout << "moving in direction of volume" << std::endl;
-						return Status::Running;
 					}
 				}
 			}
@@ -156,7 +168,7 @@ public:
 			{
 				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
 				float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
-				if (distance > 10 && isStatic)
+				if (distance > 5 && isStatic)
 				{
 					p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
 					std::cout << "hook created" << std::endl;
@@ -185,10 +197,11 @@ public:
 			{
 				std::cout << "tether removed" << std::endl;
 				h->getParent()->deleteComponent<HookComponent>();
-				return Status::Success;
+				return Status::Failure;
 			}
 			else
 			{
+				// use ai system to pass dt instead
 				h->decreaseTetherLength(0.01);
 				std::cout << "tether decreasing" << std::endl;
 				return Status::Success;

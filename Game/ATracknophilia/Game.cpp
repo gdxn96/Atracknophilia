@@ -89,11 +89,11 @@ void Game::init()
 
 	bt.SetRoot(root);
 
-	EntityFactory::SpawnAIPlayer(20, 13, 1, 1, &bt);
-	//EntityFactory::SpawnAIPlayer(22, 13, 1, 1, &bt);
+	EntityFactory::SpawnPlayer(51, 12, 1, 1, 0, &bt, true);
+	//EntityFactory::SpawnPlayer(22, 13, 1, 1, 0, &bt, true);
 
-	//EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
-	/*EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);*/
+	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
+	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
 }
 
 void Game::loop(float dt)

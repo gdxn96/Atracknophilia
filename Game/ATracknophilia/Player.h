@@ -61,14 +61,8 @@ public:
 		})
 	{
 	}
-private:
 
-};
-
-class AIPlayer : public IEntity, public AutoLister<AIPlayer>
-{
-public:
-	AIPlayer(int id, float x, float y, float w, float h, BehaviourTree* bt)
+	Player(int id, float x, float y, float w, float h, BehaviourTree* bt)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -79,12 +73,36 @@ public:
 			new VelocityComponent(id, 50),
 			new ConstMaxVelocityComponent(id, 50),
 			new ConstBoostedVelocityComponent(id, 80),
+			new PlayerAIComponent(id, bt),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id),
-			new PlayerAIComponent(id, bt)
+			new PlayerStaticObjectResponseComponent(id)
 		})
 	{
 	}
 private:
 
 };
+
+//class AIPlayer : public IEntity, public AutoLister<AIPlayer>
+//{
+//public:
+//	AIPlayer(int id, float x, float y, float w, float h, BehaviourTree* bt)
+//		: IEntity(id,
+//		{
+//			new DynamicBodyComponent(id, x, y, w, h, false),
+//			new StaminaComponent(id, 100),
+//			new AccelerationComponent(id, 20),
+//			new ConstMaxAccelerationComponent(id, 20),
+//			new ConstBoostedAccelerationComponent(id, 150),
+//			new VelocityComponent(id, 50),
+//			new ConstMaxVelocityComponent(id, 50),
+//			new ConstBoostedVelocityComponent(id, 80),
+//			new RacePositionComponent(id),
+//			new PlayerStaticObjectResponseComponent(id),
+//			new PlayerAIComponent(id, bt)
+//		})
+//	{
+//	}
+//private:
+//
+//};

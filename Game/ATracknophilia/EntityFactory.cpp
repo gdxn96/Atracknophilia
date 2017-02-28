@@ -3,9 +3,16 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId)
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, BehaviourTree* bt, bool isAI)
 {
-	LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+	if (isAI)
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, bt));
+	}
+	else
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+	}
 }
 
 void EntityFactory::SpawnStaticBox(float x, float y, float w, float h)
@@ -55,9 +62,4 @@ void EntityFactory::SpawnWebDrop(float x, float y, float w, float h)
 void EntityFactory::SpawnBoostPad(float x, float y, float w, float h)
 {
 	LevelLoader::appendToEntities(new BoostPad(id(), x, y, w, h));
-}
-
-void EntityFactory::SpawnAIPlayer(float x, float y, float w, float h, BehaviourTree* bt)
-{
-	LevelLoader::appendToEntities(new AIPlayer(id(), x, y, w, h, bt));
 }
