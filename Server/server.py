@@ -12,7 +12,6 @@ celery = celeryinit.make_celery(app)
 import udpserver
 from models import *
 
-
 @app.after_request
 def after_request(response):
 	try: 
@@ -39,11 +38,11 @@ def newLobby(max_players):
 
 	#create lobby
 	l = Lobby(max_players, num_players=1)
-	l.host = client #set authoritive host of lobby
-	db.session.add(l) # add to db
-	db.session.flush() # allow ids to validate
-	client.lobby_id = l.id # link client to lobby
-	db.session.commit() # commit everything
+	l.host = client 			# set authoritive host of lobby
+	db.session.add(l) 			# add to db
+	db.session.flush() 			# allow ids to validate
+	client.lobby_id = l.id 		# link client to lobby
+	db.session.commit() 		# commit everything
 
 	return str(client.lobby_id)
 
@@ -71,10 +70,9 @@ def leaveLobby(lobby_id):
 	db.session.commit()
 	return str(client.lobby_id)
 
-
 if __name__ == "__main__":
 	print "setting up socket"
 	udpserver.listen_nonblocking(app.config)
 
 	print "running app"
-	app.run()
+	app.run(debug=app.config["FLASK_DEBUG"], port=app.config["FLASK_PORT"])
