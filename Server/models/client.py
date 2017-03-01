@@ -1,5 +1,5 @@
 #check __init__.py if adding new models
-from tcpserver import db
+from server import db
 import datetime
 
 class Client(db.Model):

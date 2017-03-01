@@ -2,7 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import json
 from flask import request
-import udpserver
 import celeryinit
 
 app = Flask(__name__)
@@ -10,7 +9,9 @@ app.config.from_pyfile('app_settings.py')
 db = SQLAlchemy(app)
 celery = celeryinit.make_celery(app)
 
+import udpserver
 from models import *
+
 
 @app.after_request
 def after_request(response):
@@ -73,9 +74,7 @@ def leaveLobby(lobby_id):
 
 if __name__ == "__main__":
 	print "setting up socket"
-	HOST = app.config["UDP_HOST"]
-	PORT = app.config["UDP_PORT"]
-	udpserver.listen_nonblocking(HOST, PORT)
+	udpserver.listen_nonblocking(app.config)
 
 	print "running app"
 	app.run()

@@ -1,12 +1,25 @@
 import socket
 import sys
 import celery_wrapper
+from models import Lobby, Client
 from socket import SOL_SOCKET, SO_REUSEADDR
-global server_socket
+
+class UdpSocket():
+    def __init__(self, HOST, PORT):
+        self.sock = None
+        self.HOST = HOST
+        self.PORT = PORT
+
+    def __enter__(self):
+        self.sock = setup_socket(self.HOST, self.PORT)
+        return self.sock
+
+    def __exit__(self, type, value, traceback):
+        self.sock.close()
 
 def setup_socket(HOST, PORT):
     # Datagram (udp) socket
-    try :
+    try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         print 'Socket created'
     except socket.error, msg :
@@ -25,25 +38,39 @@ def setup_socket(HOST, PORT):
     print 'Socket bind complete'
     return s
 
-def send_to_host_by_lobby_id(lobby_id, msg):
-    global server_socket
-    
-    #server_socket.sendto("bla bla bla", ("127.0.0.1", 8080))
-    pass
+def send_to_host_by_lobby_id(lobby_id, msg, config, socket=None):
+    if socket:
+        lobby = Lobby.query.get(lobby_id)
+        ip_address = lobby.host.ip_address
+        socket.sendto(msg, (ip_address, port))
+    else:
+        with UdpSocket(config["UDP_HOST"], config["UDP_PORT"]) as s:
+            send_to_host_by_lobby_id(lobby_id, msg, config, s)
 
-def send_to_host_by_host_id(host_id, msg):
-    pass
+def send_to_host_by_host_id(host_id, msg, config, socket=None):
+    if socket:
+        host = Client.query.get(host_id)
+        ip_address = host.ip_address
+        socket.sendto(msg, (ip_address, port))
+    else:
+        with UdpSocket(config["UDP_HOST"], config["UDP_PORT"]) as s:
+            send_to_host_by_host_id(host_id, msg, config, s)
 
-def send_to_lobby_by_lobby_id(lobby_id, msg):
-    pass
+def send_to_all_by_lobby_id(lobby_id, msg, config, socket=None):
+    if socket:
+        lobby = Lobby.query.get(lobby_id)
+        for client in lobby.clients:
+            ip_address = client.ip_address
+            socket.sendto(msg, (ip_address, port))
+    else:
+        with UdpSocket(config["UDP_HOST"], config["UDP_PORT"]) as s:
+            send_to_all_by_lobby_id(lobby_id, msg, config, s)
 
 
-def listen_blocking(HOST, PORT):
-    global server_socket
-    s = setup_socket(HOST, PORT)
-    server_socket = s
-    send_to_host_by_lobby_id(1, 2)
-    try:
+def listen_blocking(config):
+    HOST = config["UDP_HOST"]
+    PORT = config["UDP_PORT"]
+    with UdpSocket(HOST, PORT) as s:
         #now keep talking with the client
         while True:
             # receive data from client (data, addr)
@@ -58,8 +85,6 @@ def listen_blocking(HOST, PORT):
              
             s.sendto(reply , addr)
             print 'Message[' + addr[0] + ':' + str(addr[1]) + '] - ' + data.strip()
-    finally:
-        s.close()
 
-def listen_nonblocking(HOST, PORT):
-    celery_wrapper.start_daemon_task(listen_blocking, HOST, PORT)
+def listen_nonblocking(config):
+    celery_wrapper.start_daemon_task(listen_blocking, config)

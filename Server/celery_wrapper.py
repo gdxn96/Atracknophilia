@@ -1,9 +1,8 @@
-from tcpserver import celery
+from server import celery
 
 @celery.task()
 def celery_task(task, *args, **kwargs):
-	pass
-	#task(*args, **kwargs)
+	task(*args, **kwargs)
 
 @celery.task()
 def daemon_task(task, *args, **kwargs):

@@ -28,3 +28,7 @@ def run_worker(app):
     }
     print "* \n" * 80
     w.run(**options)
+
+def kill_worker(app):
+    application = current_app._get_current_object()
+    application.control.purge()
