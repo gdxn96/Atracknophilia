@@ -4,6 +4,7 @@
 #include "LevelLoader.h"
 #include "EntityFactory.h"
 #include "DirectionVolume.h"
+#include "sdl/SDL_net.h"
 
 bool Game::quit = false;
 
