@@ -7,7 +7,7 @@ GameScene::GameScene()
 	:	Scene(Scenes::GAME)
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{ LEVELS::PROTOTYPE, "./assets/levels/test.json" },
+		{ LEVELS::PROTOTYPE, "./assets/levels/map4.json" },
 	});
 }
 
@@ -32,8 +32,8 @@ bool GameScene::init(Renderer & r)
 
 	LevelLoader::loadLevel(LEVELS::PROTOTYPE);
 
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 0);
-	EntityFactory::SpawnPlayer(12, 12, 1, 1, 1);
+	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
+	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
 	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
 
 	return success;
