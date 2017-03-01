@@ -87,6 +87,22 @@
         "path": "assets/Textures/Mapfour.png"
       },
       {
+        "key": "greyedlvl1btn",
+        "path": "assets/Textures/greyedMapone.png"
+      },
+      {
+        "key": "greyedlvl2btn",
+        "path": "assets/Textures/greyedMaptwo.png"
+      },
+      {
+        "key": "greyedlvl3btn",
+        "path": "assets/Textures/greyedMapthree.png"
+      },
+      {
+        "key": "greyedlvl4btn",
+        "path": "assets/Textures/greyedMapfour.png"
+      },
+      {
         "key": "playerAbtn",
         "path": "assets/Textures/playerA.png"
       },

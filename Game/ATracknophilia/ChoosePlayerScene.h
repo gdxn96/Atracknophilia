@@ -31,9 +31,6 @@ private:
 
 	Button m_aLeftArrowBtn, m_aRightArrowBtn, m_bLeftArrowBtn, m_bRightArrowBtn, m_cLeftArrowBtn, m_cRightArrowBtn, m_dLeftArrowBtn, m_dRightArrowBtn;
 
-	// displaying visual feedback to the chosen character
-	Button m_blueHighlightBtn, m_greenHighlightBtn, m_yellowHighlightBtn, m_redHighlightBtn;
-
 	float m_arrowWidth, m_arrowHeight;
 
 	float m_scaler;

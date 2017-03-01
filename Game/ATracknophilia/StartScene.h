@@ -19,6 +19,7 @@ private:
 	//The image we will load and show on the screen
 	SDL_Texture* m_splashScreen = NULL;
 	Rect m_textureRect;
+	int currentTick = 0;
 	Button m_localGameBtn;
 	Button m_creditBtn;
 	Button m_onlineGameBtn;

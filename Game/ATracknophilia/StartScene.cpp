@@ -21,7 +21,7 @@ StartScene::StartScene(Vector2D windowSize)
 
 void StartScene::update(float dt)
 {
-	// do button highlighting here
+	currentTick += dt * 1000; // dt was rounding down to 0 when adding 0.0001 of a second so converting into milliseonds
 }
 
 void StartScene::render(Renderer& r)
@@ -84,64 +84,70 @@ bool StartScene::loadMedia()
 
 void StartScene::moveHighlightBtn(direction dir)
 {
-	if (dir == left && m_highlightedBtn.getDirection() != left)
+	if (currentTick > 1)
 	{
-		m_highlightedBtn.setDirection(left);
-		if (m_highlightedBtn.getRect().pos.y == m_upBtnPos)
+		if (dir == left && m_highlightedBtn.getDirection() != left)
 		{
-			m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+			m_highlightedBtn.setDirection(left);
+			if (m_highlightedBtn.getRect().pos.y == m_upBtnPos)
+			{
+				m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+			}
+			else
+				m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 		}
-		else
-			m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
-	}
-	if(dir == right && m_highlightedBtn.getDirection() != right)
-	{
-		m_highlightedBtn.setDirection(right);
-		if (m_highlightedBtn.getRect().pos.y == m_upBtnPos)
+		if (dir == right && m_highlightedBtn.getDirection() != right)
 		{
-			m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+			m_highlightedBtn.setDirection(right);
+			if (m_highlightedBtn.getRect().pos.y == m_upBtnPos)
+			{
+				m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+			}
+			else
+				m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 		}
-		else
-			m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
-	}
-	if (dir == up && m_highlightedBtn.getDirection() != up)
-	{
-		m_highlightedBtn.setDirection(up);
-		if (m_highlightedBtn.getRect().pos.x == m_rightBtnPos)
+		if (dir == up && m_highlightedBtn.getDirection() != up)
 		{
-			m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+			m_highlightedBtn.setDirection(up);
+			if (m_highlightedBtn.getRect().pos.x == m_rightBtnPos)
+			{
+				m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+			}
+			else
+				m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 		}
-		else
-			m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
-	}
-	if (dir == down && m_highlightedBtn.getDirection() != down)
-	{
-		m_highlightedBtn.setDirection(down);
-		if (m_highlightedBtn.getRect().pos.x == m_rightBtnPos)
+		if (dir == down && m_highlightedBtn.getDirection() != down)
 		{
-			m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
+			m_highlightedBtn.setDirection(down);
+			if (m_highlightedBtn.getRect().pos.x == m_rightBtnPos)
+			{
+				m_highlightedBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
+			}
+			else
+				m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 		}
-		else 
-			m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 	}
 }
 
 void StartScene::executeScene()
 {
-	if (m_localGameBtn.getRect() == m_highlightedBtn.getRect())
+	if (currentTick > 1)
 	{
-		changeScene(Scenes::CHOOSEPLAYER);
-	}
-	if (m_creditBtn.getRect() == m_highlightedBtn.getRect())
-	{
-		changeScene(Scenes::CREDITS);
-	}
-	if (m_onlineGameBtn.getRect() == m_highlightedBtn.getRect())
-	{
-		changeScene(Scenes::LOBBY);
-	}
-	if (m_optionsBtn.getRect() == m_highlightedBtn.getRect())
-	{
-		changeScene(Scenes::LEVELSELECT);
+		if (m_localGameBtn.getRect() == m_highlightedBtn.getRect())
+		{
+			changeScene(Scenes::CHOOSEPLAYER);
+		}
+		if (m_creditBtn.getRect() == m_highlightedBtn.getRect())
+		{
+			changeScene(Scenes::CREDITS);
+		}
+		if (m_onlineGameBtn.getRect() == m_highlightedBtn.getRect())
+		{
+			changeScene(Scenes::LOBBY);
+		}
+		if (m_optionsBtn.getRect() == m_highlightedBtn.getRect())
+		{
+			changeScene(Scenes::OPTIONS);
+		}
 	}
 }

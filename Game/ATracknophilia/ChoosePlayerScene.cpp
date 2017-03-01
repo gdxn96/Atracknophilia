@@ -61,10 +61,6 @@ void ChoosePlayerScene::render(Renderer & r)
 	m_cRightArrowBtn.render(r);
 	m_dLeftArrowBtn.render(r);
 	m_dRightArrowBtn.render(r);
-	m_blueHighlightBtn.render(r);
-	m_greenHighlightBtn.render(r);
-	m_yellowHighlightBtn.render(r);
-	m_redHighlightBtn.render(r);
 	//m_highlightedBtn.render(r);
 	r.present();
 }
@@ -118,11 +114,6 @@ bool ChoosePlayerScene::init(Renderer & r)
 
 
 	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
-	m_blueHighlightBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("bluehighlight"));
-	m_greenHighlightBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("greenhighlight"));
-	m_redHighlightBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("redhighlight"));
-	m_yellowHighlightBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("yellowhighlight"));
-	
 
 	//m_highlightedBtn.setDirection(left);
 
@@ -629,6 +620,11 @@ void ChoosePlayerScene::executeScene(IDs id)
 				checkIDs(3);
 				lockedD = true;
 			}
+		}
+
+		if (lockedA == true && lockedB == true && lockedC == true && lockedD == true)
+		{
+			changeScene(Scenes::LEVELSELECT);
 		}
 	}
 }
