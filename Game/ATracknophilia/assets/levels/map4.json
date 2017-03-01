@@ -514,7 +514,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "width":0,
          "x":0,
          "y":0
@@ -2196,7 +2196,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
@@ -2225,8 +2225,8 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":10300,
-                 "x":800,
+                 "width":10900,
+                 "x":200,
                  "y":200
                 }, 
                 {
@@ -2271,12 +2271,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":2300,
-                 "x":10000,
+                 "width":1700,
+                 "x":10600,
                  "y":2900
                 }, 
                 {
-                 "height":1500,
+                 "height":2200,
                  "id":161,
                  "name":"",
                  "properties":
@@ -2296,7 +2296,7 @@
                  "visible":true,
                  "width":600,
                  "x":10000,
-                 "y":1400
+                 "y":2000
                 }, 
                 {
                  "height":600,
@@ -2317,7 +2317,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":500,
+                 "width":1100,
                  "x":9500,
                  "y":1400
                 }, 
@@ -2443,7 +2443,7 @@
                  "properties":
                     {
                      "directionX":-1,
-                     "directionY":0,
+                     "directionY":-1,
                      "priority":10
                     },
                  "propertytypes":
@@ -2506,7 +2506,7 @@
                  "y":2800
                 }, 
                 {
-                 "height":3200,
+                 "height":2200,
                  "id":172,
                  "name":"",
                  "properties":
@@ -2526,7 +2526,7 @@
                  "visible":true,
                  "width":600,
                  "x":200,
-                 "y":200
+                 "y":1200
                 }],
          "opacity":1,
          "type":"objectgroup",

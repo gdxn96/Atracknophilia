@@ -16,7 +16,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	, bt(BehaviourTree())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{LEVELS::PROTOTYPE, "./assets/levels/map3.json"}, 
+		{LEVELS::PROTOTYPE, "./assets/levels/map2.json"}, 
 	});
 
 	m_renderer.init(windowSize, windowName, &m_camera);
@@ -72,6 +72,16 @@ void Game::init()
 
 	Selector* moveSelector = new Selector();
 	moveSelector->Initialize();
+	
+	/*Sequence* staminaSequence = new Sequence();
+	staminaSequence->Initialize();
+	staminaSequence->AddChild(new CheckVelocity());
+	staminaSequence->AddChild(new UseStamina());*/
+
+	/*Failer* staminaFailer = new Failer();
+	staminaFailer->SetChild(staminaSequence);*/
+
+	//moveSelector->AddChild(staminaFailer);
 	moveSelector->AddChild(new MoveInDirectionOfVolume());
 
 	Sequence* hookSequence = new Sequence();
@@ -85,8 +95,10 @@ void Game::init()
 
 	bt.SetRoot(root);
 
-	EntityFactory::SpawnPlayer(51, 12, 1, 1, 0, &bt, true);
-	//EntityFactory::SpawnPlayer(22, 13, 1, 1, 0, &bt, true);
+	/*EntityFactory::SpawnPlayer(51, 13, 1, 1, 0, &bt, true);
+	EntityFactory::SpawnPlayer(52, 13, 1, 1, 0, &bt, true);
+	EntityFactory::SpawnPlayer(53, 13, 1, 1, 0, &bt, true);
+	EntityFactory::SpawnPlayer(50, 13, 1, 1, 0, &bt, true);*/
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
 	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);

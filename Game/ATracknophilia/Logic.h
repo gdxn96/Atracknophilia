@@ -122,7 +122,9 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 	{}
 
 	void endContact(IEntity * e)
-	{};
+	{
+	
+	};
 
 	void beginContact(IEntity * e)
 	{
@@ -191,7 +193,12 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 
 	void endContact(IEntity* e)
 	{
+		auto racePositionComponent = e->getComponent<RacePositionComponent>();
 
+		if (racePositionComponent->volumeID == ID)
+		{
+			racePositionComponent->SetVolumeId(racePositionComponent->prevVolumeID);
+		}
 	};
 
 	void beginContact(IEntity* e)

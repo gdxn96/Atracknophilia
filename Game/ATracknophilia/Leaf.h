@@ -37,7 +37,6 @@ public:
 		//			break;
 		//		}
 		// }
-		//std::cout << "use ability failed" << std::endl;
 		return Status::Failure;
 	}
 };
@@ -58,19 +57,12 @@ public:
 		{
 			auto dirVol = getComponentById<DirectionVolume>(rp->volumeID);
 
-			auto x = dirVol->getComponent<SensorComponent>()->size.x;
-			auto y = dirVol->getComponent<SensorComponent>()->size.y;
-			auto w = dirVol->getComponent<SensorComponent>()->size.width;
-			auto h = dirVol->getComponent<SensorComponent>()->size.height;
-			auto p = dirVol->getComponent<PriorityComponent>()->priority;
-
 			if (dirVol)
 			{
 				auto dirComp = dirVol->getComponent<DirectionComponent>();
 				if (dirComp)
 				{
 					auto direction = dirComp->m_direction;
-					std::cout << "Priority: " << p << " x: " << direction.x << " y: " << direction.y << endl;
 					if (direction.y == 0)
 					{
 						auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, 0));
@@ -79,11 +71,9 @@ public:
 							float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
 							if (distance < 7)
 							{
-								//std::cout << "obstacle too close" << std::endl;
 								return Status::Failure;
 							}
 							b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, 0), true);
-							//std::cout << "moving in direction of volume" << std::endl;
 							return Status::Running;
 						}
 					}
@@ -101,89 +91,47 @@ public:
 								return Status::Failure;
 							}
 						}
-						else
-						{
-							if (direction.x > 0 && direction.y > 0)
-							{
-								// down left
-								return Status::Success;
-							}
-							else if (direction.x < 0 && direction.y < 0)
-							{
-								// up right
-								return Status::Success;
-							}
-							else if (direction.x > 0 && direction.y < 0)
-							{
-								// up right
-								return Status::Success;
-							}
-							else if (direction.x < 0 && direction.y >
-								0)
-							{
-								// up right
-								return Status::Success;
-							}
-						}
+						//else
+						//{
+						//	if (direction.x > 0 && direction.y > 0)
+						//	{
+						//		// down right
+						//		return Status::Success;
+						//	}
+						//	else if (direction.x < 0 && direction.y < 0)
+						//	{
+						//		// up left
+						//		return Status::Success;
+						//	}
+						//	else if (direction.x > 0 && direction.y < 0)
+						//	{
+						//		// up right
+						//		return Status::Success;
+						//	}
+						//	else if (direction.x < 0 && direction.y > 0)
+						//	{
+						//		auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, 0));
+						//		if (obstacle.first)
+						//		{
+						//			float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
+						//			if (distance < 7)
+						//			{
+						//				std::cout << "obstacle too close" << std::endl;
+						//				return Status::Failure;
+						//			}
+						//			b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, 0), true);
+						//			std::cout << "moving in direction of volume" << std::endl;
+						//			return Status::Running;
+						//		}
+						//	}
+						//}
 					}
 				}
 			}
 		}
-		//std::cout << "move in direction of volume failed" << std::endl;
 		return Status::Failure;
 	}
 };
-
-//class MoveInXDirection : public Leaf
-//{
-//public:
-//	MoveInXDirection() {}
-//	~MoveInXDirection() {}
-//
-//	Status Update(IEntity* p)
-//	{
-//		auto b = p->getComponent<Box2DComponent>();
-//		auto a = p->getComponent<AccelerationComponent>();
-//		auto rp = p->getComponent<RacePositionComponent>();
-//
-//		if (a && b && rp)
-//		{
-//			auto dirVol = getComponentById<DirectionVolume>(rp->volumeID);
-//			if (dirVol)
-//			{
-//				auto dirComp = dirVol->getComponent<DirectionComponent>();
-//				if (dirComp)
-//				{
-//					auto direction = dirComp->m_direction;
-//					int dirX = 0;
-//					if (direction.x > 0)
-//					{
-//						dirX = 1;
-//					}
-//					else
-//					{
-//						dirX = -1;
-//					}
-//					auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(dirX * 1000, 0));
-//					if (obstacle.first)
-//					{
-//						float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-//						if (distance < 10)
-//						{
-//							std::cout << "obstacle too close" << std::endl;
-//							return Status::Failure;
-//						}
-//						b->body->ApplyForceToCenter(b2Vec2(dirX * a->acceleration, 0), true);
-//						std::cout << "moving in X direction" << std::endl;
-//						return Status::Running;
-//					}
-//				}
-//			}
-//		}
-//		std::cout << "move in x direction failed" << std::endl;
-//		return Status::Failure;
-//	}
-//};
 
 class UseHook : public Leaf
 {
@@ -209,12 +157,10 @@ public:
 				if (distance > 5 && isStatic)
 				{
 					p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
-					//std::cout << "hook created" << std::endl;
 					return Status::Success;
 				}
 			}
 		}
-		//std::cout << "use hook failed" << std::endl;
 		return Status::Failure;
 	}
 };
@@ -231,9 +177,8 @@ public:
 		// get y value of direction volume and move up and down accordingly
 		if (h)
 		{
-			if (h->tetherLength < 5)
+			if (h->tetherLength < 8)
 			{
-				//std::cout << "tether removed" << std::endl;
 				h->getParent()->deleteComponent<HookComponent>();
 				return Status::Failure;
 			}
@@ -241,11 +186,9 @@ public:
 			{
 				// use ai system to pass dt instead
 				h->decreaseTetherLength(0.01);
-				//std::cout << "tether decreasing" << std::endl;
 				return Status::Success;
 			}
 		}
-		//std::cout << "raise hook failed" << std::endl;
 		return Status::Failure;
 	}
 };
@@ -283,6 +226,33 @@ public:
 	}
 };
 
+class CheckVelocity : public Leaf
+{
+public:
+	CheckVelocity() {}
+	~CheckVelocity() {}
+
+	Status Update(IEntity* p)
+	{
+		auto b = p->getComponent<Box2DComponent>();
+		auto s = p->getComponent<StaminaComponent>();
+		if (b && s)
+		{
+			std::cout << s->stamina << endl;
+			auto vel = b->body->GetLinearVelocity();
+			if (vel.x < 15)
+			{
+				return Status::Success;
+			}
+			else
+			{
+				s->boostActive = false;
+				return Status::Failure;
+			}
+		}
+	}
+};
+
 class CheckHooked : public Leaf
 {
 public:
@@ -294,10 +264,8 @@ public:
 		auto h = p->getComponent<HookComponent>();
 		if (h)
 		{
-			//std::cout << "has hook" << std::endl;
 			return Status::Success;
 		}
-		//std::cout << "no hook" << std::endl;
 		return Status::Failure;
 	}
 };
