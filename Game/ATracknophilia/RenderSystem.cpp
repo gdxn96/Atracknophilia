@@ -37,6 +37,15 @@ void RenderSystem::process(float dt)
 			m_renderer->drawLine(component->start, component->end);
 		}
 	}
+	{
+		auto& components = AutoList::get<AnimationComponent>();
+		for (auto& component : components)
+		{
+			auto p = component->getParent();
+			auto b = p->getComponent<Box2DComponent>();
+			component->animation.drawAtPosition(m_renderer, Vector2D(b->body->GetPosition().x - b->size.width / 2, b->body->GetPosition().y - b->size.height / 2), Vector2D(b->size), 0);
+		}
+	}
 	
 	m_renderer->present();
 }

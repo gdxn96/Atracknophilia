@@ -1,0 +1,111 @@
+{"frames": [
+
+{
+	"filename": "greenattack_0000leftpng.png",
+	"frame": {"x":0,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0001leftpng.png",
+	"frame": {"x":171,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0002leftpng.png",
+	"frame": {"x":342,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0003leftpng.png",
+	"frame": {"x":513,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0004leftpng.png",
+	"frame": {"x":684,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0005leftpng.png",
+	"frame": {"x":855,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0006leftpng.png",
+	"frame": {"x":1026,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0007leftpng.png",
+	"frame": {"x":1197,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0008leftpng.png",
+	"frame": {"x":1368,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0009leftpng.png",
+	"frame": {"x":1539,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenattack_0010leftpng.png",
+	"frame": {"x":1710,"y":0,"w":171,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
+	"sourceSize": {"w":171,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "gattackleft.png",
+	"format": "RGBA8888",
+	"size": {"w":1881,"h":107},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:17020faaeba61a988d6a9736795fe39e:0d0ccc2c02a66e322e695439cd08ca6c:ee9eaffad6ea19ca1459b7b61c76b2bc$"
+}
+}

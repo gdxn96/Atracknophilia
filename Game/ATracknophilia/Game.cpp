@@ -40,8 +40,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
-
-	
 }
 
 void Game::init()
@@ -68,5 +66,11 @@ void Game::loop(float dt)
 		system->process(dt);
 	}
 
+	auto& components = AutoList::get<AnimationComponent>();
+	for (auto& component : components)
+	{
+		component->animation.update(dt);
+	}
+	
 	m_cameraManager.update(dt);
 }

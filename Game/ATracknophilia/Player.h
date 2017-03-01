@@ -57,7 +57,8 @@ public:
 			new ConstBoostedVelocityComponent(id, 80),
 			new PlayerControllerComponent(id, controllerId),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id)
+			new PlayerStaticObjectResponseComponent(id),
+			new AnimationComponent(id, "brunright")
 		})
 	{
 	}

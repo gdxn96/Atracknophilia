@@ -1,0 +1,111 @@
+{"frames": [
+
+{
+	"filename": "greenlanding_0000.png",
+	"frame": {"x":0,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0001.png",
+	"frame": {"x":146,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0002.png",
+	"frame": {"x":292,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0003.png",
+	"frame": {"x":438,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0004.png",
+	"frame": {"x":584,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0005.png",
+	"frame": {"x":730,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0006.png",
+	"frame": {"x":876,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0007.png",
+	"frame": {"x":1022,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0008.png",
+	"frame": {"x":1168,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0009.png",
+	"frame": {"x":1314,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "greenlanding_0010.png",
+	"frame": {"x":1460,"y":0,"w":146,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
+	"sourceSize": {"w":146,"h":112},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "glandingright.png",
+	"format": "RGBA8888",
+	"size": {"w":1606,"h":112},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3700a88c2971a83a660ba6b83d1969a2:37e7f0343317c4cc58141703e34df2c1:d6cd2be87305ac7ed1aaf822c7c75a13$"
+}
+}
