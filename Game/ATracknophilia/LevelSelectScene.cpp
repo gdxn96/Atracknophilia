@@ -76,7 +76,7 @@ bool LevelSelectScene::loadMedia()
 	bool success = true;
 
 	//Load splash image here..
-	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("levelselect");
+	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("lobbyselect");
 
 	return success;
 }

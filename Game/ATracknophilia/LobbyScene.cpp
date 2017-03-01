@@ -18,6 +18,7 @@ LobbyScene::LobbyScene(Vector2D windowSize)
 
 void LobbyScene::update(float dt)
 {
+	currentTick += dt * 1000; // dt was rounding down to 0 when adding 0.0001 of a second so converting into milliseonds
 }
 
 void LobbyScene::render(Renderer & r)
@@ -58,7 +59,11 @@ bool LobbyScene::init(Renderer & r)
 void LobbyScene::changeScene(Scenes newScene)
 {
 	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::LOBBY)
+	{
+		currentTick = 0;
 		SceneManager::getInstance()->switchTo(newScene);
+	}
+		
 }
 
 bool LobbyScene::loadMedia()
@@ -91,12 +96,15 @@ void LobbyScene::moveHighlightBtn(direction dir, IDs id)
 
 void LobbyScene::executeScene()
 {
-	if (m_hostBtn.getRect() == m_highlightedBtn.getRect())
+	if (currentTick > 1)
 	{
-		changeScene(Scenes::CHOOSEPLAYER);
-	}
-	if (m_joinBtn.getRect() == m_highlightedBtn.getRect())
-	{
-		changeScene(Scenes::CHOOSEPLAYER);
+		if (m_hostBtn.getRect() == m_highlightedBtn.getRect())
+		{
+			changeScene(Scenes::CHOOSEPLAYER);
+		}
+		if (m_joinBtn.getRect() == m_highlightedBtn.getRect())
+		{
+			changeScene(Scenes::CHOOSEPLAYER);
+		}
 	}
 }

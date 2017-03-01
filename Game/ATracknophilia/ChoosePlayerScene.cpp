@@ -10,7 +10,6 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	, m_downBtnPos(500)
 	, m_btnHeight(189)
 	, m_btnWidth(250)
-	, m_currentColour(0)
 	, lockedA(false)
 	, lockedB(false)
 	, lockedC(false)
@@ -19,6 +18,7 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	, m_greenID(1)
 	, m_redID(2)
 	, m_yellowID(3)
+	, m_lockedInID(99)
 	
 {
 	m_playerABtn = Button();
@@ -31,6 +31,9 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 
 void ChoosePlayerScene::update(float dt)
 {
+	currentTick += dt * 1000; // dt was rounding down to 0 when adding 0.0001 of a second so converting into milliseonds
+	if (lockedA && lockedB && lockedC && lockedD)
+		changeScene(Scenes::LEVELSELECT);
 }
 
 void ChoosePlayerScene::render(Renderer & r)
@@ -69,10 +72,11 @@ bool ChoosePlayerScene::init(Renderer & r)
 	m_playerCBtn.setTexture(m_redTex);
 	m_playerDBtn.setTexture(m_yellowTex);
 
-	//m_playerABtn.setColour(Button::colour::blue);
-	//m_playerBBtn.setColour(Button::colour::green);
-	//m_playerCBtn.setColour(Button::colour::yellow);
-	//m_playerDBtn.setColour(Button::colour::red);
+	m_playerABtn.m_playerID = m_playerOneID;
+	m_playerBBtn.m_playerID = m_playerTwoID;
+	m_playerCBtn.m_playerID = m_playerThreeID;
+	m_playerDBtn.m_playerID = m_playerFourID;
+
 
 	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
 	m_blueHighlightBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("bluehighlight"));
@@ -89,22 +93,22 @@ bool ChoosePlayerScene::init(Renderer & r)
 	// player 1
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerOneID)), this, m_playerOneID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
 
 	// player2
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerTwoID)), this, m_playerTwoID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerTwoID)), this, m_playerTwoID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerTwoID)), this, m_playerTwoID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerTwoID)), this, m_playerTwoID);
 
 	// player3
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerThreeID)), this, m_playerThreeID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerThreeID)), this, m_playerThreeID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerThreeID)), this, m_playerThreeID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerThreeID)), this, m_playerThreeID);
 
 	// player4
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerFourID)), this, m_playerFourID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerFourID)), this, m_playerFourID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerFourID)), this, m_playerFourID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerFourID)), this, m_playerFourID);
 
 	return success;
 }
@@ -112,7 +116,11 @@ bool ChoosePlayerScene::init(Renderer & r)
 void ChoosePlayerScene::changeScene(Scenes newScene)
 {
 	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::CHOOSEPLAYER)
+	{
+		currentTick = 0;
 		SceneManager::getInstance()->switchTo(newScene);
+	}
+		
 }
 
 bool ChoosePlayerScene::loadMedia()
@@ -121,125 +129,393 @@ bool ChoosePlayerScene::loadMedia()
 	bool success = true;
 
 	//Load splash image here..
-	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("levelselect");
+	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("lobbyselect");
 
 	return success;
 }
 
 void ChoosePlayerScene::changePlayerColour(direction dir, int controllerId)
 {
-	Button::colour c;
 	switch (controllerId)
 	{
 	case m_playerOneID:
-		c = updateCurrentColour(dir);
-		updatePlayer(c, m_playerOneID);
+		if (lockedA == false) { changeCharacter(dir, m_playerOneID); }
+		updatePlayer(m_playerABtn.m_playerID, m_playerOneID);
 		break;
 	case m_playerTwoID:
-		c = updateCurrentColour(dir);
-		updatePlayer(c, m_playerTwoID);
+		if (lockedB == false) { changeCharacter(dir, m_playerTwoID); }
+		updatePlayer(m_playerBBtn.m_playerID, m_playerTwoID);
 		break;
 	case m_playerThreeID:
-		c = updateCurrentColour(dir);
-		updatePlayer(c, m_playerThreeID);
+		if (lockedC == false) { changeCharacter(dir, m_playerThreeID); }
+		updatePlayer(m_playerCBtn.m_playerID, m_playerThreeID);
 		break;
 	case m_playerFourID:
-		c = updateCurrentColour(dir);
-		updatePlayer(c, m_playerFourID);
+		if (lockedD == false) { changeCharacter(dir, m_playerFourID); }
+		updatePlayer(m_playerDBtn.m_playerID, m_playerFourID);
 		break;
 	}
 }
 
-void ChoosePlayerScene::updatePlayer(Button::colour c, IDs id)
+void ChoosePlayerScene::changeCharacter(direction dir, IDs id)
+{
+	if (id == m_playerOneID)
+	{
+		if (dir == left)
+		{
+			m_playerABtn.m_playerID--;
+			if (m_playerABtn.m_playerID < 0)
+			{
+				m_playerABtn.m_playerID = 4;
+			}
+		}
+		if (dir == right)
+		{
+			m_playerABtn.m_playerID++;
+			if (m_playerABtn.m_playerID > 4)
+			{
+				m_playerABtn.m_playerID = 0;
+			}
+		}
+	}
+	if (id == m_playerTwoID)
+	{
+		if (dir == left)
+		{
+			m_playerBBtn.m_playerID--;
+			if (m_playerBBtn.m_playerID < 0)
+			{
+				m_playerBBtn.m_playerID = 4;
+			}
+		}
+		if (dir == right)
+		{
+			m_playerBBtn.m_playerID++;
+			if (m_playerBBtn.m_playerID > 4)
+			{
+				m_playerBBtn.m_playerID = 0;
+			}
+		}
+	}
+	if (id == m_playerThreeID)
+	{
+		if (dir == left)
+		{
+			m_playerCBtn.m_playerID--;
+			if (m_playerCBtn.m_playerID < 0)
+			{
+				m_playerCBtn.m_playerID = 4;
+			}
+		}
+		if (dir == right)
+		{
+			m_playerCBtn.m_playerID++;
+			if (m_playerCBtn.m_playerID > 4)
+			{
+				m_playerCBtn.m_playerID = 0;
+			}
+		}
+	}
+	if (id == m_playerFourID)
+	{
+		if (dir == left)
+		{
+			m_playerDBtn.m_playerID--;
+			if (m_playerDBtn.m_playerID < 0)
+			{
+				m_playerDBtn.m_playerID = 4;
+			}
+		}
+		if (dir == right)
+		{
+			m_playerDBtn.m_playerID++;
+			if (m_playerDBtn.m_playerID > 4)
+			{
+				m_playerDBtn.m_playerID = 0;
+			}
+		}
+	}
+}
+
+void ChoosePlayerScene::updatePlayer(int buttonID, IDs id)
 {
 	if (id == m_playerOneID && lockedA == false)
 	{
-		if (c == Button::colour::blue) { m_playerABtn.setTexture(m_blueTex); m_playerABtn.setColour(Button::colour::blue); }
-		if (c == Button::colour::green) { m_playerABtn.setTexture(m_greenTex); m_playerABtn.setColour(Button::colour::green);}
-		if (c == Button::colour::red) { m_playerABtn.setTexture(m_redTex); m_playerABtn.setColour(Button::colour::red); }
-		if (c == Button::colour::yellow) { m_playerABtn.setTexture(m_yellowTex); m_playerABtn.setColour(Button::colour::yellow);}
+		if (buttonID == 0) { m_playerABtn.setTexture(m_blueTex); }
+		if (buttonID == 1) { m_playerABtn.setTexture(m_greenTex);}
+		if (buttonID == 2) { m_playerABtn.setTexture(m_redTex);  }
+		if (buttonID == 3) { m_playerABtn.setTexture(m_yellowTex);}
 	}
-	if (id == m_playerTwoID && lockedB == false)
+	if (id == m_playerTwoID  && lockedB == false)
 	{
-		if (c == Button::colour::blue) { m_playerBBtn.setTexture(m_blueTex); m_playerBBtn.setColour(Button::colour::blue); }
-		if (c == Button::colour::green) { m_playerBBtn.setTexture(m_greenTex); m_playerBBtn.setColour(Button::colour::green); }
-		if (c == Button::colour::red) { m_playerBBtn.setTexture(m_redTex); m_playerBBtn.setColour(Button::colour::red); }
-		if (c == Button::colour::yellow) { m_playerBBtn.setTexture(m_yellowTex); m_playerBBtn.setColour(Button::colour::yellow); }
+		if (buttonID == 0) { m_playerBBtn.setTexture(m_blueTex); }
+		if (buttonID == 1) { m_playerBBtn.setTexture(m_greenTex); }
+		if (buttonID == 2) { m_playerBBtn.setTexture(m_redTex); }
+		if (buttonID == 3) { m_playerBBtn.setTexture(m_yellowTex); }
 	}
-	if (id == m_playerThreeID && lockedC == false)
+	if (id == m_playerThreeID  && lockedC == false)
 	{
-		if (c == Button::colour::blue) { m_playerCBtn.setTexture(m_blueTex); m_playerCBtn.setColour(Button::colour::blue); }
-		if (c == Button::colour::green) { m_playerCBtn.setTexture(m_greenTex); m_playerCBtn.setColour(Button::colour::green); }
-		if (c == Button::colour::red) { m_playerCBtn.setTexture(m_redTex); m_playerCBtn.setColour(Button::colour::red); }
-		if (c == Button::colour::yellow) { m_playerCBtn.setTexture(m_yellowTex); m_playerCBtn.setColour(Button::colour::yellow); }
+		if (buttonID == 0) { m_playerCBtn.setTexture(m_blueTex); }
+		if (buttonID == 1) { m_playerCBtn.setTexture(m_greenTex); }
+		if (buttonID == 2) { m_playerCBtn.setTexture(m_redTex); }
+		if (buttonID == 3) { m_playerCBtn.setTexture(m_yellowTex); }
 	}
-	if (id == m_playerFourID && lockedD == false)
+	if (id == m_playerFourID  && lockedD == false)
 	{
-		if (c == Button::colour::blue) { m_playerDBtn.setTexture(m_blueTex); m_playerDBtn.setColour(Button::colour::blue); }
-		if (c == Button::colour::green) { m_playerDBtn.setTexture(m_greenTex); m_playerDBtn.setColour(Button::colour::green); }
-		if (c == Button::colour::red) { m_playerDBtn.setTexture(m_redTex); m_playerDBtn.setColour(Button::colour::red); }
-		if (c == Button::colour::yellow) { m_playerDBtn.setTexture(m_yellowTex); m_playerDBtn.setColour(Button::colour::yellow); }
+		if (buttonID == 0) { m_playerDBtn.setTexture(m_blueTex); }
+		if (buttonID == 1) { m_playerDBtn.setTexture(m_greenTex); }
+		if (buttonID == 2) { m_playerDBtn.setTexture(m_redTex); }
+		if (buttonID == 3) { m_playerDBtn.setTexture(m_yellowTex); }
 	}
 }
 
-Button::colour ChoosePlayerScene::updateCurrentColour(direction dir)
+void ChoosePlayerScene::checkIDs(int buttonID)
 {
-	if (dir == left)
+	if (m_playerABtn.m_playerID == buttonID)
 	{
-		m_currentColour--;
-		if (m_currentColour < 0) { m_currentColour = 4; }
+		if (m_blueID != m_lockedInID)
+		{
+			m_playerABtn.setTexture(m_blueTex);
+		}
+		else if (m_greenID != m_lockedInID)
+		{
+			m_playerABtn.setTexture(m_greenTex);
+		}
+		else if (m_redID != m_lockedInID)
+		{
+			m_playerABtn.setTexture(m_redTex);
+		}
+		else if (m_yellowID != m_lockedInID)
+		{
+			m_playerABtn.setTexture(m_yellowTex);
+		}
 	}
-	if (dir == right)
+	if (m_playerBBtn.m_playerID == buttonID)
 	{
-		m_currentColour++;
-		if (m_currentColour > 4) { m_currentColour = 0; }
+		if (m_blueID != m_lockedInID)
+		{
+			m_playerBBtn.setTexture(m_blueTex);
+		}
+		else if (m_greenID != m_lockedInID)
+		{
+			m_playerBBtn.setTexture(m_greenTex);
+		}
+		else if (m_redID != m_lockedInID)
+		{
+			m_playerBBtn.setTexture(m_redTex);
+		}
+		else if (m_yellowID != m_lockedInID)
+		{
+			m_playerBBtn.setTexture(m_yellowTex);
+		}
 	}
-	
-
-	if (m_currentColour == m_blueID) { return Button::colour::blue; }
-	else if (m_blueID == 888) { return Button::colour::green; }
-	if (m_currentColour == m_greenID) { return Button::colour::green; }
-	else if (m_greenID == 888) { return Button::colour::red; }
-	if (m_currentColour == m_redID) { return Button::colour::red; }
-	else if (m_redID == 888) { return Button::colour::yellow; }
-	if (m_currentColour == m_yellowID) { return Button::colour::yellow; }
-	else if (m_yellowID == 888) { return Button::colour::blue; }
+	if (m_playerCBtn.m_playerID == buttonID)
+	{
+		if (m_blueID != m_lockedInID)
+		{
+			m_playerCBtn.setTexture(m_blueTex);
+		}
+		else if (m_greenID != m_lockedInID)
+		{
+			m_playerCBtn.setTexture(m_greenTex);
+		}
+		else if (m_redID != m_lockedInID)
+		{
+			m_playerCBtn.setTexture(m_redTex);
+		}
+		else if (m_yellowID != m_lockedInID)
+		{
+			m_playerCBtn.setTexture(m_yellowTex);
+		}
+	}
+	if (m_playerDBtn.m_playerID == buttonID)
+	{
+		if (m_blueID != m_lockedInID)
+		{
+			m_playerDBtn.setTexture(m_blueTex);
+		}
+		else if (m_greenID != m_lockedInID)
+		{
+			m_playerDBtn.setTexture(m_greenTex);
+		}
+		else if (m_redID != m_lockedInID)
+		{
+			m_playerDBtn.setTexture(m_redTex);
+		}
+		else if (m_yellowID != m_lockedInID)
+		{
+			m_playerDBtn.setTexture(m_yellowTex);
+		}
+	}
 }
-
-
 
 void ChoosePlayerScene::executeScene(IDs id)
 {
-	if (id == m_playerOneID && lockedA == false)
+	if (currentTick > 1)
 	{
-		if (m_playerABtn.m_col == Button::colour::blue && m_blueID != 888) { m_blueHighlightBtn.setRect(m_playerABtn.getRect());  m_blueID = 888; }
-		if (m_playerABtn.m_col == Button::colour::green && m_greenID != 888) { m_greenHighlightBtn.setRect(m_playerABtn.getRect()); m_greenID = 888; }
-		if (m_playerABtn.m_col == Button::colour::red && m_redID != 888) { m_redHighlightBtn.setRect(m_playerABtn.getRect());  m_redID = 888; }
-		if (m_playerABtn.m_col == Button::colour::yellow && m_yellowID != 888) { m_yellowHighlightBtn.setRect(m_playerABtn.getRect()); m_yellowID = 888;}
-		lockedA = true;
-	}
-	if (id == m_playerTwoID && lockedB == false)
-	{
-		if (m_playerBBtn.m_col == Button::colour::blue && m_blueID != 888) { m_blueHighlightBtn.setRect(m_playerBBtn.getRect()); m_blueID = 888;}
-		if (m_playerBBtn.m_col == Button::colour::green && m_greenID != 888) { m_greenHighlightBtn.setRect(m_playerBBtn.getRect()); m_greenID = 888;}
-		if (m_playerBBtn.m_col == Button::colour::red && m_redID != 888) { m_redHighlightBtn.setRect(m_playerBBtn.getRect()); m_redID = 888;}
-		if (m_playerBBtn.m_col == Button::colour::yellow && m_yellowID != 888) { m_yellowHighlightBtn.setRect(m_playerBBtn.getRect()); m_yellowID = 888;}
-		lockedB = true;
-	}
-	if (id == m_playerThreeID && lockedC == false)
-	{
-		if (m_playerCBtn.m_col == Button::colour::blue && m_blueID != 888) { m_blueHighlightBtn.setRect(m_playerCBtn.getRect());  m_blueID = 888;}
-		if (m_playerCBtn.m_col == Button::colour::green && m_greenID != 888) { m_greenHighlightBtn.setRect(m_playerCBtn.getRect()); m_greenID = 888;}
-		if (m_playerCBtn.m_col == Button::colour::red && m_redID != 888) { m_redHighlightBtn.setRect(m_playerCBtn.getRect()); m_redID = 888;}
-		if (m_playerCBtn.m_col == Button::colour::yellow && m_yellowID != 888) { m_yellowHighlightBtn.setRect(m_playerCBtn.getRect()); m_yellowID = 888;}
-		lockedC = true;
-	}
-	if (id == m_playerFourID && lockedD == false)
-	{
-		if (m_playerDBtn.m_col == Button::colour::blue && m_blueID != 888) { m_blueHighlightBtn.setRect(m_playerDBtn.getRect()); m_blueID = 888;}
-		if (m_playerDBtn.m_col == Button::colour::green && m_greenID != 888) { m_greenHighlightBtn.setRect(m_playerDBtn.getRect()); m_greenID = 888;}
-		if (m_playerDBtn.m_col == Button::colour::red && m_redID != 888) { m_redHighlightBtn.setRect(m_playerDBtn.getRect()); m_redID = 888;}
-		if (m_playerDBtn.m_col == Button::colour::yellow && m_yellowID != 888) { m_yellowHighlightBtn.setRect(m_playerDBtn.getRect()); m_yellowID = 888;}
-		lockedD = true;
+		if (id == m_playerOneID && lockedA == false)
+		{
+
+
+			if (m_playerABtn.m_playerID == m_blueID)
+			{
+				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
+				m_playerABtn.setTexture(m_blueTex);
+				m_blueID = m_lockedInID;
+				m_playerABtn.m_playerID = 55;  // set player id to any number greater than 4 so it will never be available to select again
+				checkIDs(0);
+				lockedA = true;
+			}
+			else if (m_playerABtn.m_playerID == m_greenID)
+			{
+				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
+				m_playerABtn.setTexture(m_greenTex);
+				m_greenID = m_lockedInID;
+				m_playerABtn.m_playerID = 55;
+				checkIDs(1);
+				lockedA = true;
+			}
+			else if (m_playerABtn.m_playerID == m_redID)
+			{
+				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
+				m_playerABtn.setTexture(m_redTex);
+				m_redID = m_lockedInID;
+				m_playerABtn.m_playerID = 55;
+				checkIDs(2);
+				lockedA = true;
+			}
+			else if (m_playerABtn.m_playerID == m_yellowID)
+			{
+				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
+				m_playerABtn.setTexture(m_yellowTex);
+				m_yellowID = m_lockedInID;
+				m_playerABtn.m_playerID = 55;
+				checkIDs(3);
+				lockedA = true;
+			}	
+		}
+
+
+		if (id == m_playerTwoID && lockedB == false)
+		{
+			if (m_playerBBtn.m_playerID == m_blueID)
+			{
+				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
+				m_playerBBtn.setTexture(m_blueTex);
+				m_playerBBtn.m_playerID = 55;
+				m_blueID = m_lockedInID;
+				checkIDs(0);
+				lockedB = true;
+			}
+			else if (m_playerBBtn.m_playerID == m_greenID)
+			{
+				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
+				m_playerBBtn.setTexture(m_greenTex);
+				m_playerBBtn.m_playerID = 55;
+				m_greenID = m_lockedInID;
+				checkIDs(1);
+				lockedB = true;
+			}
+			else if (m_playerBBtn.m_playerID == m_redID)
+			{
+				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
+				m_playerBBtn.setTexture(m_redTex);
+				m_playerBBtn.m_playerID = 55;
+				m_redID = m_lockedInID;
+				checkIDs(2);
+				lockedB = true;
+			}
+			else if (m_playerBBtn.m_playerID == m_yellowID)
+			{
+				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
+				m_playerBBtn.setTexture(m_yellowTex);
+				m_playerBBtn.m_playerID = 55;
+				m_yellowID = m_lockedInID;
+				checkIDs(3);
+				lockedB = true;
+			}
+		}
+
+
+		if (id == m_playerThreeID && lockedC == false)
+		{
+			if (m_playerCBtn.m_playerID == m_blueID)
+			{
+				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
+				m_playerCBtn.setTexture(m_blueTex);
+				m_playerCBtn.m_playerID = 55;
+				m_blueID = m_lockedInID;
+				checkIDs(0);
+				lockedC = true;
+			}
+			else if (m_playerCBtn.m_playerID == m_greenID)
+			{
+				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
+				m_playerCBtn.setTexture(m_greenTex);
+				m_playerCBtn.m_playerID = 55;
+				m_greenID = m_lockedInID;
+				checkIDs(1);
+				lockedC = true;
+			}
+			else if (m_playerCBtn.m_playerID == m_redID)
+			{
+				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
+				m_playerCBtn.setTexture(m_redTex);
+				m_playerCBtn.m_playerID = 55;
+				m_redID = m_lockedInID;
+				checkIDs(2);
+				lockedC = true;
+			}
+			else if (m_playerCBtn.m_playerID == m_yellowID)
+			{
+				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
+				m_playerCBtn.setTexture(m_yellowTex);
+				m_playerCBtn.m_playerID = 55;
+				m_yellowID = m_lockedInID;
+				checkIDs(3);
+				lockedC = true;
+			}
+		}
+
+
+		if (id == m_playerFourID && lockedD == false)
+		{
+			if (m_playerDBtn.m_playerID == m_blueID)
+			{
+				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
+				m_playerDBtn.setTexture(m_blueTex);
+				m_playerDBtn.m_playerID = m_lockedInID;
+				m_blueID = m_lockedInID;
+				checkIDs(0);
+				lockedD = true;
+			}
+			else if (m_playerDBtn.m_playerID == m_greenID)
+			{
+				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
+				m_playerDBtn.setTexture(m_greenTex);
+				m_playerDBtn.m_playerID = m_lockedInID;
+				m_greenID = m_lockedInID;
+				checkIDs(1);
+				lockedD = true;
+			}
+			else if (m_playerDBtn.m_playerID == m_redID)
+			{
+				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
+				m_playerDBtn.setTexture(m_redTex);
+				m_playerDBtn.m_playerID = 55;
+				m_redID = m_lockedInID;
+				checkIDs(2);
+				lockedD = true;
+			}
+			else if (m_playerDBtn.m_playerID == m_yellowID)
+			{
+				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
+				m_playerDBtn.setTexture(m_yellowTex);
+				m_playerDBtn.m_playerID = 55;
+				m_yellowID = m_lockedInID;
+				checkIDs(3);
+				lockedD = true;
+			}
+		}
 	}
 }

@@ -107,6 +107,22 @@
         "path": "assets/Textures/redhighlight.png"
       },
       {
+        "key": "greyedBlue",
+        "path": "assets/Textures/greyedBlue.png"
+      },
+      {
+        "key": "greyedGreen",
+        "path": "assets/Textures/greyedGreen.png"
+      },
+      {
+        "key": "greyedRed",
+        "path": "assets/Textures/greyedRed.png"
+      },
+      {
+        "key": "greyedYellow",
+        "path": "assets/Textures/greyedYellow.png"
+      },
+      {
         "key": "highlight",
         "path": "assets/Textures/highlight.png"
       }

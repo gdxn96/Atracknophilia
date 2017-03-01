@@ -19,11 +19,13 @@ public:
 
 	Rect getRect();
 
-	enum colour { blue, green, yellow, red };
+	//enum colour { blue, green, red, yellow };
 
-	void setColour(colour c);
+	//void setColour(colour c);
 
-	colour m_col;
+	//colour m_col;
+
+	int m_playerID = NULL;
 private:
 
 	SDL_Texture* m_texture = NULL;

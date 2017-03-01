@@ -19,6 +19,7 @@ private:
 	//The image we will load and show on the screen
 	SDL_Texture* m_splashScreen = NULL;
 	Rect m_textureRect;
+	int currentTick = 0;
 
 	// buttons used to represent the different player sprite options
 	Button m_playerABtn;
@@ -49,21 +50,24 @@ private:
 	// change the colour of the sprite for the specific player based on their player ID
 	void changePlayerColour(direction dir, int controllerId);
 
-	// the current colour each player has selected
-	int m_currentColour;
-
 	// the textures used for each different player option
 	SDL_Texture* m_blueTex = NULL;
 	SDL_Texture* m_greenTex = NULL;
 	SDL_Texture* m_redTex = NULL;
 	SDL_Texture* m_yellowTex = NULL;
 	
+	void changeCharacter(direction dir, IDs id);
 
 	// update the player colour when changed
-	void updatePlayer(Button::colour c, IDs id);
-	Button::colour updateCurrentColour(direction dir);
+	void updatePlayer(int buttonID, IDs id);
 
+	// the ids used to differentiate between colours
 	int m_blueID, m_greenID, m_redID, m_yellowID;
+
+	// assigned to a colourID when locked in to stop others from locking that colour
+	int m_lockedInID;
+
+	void checkIDs(int buttonID);
 
 	// used to lock in the player's chosen colour character
 	void executeScene(IDs id);
