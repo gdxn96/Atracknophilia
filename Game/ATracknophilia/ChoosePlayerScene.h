@@ -29,8 +29,14 @@ private:
 
 	Button m_highlightedBtn;
 
+	Button m_aLeftArrowBtn, m_aRightArrowBtn, m_bLeftArrowBtn, m_bRightArrowBtn, m_cLeftArrowBtn, m_cRightArrowBtn, m_dLeftArrowBtn, m_dRightArrowBtn;
+
 	// displaying visual feedback to the chosen character
 	Button m_blueHighlightBtn, m_greenHighlightBtn, m_yellowHighlightBtn, m_redHighlightBtn;
+
+	float m_arrowWidth, m_arrowHeight;
+
+	float m_scaler;
 
 	// player has locked in their character so do not allow them to change it
 	bool lockedA, lockedB, lockedC, lockedD;
@@ -55,6 +61,11 @@ private:
 	SDL_Texture* m_greenTex = NULL;
 	SDL_Texture* m_redTex = NULL;
 	SDL_Texture* m_yellowTex = NULL;
+
+	SDL_Texture* m_leftArrowTex = NULL;
+	SDL_Texture* m_rightArrowTex = NULL;
+
+	void reduceArrowScale(direction dir, int controllerID);
 	
 	void changeCharacter(direction dir, IDs id);
 

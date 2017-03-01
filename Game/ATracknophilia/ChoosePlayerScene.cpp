@@ -4,8 +4,8 @@
 ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	: Scene(Scenes::CHOOSEPLAYER)
 	, m_textureRect(0, 0, windowSize.x, windowSize.y)
-	, m_leftBtnPos(50)
-	, m_rightBtnPos(400)
+	, m_leftBtnPos(100)
+	, m_rightBtnPos(500)
 	, m_upBtnPos(150)
 	, m_downBtnPos(500)
 	, m_btnHeight(189)
@@ -19,12 +19,22 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	, m_redID(2)
 	, m_yellowID(3)
 	, m_lockedInID(99)
-	
+	,m_arrowHeight(15)
+	,m_arrowWidth(30)
+	,m_scaler(1.5)
 {
 	m_playerABtn = Button();
 	m_playerBBtn = Button();
 	m_playerCBtn = Button();
 	m_playerDBtn = Button();
+	m_aLeftArrowBtn = Button();
+	m_aRightArrowBtn = Button();
+	m_bLeftArrowBtn = Button();
+	m_bRightArrowBtn = Button();
+	m_cLeftArrowBtn = Button();
+	m_cRightArrowBtn = Button();
+	m_dLeftArrowBtn = Button();
+	m_dRightArrowBtn = Button();
 	//m_highlightedBtn = Button();
 	loadMedia();
 }
@@ -43,6 +53,14 @@ void ChoosePlayerScene::render(Renderer & r)
 	m_playerBBtn.render(r);
 	m_playerCBtn.render(r);
 	m_playerDBtn.render(r);
+	m_aLeftArrowBtn.render(r);
+	m_aRightArrowBtn.render(r);
+	m_bLeftArrowBtn.render(r);
+	m_bRightArrowBtn.render(r);
+	m_cLeftArrowBtn.render(r);
+	m_cRightArrowBtn.render(r);
+	m_dLeftArrowBtn.render(r);
+	m_dRightArrowBtn.render(r);
 	m_blueHighlightBtn.render(r);
 	m_greenHighlightBtn.render(r);
 	m_yellowHighlightBtn.render(r);
@@ -62,15 +80,36 @@ bool ChoosePlayerScene::init(Renderer & r)
 	m_playerDBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 
+	m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth *2), m_upBtnPos + (m_btnHeight /2), m_arrowWidth, m_arrowHeight });
+	m_aRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+	m_bLeftArrowBtn.setRect(Rect{ m_rightBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+	m_bRightArrowBtn.setRect(Rect{ (m_rightBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+	m_cLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+	m_cRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+	m_dLeftArrowBtn.setRect(Rect{ m_rightBtnPos - (m_arrowWidth * 2), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+	m_dRightArrowBtn.setRect(Rect{ (m_rightBtnPos + m_btnWidth) + (m_arrowWidth), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+
 	m_blueTex = ResourceManager::getInstance()->getTextureByKey("playerAbtn");
 	m_greenTex = ResourceManager::getInstance()->getTextureByKey("playerBbtn");
 	m_redTex = ResourceManager::getInstance()->getTextureByKey("playerCbtn");
 	m_yellowTex = ResourceManager::getInstance()->getTextureByKey("playerDbtn");
 
+	m_leftArrowTex = ResourceManager::getInstance()->getTextureByKey("arrowleftbtn");
+	m_rightArrowTex = ResourceManager::getInstance()->getTextureByKey("arrowrightbtn");
+
 	m_playerABtn.setTexture(m_blueTex);
 	m_playerBBtn.setTexture(m_greenTex);
 	m_playerCBtn.setTexture(m_redTex);
 	m_playerDBtn.setTexture(m_yellowTex);
+
+	m_aLeftArrowBtn.setTexture(m_leftArrowTex);
+	m_aRightArrowBtn.setTexture(m_rightArrowTex);
+	m_bLeftArrowBtn.setTexture(m_leftArrowTex);
+	m_bRightArrowBtn.setTexture(m_rightArrowTex);
+	m_cLeftArrowBtn.setTexture(m_leftArrowTex);
+	m_cRightArrowBtn.setTexture(m_rightArrowTex);
+	m_dLeftArrowBtn.setTexture(m_leftArrowTex);
+	m_dRightArrowBtn.setTexture(m_rightArrowTex);
 
 	m_playerABtn.m_playerID = m_playerOneID;
 	m_playerBBtn.m_playerID = m_playerTwoID;
@@ -93,21 +132,29 @@ bool ChoosePlayerScene::init(Renderer & r)
 	// player 1
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, left, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
 
 	// player2
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerTwoID)), this, m_playerTwoID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerTwoID)), this, m_playerTwoID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, left, m_playerTwoID)), this, m_playerTwoID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerTwoID)), this, m_playerTwoID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerTwoID)), this, m_playerTwoID);
 
 	// player3
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerThreeID)), this, m_playerThreeID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerThreeID)), this, m_playerThreeID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, left, m_playerThreeID)), this, m_playerThreeID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerThreeID)), this, m_playerThreeID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerThreeID)), this, m_playerThreeID);
 
 	// player4
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerFourID)), this, m_playerFourID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerFourID)), this, m_playerFourID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, left, m_playerFourID)), this, m_playerFourID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerFourID)), this, m_playerFourID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerFourID)), this, m_playerFourID);
 
 	return success;
@@ -157,81 +204,147 @@ void ChoosePlayerScene::changePlayerColour(direction dir, int controllerId)
 	}
 }
 
+void ChoosePlayerScene::reduceArrowScale(direction dir, int controllerID)
+{
+	if (currentTick > 1)
+	{
+		if (controllerID == m_playerOneID)
+		{
+			if (dir == left)
+			{
+				m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+				
+			}
+			if (dir == right)
+			{
+				m_aRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+			}
+		}
+		if (controllerID == m_playerTwoID)
+		{
+			if (dir == left)
+			{
+				m_bLeftArrowBtn.setRect(Rect{ m_rightBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+				
+			}
+			if (dir == right)
+			{
+				m_bRightArrowBtn.setRect(Rect{ (m_rightBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+			}
+		}
+		if (controllerID == m_playerThreeID)
+		{
+			if (dir == left)
+			{
+				m_cLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+				
+			}
+			if (dir == right)
+			{
+				m_cRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+			}
+		}
+		if (controllerID == m_playerFourID)
+		{
+			if (dir == left)
+			{
+				m_dLeftArrowBtn.setRect(Rect{ m_rightBtnPos - (m_arrowWidth * 2), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+				
+			}
+			if (dir == right)
+			{
+				m_dRightArrowBtn.setRect(Rect{ (m_rightBtnPos + m_btnWidth) + (m_arrowWidth), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
+			}
+		}
+	}
+}
+
 void ChoosePlayerScene::changeCharacter(direction dir, IDs id)
 {
-	if (id == m_playerOneID)
+	if (currentTick > 1)
 	{
-		if (dir == left)
+		if (id == m_playerOneID)
 		{
-			m_playerABtn.m_playerID--;
-			if (m_playerABtn.m_playerID < 0)
+			if (dir == left)
 			{
-				m_playerABtn.m_playerID = 4;
+				m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerABtn.m_playerID--;
+				if (m_playerABtn.m_playerID < 0)
+				{
+					m_playerABtn.m_playerID = 3;
+				}
+			}
+			if (dir == right)
+			{
+				m_aRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerABtn.m_playerID++;
+				if (m_playerABtn.m_playerID > 3)
+				{
+					m_playerABtn.m_playerID = 0;
+				}
 			}
 		}
-		if (dir == right)
+		if (id == m_playerTwoID)
 		{
-			m_playerABtn.m_playerID++;
-			if (m_playerABtn.m_playerID > 4)
+			if (dir == left)
 			{
-				m_playerABtn.m_playerID = 0;
+				m_bLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerBBtn.m_playerID--;
+				if (m_playerBBtn.m_playerID < 0)
+				{
+					m_playerBBtn.m_playerID = 3;
+				}
+			}
+			if (dir == right)
+			{
+				m_bRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerBBtn.m_playerID++;
+				if (m_playerBBtn.m_playerID > 3)
+				{
+					m_playerBBtn.m_playerID = 0;
+				}
 			}
 		}
-	}
-	if (id == m_playerTwoID)
-	{
-		if (dir == left)
+		if (id == m_playerThreeID)
 		{
-			m_playerBBtn.m_playerID--;
-			if (m_playerBBtn.m_playerID < 0)
+			if (dir == left)
 			{
-				m_playerBBtn.m_playerID = 4;
+				m_cLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerCBtn.m_playerID--;
+				if (m_playerCBtn.m_playerID < 0)
+				{
+					m_playerCBtn.m_playerID = 3;
+				}
+			}
+			if (dir == right)
+			{
+				m_cRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerCBtn.m_playerID++;
+				if (m_playerCBtn.m_playerID > 3)
+				{
+					m_playerCBtn.m_playerID = 0;
+				}
 			}
 		}
-		if (dir == right)
+		if (id == m_playerFourID)
 		{
-			m_playerBBtn.m_playerID++;
-			if (m_playerBBtn.m_playerID > 4)
+			if (dir == left)
 			{
-				m_playerBBtn.m_playerID = 0;
+				m_dLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerDBtn.m_playerID--;
+				if (m_playerDBtn.m_playerID < 0)
+				{
+					m_playerDBtn.m_playerID = 3;
+				}
 			}
-		}
-	}
-	if (id == m_playerThreeID)
-	{
-		if (dir == left)
-		{
-			m_playerCBtn.m_playerID--;
-			if (m_playerCBtn.m_playerID < 0)
+			if (dir == right)
 			{
-				m_playerCBtn.m_playerID = 4;
-			}
-		}
-		if (dir == right)
-		{
-			m_playerCBtn.m_playerID++;
-			if (m_playerCBtn.m_playerID > 4)
-			{
-				m_playerCBtn.m_playerID = 0;
-			}
-		}
-	}
-	if (id == m_playerFourID)
-	{
-		if (dir == left)
-		{
-			m_playerDBtn.m_playerID--;
-			if (m_playerDBtn.m_playerID < 0)
-			{
-				m_playerDBtn.m_playerID = 4;
-			}
-		}
-		if (dir == right)
-		{
-			m_playerDBtn.m_playerID++;
-			if (m_playerDBtn.m_playerID > 4)
-			{
-				m_playerDBtn.m_playerID = 0;
+				m_dRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth * m_scaler, m_arrowHeight * m_scaler });
+				m_playerDBtn.m_playerID++;
+				if (m_playerDBtn.m_playerID > 3)
+				{
+					m_playerDBtn.m_playerID = 0;
+				}
 			}
 		}
 	}

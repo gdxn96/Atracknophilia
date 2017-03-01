@@ -59,6 +59,14 @@
         "path": "assets/Textures/joinbtn.png"
       },
       {
+        "key": "arrowleftbtn",
+        "path": "assets/Textures/arrowLeft.png"
+      },
+      {
+        "key": "arrowrightbtn",
+        "path": "assets/Textures/arrowRight.png"
+      },
+      {
         "key": "lvl1btn",
         "path": "assets/Textures/lvl1.png"
       },
