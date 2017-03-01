@@ -56,12 +56,10 @@ public:
 class Repeater : public Decorator
 {
 public:
-	Repeater(int limit = 0) : limit(limit) {}
-
-	void Initialize() override
-	{
-		counter = 0;
-	}
+	Repeater(int limit = 0) 
+		: limit(limit)
+		, counter(0)
+	{}
 
 	Status Update(IEntity* p) override
 	{
@@ -81,6 +79,7 @@ public:
 
 			if (limit > 0 && ++counter == limit) 
 			{
+				Reset();
 				return Status::Success;
 			}
 
@@ -90,7 +89,7 @@ public:
 
 protected:
 	int limit;
-	int counter = 0;
+	int counter;
 };
 
 class UntilFail : public Decorator

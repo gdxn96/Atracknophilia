@@ -42,13 +42,7 @@ public:
 		return status;
 	}
 
-	bool IsSuccess() const { return status == Status::Success; }
-	bool IsFailure() const { return status == Status::Failure; }
-	bool IsRunning() const { return status == Status::Running; }
-	bool IsTerminated() const { return IsSuccess() || IsFailure(); }
-	void Reset() { status = Status::Invalid; }
-
-	//static std::map<IEntity*, Node*> playersLastNode;
+	virtual void Reset() { status = Status::Invalid; }
 
 protected:
 	Status status = Status::Invalid;

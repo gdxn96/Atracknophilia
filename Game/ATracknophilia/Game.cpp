@@ -16,7 +16,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	, bt(BehaviourTree())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{LEVELS::PROTOTYPE, "./assets/levels/map4.json"}, 
+		{LEVELS::PROTOTYPE, "./assets/levels/map3.json"}, 
 	});
 
 	m_renderer.init(windowSize, windowName, &m_camera);
@@ -65,6 +65,7 @@ void Game::init()
 	root->AddChild(new UseAbility());
 
 	Sequence* checkHook = new Sequence();
+	checkHook->Initialize();
 	checkHook->AddChild(new CheckHooked());
 	checkHook->AddChild(new RaiseHook());
 	root->AddChild(checkHook);
@@ -73,18 +74,13 @@ void Game::init()
 	moveSelector->Initialize();
 	moveSelector->AddChild(new MoveInDirectionOfVolume());
 
-	Selector* altMoveSelector = new Selector();
-	altMoveSelector->Initialize();
-	altMoveSelector->AddChild(new MoveInXDirection());
+	Sequence* hookSequence = new Sequence();
+	hookSequence->Initialize();
+	hookSequence->AddChild(new UseHook());
+	hookSequence->AddChild(new RaiseHook());
+	hookSequence->AddChild(new MoveInDirectionOfVolume());
 
-	Sequence* hookSelector = new Sequence();
-	hookSelector->Initialize();
-	hookSelector->AddChild(new UseHook());
-	hookSelector->AddChild(new RaiseHook());
-	hookSelector->AddChild(new MoveInDirectionOfVolume());
-
-	altMoveSelector->AddChild(hookSelector);
-	moveSelector->AddChild(altMoveSelector);
+	moveSelector->AddChild(hookSequence);
 	root->AddChild(moveSelector);
 
 	bt.SetRoot(root);

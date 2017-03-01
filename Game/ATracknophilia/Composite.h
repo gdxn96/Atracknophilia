@@ -63,16 +63,14 @@ public:
 	{
 		if (HasNoChildren()) 
 		{
-			return Status::Success;
+			return Status::Failure;
 		}
 
-		// Keep going until a child behavior says it's running.
 		while (1) 
 		{
 			auto& child = children.at(index);
 			auto status = child->Tick(p);
 
-			// If the child fails, or keeps running, do the same.
 			if (status != Status::Success) 
 			{
 				return status;
