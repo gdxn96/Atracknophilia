@@ -3,6 +3,8 @@
 #include "box2d\Box2D.h"
 #include "Vector2D.h"
 #include "Animation.h"
+#include "FiniteStateMachine.h"
+
 
 struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
 {
@@ -10,6 +12,15 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 		: IComponent(objectId)
 		, animation(Animation(animationName)) {};
 	Animation animation;
+};
+
+struct StateComponent : public IComponent, public AutoLister<AnimationComponent>
+{
+	StateComponent(int id)
+		: IComponent(id)
+		, state(new Idle()) {};
+
+	IState *state;
 };
 
 
@@ -22,4 +33,5 @@ struct LineComponent : public IComponent, AutoLister<LineComponent>
 		,	end(_end) 
 	{};
 	Vector2D start, end;
+
 };

@@ -25,6 +25,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto physicsSystem = new PhysicsSystem();
 	auto aiSystem = new AISystem();
 	auto hookSys = new HookSystem();
+	auto animationSys = new AnimationSystem();
 
 	//Init systems
 	renderSys->init(&m_renderer);
@@ -37,6 +38,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(hookSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
+	m_systems.push_back(animationSys);
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
@@ -64,12 +66,6 @@ void Game::loop(float dt)
 	for (auto& system : m_systems)
 	{
 		system->process(dt);
-	}
-
-	auto& components = AutoList::get<AnimationComponent>();
-	for (auto& component : components)
-	{
-		component->animation.update(dt);
 	}
 	
 	m_cameraManager.update(dt);
