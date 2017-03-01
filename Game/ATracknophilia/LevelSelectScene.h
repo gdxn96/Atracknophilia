@@ -28,6 +28,13 @@ private:
 	Button m_lvl3Btn;
 	Button m_lvl4Btn;
 
+	SDL_Texture* m_tickTex = NULL;
+
+	Button m_tickABtn, m_tickBBtn, m_tickCBtn, m_tickDBtn;
+
+	// controller ID's used to determine player number
+	enum IDs { m_playerOneID, m_playerTwoID, m_playerThreeID, m_playerFourID };
+
 	Button m_highlightedBtn;
 
 	float m_leftBtnPos, m_rightBtnPos, m_upBtnPos, m_downBtnPos;

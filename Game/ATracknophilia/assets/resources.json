@@ -67,20 +67,24 @@
         "path": "assets/Textures/arrowRight.png"
       },
       {
+        "key": "tickbtn",
+        "path": "assets/Textures/tick.png"
+      },
+      {
         "key": "lvl1btn",
-        "path": "assets/Textures/lvl1.png"
+        "path": "assets/Textures/Mapone.png"
       },
       {
         "key": "lvl2btn",
-        "path": "assets/Textures/lvl2.png"
+        "path": "assets/Textures/Maptwo.png"
       },
       {
         "key": "lvl3btn",
-        "path": "assets/Textures/lvl3.png"
+        "path": "assets/Textures/Mapthree.png"
       },
       {
         "key": "lvl4btn",
-        "path": "assets/Textures/lvl4.png"
+        "path": "assets/Textures/Mapfour.png"
       },
       {
         "key": "playerAbtn",

@@ -5,10 +5,10 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	: Scene(Scenes::LEVELSELECT)
 	, m_textureRect(0, 0, windowSize.x, windowSize.y)
 	, m_leftBtnPos(50)
-	, m_rightBtnPos(400)
-	, m_upBtnPos(350)
-	, m_downBtnPos(500)
-	, m_btnHeight(50)
+	, m_rightBtnPos(500)
+	, m_upBtnPos(50)
+	, m_downBtnPos(400)
+	, m_btnHeight(250)
 	, m_btnWidth(250)
 {
 	m_lvl1Btn = Button();
@@ -16,6 +16,10 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	m_lvl3Btn = Button();
 	m_lvl4Btn = Button();
 	m_highlightedBtn = Button();
+	m_tickABtn = Button();
+	m_tickBBtn = Button();
+	m_tickCBtn = Button();
+	m_tickDBtn = Button();
 	loadMedia();
 }
 
@@ -31,6 +35,10 @@ void LevelSelectScene::render(Renderer & r)
 	m_lvl3Btn.render(r);
 	m_lvl4Btn.render(r);
 	m_highlightedBtn.render(r);
+	m_tickABtn.render(r);
+	m_tickBBtn.render(r);
+	m_tickCBtn.render(r);
+	m_tickDBtn.render(r);
 	r.present();
 }
 
@@ -50,6 +58,11 @@ bool LevelSelectScene::init(Renderer & r)
 	m_lvl3Btn.setTexture(ResourceManager::getInstance()->getTextureByKey("lvl3btn"));
 	m_lvl4Btn.setTexture(ResourceManager::getInstance()->getTextureByKey("lvl4btn"));
 	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
+
+	m_tickABtn.setTexture(ResourceManager::getInstance()->getTextureByKey("tickbtn"));
+	m_tickBBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("tickbtn"));
+	m_tickCBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("tickbtn"));
+	m_tickDBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("tickbtn"));
 
 	m_highlightedBtn.setDirection(left);
 
