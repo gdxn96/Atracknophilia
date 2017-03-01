@@ -9,9 +9,9 @@ void BoostPadResponseComponent::beginContact(IEntity * e)
 		auto players = AutoList::get<Player>();
 		for (auto player : players)
 		{
-			if (e->ID == player->ID && e->getComponent<StaminaComponent>()->m_stamina < 100)
+			if (e->ID == player->ID && e->getComponent<StaminaComponent>()->stamina < 100)
 			{
-				e->getComponent<StaminaComponent>()->m_stamina += 20;
+				e->getComponent<StaminaComponent>()->stamina += 20;
 				break;
 			}
 		}

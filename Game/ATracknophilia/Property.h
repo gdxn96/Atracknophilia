@@ -5,48 +5,74 @@ struct StaminaComponent : public IComponent, public AutoLister<StaminaComponent>
 {
 	StaminaComponent(int id, float stamina)
 		: IComponent(id)
-		, m_stamina(stamina)
+		, stamina(stamina)
+		, boostTime(0)
+		, decelerateTime(0)
+		, boostActive(false)
 	{}
 
-	float m_stamina;
+	float stamina;
+	float boostTime;
+	float decelerateTime;
+	bool boostActive;
 };
 
-struct MaxAccelerationComponent : public IComponent, public AutoLister<MaxAccelerationComponent>
+struct AccelerationComponent : public IComponent, public AutoLister<AccelerationComponent>
 {
-	MaxAccelerationComponent(int id, float acceleration)
+	AccelerationComponent(int id, float acceleration)
 		: IComponent(id)
-		, m_maxAcceleration(acceleration)
+		, acceleration(acceleration)
 	{}
 
-	float m_maxAcceleration;
+	float acceleration;
 };
 
-struct MaxVelocityComponent : public IComponent, public AutoLister<MaxVelocityComponent>
+struct ConstMaxAccelerationComponent : public IComponent, public AutoLister<ConstMaxAccelerationComponent>
 {
-	MaxVelocityComponent(int id, float velocity)
+	ConstMaxAccelerationComponent(int id, float acceleration)
 		: IComponent(id)
-		, m_maxVelocity(velocity)
+		, MAX_ACCELERATION(acceleration)
 	{}
 
-	float m_maxVelocity;
+	const float MAX_ACCELERATION;
 };
 
-struct BoostComponent : public IComponent, public AutoLister<BoostComponent>
+struct ConstBoostedAccelerationComponent : public IComponent, public AutoLister<ConstBoostedAccelerationComponent>
 {
-	BoostComponent(int id)
+	ConstBoostedAccelerationComponent(int id, float acceleration)
 		: IComponent(id)
-		, MAX_VELOCITY(50)
-		, BOOSTED_MAX_VELOCITY(80)
-		, BOOSTED_ACCELERATION(150)
-		, m_boostTime(0)
-		, m_decelerateTime(0)
-		, m_boostActive(false)
+		, BOOSTED_ACCELERATION(acceleration)
+	{}
+
+	const float BOOSTED_ACCELERATION;
+};
+
+struct VelocityComponent : public IComponent, public AutoLister<VelocityComponent>
+{
+	VelocityComponent(int id, float velocity)
+		: IComponent(id)
+		, velocity(velocity)
+	{}
+
+	float velocity;
+};
+
+struct ConstMaxVelocityComponent : public IComponent, public AutoLister<ConstMaxVelocityComponent>
+{
+	ConstMaxVelocityComponent(int id, float velocity)
+		: IComponent(id)
+		, MAX_VELOCITY(velocity)
 	{}
 
 	const float MAX_VELOCITY;
-	const float BOOSTED_MAX_VELOCITY;
-	const float BOOSTED_ACCELERATION;
-	float m_boostTime;
-	float m_decelerateTime;
-	bool m_boostActive;
+};
+
+struct ConstBoostedVelocityComponent : public IComponent, public AutoLister<ConstBoostedVelocityComponent>
+{
+	ConstBoostedVelocityComponent(int id, float velocity)
+		: IComponent(id)
+		, BOOSTED_VELOCITY(velocity)
+	{}
+
+	const float BOOSTED_VELOCITY;
 };
