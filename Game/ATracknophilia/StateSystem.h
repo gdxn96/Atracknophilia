@@ -53,7 +53,6 @@ public:
 			else if (component->state->getType() == "falling"){
 				if (swingCheck(component, id)) {} //swing
 				else if (landCheck(component, id)) {}
-				else if (idleCheck(component, id)) {}
 				else if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
 				{
 					runCheck(component, id);
@@ -62,19 +61,38 @@ public:
 			//LANDING
 			else if (component->state->getType() == "landing")
 			{
-				if (runCheck(component, id)) {} //run
+				if (landingToRunCheck(component, id)) {} //run
 				else if (idleCheck(component, id)) {}
 				else if (swingCheck(component, id)) {} //swing
 			}
 			//ATTACKING
 			else if (component->state->getType() == "attacking")
 			{
+				if (lockedFrames > 0)
+				{
 
+				}
+				else
+				{
+
+				}
 			}
 			//HITTING
 			else if (component->state->getType() == "hitting")
 			{
+				if (lockedFrames > 0)
+				{
 
+				}
+				else
+				{
+
+				}
+			}
+
+			if (lockedFrames > 0)
+			{
+				lockedFrames--;
 			}
 		}
 
@@ -155,6 +173,59 @@ public:
 			return true;
 		}
 		else if (InputManager::GetInstance()->GetLeftStickVectorNormal(contollerID).x < 0) //runleft
+		{
+			//run left
+			//move right
+			switch (colour)
+			{
+			case 0:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::RUNNINGLEFT);
+				break;
+			case 1:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::RUNNINGLEFT);
+				break;
+			case 2:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::RUNNINGLEFT);
+				break;
+			case 3:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::RUNNINGLEFT);
+				break;
+			}
+			component->getComponent<AnimationComponent>()->animation.setFramesPerSecond(40);
+			component->state = new Running(true);
+			return true;
+		}
+
+		return false;
+	}
+	bool landingToRunCheck(StateComponent* component, int colour)
+	{
+		auto p = component->getParent();
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
+
+		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x > 0) //runright
+		{
+			//move right
+			switch (colour)
+			{
+			case 0:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::RUNNINGRIGHT);
+				break;
+			case 1:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::RUNNINGRIGHT);
+				break;
+			case 2:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::RUNNINGRIGHT);
+				break;
+			case 3:
+				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::RUNNINGRIGHT);
+				break;
+			}
+			component->getComponent<AnimationComponent>()->animation.setFramesPerSecond(40);
+			component->state = new Running(false);
+			return true;
+		}
+		else if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x < 0) //runleft
 		{
 			//run left
 			//move right
@@ -386,50 +457,57 @@ public:
 	{
 		auto p = component->getParent();
 		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
-		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
+		auto objects = AutoList::get<Player>();
+		for (auto& object : objects)
 		{
-			if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x >= 0)
+			if (p->getComponent<HookComponent>()) //this for abilities check ifthe player had one, if the still had one then animate is not
 			{
-				switch (colour)
+				if (!component->state->getDirection())
 				{
-				case 0:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::HITRIGHT);
-					break;
-				case 1:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::HITRIGHT);
-					break;
-				case 2:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::HITRIGHT);
-					break;
-				case 3:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITRIGHT);
-					break;
+					switch (colour)
+					{
+					case 0:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::HITRIGHT);
+						break;
+					case 1:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::HITRIGHT);
+						break;
+					case 2:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::HITRIGHT);
+						break;
+					case 3:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITRIGHT);
+						break;
+					}
+					component->state = new Hitting(false);
+					return true;
 				}
-				component->state = new Hitting(false);
-				return true;
-			}
-			else
-			{
-				switch (colour)
+				else
 				{
-				case 0:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::HITLEFT);
-					break;
-				case 1:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::HITLEFT);
-					break;
-				case 2:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::HITLEFT);
-					break;
-				case 3:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITLEFT);
-					break;
+					switch (colour)
+					{
+					case 0:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::HITLEFT);
+						break;
+					case 1:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::HITLEFT);
+						break;
+					case 2:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::HITLEFT);
+						break;
+					case 3:
+						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITLEFT);
+						break;
+					}
+					component->state = new Hitting(true);
+					return true;
 				}
-				component->state = new Hitting(true);
-				return true;
 			}
 		}
 		return false;
 	}
 private:
+	int lockedFrames; //Amount of frames any animation is locked in for. If > 0 decrements every cycle
+
+
 };
