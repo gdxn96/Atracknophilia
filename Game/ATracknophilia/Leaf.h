@@ -1,5 +1,8 @@
 #pragma once
 #include "Node.h"
+#include "Interactables.h"
+#include "DirectionVolume.h"
+#include "Property.h"
 
 class Leaf : public Node
 {
@@ -13,7 +16,7 @@ public:
 	UseAbility() {}
 	~UseAbility() {}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		// auto a = player->getComponent<AbilityComponent>();
 		// auto c = player->getComponent<Box2DComponent>();
@@ -47,7 +50,7 @@ public:
 	MoveInDirectionOfVolume() {}
 	~MoveInDirectionOfVolume() {}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		auto b = p->getComponent<Box2DComponent>();
 		auto a = p->getComponent<AccelerationComponent>();
@@ -69,9 +72,25 @@ public:
 						if (obstacle.first)
 						{
 							float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-							if (distance < 7)
+							if (distance < 8)
 							{
-								return Status::Failure;
+								/*return Status::Failure;*/
+								float xVelocity = b->body->GetLinearVelocity().x;
+								float xRay = 0;
+								if (xVelocity > 0) { xRay = 1000; }
+								else if (xVelocity < 0) { xRay = -1000; }
+								auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(xRay, -1000));
+								if (intersection.first)
+								{
+									auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
+									float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
+									if (distance > 8 && isStatic)
+									{
+										p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
+										return Status::Success;
+									}
+								}
+								return Status::Running;
 							}
 							b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, 0), true);
 							return Status::Running;
@@ -91,40 +110,6 @@ public:
 								return Status::Failure;
 							}
 						}
-						//else
-						//{
-						//	if (direction.x > 0 && direction.y > 0)
-						//	{
-						//		// down right
-						//		return Status::Success;
-						//	}
-						//	else if (direction.x < 0 && direction.y < 0)
-						//	{
-						//		// up left
-						//		return Status::Success;
-						//	}
-						//	else if (direction.x > 0 && direction.y < 0)
-						//	{
-						//		// up right
-						//		return Status::Success;
-						//	}
-						//	else if (direction.x < 0 && direction.y > 0)
-						//	{
-						//		auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, 0));
-						//		if (obstacle.first)
-						//		{
-						//			float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-						//			if (distance < 7)
-						//			{
-						//				std::cout << "obstacle too close" << std::endl;
-						//				return Status::Failure;
-						//			}
-						//			b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, 0), true);
-						//			std::cout << "moving in direction of volume" << std::endl;
-						//			return Status::Running;
-						//		}
-						//	}
-						//}
 					}
 				}
 			}
@@ -139,22 +124,18 @@ public:
 	UseHook() {}
 	~UseHook() {}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		auto b = p->getComponent<Box2DComponent>();
 		auto h = p->getComponent<HookComponent>();
 		if (!h && b)
 		{
-			float xVelocity = b->body->GetLinearVelocity().x;
-			float xRay = 0;
-			if (xVelocity > 0) { xRay = 1000; }
-			else if (xVelocity < 0) { xRay = -1000; }
-			auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(xRay, -1000));
+			auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(/*xRay*/0, -1000));
 			if (intersection.first)
 			{
 				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
 				float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
-				if (distance > 5 && isStatic)
+				if (distance > 8 && isStatic)
 				{
 					p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
 					return Status::Success;
@@ -171,7 +152,7 @@ public:
 	RaiseHook() {}
 	~RaiseHook() {}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		auto h = p->getComponent<HookComponent>();
 		// get y value of direction volume and move up and down accordingly
@@ -184,8 +165,7 @@ public:
 			}
 			else
 			{
-				// use ai system to pass dt instead
-				h->decreaseTetherLength(0.01);
+				h->decreaseTetherLength(dt);
 				return Status::Success;
 			}
 		}
@@ -199,7 +179,7 @@ public:
 	UseStamina() {}
 	~UseStamina() {}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		auto s = p->getComponent<StaminaComponent>();
 		auto a = p->getComponent<AccelerationComponent>();
@@ -223,6 +203,7 @@ public:
 				return Status::Failure;
 			}
 		}
+		return Status::Failure;
 	}
 };
 
@@ -232,7 +213,7 @@ public:
 	CheckVelocity() {}
 	~CheckVelocity() {}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		auto b = p->getComponent<Box2DComponent>();
 		auto s = p->getComponent<StaminaComponent>();
@@ -250,6 +231,7 @@ public:
 				return Status::Failure;
 			}
 		}
+		return Status::Failure;
 	}
 };
 
@@ -259,7 +241,7 @@ public:
 	CheckHooked() {}
 	~CheckHooked() {}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		auto h = p->getComponent<HookComponent>();
 		if (h)

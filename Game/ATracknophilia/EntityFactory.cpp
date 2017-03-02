@@ -3,11 +3,11 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, BehaviourTree* bt, bool isAI)
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, bool isAI)
 {
 	if (isAI)
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, bt));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h));
 	}
 	else
 	{

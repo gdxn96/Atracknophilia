@@ -1,14 +1,6 @@
 #pragma once
-#include <memory>
 #include <vector>
-#include "ECSInterfaces.h"
-
-struct State
-{
-	Vector2D position;
-	Vector2D velocity;
-	bool isHooked;
-};
+#include <memory>
 
 class Node
 {
@@ -23,17 +15,17 @@ public:
 
 	virtual ~Node() {}
 
-	virtual Status Update(IEntity* p) = 0;
+	virtual Status Update(IEntity* p, float dt) = 0;
 	virtual void Initialize() {}
 	virtual void Terminate(Status status) {}
 
-	Status Tick(IEntity* p)
+	Status Tick(IEntity* p, float dt)
 	{
 		if (status != Status::Running) {
 			Initialize();
 		}
 
-		status = Update(p);
+		status = Update(p, dt);
 
 		if (status != Status::Running) {
 			Terminate(status);

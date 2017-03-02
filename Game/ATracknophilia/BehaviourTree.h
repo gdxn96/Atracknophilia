@@ -1,5 +1,7 @@
 #pragma once
-#include "Node.h"
+#include "Composite.h"
+#include "Leaf.h"
+#include "Decorator.h"
 
 class BehaviourTree : public Node
 {
@@ -12,11 +14,11 @@ public:
 		: root(rootNode)
 	{}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		if (p != nullptr)
 		{
-			return root->Tick(p);
+			return root->Tick(p, dt);
 		}
 		else
 		{

@@ -2815,8 +2815,8 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":9200,
-                 "x":7600,
+                 "width":9300,
+                 "x":7500,
                  "y":12800
                 }, 
                 {
@@ -2843,14 +2843,14 @@
                  "y":14300
                 }, 
                 {
-                 "height":9800,
+                 "height":8400,
                  "id":244,
                  "name":"",
                  "properties":
                     {
                      "directionX":0,
                      "directionY":-1,
-                     "priority":17
+                     "priority":18
                     },
                  "propertytypes":
                     {
@@ -2873,7 +2873,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":19
+                     "priority":20
                     },
                  "propertytypes":
                     {
@@ -2889,14 +2889,14 @@
                  "y":4000
                 }, 
                 {
-                 "height":9000,
+                 "height":8600,
                  "id":246,
                  "name":"",
                  "properties":
                     {
                      "directionX":0,
                      "directionY":-1,
-                     "priority":53
+                     "priority":55
                     },
                  "propertytypes":
                     {
@@ -2965,7 +2965,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":18
+                     "priority":19
                     },
                  "propertytypes":
                     {
@@ -3149,7 +3149,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":20
+                     "priority":21
                     },
                  "propertytypes":
                     {
@@ -3172,7 +3172,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":21
+                     "priority":22
                     },
                  "propertytypes":
                     {
@@ -3195,7 +3195,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":32
+                     "priority":33
                     },
                  "propertytypes":
                     {
@@ -3218,7 +3218,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":22
+                     "priority":23
                     },
                  "propertytypes":
                     {
@@ -3241,7 +3241,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":23
+                     "priority":24
                     },
                  "propertytypes":
                     {
@@ -3264,7 +3264,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":24
+                     "priority":25
                     },
                  "propertytypes":
                     {
@@ -3287,7 +3287,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":25
+                     "priority":26
                     },
                  "propertytypes":
                     {
@@ -3310,7 +3310,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":26
+                     "priority":27
                     },
                  "propertytypes":
                     {
@@ -3333,7 +3333,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":27
+                     "priority":28
                     },
                  "propertytypes":
                     {
@@ -3356,7 +3356,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":31
+                     "priority":32
                     },
                  "propertytypes":
                     {
@@ -3379,7 +3379,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":28
+                     "priority":29
                     },
                  "propertytypes":
                     {
@@ -3402,7 +3402,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":29
+                     "priority":30
                     },
                  "propertytypes":
                     {
@@ -3425,7 +3425,7 @@
                     {
                      "directionX":-1,
                      "directionY":1,
-                     "priority":30
+                     "priority":31
                     },
                  "propertytypes":
                     {
@@ -3448,7 +3448,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":34
+                     "priority":35
                     },
                  "propertytypes":
                     {
@@ -3471,7 +3471,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":35
+                     "priority":36
                     },
                  "propertytypes":
                     {
@@ -3494,7 +3494,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":33
+                     "priority":34
                     },
                  "propertytypes":
                     {
@@ -3517,7 +3517,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":38
+                     "priority":39
                     },
                  "propertytypes":
                     {
@@ -3540,7 +3540,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":36
+                     "priority":37
                     },
                  "propertytypes":
                     {
@@ -3563,7 +3563,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":37
+                     "priority":38
                     },
                  "propertytypes":
                     {
@@ -3586,7 +3586,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":43
+                     "priority":44
                     },
                  "propertytypes":
                     {
@@ -3609,7 +3609,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":42
+                     "priority":43
                     },
                  "propertytypes":
                     {
@@ -3632,7 +3632,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":41
+                     "priority":42
                     },
                  "propertytypes":
                     {
@@ -3655,7 +3655,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":44
+                     "priority":45
                     },
                  "propertytypes":
                     {
@@ -3678,7 +3678,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":46
+                     "priority":47
                     },
                  "propertytypes":
                     {
@@ -3701,7 +3701,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":39
+                     "priority":40
                     },
                  "propertytypes":
                     {
@@ -3724,7 +3724,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":45
+                     "priority":46
                     },
                  "propertytypes":
                     {
@@ -3747,7 +3747,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":40
+                     "priority":41
                     },
                  "propertytypes":
                     {
@@ -3770,7 +3770,7 @@
                     {
                      "directionX":1,
                      "directionY":0,
-                     "priority":49
+                     "priority":50
                     },
                  "propertytypes":
                     {
@@ -3793,7 +3793,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":47
+                     "priority":48
                     },
                  "propertytypes":
                     {
@@ -3816,7 +3816,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":48
+                     "priority":49
                     },
                  "propertytypes":
                     {
@@ -3839,7 +3839,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":51
+                     "priority":52
                     },
                  "propertytypes":
                     {
@@ -3862,7 +3862,7 @@
                     {
                      "directionX":0,
                      "directionY":1,
-                     "priority":50
+                     "priority":51
                     },
                  "propertytypes":
                     {
@@ -3885,7 +3885,7 @@
                     {
                      "directionX":-1,
                      "directionY":0,
-                     "priority":52
+                     "priority":53
                     },
                  "propertytypes":
                     {
@@ -3896,8 +3896,54 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":6200,
-                 "x":800,
+                 "width":6300,
+                 "x":700,
+                 "y":11600
+                }, 
+                {
+                 "height":1500,
+                 "id":424,
+                 "name":"",
+                 "properties":
+                    {
+                     "directionX":0,
+                     "directionY":-1,
+                     "priority":17
+                    },
+                 "propertytypes":
+                    {
+                     "directionX":"float",
+                     "directionY":"float",
+                     "priority":"float"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":300,
+                 "x":7200,
+                 "y":12800
+                }, 
+                {
+                 "height":400,
+                 "id":425,
+                 "name":"",
+                 "properties":
+                    {
+                     "directionX":0,
+                     "directionY":-1,
+                     "priority":54
+                    },
+                 "propertytypes":
+                    {
+                     "directionX":"float",
+                     "directionY":"float",
+                     "priority":"float"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":300,
+                 "x":400,
                  "y":11600
                 }],
          "opacity":1,
@@ -3907,7 +3953,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":424,
+ "nextobjectid":426,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":100,

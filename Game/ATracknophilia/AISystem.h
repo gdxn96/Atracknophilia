@@ -12,7 +12,7 @@ public:
 	{
 		for (auto& component : AutoList::get<AIComponent>())
 		{
-			component->think();
+			component->think(dt);
 		}
 	}
 };

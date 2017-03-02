@@ -23,7 +23,7 @@ public:
 		index = 0;
 	}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		if (HasNoChildren()) 
 		{
@@ -34,7 +34,7 @@ public:
 		while (1) 
 		{
 			auto& child = children.at(index);
-			auto status = child->Tick(p);
+			auto status = child->Tick(p, dt);
 
 			// If the child succeeds, or keeps running, do the same.
 			if (status != Status::Failure) 
@@ -59,7 +59,7 @@ public:
 		index = 0;
 	}
 
-	Status Update(IEntity* p)
+	Status Update(IEntity* p, float dt)
 	{
 		if (HasNoChildren()) 
 		{
@@ -69,7 +69,7 @@ public:
 		while (1) 
 		{
 			auto& child = children.at(index);
-			auto status = child->Tick(p);
+			auto status = child->Tick(p, dt);
 
 			if (status != Status::Success) 
 			{
