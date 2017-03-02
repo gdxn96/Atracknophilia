@@ -25,6 +25,9 @@
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{2e1ce81f-cdc3-4548-aeca-4a03cb93d70e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BehaviourTree">
+      <UniqueIdentifier>{7f6af6e5-e04a-413b-8297-68953f064a12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -145,6 +148,21 @@
       <Filter>ECS\Systems</Filter>
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourTree.h">
+      <Filter>BehaviourTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Composite.h">
+      <Filter>BehaviourTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Decorator.h">
+      <Filter>BehaviourTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>BehaviourTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>BehaviourTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

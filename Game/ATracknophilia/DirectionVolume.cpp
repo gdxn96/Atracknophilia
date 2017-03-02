@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DirectionVolume.h"
+#include "Logic.h"
 
 DirectionVolume::DirectionVolume(int id, float x, float y, float w, float h, int priority, Vector2D direction)
 	: IEntity(id, {

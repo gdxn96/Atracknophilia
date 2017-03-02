@@ -3,9 +3,16 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId)
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, bool isAI)
 {
-	LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+	if (isAI)
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h));
+	}
+	else
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+	}
 }
 
 void EntityFactory::SpawnStaticBox(float x, float y, float w, float h)

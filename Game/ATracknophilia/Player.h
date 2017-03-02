@@ -61,8 +61,24 @@ public:
 		})
 	{
 	}
+
+	Player(int id, float x, float y, float w, float h)
+		: IEntity(id,
+		{
+			new DynamicBodyComponent(id, x, y, w, h, false),
+			new StaminaComponent(id, 100),
+			new AccelerationComponent(id, 20),
+			new ConstMaxAccelerationComponent(id, 20),
+			new ConstBoostedAccelerationComponent(id, 150),
+			new VelocityComponent(id, 50),
+			new ConstMaxVelocityComponent(id, 50),
+			new ConstBoostedVelocityComponent(id, 80),
+			new PlayerAIComponent(id),
+			new RacePositionComponent(id),
+			new PlayerStaticObjectResponseComponent(id)
+		})
+	{
+	}
 private:
 
 };
-
-
