@@ -12,22 +12,6 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	, m_downBtnPos(500)
 	, m_btnHeight(189)
 	, m_btnWidth(250)
-	, lockedA(false)
-	, lockedB(false)
-	, lockedC(false)
-	, lockedD(false)
-	, m_blueID(0)
-	, m_greenID(1)
-	, m_redID(2)
-	, m_yellowID(3)
-	, m_lockedInID(99)
-	, m_arrowHeight(15)
-	, m_arrowWidth(30)
-	, m_scaler(1.5)
-	, m_lvlOneVoteCount(0)
-	, m_lvlTwoVoteCount(0)
-	, m_lvlThreeVoteCount(0)
-	, m_lvlFourVoteCount(0)
 {
 	m_playerABtn = Button();
 	m_playerBBtn = Button();
@@ -41,7 +25,6 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	m_cRightArrowBtn = Button();
 	m_dLeftArrowBtn = Button();
 	m_dRightArrowBtn = Button();
-	//m_highlightedBtn = Button();
 
 	/* initialize random seed: */
 	srand(time(NULL));
@@ -52,8 +35,7 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 void LevelSelectScene::update(float dt)
 {
 	currentTick += dt * 1000; // dt was rounding down to 0 when adding 0.0001 of a second so converting into milliseonds
-	if (lockedA && lockedB && lockedC && lockedD)
-		changeScene(Scenes::LEVELSELECT);
+	checkForControllers();
 }
 
 void LevelSelectScene::render(Renderer & r)
@@ -71,20 +53,32 @@ void LevelSelectScene::render(Renderer & r)
 	m_cRightArrowBtn.render(r);
 	m_dLeftArrowBtn.render(r);
 	m_dRightArrowBtn.render(r);
-	//m_highlightedBtn.render(r);
 	r.present();
 }
 
-bool LevelSelectScene::init(Renderer & r)
+void LevelSelectScene::enter()
 {
-	// init success flag
-	bool success = true;
+	lockedA = false;
+	lockedB = false;
+	lockedC = false;
+	lockedD = false;
+	m_blueID = 0;
+	m_greenID = 1;
+	m_redID = 2;
+	m_yellowID = 3;
+	m_lockedInID = 99;
+	m_arrowHeight = 15;
+	m_arrowWidth = 30;
+	m_scaler = 1.5;
+	m_lvlOneVoteCount = 0;
+	m_lvlTwoVoteCount = 0;
+	m_lvlThreeVoteCount = 0;
+	m_lvlFourVoteCount = 0;
 
 	m_playerABtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 	m_playerBBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 	m_playerCBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 	m_playerDBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
-	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 
 	m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
 	m_aRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
@@ -102,6 +96,8 @@ bool LevelSelectScene::init(Renderer & r)
 
 	m_leftArrowTex = ResourceManager::getInstance()->getTextureByKey("arrowleftbtn");
 	m_rightArrowTex = ResourceManager::getInstance()->getTextureByKey("arrowrightbtn");
+
+	m_noControllerTex = ResourceManager::getInstance()->getTextureByKey("nocontroller");
 
 	m_playerABtn.setTexture(m_lvlOneTex);
 	m_playerBBtn.setTexture(m_lvlTwoTex);
@@ -121,7 +117,12 @@ bool LevelSelectScene::init(Renderer & r)
 	m_playerBBtn.m_playerID = m_playerTwoID;
 	m_playerCBtn.m_playerID = m_playerThreeID;
 	m_playerDBtn.m_playerID = m_playerFourID;
+}
 
+bool LevelSelectScene::init(Renderer & r)
+{
+	// init success flag
+	bool success = true;
 
 	//m_highlightedBtn.setDirection(left);
 
@@ -166,7 +167,6 @@ void LevelSelectScene::changeScene(Scenes newScene)
 		currentTick = 0;
 		SceneManager::getInstance()->switchTo(newScene);
 	}
-
 }
 
 bool LevelSelectScene::loadMedia()
@@ -409,6 +409,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlThreeTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl3btn");
 				m_playerABtn.setTexture(m_lvlThreeTex);
 				m_playerABtn.m_playerID = 55;
+				m_lvlThreeVoteCount++;
 				lockedA = true;
 			}
 			else if (m_playerABtn.m_playerID == m_yellowID)
@@ -529,10 +530,10 @@ void LevelSelectScene::executeScene(IDs id)
 			}
 		}
 
-		if (lockedA == true && lockedB == true && lockedC == true && lockedD == true)
+		if (lockedA == true && lockedB == true || m_controllerTwoConnected == false && lockedC == true || m_controllerThreeConnected == false && lockedD == true || m_controllerFourConnected == false)
 		{
 			int mapChosen = countMapVotes();
-			changeScene(Scenes::GAME); // need to pass/remember character selection and map selection
+			loadGame(Scenes::GAME, mapChosen); // need to pass/remember character selection and map selection
 		}
 	}
 }
@@ -540,6 +541,42 @@ void LevelSelectScene::executeScene(IDs id)
 int LevelSelectScene::countMapVotes()
 {
 	int mapSelected;
+
+	// only 1 player playing with AI
+	if (m_controllerTwoConnected == false)
+	{
+		if (m_lvlOneVoteCount > 0) { mapSelected = 1; }
+		if (m_lvlTwoVoteCount > 0) { mapSelected = 2; }
+		if (m_lvlThreeVoteCount > 0) { mapSelected = 3; }
+		if (m_lvlFourVoteCount > 0) { mapSelected = 4; }
+	}
+	// only 2 players
+	if (m_controllerThreeConnected == false)
+	{
+		if (m_lvlOneVoteCount > 1) { mapSelected = 1; }
+		else if (m_lvlTwoVoteCount > 1) { mapSelected = 2; }
+		else if (m_lvlThreeVoteCount > 1) { mapSelected = 3; }
+		else if (m_lvlFourVoteCount > 1) { mapSelected = 4; }
+	}
+	// 3 players
+	if (m_lvlOneVoteCount == 2 && m_lvlTwoVoteCount == 1 || m_lvlThreeVoteCount == 1 || m_lvlFourVoteCount == 1)
+	{
+		mapSelected = 1;
+	}
+	if (m_lvlTwoVoteCount == 2 && m_lvlOneVoteCount == 1 || m_lvlThreeVoteCount == 1 || m_lvlFourVoteCount == 1)
+	{
+		mapSelected = 2;
+	}
+	if (m_lvlThreeVoteCount == 2 && m_lvlTwoVoteCount == 1 || m_lvlOneVoteCount == 1 || m_lvlFourVoteCount == 1)
+	{
+		mapSelected = 3;
+	}
+	if (m_lvlFourVoteCount == 2 && m_lvlTwoVoteCount == 1 || m_lvlThreeVoteCount == 1 || m_lvlOneVoteCount == 1)
+	{
+		mapSelected = 4;
+	}
+
+
 	// if any map gets more than 2 votes they have won since there's only 4 possible total votes
 	if (m_lvlOneVoteCount > 2) 
 	{
@@ -624,13 +661,67 @@ int LevelSelectScene::countMapVotes()
 	return mapSelected;
 }
 
+void LevelSelectScene::checkForControllers()
+{
+	//Check for joysticks
+	if (SDL_NumJoysticks() < 1)
+	{
+		m_playerABtn.setTexture(m_noControllerTex);
+		m_playerBBtn.setTexture(m_noControllerTex);
+		m_playerCBtn.setTexture(m_noControllerTex);
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		m_controllerTwoConnected = false;
+		m_controllerThreeConnected = false;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 2)
+	{
+		m_playerBBtn.setTexture(m_noControllerTex);
+		m_playerCBtn.setTexture(m_noControllerTex);
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		m_controllerTwoConnected = false;
+		m_controllerThreeConnected = false;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 3)
+	{
+		m_playerCBtn.setTexture(m_noControllerTex);
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		m_controllerTwoConnected = true;
+		m_controllerThreeConnected = false;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 4)
+	{
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		m_controllerTwoConnected = true;
+		m_controllerThreeConnected = true;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 5)
+	{
+		m_controllerTwoConnected = true;
+		m_controllerThreeConnected = true;
+		m_controllerFourConnected = true;
+	}
+}
+
+void LevelSelectScene::initialisePlayerIDS(vector<int> playerIDs)
+{
+	m_playerIds = playerIDs;
+}
+
 void LevelSelectScene::loadGame(Scenes scene, int mapLvl)
 {
 	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::LEVELSELECT)
 	{
-		GameScene * gameScene = new GameScene(mapLvl);
+		m_gameScene->initialiseMapLvls(mapLvl);
+		m_gameScene->initialiseGameScenePlayerIDs(m_playerIds);
 		currentTick = 0;
-		SceneManager::getInstance()->addScene(gameScene);
 		SceneManager::getInstance()->switchTo(scene);
 	}
 }

@@ -71,6 +71,26 @@
         "path": "assets/Textures/tick.png"
       },
       {
+        "key": "nocontroller",
+        "path": "assets/Textures/controller.png"
+      },
+      {
+        "key": "enableAiBtn",
+        "path": "assets/Textures/enableaibtn.png"
+      },
+      {
+        "key": "disableAiBtn",
+        "path": "assets/Textures/disableaibtn.png"
+      },
+      {
+        "key": "enabledText",
+        "path": "assets/Textures/aiisenabled.png"
+      },
+      {
+        "key": "disabledText",
+        "path": "assets/Textures/aiisdisabled.png"
+      },
+      {
         "key": "lvl1btn",
         "path": "assets/Textures/Mapone.png"
       },

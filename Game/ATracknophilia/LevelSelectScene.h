@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Button.h"
 
+class GameScene;
 class LevelSelectScene : public Scene, public EventListener
 {
 public:
@@ -11,10 +12,12 @@ public:
 
 	void update(float dt) override;
 	void render(Renderer& r) override;
-
+	void enter() override;
 	bool init(Renderer & r) override;
 	void changeScene(Scenes newScene) override;
 
+	void initialisePlayerIDS(vector<int> playerIDs);
+	GameScene * m_gameScene;
 private:
 	bool loadMedia();
 
@@ -28,8 +31,6 @@ private:
 	Button m_playerBBtn;
 	Button m_playerCBtn;
 	Button m_playerDBtn;
-
-	Button m_highlightedBtn;
 
 	Button m_aLeftArrowBtn, m_aRightArrowBtn, m_bLeftArrowBtn, m_bRightArrowBtn, m_cLeftArrowBtn, m_cRightArrowBtn, m_dLeftArrowBtn, m_dRightArrowBtn;
 
@@ -64,6 +65,8 @@ private:
 	SDL_Texture* m_leftArrowTex = NULL;
 	SDL_Texture* m_rightArrowTex = NULL;
 
+	SDL_Texture* m_noControllerTex = NULL;
+
 	float m_lvlOneVoteCount, m_lvlTwoVoteCount, m_lvlThreeVoteCount, m_lvlFourVoteCount;
 
 	void reduceArrowScale(direction dir, int controllerID);
@@ -83,6 +86,12 @@ private:
 	void executeScene(IDs id);
 
 	int countMapVotes();
+
+	void checkForControllers();
+
+	bool m_controllerTwoConnected, m_controllerThreeConnected, m_controllerFourConnected;
+
+	vector<int> m_playerIds;
 
 	void loadGame(Scenes scene, int mapLvl);
 };

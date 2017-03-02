@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Button.h"
 
+class LevelSelectScene;
 class ChoosePlayerScene : public Scene, public EventListener
 {
 public:
@@ -10,12 +11,15 @@ public:
 
 	void update(float dt) override;
 	void render(Renderer& r) override;
-
+	void enter() override;
 	bool init(Renderer & r) override;
 	void changeScene(Scenes newScene) override;
+	LevelSelectScene * m_lvl;
 private:
 	bool loadMedia();
-
+	Vector2D m_windowSize;
+	Renderer m_r;
+	bool renderInit;
 	//The image we will load and show on the screen
 	SDL_Texture* m_splashScreen = NULL;
 	Rect m_textureRect;
@@ -31,6 +35,8 @@ private:
 
 	Button m_aLeftArrowBtn, m_aRightArrowBtn, m_bLeftArrowBtn, m_bRightArrowBtn, m_cLeftArrowBtn, m_cRightArrowBtn, m_dLeftArrowBtn, m_dRightArrowBtn;
 
+	Button m_aiEnabled, m_aiDisabled, m_aiChoice;
+
 	float m_arrowWidth, m_arrowHeight;
 
 	float m_scaler;
@@ -41,6 +47,10 @@ private:
 	// button positions on the screen
 	float m_leftBtnPos, m_rightBtnPos, m_upBtnPos, m_downBtnPos;
 
+	float m_aiXPos, m_aiYPos, m_aiHeight;
+
+	bool m_isAiEnabled;
+
 	// buttons height and weight
 	float m_btnWidth, m_btnHeight;
 
@@ -48,7 +58,7 @@ private:
 	enum IDs { m_playerOneID, m_playerTwoID, m_playerThreeID, m_playerFourID };
 
 	// used for changing character by left or right ordering
-	enum direction { left, right };
+	enum direction { left, right, up, down};
 
 	// change the colour of the sprite for the specific player based on their player ID
 	void changePlayerColour(direction dir, int controllerId);
@@ -61,6 +71,12 @@ private:
 
 	SDL_Texture* m_leftArrowTex = NULL;
 	SDL_Texture* m_rightArrowTex = NULL;
+
+	SDL_Texture* m_noControllerTex = NULL;
+
+	SDL_Texture* m_aiTex = NULL;
+
+	void moveHighlightedBtn(direction dir);
 
 	void reduceArrowScale(direction dir, int controllerID);
 	
@@ -76,6 +92,16 @@ private:
 	int m_lockedInID;
 
 	void checkIDs(int buttonID);
+
+	void checkForControllers();
+
+	bool m_controllerTwoConnected, m_controllerThreeConnected, m_controllerFourConnected;
+
+	void updateAiChoice();
+
+	vector<int> playerIDs;
+
+	void loadLevelSelect(Scenes scene, vector<int> playerIDs);
 
 	// used to lock in the player's chosen colour character
 	void executeScene(IDs id);

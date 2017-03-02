@@ -35,6 +35,23 @@ void StartScene::render(Renderer& r)
 	r.present();
 }
 
+void StartScene::enter()
+{
+	m_localGameBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+	m_creditBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+	m_onlineGameBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
+	m_optionsBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
+	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+
+	m_localGameBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("localgamebtn"));
+	m_creditBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("creditsbtn"));
+	m_onlineGameBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("onlinegamebtn"));
+	m_optionsBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("optionsbtn"));
+	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
+
+	m_highlightedBtn.setDirection(left);
+}
+
 bool StartScene::init(Renderer & r)
 {
 	// init success flag
@@ -56,20 +73,6 @@ bool StartScene::loadMedia()
 
 	//Load splash image here..
 	m_splashScreen = ResourceManager::getInstance()->getTextureByKey("startscreen");
-
-	m_localGameBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
-	m_creditBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
-	m_onlineGameBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
-	m_optionsBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
-	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
-
-	m_localGameBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("localgamebtn"));
-	m_creditBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("creditsbtn"));
-	m_onlineGameBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("onlinegamebtn"));
-	m_optionsBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("optionsbtn"));
-	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
-
-	m_highlightedBtn.setDirection(left);
 
 	// set key binds
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&StartScene::moveHighlightBtn, this, left)), this, 0);
@@ -147,7 +150,7 @@ void StartScene::executeScene()
 		}
 		if (m_optionsBtn.getRect() == m_highlightedBtn.getRect())
 		{
-			changeScene(Scenes::OPTIONS);
+			changeScene(Scenes::LEVELSELECT);
 		}
 	}
 }

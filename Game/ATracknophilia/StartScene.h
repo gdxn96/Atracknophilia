@@ -10,7 +10,7 @@ public:
 
 	void update(float dt) override;
 	void render(Renderer& r) override;
-
+	void enter() override;
 	bool init(Renderer & r) override;
 	void changeScene(Scenes newScene) override;
 private:
@@ -33,6 +33,8 @@ private:
 
 	enum direction{left, right, up, down};
 	void moveHighlightBtn(direction dir);
+
+
 
 	void executeScene();
 };

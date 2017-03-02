@@ -3,12 +3,13 @@
 #include "ECSInterfaces.h"
 #include "Systems.h"
 #include "Animation.h"
+#include "CameraManager.h"
 
 
 class GameScene : public Scene
 {
 public:
-	GameScene(int mapLvl);
+	GameScene();
 
 	void update(float dt) override;
 	void render(Renderer& r) override;
@@ -19,5 +20,12 @@ public:
 
 	void changeScene(Scenes newScene) override;
 	
+	void initialiseMapLvls(int mapLvl);
+	void initialiseGameScenePlayerIDs(vector<int> playerIDs);
+	
 private:  
+	CameraManager m_cameraManager;
+	Vector2D m_currentLvl;
+	vector<int> m_playerIds;
+	int m_mapLvl;
 };

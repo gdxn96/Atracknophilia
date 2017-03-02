@@ -3,6 +3,7 @@
 
 ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	: Scene(Scenes::CHOOSEPLAYER)
+	, m_windowSize(windowSize)
 	, m_textureRect(0, 0, windowSize.x, windowSize.y)
 	, m_leftBtnPos(100)
 	, m_rightBtnPos(500)
@@ -10,18 +11,9 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	, m_downBtnPos(500)
 	, m_btnHeight(189)
 	, m_btnWidth(250)
-	, lockedA(false)
-	, lockedB(false)
-	, lockedC(false)
-	, lockedD(false)
-	, m_blueID(0)
-	, m_greenID(1)
-	, m_redID(2)
-	, m_yellowID(3)
-	, m_lockedInID(99)
-	,m_arrowHeight(15)
-	,m_arrowWidth(30)
-	,m_scaler(1.5)
+	, m_aiXPos(1000)
+	, m_aiYPos(300)
+	, m_aiHeight(50)
 {
 	m_playerABtn = Button();
 	m_playerBBtn = Button();
@@ -35,19 +27,24 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	m_cRightArrowBtn = Button();
 	m_dLeftArrowBtn = Button();
 	m_dRightArrowBtn = Button();
-	//m_highlightedBtn = Button();
+	m_highlightedBtn = Button();
+	m_aiEnabled = Button();
+	m_aiDisabled = Button();
+	m_aiChoice = Button();
 	loadMedia();
 }
 
 void ChoosePlayerScene::update(float dt)
 {
 	currentTick += dt * 1000; // dt was rounding down to 0 when adding 0.0001 of a second so converting into milliseonds
+	checkForControllers();
 	if (lockedA && lockedB && lockedC && lockedD)
 		changeScene(Scenes::LEVELSELECT);
 }
 
 void ChoosePlayerScene::render(Renderer & r)
 {
+	if (renderInit == false) { m_r = r; renderInit = true; }
 	r.drawTexture(m_splashScreen, m_textureRect);
 	m_playerABtn.render(r);
 	m_playerBBtn.render(r);
@@ -61,22 +58,42 @@ void ChoosePlayerScene::render(Renderer & r)
 	m_cRightArrowBtn.render(r);
 	m_dLeftArrowBtn.render(r);
 	m_dRightArrowBtn.render(r);
-	//m_highlightedBtn.render(r);
+	m_highlightedBtn.render(r);
+	m_aiEnabled.render(r);
+	m_aiDisabled.render(r);
+	m_aiChoice.render(r);
 	r.present();
 }
 
-bool ChoosePlayerScene::init(Renderer & r)
+void ChoosePlayerScene::enter()
 {
-	// init success flag
-	bool success = true;
+	// initialise the change-able variables upon scene entry, so they will reset when scene is left and entered again
+	currentTick = 0;
+	renderInit = false;
+	lockedA = false;
+	lockedB = false;
+	lockedC = false;
+	lockedD = false;
+	m_isAiEnabled = false;
+	m_blueID = 0;
+	m_greenID = 1;
+	m_redID = 2;
+	m_yellowID = 3;
+	m_lockedInID = 99;
+	m_arrowHeight = 15;
+	m_arrowWidth = 30;
+	m_scaler = 1.5;
 
 	m_playerABtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 	m_playerBBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 	m_playerCBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 	m_playerDBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
-	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
+	m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
+	m_aiEnabled.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
+	m_aiDisabled.setRect(Rect{ m_aiXPos, m_aiYPos * m_scaler, m_btnWidth, m_aiHeight });
+	m_aiChoice.setRect(Rect{ m_aiXPos, m_aiYPos * 2, m_btnWidth, m_aiHeight });
 
-	m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth *2), m_upBtnPos + (m_btnHeight /2), m_arrowWidth, m_arrowHeight });
+	m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
 	m_aRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
 	m_bLeftArrowBtn.setRect(Rect{ m_rightBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
 	m_bRightArrowBtn.setRect(Rect{ (m_rightBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
@@ -93,6 +110,10 @@ bool ChoosePlayerScene::init(Renderer & r)
 	m_leftArrowTex = ResourceManager::getInstance()->getTextureByKey("arrowleftbtn");
 	m_rightArrowTex = ResourceManager::getInstance()->getTextureByKey("arrowrightbtn");
 
+	m_noControllerTex = ResourceManager::getInstance()->getTextureByKey("nocontroller");
+
+	m_aiTex = ResourceManager::getInstance()->getTextureByKey("disabledText");
+
 	m_playerABtn.setTexture(m_blueTex);
 	m_playerBBtn.setTexture(m_greenTex);
 	m_playerCBtn.setTexture(m_redTex);
@@ -107,15 +128,24 @@ bool ChoosePlayerScene::init(Renderer & r)
 	m_dLeftArrowBtn.setTexture(m_leftArrowTex);
 	m_dRightArrowBtn.setTexture(m_rightArrowTex);
 
+	m_aiEnabled.setTexture(ResourceManager::getInstance()->getTextureByKey("enableAiBtn"));
+	m_aiDisabled.setTexture(ResourceManager::getInstance()->getTextureByKey("disableAiBtn"));
+	m_aiChoice.setTexture(m_aiTex);
+
 	m_playerABtn.m_playerID = m_playerOneID;
 	m_playerBBtn.m_playerID = m_playerTwoID;
 	m_playerCBtn.m_playerID = m_playerThreeID;
 	m_playerDBtn.m_playerID = m_playerFourID;
 
-
 	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
 
-	//m_highlightedBtn.setDirection(left);
+	m_highlightedBtn.setDirection(up);
+}
+
+bool ChoosePlayerScene::init(Renderer & r)
+{
+	// init success flag
+	bool success = true;
 
 	// set key binds
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new PressCommand(std::bind(&ChoosePlayerScene::changeScene, this, Scenes::SPLASH)), this, m_playerOneID);
@@ -125,7 +155,10 @@ bool ChoosePlayerScene::init(Renderer & r)
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, left, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_UP, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, up)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_DOWN, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, down)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new PressCommand(std::bind(&ChoosePlayerScene::updateAiChoice, this)), this, m_playerOneID);
 
 	// player2
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, left, m_playerTwoID)), this, m_playerTwoID);
@@ -157,8 +190,7 @@ void ChoosePlayerScene::changeScene(Scenes newScene)
 	{
 		currentTick = 0;
 		SceneManager::getInstance()->switchTo(newScene);
-	}
-		
+	}	
 }
 
 bool ChoosePlayerScene::loadMedia()
@@ -192,6 +224,23 @@ void ChoosePlayerScene::changePlayerColour(direction dir, int controllerId)
 		if (lockedD == false) { changeCharacter(dir, m_playerFourID); }
 		updatePlayer(m_playerDBtn.m_playerID, m_playerFourID);
 		break;
+	}
+}
+
+void ChoosePlayerScene::moveHighlightedBtn(direction dir)
+{
+	if (currentTick > 1)
+	{
+		if (dir == up && m_highlightedBtn.getDirection() != up)
+		{
+			m_highlightedBtn.setDirection(up);
+			m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
+		}
+		if (dir == down && m_highlightedBtn.getDirection() != down)
+		{
+			m_highlightedBtn.setDirection(down);
+			m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos * m_scaler, m_btnWidth, m_aiHeight });
+		}
 	}
 }
 
@@ -453,18 +502,102 @@ void ChoosePlayerScene::checkIDs(int buttonID)
 	}
 }
 
+void ChoosePlayerScene::checkForControllers()
+{
+	//Check for joysticks
+	if (SDL_NumJoysticks() < 1)
+	{
+		m_playerABtn.setTexture(m_noControllerTex);
+		m_playerBBtn.setTexture(m_noControllerTex);
+		m_playerCBtn.setTexture(m_noControllerTex);
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		m_controllerTwoConnected = false;
+		m_controllerThreeConnected = false;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 2)
+	{
+		m_playerBBtn.setTexture(m_noControllerTex);
+		m_playerCBtn.setTexture(m_noControllerTex);
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		playerIDs.push_back(15);
+
+		m_controllerTwoConnected = false;
+		m_controllerThreeConnected = false;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 3)
+	{
+		m_playerCBtn.setTexture(m_noControllerTex);
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		playerIDs.push_back(15);
+
+		m_controllerTwoConnected = true;
+		m_controllerThreeConnected = false;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 4)
+	{
+		m_playerDBtn.setTexture(m_noControllerTex);
+
+		playerIDs.push_back(15);
+
+		m_controllerTwoConnected = true;
+		m_controllerThreeConnected = true;
+		m_controllerFourConnected = false;
+	}
+	else if (SDL_NumJoysticks() < 5)
+	{
+		playerIDs.push_back(15);
+
+		m_controllerTwoConnected = true;
+		m_controllerThreeConnected = true;
+		m_controllerFourConnected = true;
+	}
+}
+
+void ChoosePlayerScene::updateAiChoice()
+{
+	if (currentTick > 1)
+	{
+		if (m_aiEnabled.getRect() == m_highlightedBtn.getRect())
+		{
+			m_aiTex = ResourceManager::getInstance()->getTextureByKey("enabledText");
+			m_aiChoice.setTexture(m_aiTex);
+			m_isAiEnabled = true;
+		}
+		if (m_aiDisabled.getRect() == m_highlightedBtn.getRect())
+		{
+			m_aiTex = ResourceManager::getInstance()->getTextureByKey("disabledText");
+			m_aiChoice.setTexture(m_aiTex);
+			m_isAiEnabled = false;
+		}
+	}
+}
+
+void ChoosePlayerScene::loadLevelSelect(Scenes scene, vector<int> playerIDs)
+{
+	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::CHOOSEPLAYER)
+	{
+		m_lvl->initialisePlayerIDS(playerIDs);
+		SceneManager::getInstance()->switchTo(scene);
+	}
+}
+
 void ChoosePlayerScene::executeScene(IDs id)
 {
 	if (currentTick > 1)
 	{
 		if (id == m_playerOneID && lockedA == false)
 		{
-
-
 			if (m_playerABtn.m_playerID == m_blueID)
 			{
 				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
 				m_playerABtn.setTexture(m_blueTex);
+				playerIDs.at(0) = m_blueID;
 				m_blueID = m_lockedInID;
 				m_playerABtn.m_playerID = 55;  // set player id to any number greater than 4 so it will never be available to select again
 				checkIDs(0);
@@ -474,6 +607,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
 				m_playerABtn.setTexture(m_greenTex);
+				playerIDs.at(0) = m_greenID;
 				m_greenID = m_lockedInID;
 				m_playerABtn.m_playerID = 55;
 				checkIDs(1);
@@ -483,6 +617,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
 				m_playerABtn.setTexture(m_redTex);
+				playerIDs.at(0) = m_redID;
 				m_redID = m_lockedInID;
 				m_playerABtn.m_playerID = 55;
 				checkIDs(2);
@@ -492,6 +627,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
 				m_playerABtn.setTexture(m_yellowTex);
+				playerIDs.at(0) = m_yellowID;
 				m_yellowID = m_lockedInID;
 				m_playerABtn.m_playerID = 55;
 				checkIDs(3);
@@ -499,13 +635,13 @@ void ChoosePlayerScene::executeScene(IDs id)
 			}	
 		}
 
-
 		if (id == m_playerTwoID && lockedB == false)
 		{
 			if (m_playerBBtn.m_playerID == m_blueID)
 			{
 				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
 				m_playerBBtn.setTexture(m_blueTex);
+				playerIDs.at(1) = m_blueID;
 				m_playerBBtn.m_playerID = 55;
 				m_blueID = m_lockedInID;
 				checkIDs(0);
@@ -515,6 +651,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
 				m_playerBBtn.setTexture(m_greenTex);
+				playerIDs.at(1) = m_greenID;
 				m_playerBBtn.m_playerID = 55;
 				m_greenID = m_lockedInID;
 				checkIDs(1);
@@ -524,6 +661,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
 				m_playerBBtn.setTexture(m_redTex);
+				playerIDs.at(1) = m_redID;
 				m_playerBBtn.m_playerID = 55;
 				m_redID = m_lockedInID;
 				checkIDs(2);
@@ -533,6 +671,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
 				m_playerBBtn.setTexture(m_yellowTex);
+				playerIDs.at(1) = m_yellowID;
 				m_playerBBtn.m_playerID = 55;
 				m_yellowID = m_lockedInID;
 				checkIDs(3);
@@ -540,13 +679,13 @@ void ChoosePlayerScene::executeScene(IDs id)
 			}
 		}
 
-
 		if (id == m_playerThreeID && lockedC == false)
 		{
 			if (m_playerCBtn.m_playerID == m_blueID)
 			{
 				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
 				m_playerCBtn.setTexture(m_blueTex);
+				playerIDs.at(2) = m_blueID;
 				m_playerCBtn.m_playerID = 55;
 				m_blueID = m_lockedInID;
 				checkIDs(0);
@@ -556,6 +695,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
 				m_playerCBtn.setTexture(m_greenTex);
+				playerIDs.at(2) = m_greenID;
 				m_playerCBtn.m_playerID = 55;
 				m_greenID = m_lockedInID;
 				checkIDs(1);
@@ -565,6 +705,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
 				m_playerCBtn.setTexture(m_redTex);
+				playerIDs.at(2) = m_redID;
 				m_playerCBtn.m_playerID = 55;
 				m_redID = m_lockedInID;
 				checkIDs(2);
@@ -574,6 +715,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
 				m_playerCBtn.setTexture(m_yellowTex);
+				playerIDs.at(2) = m_yellowID;
 				m_playerCBtn.m_playerID = 55;
 				m_yellowID = m_lockedInID;
 				checkIDs(3);
@@ -581,13 +723,13 @@ void ChoosePlayerScene::executeScene(IDs id)
 			}
 		}
 
-
 		if (id == m_playerFourID && lockedD == false)
 		{
 			if (m_playerDBtn.m_playerID == m_blueID)
 			{
 				m_blueTex = ResourceManager::getInstance()->getTextureByKey("greyedBlue");
 				m_playerDBtn.setTexture(m_blueTex);
+				playerIDs.at(3) = m_blueID;
 				m_playerDBtn.m_playerID = m_lockedInID;
 				m_blueID = m_lockedInID;
 				checkIDs(0);
@@ -597,6 +739,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_greenTex = ResourceManager::getInstance()->getTextureByKey("greyedGreen");
 				m_playerDBtn.setTexture(m_greenTex);
+				playerIDs.at(3) = m_greenID;
 				m_playerDBtn.m_playerID = m_lockedInID;
 				m_greenID = m_lockedInID;
 				checkIDs(1);
@@ -606,6 +749,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_redTex = ResourceManager::getInstance()->getTextureByKey("greyedRed");
 				m_playerDBtn.setTexture(m_redTex);
+				playerIDs.at(3) = m_redID;
 				m_playerDBtn.m_playerID = 55;
 				m_redID = m_lockedInID;
 				checkIDs(2);
@@ -615,6 +759,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			{
 				m_yellowTex = ResourceManager::getInstance()->getTextureByKey("greyedYellow");
 				m_playerDBtn.setTexture(m_yellowTex);
+				playerIDs.at(3) = m_yellowID;
 				m_playerDBtn.m_playerID = 55;
 				m_yellowID = m_lockedInID;
 				checkIDs(3);
@@ -622,9 +767,9 @@ void ChoosePlayerScene::executeScene(IDs id)
 			}
 		}
 
-		if (lockedA == true && lockedB == true && lockedC == true && lockedD == true)
+		if (lockedA == true && lockedB == true || m_controllerTwoConnected == false && lockedC == true || m_controllerThreeConnected == false && lockedD == true || m_controllerFourConnected == false)
 		{
-			changeScene(Scenes::LEVELSELECT);
+			loadLevelSelect(Scenes::LEVELSELECT, playerIDs);
 		}
 	}
 }

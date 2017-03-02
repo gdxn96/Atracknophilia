@@ -12,7 +12,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 
-	m_cameraManager = CameraManager();
 
 	//Declare systems
 	auto inputSys = new InputSystem();
@@ -24,7 +23,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	//Init systems
 	renderSys->init(&m_renderer);
-	m_cameraManager.init(&m_camera);
 	
 	//Push back systems
 	m_systems.push_back(inputSys);
@@ -47,8 +45,11 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	EndGameScene * endGame = new EndGameScene(windowSize);
 	CreditsScene * creditsScene = new CreditsScene(windowSize);
 	OptionsScene * optionsScene = new OptionsScene(windowSize);
+	GameScene * gameScene = new GameScene();
 	LevelSelectScene * lvlSelectScene = new LevelSelectScene(windowSize);
+	lvlSelectScene->m_gameScene = gameScene;
 	ChoosePlayerScene * choosePlayerScene = new ChoosePlayerScene(windowSize);
+	choosePlayerScene->m_lvl = lvlSelectScene;
 	LobbyScene * lobbyScene = new LobbyScene(windowSize);
 
 	//add scenes to sceneMgr
@@ -56,6 +57,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	SceneManager::getInstance()->addScene(endGame);
 	SceneManager::getInstance()->addScene(creditsScene);
 	SceneManager::getInstance()->addScene(optionsScene);
+	SceneManager::getInstance()->addScene(gameScene);
 	SceneManager::getInstance()->addScene(lvlSelectScene);
 	SceneManager::getInstance()->addScene(choosePlayerScene);
 	SceneManager::getInstance()->addScene(lobbyScene);
@@ -66,10 +68,14 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 void Game::init()
 {
-	//InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)), this);
-	//InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)), this);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)), this);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)), this);
 
-	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
+
+	// do this only after a level has been selected
+	//m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
+
+
 	//m_camera.zoom(-1);
 	initGameCamera = false;
 
@@ -91,7 +97,7 @@ void Game::loop(float dt)
 			system->process(dt);
 		}
 	}
-	m_cameraManager.update(dt);
+	
 	SceneManager::getInstance()->update(dt);
 	SceneManager::getInstance()->render(m_renderer);
 }
