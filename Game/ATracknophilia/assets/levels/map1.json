@@ -1984,52 +1984,52 @@
          "name":"Powerup Layer",
          "objects":[
                 {
-                 "height":400,
+                 "height":100,
                  "id":331,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
-                 "x":3800,
-                 "y":8200
+                 "width":100,
+                 "x":3948,
+                 "y":8248
                 }, 
                 {
-                 "height":400,
+                 "height":100,
                  "id":332,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
-                 "x":3800,
-                 "y":5000
+                 "width":100,
+                 "x":3952,
+                 "y":5056
                 }, 
                 {
-                 "height":400,
+                 "height":100,
                  "id":333,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
+                 "width":100,
                  "x":13800,
                  "y":5800
                 }, 
                 {
-                 "height":400,
+                 "height":100,
                  "id":334,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
-                 "x":1800,
-                 "y":15600
+                 "width":100,
+                 "x":2400,
+                 "y":15900
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
@@ -3971,7 +3971,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "width":0,
          "x":0,
          "y":0

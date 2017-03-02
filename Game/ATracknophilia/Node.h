@@ -15,17 +15,17 @@ public:
 
 	virtual ~Node() {}
 
-	virtual Status Update(IEntity* p, float dt) = 0;
+	virtual Status Update(IEntity* p, float dt, bool isHooked) = 0;
 	virtual void Initialize() {}
 	virtual void Terminate(Status status) {}
 
-	Status Tick(IEntity* p, float dt)
+	Status Tick(IEntity* p, float dt, bool isHooked)
 	{
 		if (status != Status::Running) {
 			Initialize();
 		}
 
-		status = Update(p, dt);
+		status = Update(p, dt, isHooked);
 
 		if (status != Status::Running) {
 			Terminate(status);

@@ -9,4 +9,6 @@
 #include "AnimationSystem.h"
 #include "StateSystem.h"
 #include "SwapSystem.h"
+#include "PowerUpSystem.h"
+#include "SwapSystem.h"
 

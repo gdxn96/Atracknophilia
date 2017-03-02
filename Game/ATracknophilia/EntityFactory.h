@@ -12,6 +12,8 @@ public:
 	static void SpawnStaticPoly(std::vector<b2Vec2> points);
 	static void SpawnWebDrop(float x, float y, float w, float h);
 	static void SpawnBoostPad(float x, float y, float w, float h);
+	static void SpawnPowerUp(float x, float y, float w, float h);
+
 private:
 
 };

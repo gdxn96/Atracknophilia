@@ -13,52 +13,106 @@ public:
 		{
 			swap->ttl += dt;
 
-			auto collider = swap->getComponent<Box2DComponent>();
-			if (collider)
+			auto shooter = swap->getComponent<Box2DComponent>();
+			auto target = swap->target;
+			if (shooter && target)
 			{
-				auto obstacle = PhysicsSystem::RayCastToStaticObject(collider->body->GetPosition(), swap->target->getComponent<Box2DComponent>()->body->GetPosition(), 55);
+				auto thisControllerComp = shooter->getComponent<IControllerComponent>();
+				auto targetControllerComp = target->getComponent<IControllerComponent>();
+				auto thisAIComp = shooter->getComponent<PlayerAIComponent>();
+				auto targetAIComp = target->getComponent<PlayerAIComponent>();
+
+				auto obstacle = PhysicsSystem::RayCastToStaticObject(shooter->body->GetPosition(), target->getComponent<Box2DComponent>()->body->GetPosition(), 55);
 				if (obstacle.first)
 				{
-					collider->getComponent<IControllerComponent>()->isHooked = false;
-					collider->body->SetGravityScale(1);
+					if (thisControllerComp)
+					{
+						thisControllerComp->isHooked = false;
+						shooter->body->SetGravityScale(1);
+					}
+					else if (thisAIComp)
+					{
+						thisAIComp->isHooked = false;
+						shooter->body->SetGravityScale(1);
+					}
 
-					swap->target->getComponent<IControllerComponent>()->isHooked = false;
-					swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+					if (targetControllerComp)
+					{
+						targetControllerComp->isHooked = false;
+						swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+					}
+					else if (targetAIComp)
+					{
+						targetAIComp->isHooked = false;
+						swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+					}
 					
-					collider->getParent()->deleteComponent<SwapComponent>();
+					shooter->getParent()->deleteComponent<SwapComponent>();
 				}
 				else
 				{
-					swap->line->start = collider->body->GetPosition();
+					swap->line->start = shooter->body->GetPosition();
 					swap->line->end = swap->target->getComponent<Box2DComponent>()->body->GetPosition();
 
-					float dis = Vector2D::Distance(Vector2D(collider->body->GetPosition()), Vector2D(swap->target->getComponent<Box2DComponent>()->body->GetPosition()));
+					float dis = Vector2D::Distance(Vector2D(shooter->body->GetPosition()), Vector2D(swap->target->getComponent<Box2DComponent>()->body->GetPosition()));
 					if (swap->isShot)
 					{
 						swap->isShot = false;
 					}
 					else if (dis >= swap->tetherLength - 2)
 					{
-						collider->getComponent<IControllerComponent>()->isHooked = false;
-						collider->body->SetGravityScale(1);
+						if (thisControllerComp)
+						{
+							thisControllerComp->isHooked = false;
+							shooter->body->SetGravityScale(1);
+						}
+						else if(thisAIComp)
+						{
+							thisAIComp->isHooked = false;
+							shooter->body->SetGravityScale(1);
+						}
 
-						swap->target->getComponent<IControllerComponent>()->isHooked = false;
-						swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+						if (targetControllerComp)
+						{
+							targetControllerComp->isHooked = false;
+							swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+						}
+						else if (targetAIComp)
+						{
+							targetAIComp->isHooked = false;
+							swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+						}
 
-						collider->getParent()->deleteComponent<SwapComponent>();
+						shooter->getParent()->deleteComponent<SwapComponent>();
 					}
 				}
 			}
 
 			if (swap && swap->ttl >= 0.9f)
 			{
-				collider->getComponent<IControllerComponent>()->isHooked = false;
-				collider->body->SetGravityScale(1);
+				if (shooter->getComponent<IControllerComponent>())
+				{
+					shooter->getComponent<IControllerComponent>()->isHooked = false;
+					shooter->body->SetGravityScale(1);
+				}
+				else if (shooter->getComponent<PlayerAIComponent>())
+				{
+					shooter->getComponent<PlayerAIComponent>()->isHooked = false;
+					shooter->body->SetGravityScale(1);
+				}
 
-				swap->target->getComponent<IControllerComponent>()->isHooked = false;
-				swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+				if (swap->target->getComponent<IControllerComponent>())
+				{
+					swap->target->getComponent<IControllerComponent>()->isHooked = false;
+					swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+				}
+				else if (swap->target->getComponent<PlayerAIComponent>())
+				{
+					swap->target->getComponent<PlayerAIComponent>()->isHooked = false;
+					swap->target->getComponent<Box2DComponent>()->body->SetGravityScale(1);
+				}
 
-				collider->getParent()->deleteComponent<SwapComponent>();
+				shooter->getParent()->deleteComponent<SwapComponent>();
 			}
 		}
 	}

@@ -1349,59 +1349,59 @@
          "name":"Powerup Layer",
          "objects":[
                 {
-                 "height":188,
+                 "height":100,
                  "id":385,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":196,
-                 "x":6100,
-                 "y":100
+                 "width":96,
+                 "x":6148,
+                 "y":148
                 }, 
                 {
-                 "height":200,
+                 "height":100,
                  "id":386,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":200,
+                 "width":100,
                  "x":15400,
                  "y":2900
                 }, 
                 {
-                 "height":200,
+                 "height":100,
                  "id":389,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":200,
-                 "x":13900,
-                 "y":6200
+                 "width":100,
+                 "x":14100,
+                 "y":6000
                 }, 
                 {
-                 "height":200,
+                 "height":100,
                  "id":390,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":200,
-                 "x":10200,
+                 "width":100,
+                 "x":10248,
                  "y":6800
                 }, 
                 {
-                 "height":200,
+                 "height":100,
                  "id":391,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":200,
+                 "width":100,
                  "x":4700,
-                 "y":2600
+                 "y":2649.94
                 }, 
                 {
                  "height":200,
@@ -1471,7 +1471,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
@@ -2587,7 +2587,7 @@
                  "y":6700
                 }, 
                 {
-                 "height":1187.87878787879,
+                 "height":1187.88,
                  "id":107,
                  "name":"",
                  "properties":
@@ -2607,10 +2607,10 @@
                  "visible":true,
                  "width":5000,
                  "x":5100,
-                 "y":3112.12121212121
+                 "y":3112.12
                 }, 
                 {
-                 "height":812.121212121212,
+                 "height":812.121,
                  "id":108,
                  "name":"",
                  "properties":
@@ -2794,7 +2794,7 @@
                  "y":4300
                 }, 
                 {
-                 "height":584.848484848485,
+                 "height":584.848,
                  "id":409,
                  "name":"",
                  "properties":
@@ -2814,7 +2814,7 @@
                  "visible":true,
                  "width":400,
                  "x":1400,
-                 "y":3115.15151515152
+                 "y":3115.15
                 }, 
                 {
                  "height":600,

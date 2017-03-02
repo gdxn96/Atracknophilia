@@ -16,30 +16,33 @@ public:
 	UseAbility() {}
 	~UseAbility() {}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
-		// auto a = player->getComponent<AbilityComponent>();
-		// auto c = player->getComponent<Box2DComponent>();
-		// if(a && c)
-		// {
-		//		switch(a->ability)
-		//		{
-		//		case WEB_DROP:
-		//			EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
-		//			a->ability = NONE;
-		//			return Status::Success;
-		//		case SLOW_SHOT:
-		//			EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, player->ID);
-		//			a->ability = NONE;
-		//			return Status::Success;
-		//		case SWAP_SHOT;
-		//			do swap shot stuff....
-		//			a->ability = NONE;
-		//			return Status::Success;
-		//		case default:
-		//			break;
-		//		}
-		// }
+		if (!isHooked)
+		{
+			/*auto a = player->getComponent<AbilityComponent>();
+			auto c = player->getComponent<Box2DComponent>();
+			if(a && c)
+			{
+				switch(a->ability)
+				{
+				case WEB_DROP:
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+					a->ability = NONE;
+					return Status::Success;
+				case SLOW_SHOT:
+					EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, player->ID);
+					a->ability = NONE;
+					return Status::Success;
+				case SWAP_SHOT;
+					do swap shot stuff....
+					a->ability = NONE;
+					return Status::Success;
+				case default:
+					break;
+				}
+			}*/
+		}
 		return Status::Failure;
 	}
 };
@@ -50,62 +53,65 @@ public:
 	MoveInDirectionOfVolume() {}
 	~MoveInDirectionOfVolume() {}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
-		auto b = p->getComponent<Box2DComponent>();
-		auto a = p->getComponent<AccelerationComponent>();
-		auto rp = p->getComponent<RacePositionComponent>();
-
-		if (a && b && rp)
+		if (!isHooked)
 		{
-			auto dirVol = getComponentById<DirectionVolume>(rp->volumeID);
+			auto b = p->getComponent<Box2DComponent>();
+			auto a = p->getComponent<AccelerationComponent>();
+			auto rp = p->getComponent<RacePositionComponent>();
 
-			if (dirVol)
+			if (a && b && rp)
 			{
-				auto dirComp = dirVol->getComponent<DirectionComponent>();
-				if (dirComp)
+				auto dirVol = getComponentById<DirectionVolume>(rp->volumeID);
+
+				if (dirVol)
 				{
-					auto direction = dirComp->m_direction;
-					if (direction.y == 0)
+					auto dirComp = dirVol->getComponent<DirectionComponent>();
+					if (dirComp)
 					{
-						auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, 0));
-						if (obstacle.first)
+						auto direction = dirComp->m_direction;
+						if (direction.y == 0)
 						{
-							float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-							if (distance < 8)
+							auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, 0));
+							if (obstacle.first)
 							{
-								float xVelocity = b->body->GetLinearVelocity().x;
-								float xRay = 0;
-								if (xVelocity > 0) { xRay = 1000; }
-								else if (xVelocity < 0) { xRay = -1000; }
-								auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(xRay, -1000));
-								if (intersection.first)
+								float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
+								if (distance < 8)
 								{
-									auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
-									float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
-									if (distance > 8 && isStatic)
+									float xVelocity = b->body->GetLinearVelocity().x;
+									float xRay = 0;
+									if (xVelocity > 0) { xRay = 1000; }
+									else if (xVelocity < 0) { xRay = -1000; }
+									auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(xRay, -1000));
+									if (intersection.first)
 									{
-										p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
-										return Status::Success;
+										auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
+										float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
+										if (distance > 8 && isStatic)
+										{
+											p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
+											return Status::Success;
+										}
 									}
+									return Status::Running;
 								}
+								b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, 0), true);
 								return Status::Running;
 							}
-							b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, 0), true);
-							return Status::Running;
 						}
-					}
-					else
-					{
-						if (direction.x == 0)
+						else
 						{
-							if (direction.y > 0)
+							if (direction.x == 0)
 							{
-								return Status::Success;
-							}
-							else if (direction.y < 0)
-							{
-								return Status::Failure;
+								if (direction.y > 0)
+								{
+									return Status::Success;
+								}
+								else if (direction.y < 0)
+								{
+									return Status::Failure;
+								}
 							}
 						}
 					}
@@ -122,21 +128,24 @@ public:
 	UseHook() {}
 	~UseHook() {}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
-		auto b = p->getComponent<Box2DComponent>();
-		auto h = p->getComponent<HookComponent>();
-		if (!h && b)
+		if (!isHooked)
 		{
-			auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(/*xRay*/0, -1000));
-			if (intersection.first)
+			auto b = p->getComponent<Box2DComponent>();
+			auto h = p->getComponent<HookComponent>();
+			if (!h && b)
 			{
-				auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
-				float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
-				if (distance > 8 && isStatic)
+				auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(/*xRay*/0, -1000));
+				if (intersection.first)
 				{
-					p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
-					return Status::Success;
+					auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
+					float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
+					if (distance > 8 && isStatic)
+					{
+						p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
+						return Status::Success;
+					}
 				}
 			}
 		}
@@ -150,20 +159,23 @@ public:
 	RaiseHook() {}
 	~RaiseHook() {}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
-		auto h = p->getComponent<HookComponent>();
-		if (h)
+		if (!isHooked)
 		{
-			if (h->tetherLength < 8)
+			auto h = p->getComponent<HookComponent>();
+			if (h)
 			{
-				h->getParent()->deleteComponent<HookComponent>();
-				return Status::Failure;
-			}
-			else
-			{
-				h->decreaseTetherLength(dt);
-				return Status::Success;
+				if (h->tetherLength < 8)
+				{
+					h->getParent()->deleteComponent<HookComponent>();
+					return Status::Failure;
+				}
+				else
+				{
+					h->decreaseTetherLength(dt);
+					return Status::Success;
+				}
 			}
 		}
 		return Status::Failure;
@@ -176,28 +188,31 @@ public:
 	UseStamina() {}
 	~UseStamina() {}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
-		auto s = p->getComponent<StaminaComponent>();
-		auto a = p->getComponent<AccelerationComponent>();
-		auto v = p->getComponent<VelocityComponent>();
-		auto bv = p->getComponent<ConstBoostedVelocityComponent>();
-		auto ba = p->getComponent<ConstBoostedAccelerationComponent>();
-
-		if (s && a && v && bv && ba)
+		if (!isHooked)
 		{
-			if (s->stamina > 0)
+			auto s = p->getComponent<StaminaComponent>();
+			auto a = p->getComponent<AccelerationComponent>();
+			auto v = p->getComponent<VelocityComponent>();
+			auto bv = p->getComponent<ConstBoostedVelocityComponent>();
+			auto ba = p->getComponent<ConstBoostedAccelerationComponent>();
+
+			if (s && a && v && bv && ba)
 			{
-				s->boostActive = true;
-				s->stamina--;
-				a->acceleration = ba->BOOSTED_ACCELERATION;
-				v->velocity = bv->BOOSTED_VELOCITY;
-				return Status::Success;
-			}
-			else
-			{
-				s->boostActive = false;
-				return Status::Failure;
+				if (s->stamina > 0)
+				{
+					s->boostActive = true;
+					s->stamina--;
+					a->acceleration = ba->BOOSTED_ACCELERATION;
+					v->velocity = bv->BOOSTED_VELOCITY;
+					return Status::Success;
+				}
+				else
+				{
+					s->boostActive = false;
+					return Status::Failure;
+				}
 			}
 		}
 		return Status::Failure;
@@ -210,22 +225,24 @@ public:
 	CheckVelocity() {}
 	~CheckVelocity() {}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
-		auto b = p->getComponent<Box2DComponent>();
-		auto s = p->getComponent<StaminaComponent>();
-		if (b && s)
+		if (!isHooked)
 		{
-			std::cout << s->stamina << endl;
-			auto vel = b->body->GetLinearVelocity();
-			if (vel.x < 15)
+			auto b = p->getComponent<Box2DComponent>();
+			auto s = p->getComponent<StaminaComponent>();
+			if (b && s)
 			{
-				return Status::Success;
-			}
-			else
-			{
-				s->boostActive = false;
-				return Status::Failure;
+				auto vel = b->body->GetLinearVelocity();
+				if (vel.x < 15)
+				{
+					return Status::Success;
+				}
+				else
+				{
+					s->boostActive = false;
+					return Status::Failure;
+				}
 			}
 		}
 		return Status::Failure;
@@ -238,12 +255,15 @@ public:
 	CheckHooked() {}
 	~CheckHooked() {}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
-		auto h = p->getComponent<HookComponent>();
-		if (h)
+		if (!isHooked)
 		{
-			return Status::Success;
+			auto h = p->getComponent<HookComponent>();
+			if (h)
+			{
+				return Status::Success;
+			}
 		}
 		return Status::Failure;
 	}
