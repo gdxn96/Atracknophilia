@@ -12,13 +12,10 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 	{
 		b2BodyDef bodyDef;
 
-		//b2Vec2 vec[4] = { b2Vec2(x,y), b2Vec2(x,y + height) ,b2Vec2(x + width,y + height) ,b2Vec2(x + width,y) };
-
 		bodyDef.position.Set(x + width / 2.f, y + height / 2.f);
 
 		b2PolygonShape shape;
 		shape.SetAsBox(width / 2.f, height / 2.f);
-		//shape.Set( &vec[0], 4 );
 		bodyDef.type = type;
 
 		if (type == b2_staticBody)
