@@ -767,7 +767,7 @@ void ChoosePlayerScene::executeScene(IDs id)
 			}
 		}
 
-		if (lockedA == true && lockedB == true || m_controllerTwoConnected == false && lockedC == true || m_controllerThreeConnected == false && lockedD == true || m_controllerFourConnected == false)
+		if (lockedA == true && lockedB == true)
 		{
 			loadLevelSelect(Scenes::LEVELSELECT, playerIDs);
 		}

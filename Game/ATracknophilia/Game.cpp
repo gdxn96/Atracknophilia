@@ -7,7 +7,8 @@
 
 bool Game::quit = false;
 
-Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
+Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) 
+	: m_resourceMgr(ResourceManager::getInstance())
 {
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
@@ -20,6 +21,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto physicsSystem = new PhysicsSystem();
 	auto aiSystem = new AISystem();
 	auto hookSys = new HookSystem();
+	auto powerUpSys = new PowerUpSystem();
+	auto swapSys = new SwapSystem();
 
 	//Init systems
 	renderSys->init(&m_renderer);
@@ -29,6 +32,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(collisionSystem);
 	m_systems.push_back(inputSys);
 	m_systems.push_back(hookSys);
+	m_systems.push_back(powerUpSys);
+	m_systems.push_back(swapSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
 

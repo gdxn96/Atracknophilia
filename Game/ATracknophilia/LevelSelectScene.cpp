@@ -141,21 +141,21 @@ bool LevelSelectScene::init(Renderer & r)
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&LevelSelectScene::changePlayerMap, this, right, m_playerTwoID)), this, m_playerTwoID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, left, m_playerTwoID)), this, m_playerTwoID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, right, m_playerTwoID)), this, m_playerTwoID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerTwoID)), this, m_playerTwoID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerTwoID)), this, m_playerTwoID);
 
 	// player3
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&LevelSelectScene::changePlayerMap, this, left, m_playerThreeID)), this, m_playerThreeID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&LevelSelectScene::changePlayerMap, this, right, m_playerThreeID)), this, m_playerThreeID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, left, m_playerThreeID)), this, m_playerThreeID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, right, m_playerThreeID)), this, m_playerThreeID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerThreeID)), this, m_playerThreeID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerThreeID)), this, m_playerThreeID);
 
 	// player4
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&LevelSelectScene::changePlayerMap, this, left, m_playerFourID)), this, m_playerFourID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&LevelSelectScene::changePlayerMap, this, right, m_playerFourID)), this, m_playerFourID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, left, m_playerFourID)), this, m_playerFourID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, right, m_playerFourID)), this, m_playerFourID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerFourID)), this, m_playerFourID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerFourID)), this, m_playerFourID);
 
 	return success;
 }
@@ -530,7 +530,7 @@ void LevelSelectScene::executeScene(IDs id)
 			}
 		}
 
-		if (lockedA == true && lockedB == true || m_controllerTwoConnected == false && lockedC == true || m_controllerThreeConnected == false && lockedD == true || m_controllerFourConnected == false)
+		if (lockedA == true && lockedB == true)
 		{
 			int mapChosen = countMapVotes();
 			loadGame(Scenes::GAME, mapChosen); // need to pass/remember character selection and map selection
@@ -553,10 +553,22 @@ int LevelSelectScene::countMapVotes()
 	// only 2 players
 	if (m_controllerThreeConnected == false)
 	{
-		if (m_lvlOneVoteCount > 1) { mapSelected = 1; }
-		else if (m_lvlTwoVoteCount > 1) { mapSelected = 2; }
-		else if (m_lvlThreeVoteCount > 1) { mapSelected = 3; }
-		else if (m_lvlFourVoteCount > 1) { mapSelected = 4; }
+		if (m_lvlOneVoteCount > 1) 
+		{
+			mapSelected = 1; 
+		}
+		else if (m_lvlTwoVoteCount > 1) 
+		{ 
+			mapSelected = 2; 
+		}
+		else if (m_lvlThreeVoteCount > 1) 
+		{ 
+			mapSelected = 3; 
+		}
+		else if (m_lvlFourVoteCount > 1) 
+		{
+			mapSelected = 4; 
+		}
 	}
 	// 3 players
 	if (m_lvlOneVoteCount == 2 && m_lvlTwoVoteCount == 1 || m_lvlThreeVoteCount == 1 || m_lvlFourVoteCount == 1)

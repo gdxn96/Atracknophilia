@@ -160,7 +160,6 @@ struct WebDropComponent : public StaticBodyComponent, public AutoLister<SlowShot
 {
 	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : StaticBodyComponent(id, x, y, width, height)
 	{
-		//fixture->SetSensor(true);
 		fixture->SetFriction(10);
 		fixture->SetDensity(10);
 	}

@@ -3,9 +3,16 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId)
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, bool isAI)
 {
-	LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+	if (isAI)
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h));
+	}
+	else
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+	}
 }
 
 void EntityFactory::SpawnStaticBox(float x, float y, float w, float h)
@@ -27,6 +34,7 @@ bool EntityFactory::SpawnSlowShot(float x, float y, float w, float h, int shoote
 	{
 		if (i + 1 == players.size())
 		{
+			// getComponentById<PowerupComponent>(shooterID)->type = NONE;
 			return false;
 		}
 		else if (players[i]->ID == shooterID)
@@ -55,4 +63,9 @@ void EntityFactory::SpawnWebDrop(float x, float y, float w, float h)
 void EntityFactory::SpawnBoostPad(float x, float y, float w, float h)
 {
 	LevelLoader::appendToEntities(new BoostPad(id(), x, y, w, h));
+}
+
+void EntityFactory::SpawnPowerUp(float x, float y, float w, float h)
+{
+	LevelLoader::appendToEntities(new PowerUp(id(), x, y, w, h));
 }
