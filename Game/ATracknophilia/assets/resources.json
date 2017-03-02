@@ -7,6 +7,26 @@
         "path": "assets/Textures/placeholder.png"
       },
       {
+        "key": "mapone",
+        "path": "assets/Textures/mapone.png"
+      },
+      {
+        "key": "maptwo",
+        "path": "assets/Textures/maptwo.png"
+      },
+      {
+        "key": "mapthree",
+        "path": "assets/Textures/mapthree.png"
+      },
+      {
+        "key": "mapfour",
+        "path": "assets/Textures/mapfour.png"
+      },
+      {
+        "key": "boost",
+        "path": "assets/Textures/boost.png"
+      },
+      {
         "key": "box",
         "path": "assets/Textures/box.png"
       },

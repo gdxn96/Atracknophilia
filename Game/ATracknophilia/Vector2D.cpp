@@ -64,6 +64,11 @@ Vector2D Vector2D::operator-(const Vector2D &v) const
 	return Vector2D(x - v.x, y - v.y);
 }
 
+Vector2D Vector2D::operator-(const b2Vec2 &v)
+{
+	return Vector2D(x - v.x, y - v.y);
+}
+
 Vector2D Vector2D::operator*(const Vector2D &v) const
 {
 	return Vector2D(x*v.x, y*v.y);

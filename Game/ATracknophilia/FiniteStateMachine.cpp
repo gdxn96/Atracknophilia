@@ -11,6 +11,12 @@
 //{
 //}
 
+Idle::Idle(bool left)
+{
+	m_left = left;
+	type == "idle";
+}
+
 void Idle::update(float dt)
 {
 	//if (player condition met)
@@ -22,6 +28,12 @@ void Idle::update(float dt)
 	//	change state
 	//}
 	//p->getComponent<AnimationComponent>()->state = new Running();
+}
+
+Running::Running(bool left)
+{
+	m_left = left;
+	type = "running";
 }
 
 void Running::update(float dt)

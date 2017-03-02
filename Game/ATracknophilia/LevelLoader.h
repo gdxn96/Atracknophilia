@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include "Components.h"
 
-enum class LEVELS { PROTOTYPE };
+enum class LEVELS { ONE, TWO, THREE, FOUR };
 
 class LevelLoader
 {

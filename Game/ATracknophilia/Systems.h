@@ -7,3 +7,4 @@
 #include "AISystem.h"
 #include "HookSystem.h"
 #include "AnimationSystem.h"
+#include "StateSystem.h"

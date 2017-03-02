@@ -14,13 +14,15 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 	Animation animation;
 };
 
-struct StateComponent : public IComponent, public AutoLister<AnimationComponent>
+struct StateComponent : public IComponent, public AutoLister<StateComponent>
 {
 	StateComponent(int id)
 		: IComponent(id)
-		, state(new Idle()) {};
+		, state(new Idle(false))
+		, colour("blue") {};
 
 	IState *state;
+	std::string colour;
 };
 
 

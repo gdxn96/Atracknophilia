@@ -17,14 +17,6 @@ Animation::Animation(string _animationName)
 	, m_currentFrame(Rect())
 {
 
-	//if (true)
-	//{
-	//	using namespace ANIMATIONS::PLAYER::RED;
-	//}
-	//else
-	//{
-	//	using namespace ANIMATIONS::PLAYER::BLUE;
-	//}
 	auto& data = ResourceManager::getInstance()->getAnimationByKey(_animationName);
 	m_currentSpriteSheet = data.first;
 	m_currentFrames = data.second;

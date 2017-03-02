@@ -1,5 +1,5 @@
 #pragma once
-#include "Player.h"
+#include <string>
 
 //class FiniteStateMachine
 //{
@@ -7,6 +7,8 @@
 //	FiniteStateMachine();
 //	~FiniteStateMachine();
 //};
+
+
 
 class IState
 {
@@ -16,11 +18,23 @@ public:
 	{
 
 	}
+	virtual std::string getType()
+	{
+		return type;
+	}
+	virtual bool getDirection()
+	{
+		return m_left;
+	}
+protected:
+	std::string type;
+	bool m_left;
 };
 
 class Idle : public IState
 {
 public:
+	Idle(bool);
 	void update(float dt);
 private:
 };
@@ -28,8 +42,10 @@ private:
 class Running : public IState
 {
 public:
+	Running(bool);
 	void update(float dt);
 private:
+	
 };
 
 class Jumping : public IState
