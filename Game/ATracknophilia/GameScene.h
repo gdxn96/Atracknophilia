@@ -8,7 +8,7 @@
 class GameScene : public Scene
 {
 public:
-	GameScene();
+	GameScene(int mapLvl);
 
 	void update(float dt) override;
 	void render(Renderer& r) override;

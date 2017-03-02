@@ -3,12 +3,33 @@
 #include "LevelLoader.h"
 #include "EntityFactory.h"
 
-GameScene::GameScene() 
+GameScene::GameScene(int mapLvl)
 	:	Scene(Scenes::GAME)
 {
-	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		{ LEVELS::PROTOTYPE, "./assets/levels/map4.json" },
-	});
+	if (mapLvl == 1)
+	{
+		LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
+			{ LEVELS::PROTOTYPE, "./assets/levels/map1.json" },
+		});
+	}
+	if (mapLvl == 2)
+	{
+		LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
+			{ LEVELS::PROTOTYPE, "./assets/levels/map2.json" },
+		});
+	}
+	if (mapLvl == 3)
+	{
+		LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
+			{ LEVELS::PROTOTYPE, "./assets/levels/map3.json" },
+		});
+	}
+	if (mapLvl == 4)
+	{
+		LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
+			{ LEVELS::PROTOTYPE, "./assets/levels/map4.json" },
+		});
+	}
 }
 
 void GameScene::destroy()

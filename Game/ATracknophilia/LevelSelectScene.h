@@ -14,6 +14,7 @@ public:
 
 	bool init(Renderer & r) override;
 	void changeScene(Scenes newScene) override;
+
 private:
 	bool loadMedia();
 
@@ -63,6 +64,8 @@ private:
 	SDL_Texture* m_leftArrowTex = NULL;
 	SDL_Texture* m_rightArrowTex = NULL;
 
+	float m_lvlOneVoteCount, m_lvlTwoVoteCount, m_lvlThreeVoteCount, m_lvlFourVoteCount;
+
 	void reduceArrowScale(direction dir, int controllerID);
 
 	void changeLevel(direction dir, IDs id);
@@ -78,4 +81,8 @@ private:
 
 	// used to lock in the player's chosen colour character
 	void executeScene(IDs id);
+
+	int countMapVotes();
+
+	void loadGame(Scenes scene, int mapLvl);
 };

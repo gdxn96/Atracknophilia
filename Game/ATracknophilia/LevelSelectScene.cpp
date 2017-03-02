@@ -1,5 +1,7 @@
 #include "stdafx.h" 
 #include "LevelSelectScene.h"
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	: Scene(Scenes::LEVELSELECT)
@@ -22,6 +24,10 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	, m_arrowHeight(15)
 	, m_arrowWidth(30)
 	, m_scaler(1.5)
+	, m_lvlOneVoteCount(0)
+	, m_lvlTwoVoteCount(0)
+	, m_lvlThreeVoteCount(0)
+	, m_lvlFourVoteCount(0)
 {
 	m_playerABtn = Button();
 	m_playerBBtn = Button();
@@ -36,6 +42,10 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	m_dLeftArrowBtn = Button();
 	m_dRightArrowBtn = Button();
 	//m_highlightedBtn = Button();
+
+	/* initialize random seed: */
+	srand(time(NULL));
+
 	loadMedia();
 }
 
@@ -383,6 +393,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlOneTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl1btn");
 				m_playerABtn.setTexture(m_lvlOneTex);
 				m_playerABtn.m_playerID = 55;  // set player id to any number greater than 4 so it will never be available to select again
+				m_lvlOneVoteCount++;
 				lockedA = true;
 			}
 			else if (m_playerABtn.m_playerID == m_greenID)
@@ -390,6 +401,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlTwoTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl2btn");
 				m_playerABtn.setTexture(m_lvlTwoTex);
 				m_playerABtn.m_playerID = 55;
+				m_lvlTwoVoteCount++;
 				lockedA = true;
 			}
 			else if (m_playerABtn.m_playerID == m_redID)
@@ -404,6 +416,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlFourTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl4btn");
 				m_playerABtn.setTexture(m_lvlFourTex);
 				m_playerABtn.m_playerID = 55;
+				m_lvlFourVoteCount++;
 				lockedA = true;
 			}
 		}
@@ -415,6 +428,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlOneTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl1btn");
 				m_playerBBtn.setTexture(m_lvlOneTex);
 				m_playerBBtn.m_playerID = 55;
+				m_lvlOneVoteCount++;
 				lockedB = true;
 			}
 			else if (m_playerBBtn.m_playerID == m_greenID)
@@ -422,6 +436,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlTwoTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl2btn");
 				m_playerBBtn.setTexture(m_lvlTwoTex);
 				m_playerBBtn.m_playerID = 55;
+				m_lvlTwoVoteCount++;
 				lockedB = true;
 			}
 			else if (m_playerBBtn.m_playerID == m_redID)
@@ -429,6 +444,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlThreeTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl3btn");
 				m_playerBBtn.setTexture(m_lvlThreeTex);
 				m_playerBBtn.m_playerID = 55;
+				m_lvlThreeVoteCount++;
 				lockedB = true;
 			}
 			else if (m_playerBBtn.m_playerID == m_yellowID)
@@ -436,6 +452,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlFourTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl4btn");
 				m_playerBBtn.setTexture(m_lvlFourTex);
 				m_playerBBtn.m_playerID = 55;
+				m_lvlFourVoteCount++;
 				lockedB = true;
 			}
 		}
@@ -447,6 +464,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlOneTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl1btn");
 				m_playerCBtn.setTexture(m_lvlOneTex);
 				m_playerCBtn.m_playerID = 55;
+				m_lvlOneVoteCount++;
 				lockedC = true;
 			}
 			else if (m_playerCBtn.m_playerID == m_greenID)
@@ -454,6 +472,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlTwoTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl2btn");
 				m_playerCBtn.setTexture(m_lvlTwoTex);
 				m_playerCBtn.m_playerID = 55;
+				m_lvlTwoVoteCount++;
 				lockedC = true;
 			}
 			else if (m_playerCBtn.m_playerID == m_redID)
@@ -461,6 +480,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlThreeTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl3btn");
 				m_playerCBtn.setTexture(m_lvlThreeTex);
 				m_playerCBtn.m_playerID = 55;
+				m_lvlThreeVoteCount++;
 				lockedC = true;
 			}
 			else if (m_playerCBtn.m_playerID == m_yellowID)
@@ -468,6 +488,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlFourTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl4btn");
 				m_playerCBtn.setTexture(m_lvlFourTex);
 				m_playerCBtn.m_playerID = 55;
+				m_lvlFourVoteCount++;
 				lockedC = true;
 			}
 		}
@@ -479,7 +500,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlOneTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl1btn");
 				m_playerDBtn.setTexture(m_lvlOneTex);
 				m_playerDBtn.m_playerID = m_lockedInID;
-				m_blueID = m_lockedInID;
+				m_lvlOneVoteCount++;
 				lockedD = true;
 			}
 			else if (m_playerDBtn.m_playerID == m_greenID)
@@ -487,6 +508,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlTwoTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl2btn");
 				m_playerDBtn.setTexture(m_lvlTwoTex);
 				m_playerDBtn.m_playerID = m_lockedInID;
+				m_lvlTwoVoteCount++;
 				lockedD = true;
 			}
 			else if (m_playerDBtn.m_playerID == m_redID)
@@ -494,6 +516,7 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlThreeTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl3btn");
 				m_playerDBtn.setTexture(m_lvlThreeTex);
 				m_playerDBtn.m_playerID = 55;
+				m_lvlThreeVoteCount++;
 				lockedD = true;
 			}
 			else if (m_playerDBtn.m_playerID == m_yellowID)
@@ -501,13 +524,113 @@ void LevelSelectScene::executeScene(IDs id)
 				m_lvlFourTex = ResourceManager::getInstance()->getTextureByKey("greyedlvl4btn");
 				m_playerDBtn.setTexture(m_lvlFourTex);
 				m_playerDBtn.m_playerID = 55;
+				m_lvlFourVoteCount++;
 				lockedD = true;
 			}
 		}
 
 		if (lockedA == true && lockedB == true && lockedC == true && lockedD == true)
 		{
+			int mapChosen = countMapVotes();
 			changeScene(Scenes::GAME); // need to pass/remember character selection and map selection
 		}
+	}
+}
+
+int LevelSelectScene::countMapVotes()
+{
+	int mapSelected;
+	// if any map gets more than 2 votes they have won since there's only 4 possible total votes
+	if (m_lvlOneVoteCount > 2) 
+	{
+		mapSelected = 1;
+	}
+	if (m_lvlTwoVoteCount > 2) 
+	{
+		mapSelected = 2;
+	}
+	if (m_lvlThreeVoteCount > 2) 
+	{
+		mapSelected = 3;
+	}
+	if (m_lvlFourVoteCount > 2) 
+	{ 
+		mapSelected = 4;
+	}
+
+	// if there is a tie map is random between the tied outcomes
+	if (m_lvlOneVoteCount == 2 && m_lvlTwoVoteCount == 2)
+	{
+		// random lvl 1 or 2
+		mapSelected =  rand() % 2 + 1;
+	}
+	if (m_lvlOneVoteCount == 2 && m_lvlThreeVoteCount == 2)
+	{
+		// random lvl 1 or 3
+		int randomNum = rand() % 2 + 1;
+		if (randomNum == 1) { mapSelected = 1; }
+		else { mapSelected = 3; }
+	}
+	if (m_lvlOneVoteCount == 2 && m_lvlFourVoteCount == 2)
+	{
+		// random lvl 1 or 4
+		int randomNum = rand() % 2 + 1;
+		if (randomNum == 1) { mapSelected = 1; }
+		else { mapSelected = 4; }
+	}
+
+	if (m_lvlTwoVoteCount == 2 && m_lvlThreeVoteCount == 2)
+	{
+		// random lvl 2 or 3
+		int randomNum = rand() % 2 + 1;
+		if (randomNum == 1) { mapSelected = 2; }
+		else { mapSelected = 3; }
+	}
+	if (m_lvlTwoVoteCount == 2 && m_lvlFourVoteCount == 2)
+	{
+		// random lvl 2 or 4
+		int randomNum = rand() % 2 + 1;
+		if (randomNum == 1) { mapSelected = 2; }
+		else { mapSelected = 4; }
+	}
+
+	if (m_lvlThreeVoteCount == 2 && m_lvlFourVoteCount == 2)
+	{
+		// random lvl 3 or 4
+		int randomNum = rand() % 2 + 1;
+		if (randomNum == 1) { mapSelected = 3; }
+		else { mapSelected = 4; }
+	}
+
+
+	// map that gets 2 votes when others get's 1 vote is selected
+	if (m_lvlOneVoteCount == 2 && m_lvlTwoVoteCount == 1 && m_lvlThreeVoteCount == 1 && m_lvlFourVoteCount == 1)
+	{
+		mapSelected = 1;
+	}
+	if ( m_lvlTwoVoteCount == 2 && m_lvlOneVoteCount == 1 && m_lvlThreeVoteCount == 1 && m_lvlFourVoteCount == 1)
+	{
+		mapSelected = 2;
+	}
+	if ( m_lvlThreeVoteCount == 2 && m_lvlTwoVoteCount == 1 && m_lvlOneVoteCount == 1 && m_lvlFourVoteCount == 1)
+	{
+		mapSelected = 3;
+	}
+	if ( m_lvlFourVoteCount == 2 && m_lvlTwoVoteCount == 1 && m_lvlThreeVoteCount == 1 && m_lvlOneVoteCount == 1)
+	{
+		mapSelected = 4;
+	}
+
+	return mapSelected;
+}
+
+void LevelSelectScene::loadGame(Scenes scene, int mapLvl)
+{
+	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::LEVELSELECT)
+	{
+		GameScene * gameScene = new GameScene(mapLvl);
+		currentTick = 0;
+		SceneManager::getInstance()->addScene(gameScene);
+		SceneManager::getInstance()->switchTo(scene);
 	}
 }

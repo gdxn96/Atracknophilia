@@ -42,7 +42,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_resourceMgr->loadResourceQueue();
 
 	//create scenes
-	GameScene * gameScene = new GameScene();
+	
 	StartScene * startScene = new StartScene(windowSize);
 	EndGameScene * endGame = new EndGameScene(windowSize);
 	CreditsScene * creditsScene = new CreditsScene(windowSize);
@@ -52,7 +52,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	LobbyScene * lobbyScene = new LobbyScene(windowSize);
 
 	//add scenes to sceneMgr
-	SceneManager::getInstance()->addScene(gameScene);
 	SceneManager::getInstance()->addScene(startScene);
 	SceneManager::getInstance()->addScene(endGame);
 	SceneManager::getInstance()->addScene(creditsScene);
