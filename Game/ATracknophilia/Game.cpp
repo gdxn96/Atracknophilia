@@ -25,6 +25,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto physicsSystem = new PhysicsSystem();
 	auto aiSystem = new AISystem();
 	auto hookSys = new HookSystem();
+	auto powerUpSys = new PowerUpSystem();
 
 	//Init systems
 	renderSys->init(&m_renderer);
@@ -35,6 +36,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(collisionSystem);
 	m_systems.push_back(inputSys);
 	m_systems.push_back(hookSys);
+	m_systems.push_back(powerUpSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
 
@@ -57,7 +59,7 @@ void Game::init()
 	m_camera.zoom(-1);
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
-	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
+	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
 }
 
 void Game::loop(float dt)

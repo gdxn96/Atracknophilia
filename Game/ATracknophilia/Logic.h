@@ -204,3 +204,68 @@ struct BoostPadResponseComponent : public ICollisionResponseComponent, public Au
 
 	void beginContact(IEntity * e);
 };
+
+struct PowerUpResponseComponent : public ICollisionResponseComponent
+{
+	PowerUpResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{}
+
+	void endContact(IEntity * e)
+	{};
+
+	void beginContact(IEntity * e)
+	{
+		if (e)
+		{
+			/*auto a = e->getComponent<AbilityComponent>();
+			if (a)
+			{
+				if (a->ability != a->NONE)
+				{
+					switch (rand() % 3)
+					{
+					case 0:
+						a->ability = a->WEB_DROP;
+						break;
+					case 1:
+						a->ability = a->SLOW_SHOT;
+						break;
+					case 2:
+						a->ability = a->SWAP_SHOT;
+						break;
+					}
+				}*/
+				//getComponent<PowerUpRespawnComponent>()->Die();
+			//}
+		}
+	}
+};
+
+struct PowerUpRespawnComponent: public IComponent, public AutoLister<PowerUpRespawnComponent>
+{
+	PowerUpRespawnComponent(int id, int x, int y)
+		: IComponent(id)
+		, tts(0)
+		, isDead(false)
+		, pos(b2Vec2(x, y))
+	{}
+
+	void ReSpawn() 
+	{
+		getComponent<Box2DComponent>()->body->SetTransform(pos, 0);
+		isDead = false;
+		tts = 0;
+	}
+
+	void Die() 
+	{
+		getComponent<Box2DComponent>()->body->SetTransform(b2Vec2(99999, 99999), 0);
+		isDead = true;
+	}
+
+	float tts;
+	bool isDead;
+	b2Vec2 pos;
+};
+

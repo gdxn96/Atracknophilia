@@ -34,17 +34,30 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 	}), this, m_controllerId);
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
-		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
-		}
-	}), this, m_controllerId);
+		/*auto c = getComponent<Box2DComponent>();
+		auto a = getComponent<AbilityComponent>();
+		if (c && a) {
+			const auto none = a->NONE;
+			const auto webDrop = a->WEB_DROP;
+			const auto slowShot = a->SLOW_SHOT;
+			const auto swapShot = a->SWAP_SHOT;
 
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
-		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
-		}
+			switch (a->ability)
+			{
+			case none:
+				break;
+			case webDrop:
+				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+				break;
+			case slowShot:
+				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
+				a->ability = a->NONE;
+				break;
+			case swapShot:
+
+				break;
+			}
+		}*/
 	}), this, m_controllerId);
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand([&]() {
