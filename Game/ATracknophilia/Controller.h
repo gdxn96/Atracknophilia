@@ -52,7 +52,7 @@ struct IControllerComponent : public IComponent, public AutoLister<IControllerCo
 	Uint8 m_controllerId;
 };
 
-struct PlayerControllerComponent : public IControllerComponent, public EventListener
+struct PlayerControllerComponent : public IControllerComponent, public EventListener, public AutoLister<PlayerControllerComponent>
 {
 	PlayerControllerComponent(int id, int controllerId);
 

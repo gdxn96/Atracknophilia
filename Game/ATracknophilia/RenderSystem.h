@@ -8,8 +8,9 @@
 class RenderSystem : public ISystem
 {
 public:
-	void init(Renderer * r, LEVELS levelKey);
+	void init(Renderer * r);
 	void process(float dt) override;
+	void setLevel(LEVELS levelKey);
 
 private:
 	Renderer* m_renderer;

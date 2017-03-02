@@ -6,26 +6,11 @@
 #include "Entities.h"
 
 
-void RenderSystem::init(Renderer * r, LEVELS levelKey)
+void RenderSystem::init(Renderer * r)
 {
 	m_renderer = r;
-	if (levelKey == LEVELS::ONE){
-		m_levelKey = "mapone";
-		m_levelRect = Rect(0, 0, 400, 395);
-	}	
-	else if (levelKey == LEVELS::TWO){
-		m_levelKey = "maptwo";
-		m_levelRect = Rect(0, 0, 330, 164);
-	}	
-	else if (levelKey == LEVELS::THREE){
-		m_levelKey = "mapthree";
-		m_levelRect = Rect(0, 0, 338, 146);
-	}	
-	else if (levelKey == LEVELS::FOUR){
-		m_levelKey = "mapfour";
-		m_levelRect = Rect(0, 0, 295, 150);
-	}
-		
+	m_levelKey = "mapone";
+	m_levelRect = Rect(0, 0, 400, 395);
 
 }
 
@@ -86,4 +71,24 @@ void RenderSystem::process(float dt)
 	}
 	
 	m_renderer->present();
+}
+
+void RenderSystem::setLevel(LEVELS levelKey)
+{
+	if (levelKey == LEVELS::LEVEL1) {
+		m_levelKey = "mapone";
+		m_levelRect = Rect(0, 0, 400, 395);
+	}
+	else if (levelKey == LEVELS::LEVEL2) {
+		m_levelKey = "maptwo";
+		m_levelRect = Rect(0, 0, 330, 164);
+	}
+	else if (levelKey == LEVELS::LEVEL3) {
+		m_levelKey = "mapthree";
+		m_levelRect = Rect(0, 0, 338, 146);
+	}
+	else if (levelKey == LEVELS::LEVEL4) {
+		m_levelKey = "mapfour";
+		m_levelRect = Rect(0, 0, 295, 150);
+	}
 }

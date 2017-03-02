@@ -37,7 +37,8 @@ public:
 			else if (component->state->getType() == "swinging"){
 				if (!p->getComponent<HookComponent>()) //check if hooks exists, cannot leave swing untill not on a hook
 				{
-					if (fallCheck(component, id)) {} //fall
+					if (landCheck(component, id)) {}
+					else if (fallCheck(component, id)) {} //fall
 					if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
 					{
 						runCheck(component, id);
@@ -51,6 +52,7 @@ public:
 			//FALLING
 			else if (component->state->getType() == "falling"){
 				if (swingCheck(component, id)) {} //swing
+				else if (landCheck(component, id)) {}
 				else if (idleCheck(component, id)) {}
 				else if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
 				{
@@ -60,7 +62,9 @@ public:
 			//LANDING
 			else if (component->state->getType() == "landing")
 			{
-
+				if (runCheck(component, id)) {} //run
+				else if (idleCheck(component, id)) {}
+				else if (swingCheck(component, id)) {} //swing
 			}
 			//ATTACKING
 			else if (component->state->getType() == "attacking")
@@ -79,9 +83,10 @@ public:
 	bool idleCheck(StateComponent* component, int colour)
 	{
 		auto p = component->getParent();
-		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity() == b2Vec2(0,0))
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
+		if (InputManager::GetInstance()->GetLeftStickVectorNormal(contollerID).x == 0 && (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x < 0.5 && p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x > -0.5))
 		{
-			if (!component->state->getDirection())
+			if (! component->state->getDirection())
 			{
 				switch (colour)
 				{
@@ -125,7 +130,9 @@ public:
 	bool runCheck(StateComponent* component, int colour)
 	{
 		auto p = component->getParent();
-		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x > 0) //runright
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
+
+		if (InputManager::GetInstance()->GetLeftStickVectorNormal(contollerID).x > 0) //runright
 		{
 			//move right
 			switch (colour)
@@ -143,11 +150,11 @@ public:
 					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::RUNNINGRIGHT);
 					break;
 			}
-			
+			component->getComponent<AnimationComponent>()->animation.setFramesPerSecond(40);
 			component->state = new Running(false);
 			return true;
 		}
-		else if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x < 0) //runleft
+		else if (InputManager::GetInstance()->GetLeftStickVectorNormal(contollerID).x < 0) //runleft
 		{
 			//run left
 			//move right
@@ -166,6 +173,7 @@ public:
 				component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::RUNNINGLEFT);
 				break;
 			}
+			component->getComponent<AnimationComponent>()->animation.setFramesPerSecond(40);
 			component->state = new Running(true);
 			return true;
 		}
@@ -175,26 +183,29 @@ public:
 	bool swingCheck(StateComponent* component, int colour)
 	{
 		auto p = component->getParent();
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
 		if (p->getComponent<HookComponent>())  //check if hooks exists, cannot enter swing until on a hook
 		{
-			if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x >= 0)
+			if (InputManager::GetInstance()->GetLeftStickVectorNormal(contollerID).x >= 0)
 			{
 				//move right
 				switch (colour)
 				{
 				case 0:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::SWINGRIGHT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::FALLRIGHT);
 					break;
 				case 1:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::SWINGRIGHT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::FALLRIGHT);
 					break;
 				case 2:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::SWINGRIGHT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::FALLRIGHT);
 					break;
 				case 3:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::SWINGRIGHT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::FALLRIGHT);
 					break;
 				}
+
+				
 				component->state = new Swinging(false);
 			}
 			else
@@ -203,20 +214,21 @@ public:
 				switch (colour)
 				{
 				case 0:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::SWINGLEFT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::FALLLEFT);
 					break;
 				case 1:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::SWINGLEFT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::FALLLEFT);
 					break;
 				case 2:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::SWINGLEFT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::FALLLEFT);
 					break;
 				case 3:
-					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::SWINGLEFT);
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::FALLLEFT);
 					break;
 				}
 				component->state = new Swinging(true);
 			}
+			component->getComponent<AnimationComponent>()->animation.setFramesPerSecond(20);
 			return true;
 		}
 
@@ -226,6 +238,7 @@ public:
 	bool fallCheck(StateComponent* component, int colour)
 	{
 		auto p = component->getParent();
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
 		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y > 0)
 		{
 			if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x >= 0)
@@ -271,6 +284,152 @@ public:
 		}	
 		return false;
 	}
-
+	bool landCheck(StateComponent* component, int colour)
+	{
+		auto p = component->getParent();
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
+		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
+		{
+			if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x >= 0)
+			{
+				switch (colour)
+				{
+				case 0:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::LANDRIGHT);
+					break;
+				case 1:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::LANDRIGHT);
+					break;
+				case 2:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::LANDRIGHT);
+					break;
+				case 3:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::LANDRIGHT);
+					break;
+				}
+				component->state = new Landing(false);
+				return true;
+			}
+			else
+			{
+				switch (colour)
+				{
+				case 0:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::LANDLEFT);
+					break;
+				case 1:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::LANDLEFT);
+					break;
+				case 2:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::LANDLEFT);
+					break;
+				case 3:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::LANDLEFT);
+					break;
+				}
+				component->state = new Landing(true);
+				return true;
+			}
+		}
+		return false;
+	}
+	bool attackCheck(StateComponent* component, int colour)
+	{
+		auto p = component->getParent();
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
+		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
+		{
+			if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x >= 0)
+			{
+				switch (colour)
+				{
+				case 0:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::ATTACKRIGHT);
+					break;
+				case 1:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::ATTACKRIGHT);
+					break;
+				case 2:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::ATTACKRIGHT);
+					break;
+				case 3:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::ATTACKRIGHT);
+					break;
+				}
+				component->state = new Attacking(false);
+				return true;
+			}
+			else
+			{
+				switch (colour)
+				{
+				case 0:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::ATTACKLEFT);
+					break;
+				case 1:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::ATTACKLEFT);
+					break;
+				case 2:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::ATTACKLEFT);
+					break;
+				case 3:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::ATTACKLEFT);
+					break;
+				}
+				component->state = new Attacking(true);
+				return true;
+			}
+		}
+		return false;
+	} 
+	bool hitCheck(StateComponent* component, int colour)
+	{
+		auto p = component->getParent();
+		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
+		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
+		{
+			if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x >= 0)
+			{
+				switch (colour)
+				{
+				case 0:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::HITRIGHT);
+					break;
+				case 1:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::HITRIGHT);
+					break;
+				case 2:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::HITRIGHT);
+					break;
+				case 3:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITRIGHT);
+					break;
+				}
+				component->state = new Hitting(false);
+				return true;
+			}
+			else
+			{
+				switch (colour)
+				{
+				case 0:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::BLUE::HITLEFT);
+					break;
+				case 1:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::GREEN::HITLEFT);
+					break;
+				case 2:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::RED::HITLEFT);
+					break;
+				case 3:
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITLEFT);
+					break;
+				}
+				component->state = new Hitting(true);
+				return true;
+			}
+		}
+		return false;
+	}
 private:
 };

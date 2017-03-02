@@ -10,10 +10,10 @@ bool Game::quit = false;
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
-		  {LEVELS::ONE, "./assets/levels/map1.json"}
-		, { LEVELS::TWO, "./assets/levels/map2.json" }
-		, { LEVELS::THREE, "./assets/levels/map3.json" }
-		, { LEVELS::FOUR, "./assets/levels/map4.json" }
+		  {LEVELS::LEVEL1, "./assets/levels/map1.json"}
+		, { LEVELS::LEVEL2, "./assets/levels/map2.json" }
+		, { LEVELS::LEVEL3, "./assets/levels/map3.json" }
+		, { LEVELS::LEVEL4, "./assets/levels/map4.json" }
 	});
 
 	m_renderer.init(windowSize, windowName, &m_camera);
@@ -32,7 +32,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto stateSystem = new StateSystem();
 
 	//Init systems
-	renderSys->init(&m_renderer, LEVELS::TWO);
+	renderSys->init(&m_renderer);
+	renderSys->setLevel(LEVELS::LEVEL2);
 	m_cameraManager.init(&m_camera);
 	
 	//Push back systems
@@ -58,13 +59,13 @@ void Game::init()
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
 
-	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::TWO));
+	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL2));
 	m_camera.zoom(-1);
 
 	EntityFactory::SpawnPlayer(50, 12, 2, 2, 0, 0);
 	EntityFactory::SpawnPlayer(51, 12, 2, 2, 1, 1);
-	EntityFactory::SpawnPlayer(52, 12, 2, 2, 0, 2);
-	EntityFactory::SpawnPlayer(53, 12, 2, 2, 1, 3);
+	EntityFactory::SpawnPlayer(52, 12, 2, 2, 2, 2);
+	EntityFactory::SpawnPlayer(53, 12, 2, 2, 3, 3);
 }
 
 void Game::loop(float dt)
