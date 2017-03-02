@@ -34,6 +34,7 @@ bool EntityFactory::SpawnSlowShot(float x, float y, float w, float h, int shoote
 	{
 		if (i + 1 == players.size())
 		{
+			// getComponentById<PowerupComponent>(shooterID)->type = NONE;
 			return false;
 		}
 		else if (players[i]->ID == shooterID)
