@@ -23,7 +23,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 
 	//Init systems
 	renderSys->init(&m_renderer);
-	
+
 	//Push back systems
 	m_systems.push_back(inputSys);
 	m_systems.push_back(collisionSystem);
@@ -31,6 +31,10 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(hookSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
+
+
+	m_cameraManager = CameraManager();
+	m_cameraManager.init(&m_camera);
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
@@ -40,12 +44,12 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_resourceMgr->loadResourceQueue();
 
 	//create scenes
-	
+
 	StartScene * startScene = new StartScene(windowSize);
 	EndGameScene * endGame = new EndGameScene(windowSize);
 	CreditsScene * creditsScene = new CreditsScene(windowSize);
 	OptionsScene * optionsScene = new OptionsScene(windowSize);
-	GameScene * gameScene = new GameScene();
+	GameScene * gameScene = new GameScene(&m_cameraManager);
 	LevelSelectScene * lvlSelectScene = new LevelSelectScene(windowSize);
 	lvlSelectScene->m_gameScene = gameScene;
 	ChoosePlayerScene * choosePlayerScene = new ChoosePlayerScene(windowSize);
@@ -97,7 +101,7 @@ void Game::loop(float dt)
 			system->process(dt);
 		}
 	}
-	
+	m_cameraManager.update(dt);
 	SceneManager::getInstance()->update(dt);
 	SceneManager::getInstance()->render(m_renderer);
 }

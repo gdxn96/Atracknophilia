@@ -134,7 +134,7 @@ bool LevelSelectScene::init(Renderer & r)
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&LevelSelectScene::changePlayerMap, this, right, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, left, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&LevelSelectScene::reduceArrowScale, this, right, m_playerOneID)), this, m_playerOneID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&LevelSelectScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
 
 	// player2
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new PressCommand(std::bind(&LevelSelectScene::changePlayerMap, this, left, m_playerTwoID)), this, m_playerTwoID);

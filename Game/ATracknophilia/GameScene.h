@@ -9,7 +9,7 @@
 class GameScene : public Scene
 {
 public:
-	GameScene();
+	GameScene(CameraManager * cameraManager);
 
 	void update(float dt) override;
 	void render(Renderer& r) override;
@@ -19,12 +19,12 @@ public:
 	bool init(Renderer & r) override;
 
 	void changeScene(Scenes newScene) override;
-	
+
 	void initialiseMapLvls(int mapLvl);
 	void initialiseGameScenePlayerIDs(vector<int> playerIDs);
-	
-private:  
-	CameraManager m_cameraManager;
+
+private:
+	CameraManager * m_cameraManager;
 	Vector2D m_currentLvl;
 	vector<int> m_playerIds;
 	int m_mapLvl;

@@ -157,7 +157,7 @@ bool ChoosePlayerScene::init(Renderer & r)
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_UP, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, up)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_DOWN, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, down)), this, m_playerOneID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new PressCommand(std::bind(&ChoosePlayerScene::updateAiChoice, this)), this, m_playerOneID);
 
 	// player2
@@ -522,7 +522,7 @@ void ChoosePlayerScene::checkForControllers()
 		m_playerCBtn.setTexture(m_noControllerTex);
 		m_playerDBtn.setTexture(m_noControllerTex);
 
-		playerIDs.push_back(15);
+		if (playerIDs.size() < 1) { playerIDs.push_back(15); }
 
 		m_controllerTwoConnected = false;
 		m_controllerThreeConnected = false;
@@ -533,7 +533,7 @@ void ChoosePlayerScene::checkForControllers()
 		m_playerCBtn.setTexture(m_noControllerTex);
 		m_playerDBtn.setTexture(m_noControllerTex);
 
-		playerIDs.push_back(15);
+		if (playerIDs.size() < 2) { playerIDs.push_back(15); }
 
 		m_controllerTwoConnected = true;
 		m_controllerThreeConnected = false;
@@ -543,7 +543,7 @@ void ChoosePlayerScene::checkForControllers()
 	{
 		m_playerDBtn.setTexture(m_noControllerTex);
 
-		playerIDs.push_back(15);
+		if (playerIDs.size() < 3) { playerIDs.push_back(15); }
 
 		m_controllerTwoConnected = true;
 		m_controllerThreeConnected = true;
@@ -551,7 +551,7 @@ void ChoosePlayerScene::checkForControllers()
 	}
 	else if (SDL_NumJoysticks() < 5)
 	{
-		playerIDs.push_back(15);
+		if (playerIDs.size() < 4) { playerIDs.push_back(15); }
 
 		m_controllerTwoConnected = true;
 		m_controllerThreeConnected = true;

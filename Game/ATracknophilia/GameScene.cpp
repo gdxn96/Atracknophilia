@@ -3,10 +3,11 @@
 #include "LevelLoader.h"
 #include "EntityFactory.h"
 
-GameScene::GameScene()
-	:	Scene(Scenes::GAME)
+GameScene::GameScene(CameraManager  *cameraManager)
+	: Scene(Scenes::GAME)
+	, m_cameraManager(cameraManager)
 {
-	
+
 }
 
 void GameScene::destroy()
@@ -52,20 +53,11 @@ void GameScene::enter()
 		LevelLoader::loadLevel(LEVELS::LEVEL4);
 		m_currentLvl = LevelLoader::loadLevel(LEVELS::LEVEL4);
 	}
-}
-
-bool GameScene::init(Renderer & r)
-{
-	// init success flag
-	bool success = true;
-
-	//InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand(std::bind(&GameScene::changeScene, this, Scenes::ENDGAME)), this);
-
 
 	// Add this to on entry()
 
-	m_cameraManager = CameraManager();
-	m_cameraManager.SetLevelSize(m_currentLvl);
+
+	m_cameraManager->SetLevelSize(m_currentLvl);
 
 	for (int i = 0; i < m_playerIds.size(); i++)
 	{
@@ -74,10 +66,12 @@ bool GameScene::init(Renderer & r)
 			EntityFactory::SpawnPlayer(50 + i, 12, 1, 1, i);
 		}
 	}
+}
 
-	//EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
-	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
-	EntityFactory::SpawnBoostPad(12, 12, 3, 1);
+bool GameScene::init(Renderer & r)
+{
+	// init success flag
+	bool success = true;
 
 	return success;
 }
@@ -102,9 +96,8 @@ void GameScene::update(float dt)
 {
 	/*for (auto& system : m_systems)
 	{
-		system->process(dt);
+	system->process(dt);
 	}*/
-	m_cameraManager.update(dt);
 }
 
 void GameScene::render(Renderer & r)
