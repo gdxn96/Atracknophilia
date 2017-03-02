@@ -2,9 +2,10 @@
 //
 #include "stdafx.h"
 #include "Game.h"
+#include "FLInput\FLInputManager.h"
 #include <iostream>
-
 #define SDL_main main
+
 //* Set initial instance to be nullptr
 InputManager* InputManager::inputManagerInstance = nullptr;
 

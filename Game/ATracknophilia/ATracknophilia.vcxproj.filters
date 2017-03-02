@@ -25,6 +25,9 @@
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{2e1ce81f-cdc3-4548-aeca-4a03cb93d70e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{97e93f0e-a507-4731-b5ff-6ab35dc9df5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -138,6 +141,12 @@
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="LobbyServerAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaEngine.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -193,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="DirectionVolume.cpp">
       <Filter>ECS\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaEngine.cpp">
+      <Filter>Networking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

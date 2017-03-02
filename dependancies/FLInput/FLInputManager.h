@@ -11,6 +11,7 @@
 #include<queue>
 #include<thread>
 #include<functional>
+#include <assert.h>
 
 #define MAX_CONTROLLERS 4
 
