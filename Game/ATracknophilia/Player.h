@@ -31,7 +31,7 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 				return;
 			}
 
-			auto collisionBody = e->getComponent <SoftObstacleResponseComponent>(); // collision with sensor component
+			auto collisionBody = e->getComponent<SoftObstacleResponseComponent>(); // collision with sensor component
 			if (collisionBody)
 			{
 				auto b = getComponent<DynamicBodyComponent>();
@@ -39,7 +39,7 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 					b->body->SetLinearVelocity(b2Vec2(0, 0)); // stop the player's velocity on collision
 			}
 
-			auto puResponse = e->getComponent <PowerUpResponseComponent>(); // collision with sensor component
+			auto puResponse = e->getComponent<PowerUpResponseComponent>();
 			if (puResponse)
 			{
 				auto puRespawn = e->getComponent<PowerUpRespawnComponent>();

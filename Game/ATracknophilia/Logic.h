@@ -24,7 +24,7 @@ struct ICollisionResponseComponent : public AutoLister<ICollisionResponseCompone
 	};
 };
 
-struct SoftObstacleResponseComponent : public ICollisionResponseComponent
+struct SoftObstacleResponseComponent : public ICollisionResponseComponent, public AutoLister<SoftObstacleResponseComponent>
 {
 	SoftObstacleResponseComponent(int id)
 		:	ICollisionResponseComponent(id)
