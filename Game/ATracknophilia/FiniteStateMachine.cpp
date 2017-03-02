@@ -14,7 +14,7 @@
 Idle::Idle(bool left)
 {
 	m_left = left;
-	type == "idle";
+	type = "idle";
 }
 
 void Idle::update(float dt)

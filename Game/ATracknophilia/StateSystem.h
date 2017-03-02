@@ -49,6 +49,18 @@ public:
 					component->getComponent<AnimationComponent>()->animation.changeAnimation(BLUE::FALLRIGHT);
 					component->state = new Idle(component->state->getDirection());
 				}
+				else if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x > 0 && component->state->getDirection())
+				{
+					//move right
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(BLUE::RUNNINGRIGHT);
+					component->state = new Running(false);
+				}
+				else if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x < !component->state->getDirection())
+				{
+					//run left
+					component->getComponent<AnimationComponent>()->animation.changeAnimation(BLUE::RUNNINGLEFT);
+					component->state = new Running(true);
+				}
 			}
 			else if (component->state == new Jumping())
 			{

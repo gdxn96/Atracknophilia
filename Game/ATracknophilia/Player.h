@@ -58,7 +58,7 @@ public:
 			new PlayerControllerComponent(id, controllerId),
 			new RacePositionComponent(id),
 			new PlayerStaticObjectResponseComponent(id),
-			new AnimationComponent(id, "brunright"),
+			new AnimationComponent(id, "bfallright"),
 			new StateComponent(id)
 		})
 	{
