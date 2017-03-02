@@ -66,6 +66,13 @@ void GameScene::enter()
 			EntityFactory::SpawnPlayer(50 + i, 12, 1, 1, i);
 		}
 	}
+	if (m_aiEnabled)
+	{
+		for (int j= 0; j< 4 - m_playerIds.size(); j++)
+		{
+			EntityFactory::SpawnPlayer(51 + j, 12, 1, 1, 0, true);
+		}
+	}
 }
 
 bool GameScene::init(Renderer & r)
@@ -90,6 +97,11 @@ void GameScene::initialiseMapLvls(int mapLvl)
 void GameScene::initialiseGameScenePlayerIDs(vector<int> playerIDs)
 {
 	m_playerIds = playerIDs;
+}
+
+void GameScene::initAiEnabled(bool aiEnabled)
+{
+	m_aiEnabled = aiEnabled;
 }
 
 void GameScene::update(float dt)

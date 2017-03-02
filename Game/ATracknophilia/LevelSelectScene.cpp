@@ -530,10 +530,30 @@ void LevelSelectScene::executeScene(IDs id)
 			}
 		}
 
-		if (lockedA == true && lockedB == true)
+		
+		// 2players
+		if (lockedA == true && lockedB == true && m_controllerThreeConnected == false && m_controllerFourConnected == false)
 		{
 			int mapChosen = countMapVotes();
-			loadGame(Scenes::GAME, mapChosen); // need to pass/remember character selection and map selection
+			loadGame(Scenes::GAME, mapChosen);
+		}
+		// 3 players
+		if (lockedA == true && lockedB == true && lockedC == true && m_controllerFourConnected == false)
+		{
+			int mapChosen = countMapVotes();
+			loadGame(Scenes::GAME, mapChosen);
+		}
+		// 4 players
+		if (lockedA == true && lockedB == true && lockedC == true && lockedD == true)
+		{
+			int mapChosen = countMapVotes();
+			loadGame(Scenes::GAME, mapChosen);
+		}
+		// 1 player and AI
+		if (lockedA == true && lockedB == false && m_aiEnabled == true)
+		{
+			int mapChosen = countMapVotes();
+			loadGame(Scenes::GAME, mapChosen); 
 		}
 	}
 }
@@ -727,12 +747,18 @@ void LevelSelectScene::initialisePlayerIDS(vector<int> playerIDs)
 	m_playerIds = playerIDs;
 }
 
+void LevelSelectScene::initialiseAiEnabled(bool isAiEnabled)
+{
+	m_aiEnabled = isAiEnabled;
+}
+
 void LevelSelectScene::loadGame(Scenes scene, int mapLvl)
 {
 	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::LEVELSELECT)
 	{
 		m_gameScene->initialiseMapLvls(mapLvl);
 		m_gameScene->initialiseGameScenePlayerIDs(m_playerIds);
+		m_gameScene->initAiEnabled(m_aiEnabled);
 		currentTick = 0;
 		SceneManager::getInstance()->switchTo(scene);
 	}

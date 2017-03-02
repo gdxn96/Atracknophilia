@@ -22,10 +22,12 @@ public:
 
 	void initialiseMapLvls(int mapLvl);
 	void initialiseGameScenePlayerIDs(vector<int> playerIDs);
+	void initAiEnabled(bool aiEnabled);
 
 private:
 	CameraManager * m_cameraManager;
 	Vector2D m_currentLvl;
 	vector<int> m_playerIds;
 	int m_mapLvl;
+	bool m_aiEnabled;
 };

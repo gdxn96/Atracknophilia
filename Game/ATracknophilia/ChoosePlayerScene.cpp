@@ -583,6 +583,7 @@ void ChoosePlayerScene::loadLevelSelect(Scenes scene, vector<int> playerIDs)
 	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::CHOOSEPLAYER)
 	{
 		m_lvl->initialisePlayerIDS(playerIDs);
+		m_lvl->initialiseAiEnabled(m_isAiEnabled);
 		SceneManager::getInstance()->switchTo(scene);
 	}
 }
@@ -767,9 +768,27 @@ void ChoosePlayerScene::executeScene(IDs id)
 			}
 		}
 
-		if (lockedA == true && lockedB == true)
+		// 2players
+		if (lockedA == true && lockedB == true && m_controllerThreeConnected == false && m_controllerFourConnected == false)
 		{
 			loadLevelSelect(Scenes::LEVELSELECT, playerIDs);
 		}
+		// 3 players
+		if (lockedA == true && lockedB == true && lockedC == true && m_controllerFourConnected == false)
+		{
+			loadLevelSelect(Scenes::LEVELSELECT, playerIDs);
+		}
+		// 4 players
+		if (lockedA == true && lockedB == true && lockedC == true && lockedD == true)
+		{
+			m_isAiEnabled = false; // cannot have AI with 4 players
+			loadLevelSelect(Scenes::LEVELSELECT, playerIDs);
+		}
+		// 1 player and ai
+		if (lockedA == true && m_isAiEnabled == true && lockedB == false)
+		{
+			loadLevelSelect(Scenes::LEVELSELECT, playerIDs);
+		}
+
 	}
 }

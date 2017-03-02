@@ -17,6 +17,7 @@ public:
 	void changeScene(Scenes newScene) override;
 
 	void initialisePlayerIDS(vector<int> playerIDs);
+	void initialiseAiEnabled(bool isAiEnabled);
 	GameScene * m_gameScene;
 private:
 	bool loadMedia();
@@ -92,6 +93,8 @@ private:
 	bool m_controllerTwoConnected, m_controllerThreeConnected, m_controllerFourConnected;
 
 	vector<int> m_playerIds;
+
+	bool m_aiEnabled;
 
 	void loadGame(Scenes scene, int mapLvl);
 };
