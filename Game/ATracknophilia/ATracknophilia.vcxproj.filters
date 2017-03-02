@@ -164,6 +164,12 @@
     <ClInclude Include="Node.h">
       <Filter>BehaviourTree</Filter>
     </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUpSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

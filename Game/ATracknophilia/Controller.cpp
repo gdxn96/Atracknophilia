@@ -6,57 +6,38 @@
 PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) : IControllerComponent(id, controllerId)
 {
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
-		if (!isHooked)
-		{
-			auto c = getComponent<Box2DComponent>();
-			if (c) {
-				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
-			}
-		}
-	}), this, m_controllerId);
-
-	/*InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new ReleaseCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
-		if (c) {
-			auto a = getComponent<PowerupComponent>();
-			if(a && a->type != NONE)
-			{
-				switch(a->type)
-				{
-				case WEB_DROP:
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
-					break;
-				case SLOW_SHOT:
-					EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
-					break;
-				case SWAP_SHOT:
-					
-					break;
-				}
-				a->type = NONE;
-			}
-		}
-	}), this, m_controllerId);*/
+		auto a = getComponent<AbilityComponent>();
+		if (c && a) {
+			const auto none = a->NONE;
+			const auto webDrop = a->WEB_DROP;
+			const auto slowShot = a->SLOW_SHOT;
+			const auto swapShot = a->SWAP_SHOT;
 
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new PressCommand([&]() {
-		if (!isHooked)
-		{
-			auto h = getComponent<HookComponent>();
-			if (h)
+			switch (a->ability)
 			{
-				getParent()->deleteComponent<HookComponent>();
-			}
-			auto c = getComponent<Box2DComponent>();
-			if (c) {
+			case none:
+				break;
+			case webDrop:
+				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+				a->ability = a->NONE;
+				break;
+			case slowShot:
+				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
+				a->ability = a->NONE;
+				break;
+			case swapShot:
+				auto h = getComponent<HookComponent>();
+				if (h)
+				{
+					getParent()->deleteComponent<HookComponent>();
+				}
 				vector<Player*> players = RaceManager::getInstance()->getPlayers();
 				int targetID = 1;
-
 				for (int i = 0; i < players.size(); i++)
 				{
 					if (i + 1 == players.size())
-					{
-						// Set powerup to be none
-					}
+					{}
 					else if (players[i]->ID == ID)
 					{
 						auto targetBody = players[i + 1]->getComponent<Box2DComponent>()->body;
@@ -73,15 +54,23 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 							targetBody->SetLinearVelocity(b2Vec2(0, 0));
 							targetBody->ApplyForceToCenter(b2Vec2(dis.x * 100000, dis.y * 100000), true);
 							c->body->ApplyForceToCenter(b2Vec2(-dis.x * 100000, -dis.y * 100000), true);
-							auto p = c->getParent();
 							isHooked = true;
-							players[i + 1]->getComponent<IControllerComponent>()->isHooked = true;
+							if (players[i + 1]->getComponent<PlayerAIComponent>())
+							{
+								players[i + 1]->getComponent<PlayerAIComponent>()->isHooked = true;
+							}
+							else if(players[i + 1]->getComponent<PlayerControllerComponent>())
+							{
+								players[i + 1]->getComponent<PlayerControllerComponent>()->isHooked = true;
+							}
 							targetBody->SetGravityScale(0);
 							c->body->SetGravityScale(0);
 						}
 						i = players.size();
 					}
 				}
+				a->ability = a->NONE;
+				break;
 			}
 		}
 	}), this, m_controllerId);

@@ -221,11 +221,11 @@
  <objectgroup name="Spawn Layer" visible="0">
   <object id="330" x="2000" y="1000" width="1000" height="1000"/>
  </objectgroup>
- <objectgroup name="Powerup Layer" visible="0">
-  <object id="331" x="3800" y="8200" width="400" height="400"/>
-  <object id="332" x="3800" y="5000" width="400" height="400"/>
-  <object id="333" x="13800" y="5800" width="400" height="400"/>
-  <object id="334" x="1800" y="15600" width="400" height="400"/>
+ <objectgroup name="Powerup Layer">
+  <object id="331" x="3948" y="8248" width="100" height="100"/>
+  <object id="332" x="3952" y="5056" width="100" height="100"/>
+  <object id="333" x="13800" y="5800" width="100" height="100"/>
+  <object id="334" x="2400" y="15900" width="100" height="100"/>
  </objectgroup>
  <layer name="Tile Layer 1" width="200" height="200" visible="0">
   <data encoding="base64" compression="zlib">
@@ -288,7 +288,7 @@
   <object id="308" x="7000" y="15600" width="400" height="400"/>
   <object id="310" x="10600" y="15600" width="400" height="400"/>
  </objectgroup>
- <objectgroup name="Direction Layer">
+ <objectgroup name="Direction Layer" visible="0">
   <object id="236" x="8000" y="400" width="11600" height="11600">
    <properties>
     <property name="directionX" type="float" value="0"/>

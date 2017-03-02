@@ -16,9 +16,9 @@ protected:
 class Succeeder : public Decorator
 {
 public:
-	Status Update(IEntity* p, float dt) override
+	Status Update(IEntity* p, float dt, bool isHooked) override
 	{
-		child->Tick(p, dt);
+		child->Tick(p, dt, isHooked);
 		return Status::Success;
 	}
 };
@@ -26,9 +26,9 @@ public:
 class Failer : public Decorator
 {
 public:
-	Status Update(IEntity* p, float dt) override
+	Status Update(IEntity* p, float dt, bool isHooked) override
 	{
-		child->Tick(p, dt);
+		child->Tick(p, dt, isHooked);
 		return Status::Failure;
 	}
 };
@@ -36,9 +36,9 @@ public:
 class Inverter : public Decorator
 {
 public:
-	Status Update(IEntity* p, float dt) override
+	Status Update(IEntity* p, float dt, bool isHooked) override
 	{
-		auto s = child->Tick(p, dt);
+		auto s = child->Tick(p, dt, isHooked);
 
 		if (s == Status::Success) 
 		{
@@ -61,11 +61,11 @@ public:
 		, counter(0)
 	{}
 
-	Status Update(IEntity* p, float dt) override
+	Status Update(IEntity* p, float dt, bool isHooked) override
 	{
 		while (1) 
 		{
-			auto s = child->Tick(p, dt);
+			auto s = child->Tick(p, dt, isHooked);
 
 			if (s == Status::Running)
 			{
@@ -95,11 +95,11 @@ protected:
 class UntilFail : public Decorator
 {
 public:
-	Status Update(IEntity* p, float dt) override
+	Status Update(IEntity* p, float dt, bool isHooked) override
 	{
 		while (1) 
 		{
-			auto status = child->Tick(p, dt);
+			auto status = child->Tick(p, dt, isHooked);
 
 			if (status == Status::Failure) 
 			{
@@ -112,11 +112,11 @@ public:
 class UntilSuccess : public Decorator
 {
 public:
-	Status Update(IEntity* p, float dt) override
+	Status Update(IEntity* p, float dt, bool isHooked) override
 	{
 		while (1) 
 		{
-			auto status = child->Tick(p, dt);
+			auto status = child->Tick(p, dt, isHooked);
 
 			if (status == Status::Success)
 			{

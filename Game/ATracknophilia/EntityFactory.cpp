@@ -64,3 +64,8 @@ void EntityFactory::SpawnBoostPad(float x, float y, float w, float h)
 {
 	LevelLoader::appendToEntities(new BoostPad(id(), x, y, w, h));
 }
+
+void EntityFactory::SpawnPowerUp(float x, float y, float w, float h)
+{
+	LevelLoader::appendToEntities(new PowerUp(id(), x, y, w, h));
+}

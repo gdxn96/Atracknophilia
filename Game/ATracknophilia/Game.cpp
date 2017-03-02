@@ -29,6 +29,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	auto physicsSystem = new PhysicsSystem();
 	auto aiSystem = new AISystem();
 	auto hookSys = new HookSystem();
+	auto powerUpSys = new PowerUpSystem();
 	auto swapSys = new SwapSystem();
 
 	//Init systems
@@ -40,6 +41,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	m_systems.push_back(collisionSystem);
 	m_systems.push_back(inputSys);
 	m_systems.push_back(hookSys);
+	m_systems.push_back(powerUpSys);
 	m_systems.push_back(swapSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
@@ -57,7 +59,7 @@ void Game::init()
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
 
-	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL1));
+	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL4));
 	m_camera.zoom(-1);
 
 	EntityFactory::SpawnPlayer(51, 13, 1, 1, 0, true);

@@ -26,7 +26,7 @@ struct ICollisionResponseComponent : public AutoLister<ICollisionResponseCompone
 	};
 };
 
-struct SoftObstacleResponseComponent : public ICollisionResponseComponent
+struct SoftObstacleResponseComponent : public ICollisionResponseComponent, public AutoLister<SoftObstacleResponseComponent>
 {
 	SoftObstacleResponseComponent(int id)
 		:	ICollisionResponseComponent(id)
@@ -100,11 +100,12 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 	int shooterID;
 };
 
-struct PlayerAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
+struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAIComponent>
 {
 	PlayerAIComponent(int id)
 		: AIComponent(id)
 		, bt(BehaviourTree())
+		, isHooked(false)
 	{
 		Selector* root = new Selector();
 		root->Initialize();
@@ -144,10 +145,11 @@ struct PlayerAIComponent : public AIComponent, public AutoLister<SeekAIComponent
 
 	void think(float dt)
 	{
-		bt.Tick(getParent(), dt);
+		bt.Tick(getParent(), dt, isHooked);
 	}
 
 	BehaviourTree bt;
+	bool isHooked;
 };
 
 
@@ -231,7 +233,7 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 	{
 		auto racePositionComponent = e->getComponent<RacePositionComponent>();
 
-		if (racePositionComponent->volumeID == ID)
+		if (racePositionComponent && racePositionComponent->volumeID == ID)
 		{
 			racePositionComponent->SetVolumeId(racePositionComponent->prevVolumeID);
 		}
@@ -264,3 +266,52 @@ struct BoostPadResponseComponent : public ICollisionResponseComponent, public Au
 
 	void beginContact(IEntity * e);
 };
+
+struct PowerUpResponseComponent : public ICollisionResponseComponent, public AutoLister<PowerUpResponseComponent>
+{
+	PowerUpResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{}
+
+	void endContact(IEntity * e)
+	{};
+
+	void beginContact(IEntity * e)
+	{}
+};
+
+struct PowerUpRespawnComponent: public IComponent, public AutoLister<PowerUpRespawnComponent>
+{
+	PowerUpRespawnComponent(int id, int x, int y)
+		: IComponent(id)
+		, tts(0)
+		, isDead(false)
+		, pos(b2Vec2(x, y))
+	{}
+
+	void ReSpawn() 
+	{
+		auto b = getComponent<Box2DComponent>();
+		if (b)
+		{
+			auto body = b->body;
+			body->SetTransform(pos, 0);
+			isDead = false;
+			tts = 0;
+		}
+	}
+
+	void Die() 
+	{
+		auto b = getComponent<Box2DComponent>();
+		if (b)
+		{
+			isDead = true;
+		}
+	}
+
+	float tts;
+	bool isDead;
+	b2Vec2 pos;
+};
+

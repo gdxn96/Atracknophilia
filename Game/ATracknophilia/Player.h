@@ -30,13 +30,47 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 				}
 				return;
 			}
-		}
-		auto collisionBody = e->getComponent <SoftObstacleResponseComponent>(); // collision with sensor component
-		if (collisionBody)
-		{
-			auto b = getComponent<DynamicBodyComponent>();
-			if (b)
-				b->body->SetLinearVelocity(b2Vec2(0, 0)); // stop the player's velocity on collision
+
+			auto collisionBody = e->getComponent<SoftObstacleResponseComponent>(); // collision with sensor component
+			if (collisionBody)
+			{
+				auto b = getComponent<DynamicBodyComponent>();
+				if (b)
+					b->body->SetLinearVelocity(b2Vec2(0, 0)); // stop the player's velocity on collision
+			}
+
+			auto puResponse = e->getComponent<PowerUpResponseComponent>();
+			if (puResponse)
+			{
+				auto puRespawn = e->getComponent<PowerUpRespawnComponent>();
+				if (puRespawn)
+				{
+					puRespawn->Die();
+
+					auto a = getComponent<AbilityComponent>();
+					if (a)
+					{
+						if (a->ability == a->NONE)
+						{
+							switch (rand() % 3)
+							{
+							case 0:
+								cout << "Web Drop" << endl;
+								a->ability = a->WEB_DROP;
+								break;
+							case 1:
+								cout << "Slow Shot" << endl;
+								a->ability = a->SLOW_SHOT;
+								break;
+							case 2:
+								cout << "Swap Shot" << endl;
+								a->ability = a->SWAP_SHOT;
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 };
@@ -57,7 +91,8 @@ public:
 			new ConstBoostedVelocityComponent(id, 80),
 			new PlayerControllerComponent(id, controllerId),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id)
+			new PlayerStaticObjectResponseComponent(id),
+			new AbilityComponent(id)
 		})
 	{
 	}

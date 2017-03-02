@@ -14,11 +14,11 @@ public:
 		: root(rootNode)
 	{}
 
-	Status Update(IEntity* p, float dt)
+	Status Update(IEntity* p, float dt, bool isHooked)
 	{
 		if (p != nullptr)
 		{
-			return root->Tick(p, dt);
+			return root->Tick(p, dt, isHooked);
 		}
 		else
 		{

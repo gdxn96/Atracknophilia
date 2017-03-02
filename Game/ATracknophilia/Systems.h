@@ -6,4 +6,5 @@
 #include "CollisionSystem.h"
 #include "AISystem.h"
 #include "HookSystem.h"
+#include "PowerUpSystem.h"
 #include "SwapSystem.h"
