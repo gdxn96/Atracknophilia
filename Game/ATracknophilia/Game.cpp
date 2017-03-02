@@ -7,7 +7,8 @@
 
 bool Game::quit = false;
 
-Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_resourceMgr(ResourceManager::getInstance())
+Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) 
+	: m_resourceMgr(ResourceManager::getInstance())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
 		  {LEVELS::LEVEL1, "./assets/levels/map1.json"}
@@ -30,6 +31,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto hookSys = new HookSystem();
 	auto animationSys = new AnimationSystem();
 	auto stateSystem = new StateSystem();
+	auto swapSys = new SwapSystem();
 
 	//Init systems
 	renderSys->init(&m_renderer);
@@ -41,6 +43,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	m_systems.push_back(collisionSystem);
 	m_systems.push_back(inputSys);
 	m_systems.push_back(hookSys);
+	m_systems.push_back(swapSys);
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
 	m_systems.push_back(animationSys);

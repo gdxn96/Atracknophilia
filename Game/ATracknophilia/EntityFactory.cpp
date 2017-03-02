@@ -3,9 +3,17 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, int colourID = 0)
+
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, int colourID = 0, bool isAI)
 {
-	LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId, colourID));
+	if (isAI)
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, colourID));
+	}
+	else
+	{
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId, colourID));
+	}
 }
 
 void EntityFactory::SpawnStaticBox(float x, float y, float w, float h)
@@ -27,6 +35,7 @@ bool EntityFactory::SpawnSlowShot(float x, float y, float w, float h, int shoote
 	{
 		if (i + 1 == players.size())
 		{
+			// getComponentById<PowerupComponent>(shooterID)->type = NONE;
 			return false;
 		}
 		else if (players[i]->ID == shooterID)
