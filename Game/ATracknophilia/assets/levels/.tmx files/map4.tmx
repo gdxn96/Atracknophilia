@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="100" tilewidth="100" tileheight="100" nextobjectid="234">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="100" tilewidth="100" tileheight="100" nextobjectid="238">
  <layer name="Tile Layer 1" width="200" height="100" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -115,11 +115,11 @@
   <object id="189" x="11100" y="2400" width="200" height="200"/>
   <object id="190" x="12100" y="2400" width="200" height="200"/>
   <object id="192" x="11600" y="2800" width="200" height="200"/>
-  <object id="193" x="9300" y="2000" width="200" height="200"/>
-  <object id="196" x="9100" y="2200" width="200" height="200"/>
-  <object id="197" x="8900" y="2000" width="200" height="200"/>
-  <object id="198" x="8700" y="2200" width="200" height="200"/>
-  <object id="199" x="8500" y="2000" width="200" height="200"/>
+  <object id="193" x="9200" y="2000" width="200" height="200"/>
+  <object id="196" x="9000" y="2200" width="200" height="200"/>
+  <object id="197" x="8800" y="2000" width="200" height="200"/>
+  <object id="198" x="8600" y="2200" width="200" height="200"/>
+  <object id="199" x="8400" y="2000" width="200" height="200"/>
   <object id="200" x="7900" y="2000" width="200" height="200"/>
   <object id="201" x="7700" y="2200" width="200" height="200"/>
   <object id="202" x="7500" y="2000" width="200" height="200"/>
@@ -148,7 +148,7 @@
   <object id="233" x="3900" y="5700" width="200" height="200"/>
  </objectgroup>
  <objectgroup name="Powerup Layer">
-  <object id="176" x="4444" y="900" width="100" height="100"/>
+  <object id="176" x="4445.45" y="900" width="100" height="100"/>
   <object id="177" x="4300" y="6000" width="100" height="100"/>
   <object id="178" x="2680" y="3400" width="100" height="100"/>
  </objectgroup>
@@ -338,7 +338,7 @@
   <object id="158" x="3000" y="2800" width="2800" height="600"/>
  </objectgroup>
  <objectgroup name="Direction Layer" visible="0">
-  <object id="88" x="800" y="200" width="10300" height="1000">
+  <object id="88" x="200" y="200" width="10900" height="1000">
    <properties>
     <property name="directionX" type="float" value="1"/>
     <property name="directionY" type="float" value="0"/>
@@ -352,95 +352,116 @@
     <property name="priority" type="float" value="1"/>
    </properties>
   </object>
-  <object id="160" x="10000" y="2900" width="2300" height="1300">
+  <object id="160" x="10500" y="2900" width="1800" height="1300">
    <properties>
     <property name="directionX" type="float" value="-1"/>
     <property name="directionY" type="float" value="0"/>
     <property name="priority" type="float" value="2"/>
    </properties>
   </object>
-  <object id="161" x="10000" y="1400" width="600" height="1500">
+  <object id="161" x="10000" y="2000" width="300" height="2200">
    <properties>
     <property name="directionX" type="float" value="0"/>
     <property name="directionY" type="float" value="-1"/>
-    <property name="priority" type="float" value="3"/>
-   </properties>
-  </object>
-  <object id="162" x="9500" y="1400" width="500" height="600">
-   <properties>
-    <property name="directionX" type="float" value="-1"/>
-    <property name="directionY" type="float" value="0"/>
     <property name="priority" type="float" value="4"/>
    </properties>
   </object>
-  <object id="163" x="6300" y="1400" width="3200" height="3600">
+  <object id="162" x="9500" y="1400" width="1100" height="600">
    <properties>
-    <property name="directionX" type="float" value="0"/>
-    <property name="directionY" type="float" value="1"/>
-    <property name="priority" type="float" value="5"/>
-   </properties>
-  </object>
-  <object id="164" x="7600" y="5000" width="600" height="1200">
-   <properties>
-    <property name="directionX" type="float" value="0"/>
-    <property name="directionY" type="float" value="1"/>
+    <property name="directionX" type="float" value="-1"/>
+    <property name="directionY" type="float" value="0"/>
     <property name="priority" type="float" value="6"/>
    </properties>
   </object>
-  <object id="165" x="9500" y="4600" width="4800" height="1600">
+  <object id="163" x="6300" y="1400" width="3200" height="4200">
+   <properties>
+    <property name="directionX" type="float" value="0"/>
+    <property name="directionY" type="float" value="1"/>
+    <property name="priority" type="float" value="7"/>
+   </properties>
+  </object>
+  <object id="165" x="9500" y="4600" width="4300" height="1600">
+   <properties>
+    <property name="directionX" type="float" value="1"/>
+    <property name="directionY" type="float" value="0"/>
+    <property name="priority" type="float" value="9"/>
+   </properties>
+  </object>
+  <object id="166" x="7600" y="5600" width="1900" height="600">
    <properties>
     <property name="directionX" type="float" value="1"/>
     <property name="directionY" type="float" value="0"/>
     <property name="priority" type="float" value="8"/>
    </properties>
   </object>
-  <object id="166" x="8200" y="5000" width="1300" height="1200">
-   <properties>
-    <property name="directionX" type="float" value="1"/>
-    <property name="directionY" type="float" value="0"/>
-    <property name="priority" type="float" value="7"/>
-   </properties>
-  </object>
   <object id="167" x="5800" y="6600" width="8500" height="600">
-   <properties>
-    <property name="directionX" type="float" value="-1"/>
-    <property name="directionY" type="float" value="0"/>
-    <property name="priority" type="float" value="10"/>
-   </properties>
-  </object>
-  <object id="168" x="13800" y="6200" width="500" height="400">
-   <properties>
-    <property name="directionX" type="float" value="0"/>
-    <property name="directionY" type="float" value="1"/>
-    <property name="priority" type="float" value="9"/>
-   </properties>
-  </object>
-  <object id="169" x="1300" y="5400" width="4500" height="1800">
    <properties>
     <property name="directionX" type="float" value="-1"/>
     <property name="directionY" type="float" value="0"/>
     <property name="priority" type="float" value="11"/>
    </properties>
   </object>
+  <object id="168" x="13800" y="4600" width="500" height="2000">
+   <properties>
+    <property name="directionX" type="float" value="0"/>
+    <property name="directionY" type="float" value="1"/>
+    <property name="priority" type="float" value="10"/>
+   </properties>
+  </object>
+  <object id="169" x="2400" y="5400" width="3400" height="1800">
+   <properties>
+    <property name="directionX" type="float" value="-1"/>
+    <property name="directionY" type="float" value="0"/>
+    <property name="priority" type="float" value="12"/>
+   </properties>
+  </object>
   <object id="170" x="800" y="3400" width="2200" height="2000">
    <properties>
     <property name="directionX" type="float" value="0"/>
     <property name="directionY" type="float" value="-1"/>
-    <property name="priority" type="float" value="12"/>
+    <property name="priority" type="float" value="14"/>
    </properties>
   </object>
-  <object id="171" x="800" y="2800" width="2200" height="600">
+  <object id="171" x="700" y="2800" width="2300" height="600">
    <properties>
     <property name="directionX" type="float" value="-1"/>
     <property name="directionY" type="float" value="0"/>
-    <property name="priority" type="float" value="13"/>
+    <property name="priority" type="float" value="15"/>
    </properties>
   </object>
-  <object id="172" x="200" y="200" width="600" height="3200">
+  <object id="172" x="200" y="1200" width="500" height="2200">
    <properties>
     <property name="directionX" type="float" value="0"/>
     <property name="directionY" type="float" value="-1"/>
-    <property name="priority" type="float" value="14"/>
+    <property name="priority" type="float" value="16"/>
+   </properties>
+  </object>
+  <object id="234" x="800" y="5400" width="1600" height="1800">
+   <properties>
+    <property name="directionX" type="float" value="0"/>
+    <property name="directionY" type="float" value="-1"/>
+    <property name="priority" type="float" value="13"/>
+   </properties>
+  </object>
+  <object id="235" x="10300" y="2000" width="200" height="1100">
+   <properties>
+    <property name="directionX" type="float" value="0"/>
+    <property name="directionY" type="float" value="-1"/>
+    <property name="priority" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="236" x="10300" y="3100" width="200" height="1100">
+   <properties>
+    <property name="directionX" type="float" value="-1"/>
+    <property name="directionY" type="float" value="0"/>
+    <property name="priority" type="float" value="3"/>
+   </properties>
+  </object>
+  <object id="237" x="700" y="1200" width="100" height="1600">
+   <properties>
+    <property name="directionX" type="float" value="0"/>
+    <property name="directionY" type="float" value="-1"/>
+    <property name="priority" type="float" value="17"/>
    </properties>
   </object>
  </objectgroup>

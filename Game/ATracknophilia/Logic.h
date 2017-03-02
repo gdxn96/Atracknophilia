@@ -4,6 +4,8 @@
 #include "Dimensional.h"
 #include "RacePosition.h"
 
+#include "BehaviourTree.h"
+
 struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
 {
 	ICollisionResponseComponent(int id)
@@ -57,7 +59,7 @@ struct AIComponent : public IComponent, public AutoLister<AIComponent>
 	{
 	}
 
-	virtual void think() {}
+	virtual void think(float dt) {}
 };
 
 struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
@@ -70,7 +72,7 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 		assert(target != nullptr);
 	}
 
-	void think()
+	void think(float dt)
 	{
 		if (target != nullptr)
 		{
@@ -98,6 +100,59 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 	int shooterID;
 };
 
+struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAIComponent>
+{
+	PlayerAIComponent(int id)
+		: AIComponent(id)
+		, bt(BehaviourTree())
+		, isHooked(false)
+	{
+		Selector* root = new Selector();
+		root->Initialize();
+		root->AddChild(new UseAbility());
+
+		Sequence* checkHook = new Sequence();
+		checkHook->Initialize();
+		checkHook->AddChild(new CheckHooked());
+		checkHook->AddChild(new RaiseHook());
+		root->AddChild(checkHook);
+
+		Selector* moveSelector = new Selector();
+		moveSelector->Initialize();
+
+		Sequence* staminaSequence = new Sequence();
+		staminaSequence->Initialize();
+		staminaSequence->AddChild(new CheckVelocity());
+		staminaSequence->AddChild(new UseStamina());
+
+		Failer* staminaFailer = new Failer();
+		staminaFailer->SetChild(staminaSequence);
+
+		moveSelector->AddChild(staminaFailer);
+		moveSelector->AddChild(new MoveInDirectionOfVolume());
+
+		Sequence* hookSequence = new Sequence();
+		hookSequence->Initialize();
+		hookSequence->AddChild(new UseHook());
+		hookSequence->AddChild(new RaiseHook());
+		hookSequence->AddChild(new MoveInDirectionOfVolume());
+
+		moveSelector->AddChild(hookSequence);
+		root->AddChild(moveSelector);
+
+		bt.SetRoot(root);
+	}
+
+	void think(float dt)
+	{
+		bt.Tick(getParent(), dt, isHooked);
+	}
+
+	BehaviourTree bt;
+	bool isHooked;
+};
+
+
 struct SlowShotResponseComponent : public ICollisionResponseComponent
 {
 	SlowShotResponseComponent(int id)
@@ -105,7 +160,9 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 	{}
 
 	void endContact(IEntity * e)
-	{};
+	{
+	
+	};
 
 	void beginContact(IEntity * e)
 	{
@@ -174,7 +231,12 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 
 	void endContact(IEntity* e)
 	{
+		auto racePositionComponent = e->getComponent<RacePositionComponent>();
 
+		if (racePositionComponent && racePositionComponent->volumeID == ID)
+		{
+			racePositionComponent->SetVolumeId(racePositionComponent->prevVolumeID);
+		}
 	};
 
 	void beginContact(IEntity* e)
