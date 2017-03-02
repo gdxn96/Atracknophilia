@@ -119,15 +119,15 @@ struct PlayerAIComponent : public AIComponent, public AutoLister<SeekAIComponent
 		Selector* moveSelector = new Selector();
 		moveSelector->Initialize();
 
-		/*Sequence* staminaSequence = new Sequence();
+		Sequence* staminaSequence = new Sequence();
 		staminaSequence->Initialize();
 		staminaSequence->AddChild(new CheckVelocity());
-		staminaSequence->AddChild(new UseStamina());*/
+		staminaSequence->AddChild(new UseStamina());
 
-		/*Failer* staminaFailer = new Failer();
-		staminaFailer->SetChild(staminaSequence);*/
+		Failer* staminaFailer = new Failer();
+		staminaFailer->SetChild(staminaSequence);
 
-		//moveSelector->AddChild(staminaFailer);
+		moveSelector->AddChild(staminaFailer);
 		moveSelector->AddChild(new MoveInDirectionOfVolume());
 
 		Sequence* hookSequence = new Sequence();

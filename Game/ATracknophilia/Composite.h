@@ -30,19 +30,16 @@ public:
 			return Status::Success;
 		}
 
-		// Keep going until a child behavior says it's running.
 		while (1) 
 		{
 			auto& child = children.at(index);
 			auto status = child->Tick(p, dt);
 
-			// If the child succeeds, or keeps running, do the same.
 			if (status != Status::Failure) 
 			{
 				return status;
 			}
 
-			// Hit the end of the array, it didn't end well...
 			if (++index == children.size()) 
 			{
 				return Status::Failure;

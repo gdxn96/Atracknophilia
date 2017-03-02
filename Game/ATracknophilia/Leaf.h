@@ -74,7 +74,6 @@ public:
 							float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
 							if (distance < 8)
 							{
-								/*return Status::Failure;*/
 								float xVelocity = b->body->GetLinearVelocity().x;
 								float xRay = 0;
 								if (xVelocity > 0) { xRay = 1000; }
@@ -106,7 +105,6 @@ public:
 							}
 							else if (direction.y < 0)
 							{
-								// use hook to go up
 								return Status::Failure;
 							}
 						}
@@ -155,7 +153,6 @@ public:
 	Status Update(IEntity* p, float dt)
 	{
 		auto h = p->getComponent<HookComponent>();
-		// get y value of direction volume and move up and down accordingly
 		if (h)
 		{
 			if (h->tetherLength < 8)
