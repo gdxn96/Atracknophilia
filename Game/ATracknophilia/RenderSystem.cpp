@@ -37,7 +37,13 @@ void RenderSystem::process(float dt)
 	auto& softBoxes = AutoList::get<SoftBox>();
 	for (auto& component : softBoxes)
 	{
-		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey("box"), Rect(-(component->getComponent<SensorComponent>()->size / 2)+component->getComponent<SensorComponent>()->body->GetPosition(), component->getComponent<SensorComponent>()->size));
+		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey("web"), Rect(-(component->getComponent<SensorComponent>()->size / 2)+component->getComponent<SensorComponent>()->body->GetPosition(), component->getComponent<SensorComponent>()->size));
+	}
+
+	auto& webDrops = AutoList::get<WebDrop>();
+	for (auto& component : webDrops)
+	{
+		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey("web"), Rect(-(component->getComponent<StaticBodyComponent>()->size / 2) + component->getComponent<StaticBodyComponent>()->body->GetPosition(), component->getComponent<StaticBodyComponent>()->size));
 	}
 
 	auto& boostPads = AutoList::get<BoostPad>();

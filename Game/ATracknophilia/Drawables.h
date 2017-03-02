@@ -8,10 +8,12 @@
 
 struct AnimationComponent : public IComponent, public AutoLister<AnimationComponent>
 {
-	AnimationComponent(int objectId, string animationName)
+	AnimationComponent(int objectId, string animationName, int colID)
 		: IComponent(objectId)
-		, animation(Animation(animationName)) {};
+		, animation(Animation(animationName))
+		, coulourID(colID){};
 	Animation animation;
+	int coulourID;
 };
 
 struct StateComponent : public IComponent, public AutoLister<StateComponent>

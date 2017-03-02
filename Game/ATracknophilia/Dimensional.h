@@ -29,7 +29,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
 			b2FixtureDef afixture;
 			afixture.shape = &shape;
-			afixture.density = 1.0f;
+			afixture.density = 0.25f;
 			afixture.friction = 0.0f;
 			fixture = body->CreateFixture(&afixture);
 		}
@@ -158,9 +158,9 @@ struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowSh
 
 struct WebDropComponent : public StaticBodyComponent, public AutoLister<SlowShotComponent>
 {
-	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : StaticBodyComponent(id, x, y, width, height)
+	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true)
+		: StaticBodyComponent(id, x, y, width, height)
 	{
-		//fixture->SetSensor(true);
 		fixture->SetFriction(10);
 		fixture->SetDensity(10);
 	}

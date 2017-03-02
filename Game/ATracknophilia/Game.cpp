@@ -32,7 +32,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) : m_
 	auto stateSystem = new StateSystem();
 
 	//Init systems
-	renderSys->init(&m_renderer, LEVELS::FOUR);
+	renderSys->init(&m_renderer, LEVELS::TWO);
 	m_cameraManager.init(&m_camera);
 	
 	//Push back systems
@@ -58,11 +58,13 @@ void Game::init()
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
 
-	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::FOUR));
+	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::TWO));
 	m_camera.zoom(-1);
 
-	EntityFactory::SpawnPlayer(50, 12, 2, 2, 0);
-	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
+	EntityFactory::SpawnPlayer(50, 12, 2, 2, 0, 0);
+	EntityFactory::SpawnPlayer(51, 12, 2, 2, 1, 1);
+	EntityFactory::SpawnPlayer(52, 12, 2, 2, 0, 2);
+	EntityFactory::SpawnPlayer(53, 12, 2, 2, 1, 3);
 }
 
 void Game::loop(float dt)

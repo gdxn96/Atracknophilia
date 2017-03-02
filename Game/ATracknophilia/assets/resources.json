@@ -31,6 +31,10 @@
         "path": "assets/Textures/box.png"
       },
       {
+        "key": "web",
+        "path": "assets/Textures/web.png"
+      },
+      {
         "key": "boxrandom",
         "path": "assets/Textures/boxrandom.png"
       },
@@ -72,6 +76,11 @@
         "path": "assets/Textures/placeholder.png",
         "metaPath": "assets/Animations/placeholder.json"
       },
+       {
+        "key": "bidleright",
+        "path": "assets/Textures/bidleright.png",
+        "metaPath": "assets/Animations/bidleright.json"
+      },
       {
         "key": "brunright",
         "path": "assets/Textures/brunright.png",
@@ -103,6 +112,11 @@
         "metaPath": "assets/Animations/bswingingright.json"
       },
       {
+        "key": "bidleleft",
+        "path": "assets/Textures/bidleleft.png",
+        "metaPath": "assets/Animations/bidleleft.json"
+      },
+      {
         "key": "brunleft",
         "path": "assets/Textures/brunleft.png",
         "metaPath": "assets/Animations/brunleft.json"
@@ -132,7 +146,12 @@
         "path": "assets/Textures/bswingingleft.png",
         "metaPath": "assets/Animations/bswingingleft.json"
       },
-            {
+      {
+        "key": "ridleright",
+        "path": "assets/Textures/ridleright.png",
+        "metaPath": "assets/Animations/ridleright.json"
+      },
+      {
         "key": "rrunright",
         "path": "assets/Textures/rrunright.png",
         "metaPath": "assets/Animations/rrunright.json"
@@ -161,6 +180,11 @@
         "key": "rswingingright",
         "path": "assets/Textures/rswingingright.png",
         "metaPath": "assets/Animations/rswingingright.json"
+      },
+      {
+        "key": "ridleleft",
+        "path": "assets/Textures/ridleleft.png",
+        "metaPath": "assets/Animations/ridleleft.json"
       },
       {
         "key": "rrunleft",
@@ -192,7 +216,12 @@
         "path": "assets/Textures/rswingingleft.png",
         "metaPath": "assets/Animations/rswingingleft.json"
       },
-            {
+      {
+        "key": "gidleright",
+        "path": "assets/Textures/gidleright.png",
+        "metaPath": "assets/Animations/gidleright.json"
+      },
+      {
         "key": "grunright",
         "path": "assets/Textures/grunright.png",
         "metaPath": "assets/Animations/grunright.json"
@@ -221,6 +250,11 @@
         "key": "gswingingright",
         "path": "assets/Textures/gswingingright.png",
         "metaPath": "assets/Animations/gswingingright.json"
+      },
+      {
+        "key": "gidleleft",
+        "path": "assets/Textures/gidleleft.png",
+        "metaPath": "assets/Animations/gidleleft.json"
       },
       {
         "key": "grunleft",
@@ -252,7 +286,12 @@
         "path": "assets/Textures/gswingingleft.png",
         "metaPath": "assets/Animations/gswingingleft.json"
       },
-            {
+      {
+        "key": "yidleright",
+        "path": "assets/Textures/yidleright.png",
+        "metaPath": "assets/Animations/yidleright.json"
+      },
+      {
         "key": "yrunright",
         "path": "assets/Textures/yrunright.png",
         "metaPath": "assets/Animations/yrunright.json"
@@ -281,6 +320,11 @@
         "key": "yswingingright",
         "path": "assets/Textures/yswingingright.png",
         "metaPath": "assets/Animations/yswingingright.json"
+      },
+      {
+        "key": "yidleleft",
+        "path": "assets/Textures/yidleleft.png",
+        "metaPath": "assets/Animations/yidleleft.json"
       },
       {
         "key": "yrunleft",

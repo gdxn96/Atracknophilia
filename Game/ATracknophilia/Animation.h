@@ -5,7 +5,9 @@
 namespace ANIMATIONS {
 	namespace PLAYER {
 		namespace BLUE {
-			static std::string	RUNNINGRIGHT = "brunright",
+			static std::string	IDLERIGHT = "bidleright",
+				IDLELEFT = "bidleleft",
+				RUNNINGRIGHT = "brunright",
 				RUNNINGLEFT = "brunleft",
 				ATTACKRIGHT = "battackright",
 				ATTACKLEFT = "battackleft",
@@ -19,7 +21,9 @@ namespace ANIMATIONS {
 				SWINGLEFT = "bswingingleft";
 		}
 		namespace RED {
-			static std::string	RUNNINGRIGHT = "rrunright",
+			static std::string	IDLERIGHT = "ridleright",
+				IDLELEFT = "ridleleft",
+				RUNNINGRIGHT = "rrunright",
 				RUNNINGLEFT = "rrunleft",
 				ATTACKRIGHT = "rattackright",
 				ATTACKLEFT = "rattackleft",
@@ -33,7 +37,9 @@ namespace ANIMATIONS {
 				SWINGLEFT = "rswingingleft";
 		}
 		namespace GREEN {
-			static std::string	RUNNINGRIGHT = "grunright",
+			static std::string	IDLERIGHT = "gidleright",
+				IDLELEFT = "gidleleft",
+				RUNNINGRIGHT = "grunright",
 				RUNNINGLEFT = "grunleft",
 				ATTACKRIGHT = "gattackright",
 				ATTACKLEFT = "gattackleft",
@@ -47,7 +53,9 @@ namespace ANIMATIONS {
 				SWINGLEFT = "gswingingleft";
 		}
 		namespace YELLOW {
-			static std::string	RUNNINGRIGHT = "yrunright",
+			static std::string	IDLERIGHT = "yidleright",
+				IDLELEFT = "yidleleft",
+				RUNNINGRIGHT = "yrunright",
 				RUNNINGLEFT = "yrunleft",
 				ATTACKRIGHT = "yattackright",
 				ATTACKLEFT = "yattackleft",

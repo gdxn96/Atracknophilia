@@ -1,65 +1,44 @@
 #include "stdafx.h"
 #include "FiniteStateMachine.h"
 
-
-//FiniteStateMachine::FiniteStateMachine()
-//{
-//}
-//
-//
-//FiniteStateMachine::~FiniteStateMachine()
-//{
-//}
-
 Idle::Idle(bool left)
 {
 	m_left = left;
-	type = "idle";
-}
-
-void Idle::update(float dt)
-{
-	//if (player condition met)
-	//{
-	//	change state
-	//}
-	//else if (...)
-	//{
-	//	change state
-	//}
-	//p->getComponent<AnimationComponent>()->state = new Running();
+	m_type = "idle";
 }
 
 Running::Running(bool left)
 {
 	m_left = left;
-	type = "running";
+	m_type = "running";
 }
 
-void Running::update(float dt)
+Swinging::Swinging(bool b)
 {
+	m_left = b;
+	m_type = "swinging";
 }
 
-void Jumping::update(float dt)
+Falling::Falling(bool b)
 {
+	m_left = b;
+	m_type = "falling";
 }
 
-void Falling::update(float dt)
+Landing::Landing(bool b)
 {
+	m_left = b;
+	m_type = "landing";
 }
 
-void Landing::update(float dt)
+Attacking::Attacking(bool b)
 {
+	m_left = b;
+	m_type = "attacking";
 }
 
-void Attacking::update(float dt)
+Hitting::Hitting(bool b)
 {
+	m_left = b;
+	m_type = "hitting";
 }
-
-void Hitting::update(float dt)
-{
-}
-
-
-
-

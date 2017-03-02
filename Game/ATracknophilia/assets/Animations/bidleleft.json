@@ -1,0 +1,30 @@
+{"frames": [
+
+{
+	"filename": "bluerun_0037leftpng.png",
+	"frame": {"x":0,"y":0,"w":170,"h":106},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
+	"sourceSize": {"w":170,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "bluerun_0038leftpng.png",
+	"frame": {"x":170,"y":0,"w":170,"h":106},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
+	"sourceSize": {"w":170,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "bidleleft.png",
+	"format": "RGBA8888",
+	"size": {"w":340,"h":106},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d9a420afc72105900ab50a5a2d2abbc7:3062ea1fd594f23ea6cd0b98f16bc144:4a36ea74dbbe5074ef92ec01cec3f5c1$"
+}
+}
