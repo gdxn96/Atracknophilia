@@ -135,6 +135,14 @@
     <ClInclude Include="BoostPad.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="SwapSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactables.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="hooksystem.h">
+      <Filter>ECS\Systems</Filter>
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
