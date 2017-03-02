@@ -1,4 +1,4 @@
-{ "height":100,
+{ "height":200,
  "layers":[
         {
          "draworder":"topdown",
@@ -1950,7 +1950,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "width":0,
          "x":0,
          "y":0
@@ -1973,7 +1973,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "width":0,
          "x":0,
          "y":0
@@ -1984,48 +1984,48 @@
          "name":"Powerup Layer",
          "objects":[
                 {
-                 "height":400,
+                 "height":200,
                  "id":331,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
-                 "x":3800,
+                 "width":200,
+                 "x":3900,
                  "y":8200
                 }, 
                 {
-                 "height":400,
+                 "height":200,
                  "id":332,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
-                 "x":3800,
+                 "width":200,
+                 "x":3900,
                  "y":5000
                 }, 
                 {
-                 "height":400,
+                 "height":200,
                  "id":333,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
+                 "width":200,
                  "x":13800,
                  "y":5800
                 }, 
                 {
-                 "height":400,
+                 "height":200,
                  "id":334,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":400,
-                 "x":1800,
-                 "y":15600
+                 "width":200,
+                 "x":2000,
+                 "y":15900
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2036,14 +2036,14 @@
         }, 
         {
          "compression":"zlib",
-         "data":"eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==",
+         "data":"eJztwYEAAAAAw6D5U1\/hAFUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwGcR4AAQ==",
          "encoding":"base64",
-         "height":100,
+         "height":200,
          "name":"Tile Layer 1",
          "opacity":1,
          "type":"tilelayer",
          "visible":false,
-         "width":100,
+         "width":200,
          "x":0,
          "y":0
         }, 
@@ -2648,7 +2648,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "width":0,
          "x":0,
          "y":0
@@ -2925,5 +2925,5 @@
  "tilesets":[],
  "tilewidth":100,
  "version":1,
- "width":100
+ "width":200
 }

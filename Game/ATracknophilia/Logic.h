@@ -205,7 +205,7 @@ struct BoostPadResponseComponent : public ICollisionResponseComponent, public Au
 	void beginContact(IEntity * e);
 };
 
-struct PowerUpResponseComponent : public ICollisionResponseComponent
+struct PowerUpResponseComponent : public ICollisionResponseComponent, public AutoLister<PowerUpResponseComponent>
 {
 	PowerUpResponseComponent(int id)
 		: ICollisionResponseComponent(id)
@@ -215,31 +215,7 @@ struct PowerUpResponseComponent : public ICollisionResponseComponent
 	{};
 
 	void beginContact(IEntity * e)
-	{
-		if (e)
-		{
-			/*auto a = e->getComponent<AbilityComponent>();
-			if (a)
-			{
-				if (a->ability != a->NONE)
-				{
-					switch (rand() % 3)
-					{
-					case 0:
-						a->ability = a->WEB_DROP;
-						break;
-					case 1:
-						a->ability = a->SLOW_SHOT;
-						break;
-					case 2:
-						a->ability = a->SWAP_SHOT;
-						break;
-					}
-				}*/
-				//getComponent<PowerUpRespawnComponent>()->Die();
-			//}
-		}
-	}
+	{}
 };
 
 struct PowerUpRespawnComponent: public IComponent, public AutoLister<PowerUpRespawnComponent>
@@ -253,15 +229,23 @@ struct PowerUpRespawnComponent: public IComponent, public AutoLister<PowerUpResp
 
 	void ReSpawn() 
 	{
-		getComponent<Box2DComponent>()->body->SetTransform(pos, 0);
-		isDead = false;
-		tts = 0;
+		auto b = getComponent<Box2DComponent>();
+		if (b)
+		{
+			auto body = b->body;
+			body->SetTransform(pos, 0);
+			isDead = false;
+			tts = 0;
+		}
 	}
 
 	void Die() 
 	{
-		getComponent<Box2DComponent>()->body->SetTransform(b2Vec2(99999, 99999), 0);
-		isDead = true;
+		auto b = getComponent<Box2DComponent>();
+		if (b)
+		{
+			isDead = true;
+		}
 	}
 
 	float tts;

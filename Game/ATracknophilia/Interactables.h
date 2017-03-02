@@ -50,19 +50,19 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 	bool alive;
 };
 
-//struct AbilityComponent : public IComponent, public AutoLister<AbilityComponent>
-//{
-//	enum ABILITIES {
-//		NONE,
-//		WEB_DROP,
-//		SLOW_SHOT,
-//		SWAP_SHOT
-//	};
-//
-//	AbilityComponent(int id)
-//		: IComponent(id)
-//	{
-//	}
-//
-//	ABILITIES ability = NONE;
-//};
+struct AbilityComponent : public IComponent, public AutoLister<AbilityComponent>
+{
+	enum ABILITIES {
+		NONE,
+		WEB_DROP,
+		SLOW_SHOT,
+		SWAP_SHOT
+	};
+
+	AbilityComponent(int id)
+		: IComponent(id)
+	{
+	}
+
+	ABILITIES ability = NONE;
+};

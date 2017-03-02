@@ -2,7 +2,6 @@
 #include "Controller.h"
 #include "EntityFactory.h"
 
-	
 PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) : IControllerComponent(id, controllerId)
 {
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new HoldCommand([&]() {
@@ -34,7 +33,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 	}), this, m_controllerId);
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
-		/*auto c = getComponent<Box2DComponent>();
+		auto c = getComponent<Box2DComponent>();
 		auto a = getComponent<AbilityComponent>();
 		if (c && a) {
 			const auto none = a->NONE;
@@ -48,16 +47,17 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 				break;
 			case webDrop:
 				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+				a->ability = a->NONE;
 				break;
 			case slowShot:
 				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
 				a->ability = a->NONE;
 				break;
 			case swapShot:
-
+				a->ability = a->NONE;
 				break;
 			}
-		}*/
+		}
 	}), this, m_controllerId);
 
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand([&]() {

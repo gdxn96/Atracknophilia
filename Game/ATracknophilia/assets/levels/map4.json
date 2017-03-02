@@ -6,14 +6,14 @@
          "name":"Tile Layer 1",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":200,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"Obstacle Layer",
          "objects":[
                 {
@@ -444,62 +444,84 @@
                  "width":200,
                  "x":8000,
                  "y":3800
+                }, 
+                {
+                 "height":200,
+                 "id":231,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":200,
+                 "x":4700,
+                 "y":6300
+                }, 
+                {
+                 "height":200,
+                 "id":233,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":200,
+                 "x":3900,
+                 "y":5700
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
-         "width":200,
+         "visible":false,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"Powerup Layer",
          "objects":[
                 {
-                 "height":200,
+                 "height":100,
                  "id":176,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":200,
-                 "x":4400,
+                 "width":100,
+                 "x":4444,
                  "y":900
                 }, 
                 {
-                 "height":200,
+                 "height":100,
                  "id":177,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":200,
+                 "width":100,
                  "x":4300,
                  "y":6000
                 }, 
                 {
-                 "height":200,
+                 "height":100,
                  "id":178,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":200,
-                 "x":2600,
+                 "width":100,
+                 "x":2680,
                  "y":3400
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":200,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"Spawn Layer",
          "objects":[
                 {
@@ -515,14 +537,14 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
-         "width":200,
+         "visible":false,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"Boost Layer",
          "objects":[
                 {
@@ -560,14 +582,14 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
-         "width":200,
+         "visible":false,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"Map Layer",
          "objects":[
                 {
@@ -2175,13 +2197,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":200,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"Direction Layer",
          "objects":[
                 {
@@ -2531,12 +2553,12 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
-         "width":200,
+         "visible":false,
+         "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":225,
+ "nextobjectid":234,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":100,

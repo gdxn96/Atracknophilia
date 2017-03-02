@@ -221,11 +221,11 @@
  <objectgroup name="Spawn Layer" visible="0">
   <object id="330" x="2000" y="1000" width="1000" height="1000"/>
  </objectgroup>
- <objectgroup name="Powerup Layer" visible="0">
-  <object id="331" x="3800" y="8200" width="400" height="400"/>
-  <object id="332" x="3800" y="5000" width="400" height="400"/>
-  <object id="333" x="13800" y="5800" width="400" height="400"/>
-  <object id="334" x="1800" y="15600" width="400" height="400"/>
+ <objectgroup name="Powerup Layer">
+  <object id="331" x="3900" y="8200" width="200" height="200"/>
+  <object id="332" x="3900" y="5000" width="200" height="200"/>
+  <object id="333" x="13800" y="5800" width="200" height="200"/>
+  <object id="334" x="2000" y="15900" width="200" height="200"/>
  </objectgroup>
  <layer name="Tile Layer 1" width="200" height="200" visible="0">
   <data encoding="base64" compression="zlib">
