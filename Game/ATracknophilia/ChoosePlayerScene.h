@@ -31,11 +31,9 @@ private:
 	Button m_playerCBtn;
 	Button m_playerDBtn;
 
-	Button m_highlightedBtn;
-
 	Button m_aLeftArrowBtn, m_aRightArrowBtn, m_bLeftArrowBtn, m_bRightArrowBtn, m_cLeftArrowBtn, m_cRightArrowBtn, m_dLeftArrowBtn, m_dRightArrowBtn;
 
-	Button m_aiEnabled, m_aiDisabled, m_aiChoice;
+	Button m_aiChoice;
 
 	Button m_yIconBtn;
 
@@ -60,7 +58,7 @@ private:
 	enum IDs { m_playerOneID, m_playerTwoID, m_playerThreeID, m_playerFourID };
 
 	// used for changing character by left or right ordering
-	enum direction { left, right, up, down};
+	enum direction { left, right};
 
 	// change the colour of the sprite for the specific player based on their player ID
 	void changePlayerColour(direction dir, int controllerId);

@@ -12,7 +12,7 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	, m_btnHeight(189)
 	, m_btnWidth(250)
 	, m_aiXPos(1000)
-	, m_aiYPos(300)
+	, m_aiYPos(400)
 	, m_aiHeight(50)
 {
 	m_playerABtn = Button();
@@ -27,9 +27,6 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	m_cRightArrowBtn = Button();
 	m_dLeftArrowBtn = Button();
 	m_dRightArrowBtn = Button();
-	m_highlightedBtn = Button();
-	m_aiEnabled = Button();
-	m_aiDisabled = Button();
 	m_aiChoice = Button();
 	m_yIconBtn = Button();
 	loadMedia();
@@ -59,9 +56,6 @@ void ChoosePlayerScene::render(Renderer & r)
 	m_cRightArrowBtn.render(r);
 	m_dLeftArrowBtn.render(r);
 	m_dRightArrowBtn.render(r);
-	m_highlightedBtn.render(r);
-	m_aiEnabled.render(r);
-	m_aiDisabled.render(r);
 	m_aiChoice.render(r);
 	m_yIconBtn.render(r);
 	r.present();
@@ -76,7 +70,7 @@ void ChoosePlayerScene::enter()
 	lockedB = false;
 	lockedC = false;
 	lockedD = false;
-	m_isAiEnabled = false;
+	m_isAiEnabled = true;
 	m_blueID = 0;
 	m_greenID = 1;
 	m_redID = 2;
@@ -90,10 +84,8 @@ void ChoosePlayerScene::enter()
 	m_playerBBtn.setRect(Rect{ m_rightBtnPos, m_upBtnPos, m_btnWidth, m_btnHeight });
 	m_playerCBtn.setRect(Rect{ m_leftBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
 	m_playerDBtn.setRect(Rect{ m_rightBtnPos, m_downBtnPos, m_btnWidth, m_btnHeight });
-	m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
-	m_aiEnabled.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
-	m_aiDisabled.setRect(Rect{ m_aiXPos, m_aiYPos * m_scaler, m_btnWidth, m_aiHeight });
-	m_aiChoice.setRect(Rect{ m_aiXPos, m_aiYPos * 2, m_btnWidth, m_aiHeight });
+
+	m_aiChoice.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
 	m_yIconBtn.setRect(Rect{ m_aiXPos + 100, m_aiYPos * (m_scaler/2), 50, m_aiHeight });
 
 	m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
@@ -115,7 +107,7 @@ void ChoosePlayerScene::enter()
 
 	m_noControllerTex = ResourceManager::getInstance()->getTextureByKey("nocontroller");
 
-	m_aiTex = ResourceManager::getInstance()->getTextureByKey("disabledText");
+	m_aiTex = ResourceManager::getInstance()->getTextureByKey("enabledText");
 
 	m_playerABtn.setTexture(m_blueTex);
 	m_playerBBtn.setTexture(m_greenTex);
@@ -131,8 +123,6 @@ void ChoosePlayerScene::enter()
 	m_dLeftArrowBtn.setTexture(m_leftArrowTex);
 	m_dRightArrowBtn.setTexture(m_rightArrowTex);
 
-	m_aiEnabled.setTexture(ResourceManager::getInstance()->getTextureByKey("enableAiBtn"));
-	m_aiDisabled.setTexture(ResourceManager::getInstance()->getTextureByKey("disableAiBtn"));
 	m_aiChoice.setTexture(m_aiTex);
 	m_yIconBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("yicon"));
 
@@ -140,10 +130,6 @@ void ChoosePlayerScene::enter()
 	m_playerBBtn.m_playerID = m_playerTwoID;
 	m_playerCBtn.m_playerID = m_playerThreeID;
 	m_playerDBtn.m_playerID = m_playerFourID;
-
-	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
-
-	m_highlightedBtn.setDirection(up);
 }
 
 bool ChoosePlayerScene::init(Renderer & r)
@@ -159,8 +145,6 @@ bool ChoosePlayerScene::init(Renderer & r)
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new PressCommand(std::bind(&ChoosePlayerScene::changePlayerColour, this, right, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_LEFT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, left, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerOneID)), this, m_playerOneID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_UP, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, up)), this, m_playerOneID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_DOWN, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, down)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new PressCommand(std::bind(&ChoosePlayerScene::updateAiChoice, this)), this, m_playerOneID);
 
@@ -228,25 +212,6 @@ void ChoosePlayerScene::changePlayerColour(direction dir, int controllerId)
 		if (lockedD == false) { changeCharacter(dir, m_playerFourID); }
 		updatePlayer(m_playerDBtn.m_playerID, m_playerFourID);
 		break;
-	}
-}
-
-void ChoosePlayerScene::moveHighlightedBtn(direction dir)
-{
-	if (currentTick > 1)
-	{
-		if (dir == up && m_highlightedBtn.getDirection() != up)
-		{
-			m_highlightedBtn.setDirection(up);
-			m_yIconBtn.setRect(Rect{ m_aiXPos + 100, m_aiYPos * (m_scaler / 2), 50, m_aiHeight });
-			m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
-		}
-		if (dir == down && m_highlightedBtn.getDirection() != down)
-		{
-			m_highlightedBtn.setDirection(down);
-			m_yIconBtn.setRect(Rect{ m_aiXPos + 100, m_aiYPos * (m_scaler / 2) + 150, 50, m_aiHeight });
-			m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos * m_scaler, m_btnWidth, m_aiHeight });
-		}
 	}
 }
 
@@ -569,13 +534,13 @@ void ChoosePlayerScene::updateAiChoice()
 {
 	if (currentTick > 1)
 	{
-		if (m_aiEnabled.getRect() == m_highlightedBtn.getRect())
+		if (m_isAiEnabled == false)
 		{
 			m_aiTex = ResourceManager::getInstance()->getTextureByKey("enabledText");
 			m_aiChoice.setTexture(m_aiTex);
 			m_isAiEnabled = true;
 		}
-		if (m_aiDisabled.getRect() == m_highlightedBtn.getRect())
+		else if (m_isAiEnabled == true)
 		{
 			m_aiTex = ResourceManager::getInstance()->getTextureByKey("disabledText");
 			m_aiChoice.setTexture(m_aiTex);

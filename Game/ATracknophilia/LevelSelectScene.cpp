@@ -25,6 +25,7 @@ LevelSelectScene::LevelSelectScene(Vector2D windowSize)
 	m_cRightArrowBtn = Button();
 	m_dLeftArrowBtn = Button();
 	m_dRightArrowBtn = Button();
+	m_pressStartBtn = Button();
 
 	/* initialize random seed: */
 	srand(time(NULL));
@@ -53,6 +54,7 @@ void LevelSelectScene::render(Renderer & r)
 	m_cRightArrowBtn.render(r);
 	m_dLeftArrowBtn.render(r);
 	m_dRightArrowBtn.render(r);
+	m_pressStartBtn.render(r);
 	r.present();
 }
 
@@ -89,6 +91,8 @@ void LevelSelectScene::enter()
 	m_dLeftArrowBtn.setRect(Rect{ m_rightBtnPos - (m_arrowWidth * 2), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
 	m_dRightArrowBtn.setRect(Rect{ (m_rightBtnPos + m_btnWidth) + (m_arrowWidth), m_downBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
 
+	m_pressStartBtn.setRect(Rect{ m_leftBtnPos + 100, 50, 500, 100 });
+
 	m_lvlOneTex = ResourceManager::getInstance()->getTextureByKey("lvl1btn");
 	m_lvlTwoTex = ResourceManager::getInstance()->getTextureByKey("lvl2btn");
 	m_lvlThreeTex = ResourceManager::getInstance()->getTextureByKey("lvl3btn");
@@ -112,6 +116,8 @@ void LevelSelectScene::enter()
 	m_cRightArrowBtn.setTexture(m_rightArrowTex);
 	m_dLeftArrowBtn.setTexture(m_leftArrowTex);
 	m_dRightArrowBtn.setTexture(m_rightArrowTex);
+
+	m_pressStartBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("pressstartbtn"));
 
 	m_playerABtn.m_playerID = m_playerOneID;
 	m_playerBBtn.m_playerID = m_playerTwoID;

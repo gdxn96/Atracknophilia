@@ -131,6 +131,10 @@
         "path": "assets/Textures/offbtn.png"
       },
       {
+        "key": "pressstartbtn",
+        "path": "assets/Textures/pressstartbtn.png"
+      },
+      {
         "key": "greyedlvl1btn",
         "path": "assets/Textures/greyedMapone.png"
       },
