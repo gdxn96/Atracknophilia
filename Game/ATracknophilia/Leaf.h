@@ -3,6 +3,7 @@
 #include "Interactables.h"
 #include "DirectionVolume.h"
 #include "Property.h"
+#include "AudioManager.h"
 
 class Leaf : public Node
 {
@@ -10,23 +11,23 @@ public:
 	virtual ~Leaf() {}
 };
 
-class UseAbility : public Leaf
+class UseAbility : public Leaf//, public Subject
 {
 public:
-	UseAbility() {}
+	UseAbility(/*AudioManager* audioMgr*/) {/* addObserver(audioMgr);*/ }
 	~UseAbility() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)
 	{
 		if (!isHooked)
 		{
-			/*auto a = player->getComponent<AbilityComponent>();
-			auto c = player->getComponent<Box2DComponent>();
+			/*auto a = p->getComponent<AbilityComponent>();
+			auto c = p->getComponent<Box2DComponent>();
 			if(a && c)
 			{
 				switch(a->ability)
 				{
-				case WEB_DROP:
+				case a->WEB_DROP:
 					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
 					a->ability = NONE;
 					return Status::Success;
@@ -47,10 +48,10 @@ public:
 	}
 };
 
-class MoveInDirectionOfVolume : public Leaf
+class MoveInDirectionOfVolume : public Leaf//, public Subject
 {
 public:
-	MoveInDirectionOfVolume() {}
+	MoveInDirectionOfVolume(/*AudioManager* audioMgr*/) { /*addObserver(audioMgr);*/ }
 	~MoveInDirectionOfVolume() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)
@@ -122,10 +123,10 @@ public:
 	}
 };
 
-class UseHook : public Leaf
+class UseHook : public Leaf//, public Subject
 {
 public:
-	UseHook() {}
+	UseHook(/*AudioManager* audioMgr*/) { /*addObserver(audioMgr);*/ }
 	~UseHook() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)
@@ -153,10 +154,10 @@ public:
 	}
 };
 
-class RaiseHook : public Leaf
+class RaiseHook : public Leaf//, public Subject
 {
 public:
-	RaiseHook() {}
+	RaiseHook(/*AudioManager* audioMgr*/) {/* addObserver(audioMgr); */}
 	~RaiseHook() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)
@@ -182,10 +183,10 @@ public:
 	}
 };
 
-class UseStamina : public Leaf
+class UseStamina : public Leaf//, public Subject
 {
 public:
-	UseStamina() {}
+	UseStamina(/*AudioManager* audioMgr*/) { /*addObserver(audioMgr);*/ }
 	~UseStamina() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)

@@ -5,6 +5,8 @@
 #include "Drawables.h"
 #include "Interactables.h"
 #include "Property.h"
+#include "Subject.h"
+#include "AudioManager.h"
 
 class PressCommand : public Command
 {
@@ -53,9 +55,9 @@ struct IControllerComponent : public IComponent, public AutoLister<IControllerCo
 	bool isHooked = false;
 };
 
-struct PlayerControllerComponent : public IControllerComponent, public EventListener
+struct PlayerControllerComponent : public IControllerComponent, public EventListener, public Subject
 {
-	PlayerControllerComponent(int id, int controllerId);
+	PlayerControllerComponent(int id, int controllerId, AudioManager* audioMgr);
 
 	void process(float dt) override;
 

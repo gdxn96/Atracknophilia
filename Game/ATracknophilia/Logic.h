@@ -102,19 +102,19 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 
 struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAIComponent>
 {
-	PlayerAIComponent(int id)
+	PlayerAIComponent(int id, AudioManager* audioMgr)
 		: AIComponent(id)
 		, bt(BehaviourTree())
 		, isHooked(false)
 	{
 		Selector* root = new Selector();
 		root->Initialize();
-		root->AddChild(new UseAbility());
+		root->AddChild(new UseAbility(/*audioMgr*/));
 
 		Sequence* checkHook = new Sequence();
 		checkHook->Initialize();
-		checkHook->AddChild(new CheckHooked());
-		checkHook->AddChild(new RaiseHook());
+		checkHook->AddChild(new CheckHooked(/*audioMgr*/));
+		checkHook->AddChild(new RaiseHook(/*audioMgr*/));
 		root->AddChild(checkHook);
 
 		Selector* moveSelector = new Selector();
@@ -123,19 +123,19 @@ struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAICompone
 		Sequence* staminaSequence = new Sequence();
 		staminaSequence->Initialize();
 		staminaSequence->AddChild(new CheckVelocity());
-		staminaSequence->AddChild(new UseStamina());
+		staminaSequence->AddChild(new UseStamina(/*audioMgr*/));
 
 		Failer* staminaFailer = new Failer();
 		staminaFailer->SetChild(staminaSequence);
 
 		moveSelector->AddChild(staminaFailer);
-		moveSelector->AddChild(new MoveInDirectionOfVolume());
+		moveSelector->AddChild(new MoveInDirectionOfVolume(/*audioMgr*/));
 
 		Sequence* hookSequence = new Sequence();
 		hookSequence->Initialize();
-		hookSequence->AddChild(new UseHook());
-		hookSequence->AddChild(new RaiseHook());
-		hookSequence->AddChild(new MoveInDirectionOfVolume());
+		hookSequence->AddChild(new UseHook(/*audioMgr*/));
+		hookSequence->AddChild(new RaiseHook(/*audioMgr*/));
+		hookSequence->AddChild(new MoveInDirectionOfVolume(/*audioMgr*/));
 
 		moveSelector->AddChild(hookSequence);
 		root->AddChild(moveSelector);

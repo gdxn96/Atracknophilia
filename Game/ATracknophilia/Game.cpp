@@ -4,11 +4,13 @@
 #include "LevelLoader.h"
 #include "EntityFactory.h"
 #include "DirectionVolume.h"
+#include "AudioManager.h"
 
 bool Game::quit = false;
 
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) 
 	: m_resourceMgr(ResourceManager::getInstance())
+	, m_audioMgr(AudioManager())
 {
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
 		{ LEVELS::LEVEL1, "./assets/levels/map1.json" },
@@ -62,8 +64,8 @@ void Game::init()
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL4));
 	m_camera.zoom(-1);
 
-	EntityFactory::SpawnPlayer(51, 13, 1, 1, 0, true);
-	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0);
+	EntityFactory::SpawnPlayer(51, 13, 1, 1, 0, &m_audioMgr, true);
+	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0, &m_audioMgr);
 	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
 }
 

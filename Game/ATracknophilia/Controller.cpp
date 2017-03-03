@@ -2,8 +2,9 @@
 #include "Controller.h"
 #include "EntityFactory.h"
 #include "RaceManager.h"
+#include "AudioManager.h"
 	
-PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) : IControllerComponent(id, controllerId)
+PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, AudioManager* audioMgr) : IControllerComponent(id, controllerId)
 {
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
@@ -98,7 +99,10 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 						auto isDynamic = intersection.first->getComponent<StaticBodyComponent>();
 						float distance = Vector2D::Distance(Vector2D(c->body->GetPosition()), intersectionPt);
 						if (distance > 10 && isDynamic)
+						{
 							getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
+							notify(Observer::LAND);
+						}
 					}
 				}
 			}
@@ -157,6 +161,8 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			}
 		}
 	}), this, m_controllerId);
+
+	addObserver(audioMgr);
 }
 
 void PlayerControllerComponent::process(float dt)

@@ -23,5 +23,6 @@ private:
 	CameraManager m_cameraManager;
 
 	ResourceManager* m_resourceMgr;
+	AudioManager m_audioMgr;
 	std::vector<ISystem*> m_systems;
 };

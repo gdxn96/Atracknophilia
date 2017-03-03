@@ -78,7 +78,7 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 class Player : public IEntity, public AutoLister<Player>
 {
 public:
-	Player(int id, float x, float y, float w, float h, int controllerId)
+	Player(int id, float x, float y, float w, float h, int controllerId, AudioManager* audioMgr)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -89,7 +89,7 @@ public:
 			new VelocityComponent(id, 50),
 			new ConstMaxVelocityComponent(id, 50),
 			new ConstBoostedVelocityComponent(id, 80),
-			new PlayerControllerComponent(id, controllerId),
+			new PlayerControllerComponent(id, controllerId, audioMgr),
 			new RacePositionComponent(id),
 			new PlayerStaticObjectResponseComponent(id),
 			new AbilityComponent(id)
@@ -97,7 +97,7 @@ public:
 	{
 	}
 
-	Player(int id, float x, float y, float w, float h)
+	Player(int id, float x, float y, float w, float h, AudioManager* audioMgr)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -108,7 +108,7 @@ public:
 			new VelocityComponent(id, 50),
 			new ConstMaxVelocityComponent(id, 50),
 			new ConstBoostedVelocityComponent(id, 80),
-			new PlayerAIComponent(id),
+			new PlayerAIComponent(id, audioMgr),
 			new RacePositionComponent(id),
 			new PlayerStaticObjectResponseComponent(id)
 		})

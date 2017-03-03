@@ -3,15 +3,15 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, bool isAI)
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, AudioManager* audioMgr, bool isAI)
 {
 	if (isAI)
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, audioMgr));
 	}
 	else
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId, audioMgr));
 	}
 }
 
