@@ -12,6 +12,8 @@ InputManager* InputManager::inputManagerInstance = nullptr;
 
 int main()
 {
+	NetworkAdapter n;
+	
 	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
 	auto exit = PressCommand([&](){ Game::quit = true; });
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::ESCAPE, &exit, &game);

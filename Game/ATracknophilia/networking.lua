@@ -2,6 +2,40 @@
 local http = require'socket.http'
 local ltn12 = require"ltn12"
 
+--local socket = require("socket")
+--local udp = assert(socket.udp())
+--local data
+--
+--udp:settimeout(0)
+--assert(udp:setpeername("localhost",1234))
+--
+--udp = socket.udp ( )
+--udp:settimeout ( 0 )
+--
+--udp:setsockname ( "*", 14285 )
+---- connect to UDP server
+--udp:setpeername ( "localhost", 14285 )
+--
+--for i = 0, 2, 1 do
+--  assert(udp:send("ping"))
+--  data = udp:receive()
+--  if data then
+--    break
+--  end
+--end
+--
+--
+--if data == nil then
+--  print("cannot ping udp server")
+--else
+--  print(data)
+--end
+
+local s = socket.udp()
+s:setpeername( "74.125.115.104", 80 )
+local ip, sock = s:getsockname()
+print( "myIP:", ip, sock )
+
 
 function post_request(url, POST_DATA)
 	local respbody = {}

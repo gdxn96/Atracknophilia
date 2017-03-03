@@ -2,6 +2,31 @@
 #include "LuaEngine.h"
 #include "../dependancies/MetaSystem/MetaSystem.h"
 
+#define INCOMING_MESSAGE(x) namespace MessageType {	namespace INCOMING { static const char* x = #x;	}	}
+#define OUTGOING_MESSAGE(x) namespace MessageType {	namespace OUTGOING { static const char* x = #x;	}	}
+
+INCOMING_MESSAGE(PONG)
+OUTGOING_MESSAGE(PING)
+
+struct Message
+{
+	META_DATA(Message);
+	const char* messageType = "";
+	const char * data;
+	Message(const char * _data, const char* _messageType) : data(_data), messageType(_messageType) {}
+
+	const char* toJson()
+	{
+		return Variable(this).ToJson().c_str();
+	}
+};
+
+DEFINE_META(Message)
+{
+	ADD_MEMBER(messageType);
+	ADD_MEMBER(data);
+}
+
 class REST_Response
 {
 public:
@@ -47,6 +72,14 @@ public:
 			.beginNamespace("CPP")
 				.beginClass<REST_Response>("REST_Response")
 					.addConstructor<void(*)(int, const char*)>()
+				.endClass()
+			.endNamespace();
+		
+		luabridge::getGlobalNamespace(m_lua.L())
+			.beginNamespace("CPP")
+				.beginClass<Message>("Message")
+					.addConstructor<void(*)(const char*, const char *)>()
+					.addFunction("toJson", &Message::toJson)
 				.endClass()
 			.endNamespace();
 	}
