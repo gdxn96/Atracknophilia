@@ -563,12 +563,24 @@ int LevelSelectScene::countMapVotes()
 	int mapSelected;
 
 	// only 1 player playing with AI
-	if (m_controllerTwoConnected == false)
+	if (m_controllerTwoConnected == false && m_aiEnabled == true)
 	{
-		if (m_lvlOneVoteCount > 0) { mapSelected = 1; }
-		if (m_lvlTwoVoteCount > 0) { mapSelected = 2; }
-		if (m_lvlThreeVoteCount > 0) { mapSelected = 3; }
-		if (m_lvlFourVoteCount > 0) { mapSelected = 4; }
+		if (m_lvlOneVoteCount > 0)
+		{ 
+			mapSelected = 1;
+		}
+		if (m_lvlTwoVoteCount > 0) 
+		{ 
+			mapSelected = 2; 
+		}
+		if (m_lvlThreeVoteCount > 0) 
+		{ 
+			mapSelected = 3; 
+		}
+		if (m_lvlFourVoteCount > 0) 
+		{ 
+			mapSelected = 4; 
+		}
 	}
 	// only 2 players
 	if (m_controllerThreeConnected == false)
@@ -591,19 +603,19 @@ int LevelSelectScene::countMapVotes()
 		}
 	}
 	// 3 players
-	if (m_lvlOneVoteCount == 2 && m_lvlTwoVoteCount == 1 || m_lvlThreeVoteCount == 1 || m_lvlFourVoteCount == 1)
+	if (m_lvlOneVoteCount == 2 && m_lvlTwoVoteCount == 1 && m_lvlThreeVoteCount == 1 && m_lvlFourVoteCount == 1)
 	{
 		mapSelected = 1;
 	}
-	if (m_lvlTwoVoteCount == 2 && m_lvlOneVoteCount == 1 || m_lvlThreeVoteCount == 1 || m_lvlFourVoteCount == 1)
+	if (m_lvlTwoVoteCount == 2 && m_lvlOneVoteCount == 1 && m_lvlThreeVoteCount == 1 && m_lvlFourVoteCount == 1)
 	{
 		mapSelected = 2;
 	}
-	if (m_lvlThreeVoteCount == 2 && m_lvlTwoVoteCount == 1 || m_lvlOneVoteCount == 1 || m_lvlFourVoteCount == 1)
+	if (m_lvlThreeVoteCount == 2 && m_lvlTwoVoteCount == 1 && m_lvlOneVoteCount == 1 && m_lvlFourVoteCount == 1)
 	{
 		mapSelected = 3;
 	}
-	if (m_lvlFourVoteCount == 2 && m_lvlTwoVoteCount == 1 || m_lvlThreeVoteCount == 1 || m_lvlOneVoteCount == 1)
+	if (m_lvlFourVoteCount == 2 && m_lvlTwoVoteCount == 1 && m_lvlThreeVoteCount == 1 && m_lvlOneVoteCount == 1)
 	{
 		mapSelected = 4;
 	}
