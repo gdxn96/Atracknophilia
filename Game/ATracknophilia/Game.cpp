@@ -60,6 +60,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	ChoosePlayerScene * choosePlayerScene = new ChoosePlayerScene(windowSize);
 	choosePlayerScene->m_lvl = lvlSelectScene;
 	LobbyScene * lobbyScene = new LobbyScene(windowSize);
+	RoomScene * roomScene = new RoomScene(windowSize);
 
 	//add scenes to sceneMgr
 	SceneManager::getInstance()->addScene(startScene);
@@ -70,6 +71,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	SceneManager::getInstance()->addScene(lvlSelectScene);
 	SceneManager::getInstance()->addScene(choosePlayerScene);
 	SceneManager::getInstance()->addScene(lobbyScene);
+	SceneManager::getInstance()->addScene(roomScene);
 
 	//switch to splash
 	SceneManager::getInstance()->switchTo(Scenes::SPLASH);

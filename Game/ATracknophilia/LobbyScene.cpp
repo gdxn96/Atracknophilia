@@ -34,17 +34,7 @@ bool LobbyScene::init(Renderer & r)
 {
 	// init success flag
 	bool success = true;
-
-	m_hostBtn.setRect(Rect{ m_leftBtnPos, m_yBtnPos, m_btnWidth, m_btnHeight });
-	m_joinBtn.setRect(Rect{ m_rightBtnPos, m_yBtnPos, m_btnWidth, m_btnHeight });
-	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_yBtnPos, m_btnWidth, m_btnHeight });
-
-	m_hostBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("hostbtn"));
-	m_joinBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("joinbtn"));
-	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
-
-	m_highlightedBtn.setDirection(left);
-
+	
 	// set key binds
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new PressCommand(std::bind(&LobbyScene::changeScene, this, Scenes::SPLASH)), this, 0);
 
@@ -54,6 +44,19 @@ bool LobbyScene::init(Renderer & r)
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&LobbyScene::executeScene, this)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&LobbyScene::executeScene, this)), this, m_playerOneID);
 	return success;
+}
+
+void LobbyScene::enter()
+{
+	m_hostBtn.setRect(Rect{ m_leftBtnPos, m_yBtnPos, m_btnWidth, m_btnHeight });
+	m_joinBtn.setRect(Rect{ m_rightBtnPos, m_yBtnPos, m_btnWidth, m_btnHeight });
+	m_highlightedBtn.setRect(Rect{ m_leftBtnPos, m_yBtnPos, m_btnWidth, m_btnHeight });
+
+	m_hostBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("hostbtn"));
+	m_joinBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("joinbtn"));
+	m_highlightedBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("highlight"));
+
+	m_highlightedBtn.setDirection(left);
 }
 
 void LobbyScene::changeScene(Scenes newScene)
@@ -104,7 +107,7 @@ void LobbyScene::executeScene()
 		}
 		if (m_joinBtn.getRect() == m_highlightedBtn.getRect())
 		{
-			changeScene(Scenes::CHOOSEPLAYER);
+			changeScene(Scenes::ROOMSCENE);
 		}
 	}
 }

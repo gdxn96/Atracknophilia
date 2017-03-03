@@ -31,6 +31,7 @@ ChoosePlayerScene::ChoosePlayerScene(Vector2D windowSize)
 	m_aiEnabled = Button();
 	m_aiDisabled = Button();
 	m_aiChoice = Button();
+	m_yIconBtn = Button();
 	loadMedia();
 }
 
@@ -62,6 +63,7 @@ void ChoosePlayerScene::render(Renderer & r)
 	m_aiEnabled.render(r);
 	m_aiDisabled.render(r);
 	m_aiChoice.render(r);
+	m_yIconBtn.render(r);
 	r.present();
 }
 
@@ -92,6 +94,7 @@ void ChoosePlayerScene::enter()
 	m_aiEnabled.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
 	m_aiDisabled.setRect(Rect{ m_aiXPos, m_aiYPos * m_scaler, m_btnWidth, m_aiHeight });
 	m_aiChoice.setRect(Rect{ m_aiXPos, m_aiYPos * 2, m_btnWidth, m_aiHeight });
+	m_yIconBtn.setRect(Rect{ m_aiXPos + 100, m_aiYPos * (m_scaler/2), 50, m_aiHeight });
 
 	m_aLeftArrowBtn.setRect(Rect{ m_leftBtnPos - (m_arrowWidth * 2), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
 	m_aRightArrowBtn.setRect(Rect{ (m_leftBtnPos + m_btnWidth) + (m_arrowWidth), m_upBtnPos + (m_btnHeight / 2), m_arrowWidth, m_arrowHeight });
@@ -131,6 +134,7 @@ void ChoosePlayerScene::enter()
 	m_aiEnabled.setTexture(ResourceManager::getInstance()->getTextureByKey("enableAiBtn"));
 	m_aiDisabled.setTexture(ResourceManager::getInstance()->getTextureByKey("disableAiBtn"));
 	m_aiChoice.setTexture(m_aiTex);
+	m_yIconBtn.setTexture(ResourceManager::getInstance()->getTextureByKey("yicon"));
 
 	m_playerABtn.m_playerID = m_playerOneID;
 	m_playerBBtn.m_playerID = m_playerTwoID;
@@ -157,7 +161,7 @@ bool ChoosePlayerScene::init(Renderer & r)
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_RIGHT, new ReleaseCommand(std::bind(&ChoosePlayerScene::reduceArrowScale, this, right, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_UP, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, up)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_DPAD_DOWN, new PressCommand(std::bind(&ChoosePlayerScene::moveHighlightedBtn, this, down)), this, m_playerOneID);
-	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_A, new PressCommand(std::bind(&ChoosePlayerScene::executeScene, this, m_playerOneID)), this, m_playerOneID);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_Y, new PressCommand(std::bind(&ChoosePlayerScene::updateAiChoice, this)), this, m_playerOneID);
 
 	// player2
@@ -234,11 +238,13 @@ void ChoosePlayerScene::moveHighlightedBtn(direction dir)
 		if (dir == up && m_highlightedBtn.getDirection() != up)
 		{
 			m_highlightedBtn.setDirection(up);
+			m_yIconBtn.setRect(Rect{ m_aiXPos + 100, m_aiYPos * (m_scaler / 2), 50, m_aiHeight });
 			m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos, m_btnWidth, m_aiHeight });
 		}
 		if (dir == down && m_highlightedBtn.getDirection() != down)
 		{
 			m_highlightedBtn.setDirection(down);
+			m_yIconBtn.setRect(Rect{ m_aiXPos + 100, m_aiYPos * (m_scaler / 2) + 150, 50, m_aiHeight });
 			m_highlightedBtn.setRect(Rect{ m_aiXPos, m_aiYPos * m_scaler, m_btnWidth, m_aiHeight });
 		}
 	}

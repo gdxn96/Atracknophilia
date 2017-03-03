@@ -150,7 +150,7 @@ void StartScene::executeScene()
 		}
 		if (m_optionsBtn.getRect() == m_highlightedBtn.getRect())
 		{
-			changeScene(Scenes::LEVELSELECT);
+			changeScene(Scenes::OPTIONS);
 		}
 	}
 }

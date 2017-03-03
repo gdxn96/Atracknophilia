@@ -13,6 +13,7 @@
 #include "ChoosePlayerScene.h"
 #include "LobbyScene.h"
 #include "StartScene.h"
+#include "RoomScene.h"
 
 class Game : public EventListener
 {

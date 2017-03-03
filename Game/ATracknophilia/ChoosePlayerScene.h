@@ -37,6 +37,8 @@ private:
 
 	Button m_aiEnabled, m_aiDisabled, m_aiChoice;
 
+	Button m_yIconBtn;
+
 	float m_arrowWidth, m_arrowHeight;
 
 	float m_scaler;

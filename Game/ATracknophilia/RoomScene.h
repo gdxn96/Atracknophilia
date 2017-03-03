@@ -3,11 +3,11 @@
 #include "Game.h"
 #include "Button.h"
 
-class LobbyScene : public Scene, public EventListener
+class RoomScene : public Scene, public EventListener
 {
 public:
 
-	LobbyScene(Vector2D windowSize);
+	RoomScene(Vector2D windowSize);
 
 	void update(float dt) override;
 	void render(Renderer& r) override;
@@ -24,13 +24,15 @@ private:
 	Rect m_textureRect;
 	int currentTick = 0;
 
-	Button m_hostBtn;
-	Button m_joinBtn;
+	Button m_room1Btn;
+	Button m_room2Btn;
+	Button m_room3Btn;
+	Button m_room4Btn;
 
 	Button m_highlightedBtn;
 
 	// button positions on the screen
-	float m_leftBtnPos, m_rightBtnPos, m_yBtnPos;
+	float m_leftBtnPos, m_rightBtnPos, m_upBtnPos, m_downBtnPos;
 
 	// buttons height and weight
 	float m_btnWidth, m_btnHeight;
@@ -39,7 +41,7 @@ private:
 	enum IDs { m_playerOneID, m_playerTwoID, m_playerThreeID, m_playerFourID };
 
 	// used for changing character by left or right ordering
-	enum direction { left, right };
+	enum direction { left, right, up, down };
 
 	void moveHighlightBtn(direction dir, IDs id);
 

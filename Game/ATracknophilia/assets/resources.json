@@ -15,10 +15,6 @@
         "path": "assets/Textures/placeholder.png"
       }, 
       {
-        "key": "gameover",
-        "path": "assets/Textures/gameover.png"
-      },
-      {
         "key": "startscreen",
         "path": "assets/Textures/startscreen.png"
       },
@@ -107,6 +103,22 @@
         "path": "assets/Textures/Mapfour.png"
       },
       {
+        "key": "room1btn",
+        "path": "assets/Textures/room1btn.png"
+      },
+      {
+        "key": "room2btn",
+        "path": "assets/Textures/room2btn.png"
+      },
+      {
+        "key": "room3btn",
+        "path": "assets/Textures/room3btn.png"
+      },
+      {
+        "key": "room4btn",
+        "path": "assets/Textures/room4btn.png"
+      },
+      {
         "key": "greyedlvl1btn",
         "path": "assets/Textures/greyedMapone.png"
       },
@@ -169,6 +181,10 @@
       {
         "key": "greyedYellow",
         "path": "assets/Textures/greyedYellow.png"
+      },
+      {
+        "key": "yicon",
+        "path": "assets/Textures/yicon.png"
       },
       {
         "key": "highlight",
