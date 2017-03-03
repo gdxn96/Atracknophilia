@@ -1,21 +1,12 @@
 {"frames": [
 
 {
-	"filename": "redrun_0037.png",
-	"frame": {"x":0,"y":0,"w":170,"h":106},
+	"filename": "redrun_0015.png",
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "redrun_0038.png",
-	"frame": {"x":170,"y":0,"w":170,"h":106},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -23,8 +14,8 @@
 	"version": "1.0",
 	"image": "ridleright.png",
 	"format": "RGBA8888",
-	"size": {"w":340,"h":106},
+	"size": {"w":202,"h":212},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:401363faea2a9f51d9ec3fbe58a3b20d:4e878a34ebb0a78de227dd4593c7737f:ee3728015c756099f1cbb2556098a775$"
+	"smartupdate": "$TexturePacker:SmartUpdate:21306af97af447c10ebef9540dc62233:e62c54fb02b24e98a4b70c90dd7ba301:ee3728015c756099f1cbb2556098a775$"
 }
 }

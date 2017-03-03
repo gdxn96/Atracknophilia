@@ -20,6 +20,8 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	m_renderer.init(windowSize, windowName, &m_camera);
 	m_camera.init(windowSize.w, windowSize.h, m_renderer.getRenderer());
 
+	srand(time(NULL));
+
 	m_cameraManager = CameraManager();
 
 	//Declare systems

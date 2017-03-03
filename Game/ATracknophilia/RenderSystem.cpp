@@ -36,6 +36,19 @@ void RenderSystem::process(float dt)
 	{
 		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey("boost"), Rect(-(component->getComponent<SensorComponent>()->size / 2) + component->getComponent<SensorComponent>()->body->GetPosition(), component->getComponent<SensorComponent>()->size));
 	}
+
+	auto& powerups = AutoList::get<PowerUp>();
+	for (auto& component : powerups)
+	{
+		m_renderer->drawTexture(ResourceManager::getInstance()->getTextureByKey("boxrandom"), Rect(-(component->getComponent<SensorComponent>()->size / 2) + component->getComponent<SensorComponent>()->body->GetPosition(), component->getComponent<SensorComponent>()->size));
+	}
+
+	auto& slowShots = AutoList::get<SlowShot>();
+	for (auto& component : slowShots)
+	{
+		Vector2D angle = component->getComponent<SlowShotComponent>()->body->GetLinearVelocity();
+		m_renderer->drawTextureWithAngle(ResourceManager::getInstance()->getTextureByKey("webattack"), Rect(-(component->getComponent<SlowShotComponent>()->size / 2) + component->getComponent<SlowShotComponent>()->body->GetPosition(), component->getComponent<SlowShotComponent>()->size), Vector2D::AngleDeg(angle, Vector2D(0,0)));
+	}
 	//{
 	//	auto& components = AutoList::get<Box2DComponent>();
 	//	for (auto& component : components)

@@ -2,101 +2,101 @@
 
 {
 	"filename": "blueattack_0000leftpng.png",
-	"frame": {"x":0,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0001leftpng.png",
-	"frame": {"x":171,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0002leftpng.png",
-	"frame": {"x":342,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0003leftpng.png",
-	"frame": {"x":513,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0004leftpng.png",
-	"frame": {"x":684,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0005leftpng.png",
-	"frame": {"x":855,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0006leftpng.png",
-	"frame": {"x":1026,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0007leftpng.png",
-	"frame": {"x":1197,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0008leftpng.png",
-	"frame": {"x":1368,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0009leftpng.png",
-	"frame": {"x":1539,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "blueattack_0010leftpng.png",
-	"frame": {"x":1710,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":1060,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -104,8 +104,8 @@
 	"version": "1.0",
 	"image": "battackleft.png",
 	"format": "RGBA8888",
-	"size": {"w":1881,"h":107},
+	"size": {"w":404,"h":1272},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:88ac93dcbc81f2ab3e7ea3cd99708ca8:7746c7a50bdbae09412d14c60133e108:0883491c67f001b5a5eb3543210f4521$"
+	"smartupdate": "$TexturePacker:SmartUpdate:1a489ef65beea64a263e8fb904a394b5:2526289f12390ed43ab5fc2154e43cc4:0883491c67f001b5a5eb3543210f4521$"
 }
 }

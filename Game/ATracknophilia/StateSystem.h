@@ -19,6 +19,14 @@ public:
 
 			int id = p->getComponent<AnimationComponent>()->coulourID;
 
+			if (m_lockedFrames == 0)
+			{
+				hitCheck(component, id);
+				attackCheck(component, id);
+			}
+
+			
+
 			//IDLING
 			if (component->state->getType() == "idle"){
 				if (runCheck(component, id)) {} //run
@@ -68,31 +76,30 @@ public:
 			//ATTACKING
 			else if (component->state->getType() == "attacking")
 			{
-				if (lockedFrames > 0)
+				if (m_lockedFrames == 0)
 				{
-
+					if (landingToRunCheck(component, id)) {} //run
+					else if (swingCheck(component, id)) {} //swing
+					else if (fallCheck(component, id)) {} //fall
 				}
-				else
-				{
 
-				}
 			}
 			//HITTING
 			else if (component->state->getType() == "hitting")
 			{
-				if (lockedFrames > 0)
+				if (m_lockedFrames == 0)
 				{
-
+					if (landingToRunCheck(component, id)) {} //run
+					else if (swingCheck(component, id)) {} //swing
+					else if (fallCheck(component, id)) {} //fall
+					else if (idleCheck(component, id)) {}
 				}
-				else
-				{
 
-				}
 			}
 
-			if (lockedFrames > 0)
+			if (m_lockedFrames > 0)
 			{
-				lockedFrames--;
+				m_lockedFrames--;
 			}
 		}
 
@@ -407,10 +414,11 @@ public:
 	bool attackCheck(StateComponent* component, int colour)
 	{
 		auto p = component->getParent();
-		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
-		if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().y == 0)
-		{
-			if (p->getComponent<DynamicBodyComponent>()->body->GetLinearVelocity().x >= 0)
+		
+			if (p->getComponent<AbilityComponent>()->ability == p->getComponent<AbilityComponent>()->NONE && p->getComponent<AbilityComponent>()->canAnimate) //this for abilities check ifthe player had one, if the still had one then animate is not
+			{
+				p->getComponent<AbilityComponent>()->canAnimate = false;
+			if (!component->state->getDirection())
 			{
 				switch (colour)
 				{
@@ -427,9 +435,10 @@ public:
 					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::ATTACKRIGHT);
 					break;
 				}
+				m_lockedFrames = 20;
 				component->state = new Attacking(false);
 				return true;
-			}
+			}		
 			else
 			{
 				switch (colour)
@@ -447,21 +456,22 @@ public:
 					component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::ATTACKLEFT);
 					break;
 				}
+				m_lockedFrames = 20;
 				component->state = new Attacking(true);
 				return true;
 			}
 		}
+
 		return false;
 	} 
 	bool hitCheck(StateComponent* component, int colour)
 	{
 		auto p = component->getParent();
 		int contollerID = p->getComponent<PlayerControllerComponent>()->m_controllerId;
-		auto objects = AutoList::get<Player>();
-		for (auto& object : objects)
-		{
-			if (p->getComponent<HookComponent>()) //this for abilities check ifthe player had one, if the still had one then animate is not
+		auto objects = AutoList::get<DynamicBodyComponent>();
+			if (p->getComponent<StateComponent>()->hit == true) //this for abilities check ifthe player had one, if the still had one then animate is not
 			{
+				p->getComponent<StateComponent>()->hit = false;
 				if (!component->state->getDirection())
 				{
 					switch (colour)
@@ -479,6 +489,7 @@ public:
 						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITRIGHT);
 						break;
 					}
+					m_lockedFrames = 100;
 					component->state = new Hitting(false);
 					return true;
 				}
@@ -499,15 +510,15 @@ public:
 						component->getComponent<AnimationComponent>()->animation.changeAnimation(ANIMATIONS::PLAYER::YELLOW::HITLEFT);
 						break;
 					}
+					m_lockedFrames = 100;
 					component->state = new Hitting(true);
 					return true;
 				}
-			}
 		}
 		return false;
 	}
 private:
-	int lockedFrames; //Amount of frames any animation is locked in for. If > 0 decrements every cycle
+	int m_lockedFrames = 0; //Amount of frames any animation is locked in for. If > 0 decrements every cycle
 
 
 };

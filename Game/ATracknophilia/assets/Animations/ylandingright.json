@@ -2,101 +2,101 @@
 
 {
 	"filename": "yellowlanding_0000.png",
-	"frame": {"x":0,"y":0,"w":146,"h":112},
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0001.png",
-	"frame": {"x":146,"y":0,"w":146,"h":112},
+	"frame": {"x":202,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0002.png",
-	"frame": {"x":292,"y":0,"w":146,"h":112},
+	"frame": {"x":0,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0003.png",
-	"frame": {"x":438,"y":0,"w":146,"h":112},
+	"frame": {"x":202,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0004.png",
-	"frame": {"x":584,"y":0,"w":146,"h":112},
+	"frame": {"x":0,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0005.png",
-	"frame": {"x":730,"y":0,"w":146,"h":112},
+	"frame": {"x":202,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0006.png",
-	"frame": {"x":876,"y":0,"w":146,"h":112},
+	"frame": {"x":0,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0007.png",
-	"frame": {"x":1022,"y":0,"w":146,"h":112},
+	"frame": {"x":202,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0008.png",
-	"frame": {"x":1168,"y":0,"w":146,"h":112},
+	"frame": {"x":0,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0009.png",
-	"frame": {"x":1314,"y":0,"w":146,"h":112},
+	"frame": {"x":202,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowlanding_0010.png",
-	"frame": {"x":1460,"y":0,"w":146,"h":112},
+	"frame": {"x":0,"y":1060,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -104,8 +104,8 @@
 	"version": "1.0",
 	"image": "ylandingright.png",
 	"format": "RGBA8888",
-	"size": {"w":1606,"h":112},
+	"size": {"w":404,"h":1272},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:59de3dd7160c7df24102b0b51360a95b:29df1fc5d5a9635eaa3e15b2e87303ae:4eb8ff5041aceb7ce7fa8e16e6a97457$"
+	"smartupdate": "$TexturePacker:SmartUpdate:9618d366476994c03f7ae2ad9489c492:761c5ffb3d02f426d6e2754e66eed2ae:4eb8ff5041aceb7ce7fa8e16e6a97457$"
 }
 }

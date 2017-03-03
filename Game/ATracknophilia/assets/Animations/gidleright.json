@@ -1,21 +1,12 @@
 {"frames": [
 
 {
-	"filename": "greenrun_0037.png",
-	"frame": {"x":0,"y":0,"w":170,"h":106},
+	"filename": "greenrun_0015.png",
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "greenrun_0038.png",
-	"frame": {"x":170,"y":0,"w":170,"h":106},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -23,8 +14,8 @@
 	"version": "1.0",
 	"image": "gidleright.png",
 	"format": "RGBA8888",
-	"size": {"w":340,"h":106},
+	"size": {"w":202,"h":212},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:249408341e11304c357fd91a6de4a789:b4a7e5447e11b1e920c7ef4422daccfb:bf216cbf703ebd967a1d2ab737b2b631$"
+	"smartupdate": "$TexturePacker:SmartUpdate:b3ac0ada1bc19d760a991e5299e59221:8414c281c1a15ae86adfc95deb2e02e6:bf216cbf703ebd967a1d2ab737b2b631$"
 }
 }

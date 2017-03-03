@@ -1,21 +1,12 @@
 {"frames": [
 
 {
-	"filename": "yellowrun_0037leftpng.png",
-	"frame": {"x":0,"y":0,"w":170,"h":106},
+	"filename": "yellowrun_0015leftpng.png",
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "yellowrun_0038leftpng.png",
-	"frame": {"x":170,"y":0,"w":170,"h":106},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -23,8 +14,8 @@
 	"version": "1.0",
 	"image": "yidleleft.png",
 	"format": "RGBA8888",
-	"size": {"w":340,"h":106},
+	"size": {"w":202,"h":212},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f10c60f3ef8539cc394f90564273d88f:af12250f6867dff5b8ed21faeb6d3e2b:ee6d962d277bc490d46c02013ae31690$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f269eab865597fb7c6e226d62f387d7d:46d45c91bdecdaa662132a2a8fe70c32:ee6d962d277bc490d46c02013ae31690$"
 }
 }

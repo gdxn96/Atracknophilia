@@ -1,102 +1,102 @@
 {"frames": [
 
 {
-	"filename": "greenlanding_0000leftpng.png",
-	"frame": {"x":0,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0000 (Copy).png",
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0001leftpng.png",
-	"frame": {"x":146,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0001 (Copy).png",
+	"frame": {"x":202,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0002leftpng.png",
-	"frame": {"x":292,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0002 (Copy).png",
+	"frame": {"x":0,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0003leftpng.png",
-	"frame": {"x":438,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0003 (Copy).png",
+	"frame": {"x":202,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0004leftpng.png",
-	"frame": {"x":584,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0004 (Copy).png",
+	"frame": {"x":0,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0005leftpng.png",
-	"frame": {"x":730,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0005 (Copy).png",
+	"frame": {"x":202,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0006leftpng.png",
-	"frame": {"x":876,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0006 (Copy).png",
+	"frame": {"x":0,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0007leftpng.png",
-	"frame": {"x":1022,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0007 (Copy).png",
+	"frame": {"x":202,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0008leftpng.png",
-	"frame": {"x":1168,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0008 (Copy).png",
+	"frame": {"x":0,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0009leftpng.png",
-	"frame": {"x":1314,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0009 (Copy).png",
+	"frame": {"x":202,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "greenlanding_0010leftpng.png",
-	"frame": {"x":1460,"y":0,"w":146,"h":112},
+	"filename": "greenlanding_0010 (Copy).png",
+	"frame": {"x":0,"y":1060,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":112},
-	"sourceSize": {"w":146,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -104,8 +104,8 @@
 	"version": "1.0",
 	"image": "glandingleft.png",
 	"format": "RGBA8888",
-	"size": {"w":1606,"h":112},
+	"size": {"w":404,"h":1272},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:9ab1d7b9caf0e9c31043f867cfbc3b74:831cd1441a2cb6a479e2ecb8aa1e939f:ac88c0c36e86793edec94225cfd2658b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:d691f212bbbc70cc00dd2a8569627980:5d73cc362edd1df2b33e38cdf1d8a843:ac88c0c36e86793edec94225cfd2658b$"
 }
 }

@@ -2,101 +2,101 @@
 
 {
 	"filename": "yellowattack_0000.png",
-	"frame": {"x":0,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0001.png",
-	"frame": {"x":171,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0002.png",
-	"frame": {"x":342,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0003.png",
-	"frame": {"x":513,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":212,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0004.png",
-	"frame": {"x":684,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0005.png",
-	"frame": {"x":855,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":424,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0006.png",
-	"frame": {"x":1026,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0007.png",
-	"frame": {"x":1197,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":636,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0008.png",
-	"frame": {"x":1368,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0009.png",
-	"frame": {"x":1539,"y":0,"w":171,"h":107},
+	"frame": {"x":202,"y":848,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "yellowattack_0010.png",
-	"frame": {"x":1710,"y":0,"w":171,"h":107},
+	"frame": {"x":0,"y":1060,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":107},
-	"sourceSize": {"w":171,"h":107},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -104,8 +104,8 @@
 	"version": "1.0",
 	"image": "yattackright.png",
 	"format": "RGBA8888",
-	"size": {"w":1881,"h":107},
+	"size": {"w":404,"h":1272},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c5f2158e8deb9cf9a45157ccaa05d156:0274860d310816f22488930c4ace263b:742cbf16d4981f0247e372ecfed4a846$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a1fe17264f5ebf0609dc6ab2d2fa6b87:d7b81c974256a0e7df6faaf4d92da311:742cbf16d4981f0247e372ecfed4a846$"
 }
 }

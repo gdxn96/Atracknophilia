@@ -67,6 +67,7 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 								a->ability = a->SWAP_SHOT;
 								break;
 							}
+							a->canAnimate = true;
 						}
 					}
 				}

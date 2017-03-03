@@ -21,10 +21,12 @@ struct StateComponent : public IComponent, public AutoLister<StateComponent>
 	StateComponent(int id)
 		: IComponent(id)
 		, state(new Idle(false))
-		, colour("blue") {};
+		, colour("blue")
+		, hit(false) {};
 
 	IState *state;
 	std::string colour;
+	bool hit;
 };
 
 

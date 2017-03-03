@@ -176,8 +176,16 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 
 				if (ai && ai->shooterID != e->ID)
 				{
-					getParent()->alive = false;
-					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+					auto& components = AutoList::get<AnimationComponent>();
+					for (auto& component : components)
+					{
+						if (e->ID == component->ID)
+						{
+							getParent()->alive = false;
+							e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+							e->getComponent<StateComponent>()->hit = true;
+						}
+					}
 				}
 			}
 		}

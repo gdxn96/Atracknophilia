@@ -27,12 +27,16 @@
         "path": "assets/Textures/boost.png"
       },
       {
-        "key": "box",
-        "path": "assets/Textures/box.png"
+        "key": "boxrandom",
+        "path": "assets/Textures/boxrandom.png"
       },
       {
         "key": "web",
         "path": "assets/Textures/web.png"
+      },
+      {
+        "key": "webattack",
+        "path": "assets/Textures/webattack.png"
       },
       {
         "key": "boxrandom",

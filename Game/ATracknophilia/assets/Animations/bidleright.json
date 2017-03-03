@@ -1,21 +1,12 @@
 {"frames": [
 
 {
-	"filename": "bluerun_0037.png",
-	"frame": {"x":0,"y":0,"w":170,"h":106},
+	"filename": "bluerun_0015.png",
+	"frame": {"x":0,"y":0,"w":202,"h":212},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "bluerun_0038.png",
-	"frame": {"x":170,"y":0,"w":170,"h":106},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":106},
-	"sourceSize": {"w":170,"h":106},
+	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":212},
+	"sourceSize": {"w":202,"h":212},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -23,8 +14,8 @@
 	"version": "1.0",
 	"image": "bidleright.png",
 	"format": "RGBA8888",
-	"size": {"w":340,"h":106},
+	"size": {"w":202,"h":212},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:036a43c8252133ab9bebc9533176522b:5e0731764e8a471414fbc9c06e7d5c7f:3e7a0559810eb345fe7745e9d17d32e9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:479925bb629ffcf9e9cf0b017bcc950b:8c32d887cb84eec66b7e11063e0bd055:3e7a0559810eb345fe7745e9d17d32e9$"
 }
 }
