@@ -119,6 +119,18 @@
         "path": "assets/Textures/room4btn.png"
       },
       {
+        "key": "soundeffectsbtn",
+        "path": "assets/Textures/soundeffectsbtn.png"
+      },
+      {
+        "key": "onbtn",
+        "path": "assets/Textures/onbtn.png"
+      },
+      {
+        "key": "offbtn",
+        "path": "assets/Textures/offbtn.png"
+      },
+      {
         "key": "greyedlvl1btn",
         "path": "assets/Textures/greyedMapone.png"
       },
