@@ -109,12 +109,11 @@ copy  ".\assets\*" "$(OutDir)assets";
 copy  ".\assets\Music\*" "$(OutDir)assets\Music";
 copy  ".\assets\SoundEffects\*" "$(OutDir)assets\SoundEffects";
 copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";
-
-mkdir $(OutDir)mime;
 mkdir $(OutDir)socket;
-copy  ".\scripts\*" "$(OutDir)";
-copy ".\scripts\mime\*" "$(OutDir)\mime";
-copy ".\scripts\socket\*" "$(OutDir)\socket";
+mkdir $(OutDir)mime;
+copy  ".\luadeps\*" "$(OutDir)";
+copy ".\luadeps\mime\*" "$(OutDir)\mime";
+copy ".\luadeps\socket\*" "$(OutDir)\socket";
 copy .\*.lua "$(OutDir)";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -173,9 +172,9 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";
 
 mkdir $(OutDir)socket;
 mkdir $(OutDir)mime;
-copy  ".\scripts\*" "$(OutDir)";
-copy ".\scripts\mime\*" "$(OutDir)\mime";
-copy ".\scripts\socket\*" "$(OutDir)\socket";
+copy  ".\luadeps\*" "$(OutDir)";
+copy ".\luadeps\mime\*" "$(OutDir)\mime";
+copy ".\luadeps\socket\*" "$(OutDir)\socket";
 copy .\*.lua "$(OutDir)";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -226,7 +225,6 @@ copy .\*.lua "$(OutDir)";</Command>
   <ItemGroup>
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
     <ClInclude Include="BoostPad.h" />
     <ClInclude Include="CameraManager.h" />
@@ -239,14 +237,13 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClInclude Include="ECSInterfaces.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="EntityFactory.h" />
-    <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LevelLoader.h" />
-    <ClInclude Include="LobbyServerAdapter.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="LTimer.h" />
     <ClInclude Include="LuaEngine.h" />
+    <ClInclude Include="NetworkAdapter.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RaceManager.h" />
@@ -291,6 +288,7 @@ copy .\*.lua "$(OutDir)";</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
+    <None Include="networking.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

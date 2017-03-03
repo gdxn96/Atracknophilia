@@ -42,13 +42,7 @@
     <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutoList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BasicTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -141,10 +135,10 @@
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyServerAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LuaEngine.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkAdapter.h">
       <Filter>Networking</Filter>
     </ClInclude>
   </ItemGroup>
@@ -209,5 +203,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
+    <None Include="networking.lua">
+      <Filter>Networking</Filter>
+    </None>
   </ItemGroup>
 </Project>

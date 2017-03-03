@@ -54,6 +54,10 @@ def joinLobby(lobby_id):
 	# get or create client
 	client = get_or_create(db.session, Client, ip_address=request.remote_addr)
 	client.lobby_id = lobby_id
+
+	lobby = Lobby.query.get(lobby_id)
+	assert(lobby)
+	lobby.num_players += 1
 	
 	db.session.commit()
 	return str(client.lobby_id)
@@ -66,7 +70,14 @@ def leaveLobby(lobby_id):
 	# get or create client
 	client = get_or_create(db.session, Client, ip_address=request.remote_addr)
 	client.lobby_id = lobby_id
-	
+
+	lobby = Lobby.query.get(lobby_id)
+	assert(lobby)
+	lobby.num_players -= 1
+
+	if not lobby.num_players:
+		db.session.delete(lobby)
+
 	db.session.commit()
 	return str(client.lobby_id)
 

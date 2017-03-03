@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "FLInput\FLInputManager.h"
 #include <iostream>
+#include "NetworkAdapter.h"
 #define SDL_main main
 
 //* Set initial instance to be nullptr

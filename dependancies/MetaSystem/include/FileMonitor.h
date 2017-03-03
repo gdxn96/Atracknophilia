@@ -73,4 +73,3 @@ private:
 	FileMonitor() : MAX_DELAY(5) {};
 };
 
-#pragma once

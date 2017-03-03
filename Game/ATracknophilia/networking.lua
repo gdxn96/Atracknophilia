@@ -21,17 +21,16 @@ function post_request(url, POST_DATA)
 
 	-- get body as string by concatenating table filled by sink
 	respbody = table.concat(respbody)
+	local rest_response = CPP.REST_Response(s, respbody)
 
-	return respbody
+
+	return rest_response
 end
 
 function get_request(url)
 	print"get_request"
 	local respbody = {}
 
-	-- Requests information about a document, without downloading it.
-	-- Useful, for example, if you want to display a download gauge and need
-	-- to know the size of the document in advance
 	r, s, c = http.request {
 	  method = "GET",
 	  url = url,
@@ -41,5 +40,8 @@ function get_request(url)
 	-- get body as string by concatenating table filled by sink
 	respbody = table.concat(respbody)
 
-	return respbody
+	print(respbody)
+	local rest_response = CPP.REST_Response(s, respbody)
+
+	return rest_response
 end

@@ -41,7 +41,7 @@ public:
 		AddElement<T>(static_cast<T *>(this));
 		return *this;
 	}
-	
+
 	template<typename T>
 	static void RemoveElement(T* element)
 	{
