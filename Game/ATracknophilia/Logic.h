@@ -80,11 +80,13 @@ struct ScoreComponent : public AutoLister<ScoreComponent>, public IComponent
 {
 	int rounds;
 	bool alive;
+	int colourID;
 
-	ScoreComponent(int id)
+	ScoreComponent(int id, int colour = 0)
 		: IComponent(id),
 		rounds(0),
-		alive(true)
+		alive(true),
+		colourID(colour)
 	{
 
 	}

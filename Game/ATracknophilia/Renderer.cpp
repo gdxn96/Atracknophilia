@@ -289,6 +289,16 @@ void Renderer::drawTexture(SDL_Texture* img, Rect _dst)
 	SDL_RenderCopy(sdl_renderer, img, NULL, &dst);
 }
 
+void Renderer::drawHud(SDL_Texture* img, Rect _dst)
+{
+	SDL_Rect dst;
+	dst.x = (int)_dst.pos.x;
+	dst.y = (int)_dst.pos.y;
+	dst.w = (int)_dst.size.w;
+	dst.h = (int)_dst.size.h;
+	SDL_RenderCopy(sdl_renderer, img, NULL, &dst);
+}
+
 void Renderer::drawTexture(SDL_Texture* img, Rect _src, Rect _dst)
 {
 	SDL_Rect dst;

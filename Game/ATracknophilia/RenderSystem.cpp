@@ -13,13 +13,6 @@ void RenderSystem::init(Renderer * r)
 void RenderSystem::process(float dt)
 {
 	m_renderer->clear(Colour(128, 128, 64));
-
-	auto& scores = AutoList::get<ScoreComponent>();
-	for (auto& component : scores)
-	{
-		SDL_Texture* tex = ResourceManager::getInstance()->getTextureByKey("web");
-		m_renderer->drawTexture(tex, Rect(-(component->getComponent<StaticBodyComponent>()->size / 2) + component->getComponent<StaticBodyComponent>()->body->GetPosition(), component->getComponent<StaticBodyComponent>()->size));
-	}
 	
 	{
 		auto& components = AutoList::get<Box2DComponent>();
@@ -65,6 +58,43 @@ void RenderSystem::process(float dt)
 		{
 			m_renderer->drawLine(component->start, component->end);
 		}
+	}
+
+	auto& scores = AutoList::get<ScoreComponent>();
+	for (auto& component : scores)
+	{
+		SDL_Texture* tex = ResourceManager::getInstance()->getTextureByKey("placeholder");
+		if (component->colourID == 0)
+		{
+			tex = ResourceManager::getInstance()->getTextureByKey("bluehud");
+		}
+		if (component->colourID == 1)
+		{
+			tex = ResourceManager::getInstance()->getTextureByKey("greenhud");
+		}
+		if (component->colourID == 2)
+		{
+			tex = ResourceManager::getInstance()->getTextureByKey("redhud");
+		}
+		if (component->colourID == 3)
+		{
+			tex = ResourceManager::getInstance()->getTextureByKey("yellowhud");
+		}
+
+		Rect drawPos = Rect(110 * component->colourID, 3, 100, 75);
+
+		for (int i = 0; i < component->rounds; i++)
+		{
+			Rect counterPos = Rect((drawPos.pos.x + 4) + 33 * i, 17, 27, 27);
+			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("counter"), counterPos);
+		}
+
+		Rect staminaRect = Rect(drawPos.pos.x, 55, 1 * component->getParent()->getComponent<StaminaComponent>()->stamina, 15);
+		std::cout << "stamina : " << component->getParent()->getComponent<StaminaComponent>()->stamina << endl;
+
+		m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("stamina"), staminaRect);
+
+		m_renderer->drawHud(tex, drawPos);
 	}
 	
 	m_renderer->present();

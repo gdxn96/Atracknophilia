@@ -7,6 +7,30 @@
         "path": "assets/Textures/player.png"
       },
       {
+        "key": "bluehud",
+        "path": "assets/Textures/bluehud.png"
+      },
+      {
+        "key": "redhud",
+        "path": "assets/Textures/redhud.png"
+      },
+      {
+        "key": "greenhud",
+        "path": "assets/Textures/greenhud.png"
+      },
+      {
+        "key": "yellowhud",
+        "path": "assets/Textures/yellowhud.png"
+      },
+      {
+        "key": "counter",
+        "path": "assets/Textures/redcounter.png"
+      },
+      {
+        "key": "stamina",
+        "path": "assets/Textures/green.jpg"
+      },
+      {
         "key": "enemy_texture",
         "path": "assets/Textures/enemy.png"
       },

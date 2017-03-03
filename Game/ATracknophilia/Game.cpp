@@ -65,7 +65,7 @@ void Game::init()
 	
 	EntityFactory::SpawnPlayer(50, 13, 1, 1, 0);
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 1);
-	EntityFactory::SpawnPlayer(50, 11, 1, 1, 2);
+	//EntityFactory::SpawnPlayer(50, 11, 1, 1, 2);
 	//EntityFactory::SpawnPlayer(50, 10, 1, 1, 3);
 
 	for (auto& player : AutoList::get<Player>())
