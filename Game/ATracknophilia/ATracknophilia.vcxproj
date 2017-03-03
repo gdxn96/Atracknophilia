@@ -272,6 +272,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClCompile Include="DirectionVolume.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="LTimer.cpp" />

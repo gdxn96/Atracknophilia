@@ -102,7 +102,7 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 
 struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAIComponent>
 {
-	PlayerAIComponent(int id, AudioManager* audioMgr)
+	PlayerAIComponent(int id/*, AudioManager* audioMgr*/)
 		: AIComponent(id)
 		, bt(BehaviourTree())
 		, isHooked(false)

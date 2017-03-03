@@ -58,7 +58,6 @@ public:
 		case LAND:
 			playFX("land");
 			break;
-
 		case MAIN_MENU:
 			playMusic("main_menu");
 			break;

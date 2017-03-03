@@ -20,6 +20,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Leaf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISystem.h" />

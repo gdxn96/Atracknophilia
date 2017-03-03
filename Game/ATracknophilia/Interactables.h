@@ -3,12 +3,13 @@
 #include "Vector2D.h"
 #include "Drawables.h"
 #include "PhysicsSystem.h"
+//#include "Dimensional.h"
 
 struct HookComponent : public IComponent, public AutoLister<HookComponent>
 {
 	HookComponent(int id, Vector2D start, Vector2D end, b2Body* bodyToAttach) 
 		:	IComponent(id)
-		,	pivot( new StaticBodyComponent(-1, end.x, end.y, 0, 0, true))
+		//,	pivot( new StaticBodyComponent(-1, end.x, end.y, 0, 0, true))
 		,	tetherLength(Vector2D::Distance(start, end) * 0.9f)
 		,	line(new LineComponent(-1, start, end))
 		,	alive(true)

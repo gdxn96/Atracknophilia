@@ -7,7 +7,7 @@ void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controll
 {
 	if (isAI)
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, audioMgr));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h/*, audioMgr*/));
 	}
 	else
 	{

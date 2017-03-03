@@ -3,7 +3,8 @@
 #include "Interactables.h"
 #include "DirectionVolume.h"
 #include "Property.h"
-#include "AudioManager.h"
+//#include "AudioManager.h"
+//#include "EntityFactory.h"
 
 class Leaf : public Node
 {
@@ -14,38 +15,10 @@ public:
 class UseAbility : public Leaf//, public Subject
 {
 public:
-	UseAbility(/*AudioManager* audioMgr*/) {/* addObserver(audioMgr);*/ }
-	~UseAbility() {}
+	UseAbility(/*AudioManager* audioMgr*/);
+	~UseAbility();
 
-	Status Update(IEntity* p, float dt, bool isHooked)
-	{
-		if (!isHooked)
-		{
-			/*auto a = p->getComponent<AbilityComponent>();
-			auto c = p->getComponent<Box2DComponent>();
-			if(a && c)
-			{
-				switch(a->ability)
-				{
-				case a->WEB_DROP:
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
-					a->ability = NONE;
-					return Status::Success;
-				case SLOW_SHOT:
-					EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, player->ID);
-					a->ability = NONE;
-					return Status::Success;
-				case SWAP_SHOT;
-					do swap shot stuff....
-					a->ability = NONE;
-					return Status::Success;
-				case default:
-					break;
-				}
-			}*/
-		}
-		return Status::Failure;
-	}
+	Status Update(IEntity* p, float dt, bool isHooked);
 };
 
 class MoveInDirectionOfVolume : public Leaf//, public Subject
