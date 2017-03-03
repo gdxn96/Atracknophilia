@@ -13,6 +13,13 @@ void RenderSystem::init(Renderer * r)
 void RenderSystem::process(float dt)
 {
 	m_renderer->clear(Colour(128, 128, 64));
+
+	auto& scores = AutoList::get<ScoreComponent>();
+	for (auto& component : scores)
+	{
+		SDL_Texture* tex = ResourceManager::getInstance()->getTextureByKey("web");
+		m_renderer->drawTexture(tex, Rect(-(component->getComponent<StaticBodyComponent>()->size / 2) + component->getComponent<StaticBodyComponent>()->body->GetPosition(), component->getComponent<StaticBodyComponent>()->size));
+	}
 	
 	{
 		auto& components = AutoList::get<Box2DComponent>();
