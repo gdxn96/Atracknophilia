@@ -49,3 +49,53 @@ struct HookComponent : public IComponent, public AutoLister<HookComponent>
 	float tetherLength;
 	bool alive;
 };
+
+struct AbilityComponent : public IComponent, public AutoLister<AbilityComponent>
+{
+	enum ABILITIES {
+		NONE,
+		WEB_DROP,
+		SLOW_SHOT,
+		SWAP_SHOT
+	};
+
+	AbilityComponent(int id)
+		: IComponent(id)
+	{
+	}
+
+	ABILITIES ability = NONE;
+};
+
+struct SwapComponent : public IComponent, public AutoLister<SwapComponent>
+{
+	SwapComponent(int id, Vector2D start, Vector2D end, b2Body* myBody, IEntity* targetBody)
+		: IComponent(id)
+		, target(targetBody)
+		, line(new LineComponent(-1, start, end))
+		, tetherLength(Vector2D::Distance(start, end))
+		, isShot(true)
+		, ttl(0)
+	{
+		b2RopeJointDef jointDef;
+		jointDef.bodyA = myBody;
+		jointDef.bodyB = targetBody->getComponent<Box2DComponent>()->body;
+		jointDef.collideConnected = false;
+		jointDef.maxLength = tetherLength;
+
+		joint = (b2RopeJoint*)PhysicsSystem::World().CreateJoint(&jointDef);
+	}
+
+	virtual ~SwapComponent()
+	{
+		PhysicsSystem::World().DestroyJoint(joint);
+		delete line;
+	}
+
+	IEntity* target;
+	b2RopeJoint* joint;
+	LineComponent* line;
+	float tetherLength;
+	bool isShot;
+	float ttl;
+};
