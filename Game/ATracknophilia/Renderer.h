@@ -33,6 +33,7 @@ public:
 	void drawImage(SDL_Surface * img, Rect rec);
 	void drawLine(Vector2D start, Vector2D end, Colour c = Colour());
 	int drawFilledPoly(b2Body * body);
+	void _murphyWideline(SDL_gfxMurphyIterator *m, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint8 width, Uint8 miter);
 
 	void drawBox2DPolygon(b2PolygonShape* poly, float angle = 0);
 	void drawBox2DBody(b2Body * body);

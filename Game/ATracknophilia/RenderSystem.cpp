@@ -5,6 +5,16 @@
 #include "ResourceManager.h"
 #include "Entities.h"
 
+typedef struct {
+	Uint32 color;
+	SDL_Surface *dst;
+	int u, v;               /* delta x , delta y */
+	int ku, kt, kv, kd;     /* loop constants */
+	int oct2;
+	int quad4;
+	Sint16 last1x, last1y, last2x, last2y, first1x, first1y, first2x, first2y, tempx, tempy;
+} SDL_gfxMurphyIterator;
+
 
 void RenderSystem::init(Renderer * r)
 {
@@ -13,6 +23,7 @@ void RenderSystem::init(Renderer * r)
 	m_levelRect = Rect(0, 0, 400, 395);
 
 }
+
 
 void RenderSystem::process(float dt)
 {
@@ -70,6 +81,7 @@ void RenderSystem::process(float dt)
 		auto& components = AutoList::get<LineComponent>();
 		for (auto& component : components)
 		{
+			m_renderer->_murphyWideline()
 			m_renderer->drawLine(component->start, component->end);
 		}
 	}
