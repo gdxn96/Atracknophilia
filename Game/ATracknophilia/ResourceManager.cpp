@@ -63,9 +63,9 @@ Mix_Music* ResourceManager::getMusicByKey(string key)
 	{
 		return _music->second;
 	}
-	else if (m_music.find("placeholder") != m_music.end())
+	else if (m_music.find("music_placeholder") != m_music.end())
 	{
-		return m_music["placeholder"];
+		return m_music["music_placeholder"];
 	}
 	else
 	{
@@ -81,9 +81,9 @@ Mix_Chunk* ResourceManager::getSoundEffectByKey(string key)
 	{
 		return _soundEffect->second;
 	}
-	else if (m_soundEffects.find("placeholder") != m_soundEffects.end())
+	else if (m_soundEffects.find("sound_effect_placeholder") != m_soundEffects.end())
 	{
-		return m_soundEffects["placeholder"];
+		return m_soundEffects["sound_effect_placeholder"];
 	}
 	else
 	{

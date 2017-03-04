@@ -22,10 +22,12 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			case webDrop:
 				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
 				a->ability = a->NONE;
+				notify(Observer::DROP);
 				break;
 			case slowShot:
 				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
 				a->ability = a->NONE;
+				notify(Observer::SHOOT);
 				break;
 			case swapShot:
 				auto h = getComponent<HookComponent>();
@@ -66,6 +68,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 							}
 							targetBody->SetGravityScale(0);
 							c->body->SetGravityScale(0);
+							notify(Observer::SWAP_SHOT);
 						}
 						i = players.size();
 					}
@@ -101,7 +104,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 						if (distance > 10 && isDynamic)
 						{
 							getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
-							notify(Observer::LAND);
+							notify(Observer::HOOK);
 						}
 					}
 				}

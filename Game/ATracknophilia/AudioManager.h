@@ -28,11 +28,8 @@ public:
 	{
 		switch (event)
 		{
-		case START_GAME:
-			playFX("start_game");
-			break;
-		case RESPAWN:
-			playFX("start_game");
+		case START_RACE:
+			playFX("start_race");
 			break;
 		case HOOK:
 			playFX("rope");

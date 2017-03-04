@@ -97,7 +97,7 @@ public:
 	{
 	}
 
-	Player(int id, float x, float y, float w, float h/*, AudioManager* audioMgr*/)
+	Player(int id, float x, float y, float w, float h, AudioManager* audioMgr)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -108,7 +108,7 @@ public:
 			new VelocityComponent(id, 50),
 			new ConstMaxVelocityComponent(id, 50),
 			new ConstBoostedVelocityComponent(id, 80),
-			new PlayerAIComponent(id/*, audioMgr*/),
+			new PlayerAIComponent(id, audioMgr),
 			new RacePositionComponent(id),
 			new PlayerStaticObjectResponseComponent(id)
 		})

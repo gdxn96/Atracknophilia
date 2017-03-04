@@ -5,8 +5,7 @@ class Observer
 public:
 	enum Event
 	{
-		START_GAME,
-		RESPAWN,
+		START_RACE,
 		HOOK,
 		SWAP_SHOT,
 		SHOOT,
