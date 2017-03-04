@@ -141,6 +141,9 @@
     <ClInclude Include="ScoreSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="MementoSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

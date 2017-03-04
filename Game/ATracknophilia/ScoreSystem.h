@@ -26,17 +26,21 @@ public:
 			//new round
 			for (auto& player : AutoList::get<Player>())
 			{
-				player->getComponent<DynamicBodyComponent>()->body->SetTransform(winner->getComponent<DynamicBodyComponent>()->body->GetPosition(), 0);
-				player->getComponent<RacePositionComponent>()->lap = winner->getComponent<RacePositionComponent>()->lap;
-				player->getComponent<RacePositionComponent>()->volumeID = winner->getComponent<RacePositionComponent>()->volumeID;
-				player->getComponent<InputPauseComponent>()->isPaused = true;
-				player->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
-				player->getComponent<InputPauseComponent>()->timeToPause = 2000;
-				player->getComponent<ScoreComponent>()->alive = true;
-				player->getComponent<DynamicBodyComponent>()->fixture->SetSensor(false);
+				
+				
+				//player->getComponent<DynamicBodyComponent>()->body->SetTransform(winner->getComponent<DynamicBodyComponent>()->body->GetPosition(), 0);
+				//player->getComponent<RacePositionComponent>()->lap = winner->getComponent<RacePositionComponent>()->lap;
+				//player->getComponent<RacePositionComponent>()->volumeID = winner->getComponent<RacePositionComponent>()->volumeID;
+				//player->getComponent<InputPauseComponent>()->isPaused = true;
+				//player->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
+				//player->getComponent<InputPauseComponent>()->timeToPause = 2000;
+				//player->getComponent<ScoreComponent>()->alive = true;
+				//player->getComponent<DynamicBodyComponent>()->fixture->SetSensor(false);
 			}
 			physicsSys->setPausePhysics(true);
-			PhysicsSystem::World().Step(dt * 2, 7, 3);
+			PhysicsSystem::World().Step(dt *2, 7, 3);
+			//physicsSys->setPausePhysics(true);
+			//PhysicsSystem::World().Step(dt * 2, 7, 3);
 
 
 			cout << "round: " << winner->ID << endl;
@@ -67,7 +71,7 @@ public:
 
 		if (SDL_GetTicks() - onScreen.at(0)->getComponent<InputPauseComponent>()->startTime > onScreen.at(0)->getComponent<InputPauseComponent>()->timeToPause)
 		{
-			physicsSys->setPausePhysics(false);
+			//physicsSys->setPausePhysics(false);
 		}
 
 	}

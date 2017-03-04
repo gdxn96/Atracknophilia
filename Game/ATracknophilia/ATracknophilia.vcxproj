@@ -220,6 +220,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="FileMonitor.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MementoSystem.h" />
     <ClInclude Include="ScoreSystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LevelLoader.h" />
