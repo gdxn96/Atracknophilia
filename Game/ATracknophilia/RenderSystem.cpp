@@ -64,7 +64,7 @@ void RenderSystem::process(float dt)
 	//				m_renderer->drawFilledPoly(component->body);
 	//			}
 	//		}
-	//	}
+	//	}0
 	//}
 	{
 		auto& components = AutoList::get<LineComponent>();
@@ -79,7 +79,7 @@ void RenderSystem::process(float dt)
 		{
 			auto p = component->getParent();
 			auto b = p->getComponent<Box2DComponent>();
-			component->animation.drawAtPosition(m_renderer, Vector2D(b->body->GetPosition().x - b->size.width / 2, b->body->GetPosition().y - b->size.height / 2), Vector2D(b->size), 0);
+			component->animation.drawAtPosition(m_renderer, Vector2D(b->body->GetPosition().x - b->size.width * 2, b->body->GetPosition().y - b->size.height * 2), Vector2D(b->size *4), 0);
 		}
 	}
 	
