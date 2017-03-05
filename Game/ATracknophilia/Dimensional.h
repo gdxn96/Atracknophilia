@@ -133,7 +133,6 @@ struct KinematicBodyComponent : public Box2DComponent, public AutoLister<Kinemat
 	}
 };
 
-
 struct SensorComponent : public KinematicBodyComponent, public AutoLister<SensorComponent>
 {
 	SensorComponent(int id, float x, float y, float width, float height)
@@ -147,7 +146,7 @@ struct SensorComponent : public KinematicBodyComponent, public AutoLister<Sensor
 
 struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowShotComponent>
 {
-	SlowShotComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height/*, fixedRotation*/)
+	SlowShotComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : DynamicBodyComponent(id, x, y, width, height)
 	{
 		body->SetGravityScale(0);
 		fixture->SetSensor(true);
@@ -156,7 +155,7 @@ struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowSh
 	}
 };
 
-struct WebDropComponent : public StaticBodyComponent, public AutoLister<SlowShotComponent>
+struct WebDropComponent : public StaticBodyComponent, public AutoLister<WebDropComponent>
 {
 	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : StaticBodyComponent(id, x, y, width, height)
 	{
@@ -164,7 +163,6 @@ struct WebDropComponent : public StaticBodyComponent, public AutoLister<SlowShot
 		fixture->SetDensity(10);
 	}
 };
-
 
 struct DirectionComponent : public IComponent, public AutoLister<DirectionComponent>
 {

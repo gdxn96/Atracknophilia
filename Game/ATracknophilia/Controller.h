@@ -62,4 +62,5 @@ struct PlayerControllerComponent : public IControllerComponent, public EventList
 	void process(float dt) override;
 
 	bool isHoldingA = false;
+	AudioManager* m_audioMgr;
 };

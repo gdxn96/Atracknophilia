@@ -152,12 +152,12 @@ struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAICompone
 	bool isHooked;
 };
 
-
 struct SlowShotResponseComponent : public ICollisionResponseComponent
 {
 	SlowShotResponseComponent(int id)
 		: ICollisionResponseComponent(id)
-	{}
+	{
+	}
 
 	void endContact(IEntity * e)
 	{
@@ -177,19 +177,18 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 				if (ai && ai->shooterID != e->ID)
 				{
 					getParent()->alive = false;
-					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
 				}
 			}
 		}
 	}
 };
 
-struct WebDropResponseComponent : public ICollisionResponseComponent
+struct WebDropResponseComponent : public ICollisionResponseComponent, public Subject
 {
-	WebDropResponseComponent(int id)
+	WebDropResponseComponent(int id, AudioManager* audioMgr)
 		: ICollisionResponseComponent(id)
 	{
-
+		addObserver(audioMgr);
 	}
 
 	void endContact(IEntity * e)
@@ -205,20 +204,14 @@ struct WebDropResponseComponent : public ICollisionResponseComponent
 			auto dynBox = e->getComponent<DynamicBodyComponent>();
 
 			if (staticBox) {}
-			else if (dynBox && !firstContact)
+			else if (dynBox)
 			{
 				getParent()->alive = false;
 				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
-	
-			}
-			else
-			{
-				firstContact = false;
+				notify(Observer::HIT);
 			}
 		}
 	};
-
-	bool firstContact = true;
 };
 
 struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComponent

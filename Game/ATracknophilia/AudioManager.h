@@ -52,8 +52,14 @@ public:
 		case SIREN:
 			playFX("siren");
 			break;
-		case LAND:
-			playFX("land");
+		case JUMP:
+			playFX("jump");
+			break;
+		case BUTTON_MOVE:
+			playFX("button_move");
+			break;
+		case BUTTON_CLICK:
+			playFX("button_click");
 			break;
 		case MAIN_MENU:
 			playMusic("main_menu");

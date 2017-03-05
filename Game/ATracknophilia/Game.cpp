@@ -64,9 +64,9 @@ void Game::init()
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL4));
 	m_camera.zoom(-1);
 
-	EntityFactory::SpawnPlayer(51, 13, 1, 1, 0, &m_audioMgr, true);
+	//EntityFactory::SpawnPlayer(51, 13, 1, 1, 0, &m_audioMgr, true);
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0, &m_audioMgr);
-	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1);
+	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, &m_audioMgr);
 }
 
 void Game::loop(float dt)

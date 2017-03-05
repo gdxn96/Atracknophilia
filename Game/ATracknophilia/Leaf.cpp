@@ -25,14 +25,14 @@ Node::Status UseAbility::Update(IEntity* p, float dt, bool isHooked)
 			case none:
 				break;
 			case webDrop:
-				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+				//EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
 				a->ability = a->NONE;
-				notify(Observer::DROP);
+				//notify(Observer::DROP);
 				return Status::Success;
 			case slowShot:
 				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, p->ID);
 				a->ability = a->NONE;
-				notify(Observer::SHOOT);
+				//notify(Observer::SHOOT);
 				return Status::Success;
 			case swapShot:
 				auto h = p->getComponent<HookComponent>();
@@ -74,7 +74,7 @@ Node::Status UseAbility::Update(IEntity* p, float dt, bool isHooked)
 						}
 						targetBody->SetGravityScale(0);
 						c->body->SetGravityScale(0);
-						notify(Observer::SWAP_SHOT);
+						//notify(Observer::SWAP_SHOT);
 					}
 					i = players.size();
 				}

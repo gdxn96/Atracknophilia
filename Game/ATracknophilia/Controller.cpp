@@ -4,7 +4,9 @@
 #include "RaceManager.h"
 #include "AudioManager.h"
 	
-PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, AudioManager* audioMgr) : IControllerComponent(id, controllerId)
+PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, AudioManager* audioMgr) 
+	: IControllerComponent(id, controllerId)
+	, m_audioMgr(audioMgr)
 {
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_B, new ReleaseCommand([&]() {
 		auto c = getComponent<Box2DComponent>();
@@ -20,14 +22,25 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			case none:
 				break;
 			case webDrop:
-				EntityFactory::SpawnWebDrop(c->body->GetPosition().x - Vector2D(c->body->GetLinearVelocity()).Normalize().x, c->body->GetPosition().y, 1, 1);
+				if (Vector2D(c->body->GetLinearVelocity()).Normalize().x > 0)
+				{
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x - (c->size.x + 1), c->body->GetPosition().y, 1, 1, m_audioMgr);
+				}
+				else if (Vector2D(c->body->GetLinearVelocity()).Normalize().x < 0)
+				{
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x + (c->size.x + 1), c->body->GetPosition().y, 1, 1, m_audioMgr);
+				}
+				else
+				{
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y - (c->size.y + 1), 1, 1, m_audioMgr);
+				}
 				a->ability = a->NONE;
-				notify(Observer::DROP);
+				//notify(Observer::DROP);
 				break;
 			case slowShot:
 				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
 				a->ability = a->NONE;
-				notify(Observer::SHOOT);
+				//notify(Observer::SHOOT);
 				break;
 			case swapShot:
 				auto h = getComponent<HookComponent>();
@@ -68,7 +81,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 							}
 							targetBody->SetGravityScale(0);
 							c->body->SetGravityScale(0);
-							notify(Observer::SWAP_SHOT);
+							//notify(Observer::SWAP_SHOT);
 						}
 						i = players.size();
 					}
@@ -104,7 +117,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 						if (distance > 10 && isDynamic)
 						{
 							getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
-							notify(Observer::HOOK);
+							//notify(Observer::HOOK);
 						}
 					}
 				}
@@ -120,6 +133,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			{
 				c->body->SetGravityScale(1);
 				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -10), true);
+				notify(Observer::JUMP);
 			}
 
 			auto l = getComponent<HookComponent>();
@@ -165,7 +179,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 		}
 	}), this, m_controllerId);
 
-	addObserver(audioMgr);
+	addObserver(m_audioMgr);
 }
 
 void PlayerControllerComponent::process(float dt)

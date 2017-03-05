@@ -3,12 +3,12 @@
 #include "Logic.h"
 
 class ICollisionResponseComponent;
-struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
+struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent, public Subject
 {
-	PlayerStaticObjectResponseComponent(int id)
+	PlayerStaticObjectResponseComponent(int id, AudioManager* audioMgr)
 		: ICollisionResponseComponent(id)
 	{
-
+		addObserver(audioMgr);
 	}
 
 	void endContact(IEntity * e)
@@ -36,7 +36,21 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 			{
 				auto b = getComponent<DynamicBodyComponent>();
 				if (b)
-					b->body->SetLinearVelocity(b2Vec2(0, 0)); // stop the player's velocity on collision
+				{
+					b->body->SetLinearVelocity(b2Vec2(0, 0));
+					notify(Observer::HIT);
+				}
+			}
+
+			auto ss = e->getComponent<SlowShotComponent>();
+			if (ss)
+			{
+				auto b = getComponent<DynamicBodyComponent>();
+				if (b)
+				{
+					b->body->SetLinearVelocity(b2Vec2(0, 0));
+					notify(Observer::HIT);
+				}
 			}
 
 			auto puResponse = e->getComponent<PowerUpResponseComponent>();
@@ -91,7 +105,7 @@ public:
 			new ConstBoostedVelocityComponent(id, 80),
 			new PlayerControllerComponent(id, controllerId, audioMgr),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id),
+			new PlayerStaticObjectResponseComponent(id, audioMgr),
 			new AbilityComponent(id)
 		})
 	{
@@ -110,7 +124,7 @@ public:
 			new ConstBoostedVelocityComponent(id, 80),
 			new PlayerAIComponent(id, audioMgr),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id)
+			new PlayerStaticObjectResponseComponent(id, audioMgr)
 		})
 	{
 	}
