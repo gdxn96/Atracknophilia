@@ -398,7 +398,6 @@ inline void Camera2D::Camera::zoomToFit(const std::vector<Point>& points, bool k
 
 	if (keepZoomRatio)
 	{
-
 		float desiredSize;
 		float windowSize;
 		if (abs(maxX - minX) > abs(maxY - minY))

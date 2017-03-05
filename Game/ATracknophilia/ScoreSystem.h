@@ -64,11 +64,19 @@ public:
 			}
 		}
 
-		auto comp = onScreen.at(0)->getComponent<InputPauseComponent>();
-		if (comp && SDL_GetTicks() - comp->startTime > comp->timeToPause)
+		if (onScreen.size() > 0)
+		{
+			auto comp = onScreen.at(0)->getComponent<InputPauseComponent>();
+			if (comp && SDL_GetTicks() - comp->startTime > comp->timeToPause)
+			{
+				physicsSys->setPausePhysics(false);
+			}
+		}
+		else
 		{
 			physicsSys->setPausePhysics(false);
 		}
+
 
 	}
 

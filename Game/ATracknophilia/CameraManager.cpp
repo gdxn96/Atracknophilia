@@ -9,22 +9,45 @@ void CameraManager::update(float dt)
 {
 	Player *leader = RaceManager::getInstance()->getLeader();
 
-	int volumeID;
+	std::vector<Camera2D::Point> pts;
+	std::vector<Player*> players = RaceManager::getInstance()->getPlayers();
 
-	if (leader)
+	for (int i = 0; i < players.size(); i++)
 	{
-		auto raceComponent = leader->getComponent<RacePositionComponent>();
+		Camera2D::Point p;
 
-		if (raceComponent)
-		{
-			volumeID = raceComponent->volumeID;
-		}
+		p.x = players.at(i)->getComponent<DynamicBodyComponent>()->body->GetPosition().x;
+		p.y = players.at(i)->getComponent<DynamicBodyComponent>()->body->GetPosition().y;
 
-		if (RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>())
+		pts.push_back(p);
+	}
+	int playerCount = 0;
+
+	for (auto& player : AutoList::get<Player>())
+	{
+		if (player->getComponent<ScoreComponent>()->alive)
 		{
-			moveTo(RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>()->body->GetPosition(), dt);
+			playerCount++;
 		}
 	}
+
+	m_camera->zoomToFit(pts, true);
+	//int volumeID;
+
+	//if (leader)
+	//{
+	//	auto raceComponent = leader->getComponent<RacePositionComponent>();
+
+	//	if (raceComponent)
+	//	{
+	//		volumeID = raceComponent->volumeID;
+	//	}
+
+	//	if (RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>())
+	//	{
+	//		moveTo(RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>()->body->GetPosition(), dt);
+	//	}
+	//}
 }
 
 void CameraManager::init(Camera2D::Camera * cam)

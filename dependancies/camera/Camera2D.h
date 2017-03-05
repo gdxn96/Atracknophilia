@@ -25,8 +25,8 @@ namespace Camera2D
 
 	const float DEFAULT_ZOOM_SPEED = 0.01f;
 	const float DEFAULT_ZOOMTO_SPEED = 1.f;
-	const float DEFAULT_MIN_ZOOM = 1.5f;
-	const float DEFAULT_MAX_ZOOM = 0.01f;
+	const float DEFAULT_MIN_ZOOM = 0.15f;
+	const float DEFAULT_MAX_ZOOM = 0.05f;
 
 
 	class Camera
