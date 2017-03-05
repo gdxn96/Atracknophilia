@@ -141,6 +141,12 @@
     <ClInclude Include="NetworkAdapter.h">
       <Filter>Networking</Filter>
     </ClInclude>
+    <ClInclude Include="Net.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "Singleton.h"
 
 extern "C"
 {
@@ -11,7 +12,7 @@ extern "C"
 
 #include <../dependancies/LuaBridge/LuaBridge.h>
 
-class LuaEngine
+class LuaEngine : public Singleton<LuaEngine>
 {
 public:
 	//Constructor

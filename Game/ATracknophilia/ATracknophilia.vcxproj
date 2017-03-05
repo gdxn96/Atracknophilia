@@ -243,6 +243,7 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClInclude Include="Logic.h" />
     <ClInclude Include="LTimer.h" />
     <ClInclude Include="LuaEngine.h" />
+    <ClInclude Include="Net.h" />
     <ClInclude Include="NetworkAdapter.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
@@ -251,6 +252,7 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="SlowShot.h" />
     <ClInclude Include="SoftBox.h" />
     <ClInclude Include="StaticPolygon.h" />

@@ -1,1 +1,1 @@
-python tcpserver.py
+python server.py > server.log -l info 2>&1 

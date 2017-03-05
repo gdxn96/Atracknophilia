@@ -42,26 +42,17 @@ def send_to_host_by_lobby_id(lobby_id, msg, config, socket=None):
     if socket:
         lobby = Lobby.query.get(lobby_id)
         ip_address = lobby.host.ip_address
-        socket.sendto(msg, (ip_address, port))
+        socket.sendto(msg, (ip_address, config["CLIENT_PORT"]))
     else:
         with UdpSocket(config["UDP_HOST"], config["UDP_PORT"]) as s:
             send_to_host_by_lobby_id(lobby_id, msg, config, s)
-
-def send_to_host_by_host_id(host_id, msg, config, socket=None):
-    if socket:
-        host = Client.query.get(host_id)
-        ip_address = host.ip_address
-        socket.sendto(msg, (ip_address, port))
-    else:
-        with UdpSocket(config["UDP_HOST"], config["UDP_PORT"]) as s:
-            send_to_host_by_host_id(host_id, msg, config, s)
 
 def send_to_all_by_lobby_id(lobby_id, msg, config, socket=None):
     if socket:
         lobby = Lobby.query.get(lobby_id)
         for client in lobby.clients:
             ip_address = client.ip_address
-            socket.sendto(msg, (ip_address, port))
+            socket.sendto(msg, (ip_address, config["CLIENT_PORT"]))
     else:
         with UdpSocket(config["UDP_HOST"], config["UDP_PORT"]) as s:
             send_to_all_by_lobby_id(lobby_id, msg, config, s)
@@ -74,12 +65,29 @@ def listen_blocking(config):
         #now keep talking with the client
         while True:
             # receive data from client (data, addr)
-            d = s.recvfrom(1024)
+            d = s.recvfrom(4096)
             data = d[0]
             addr = d[1]
-             
+            
             if not data: 
                 break
+
+            ip = addr.split(':')[0]
+            data = json.loads(data)
+
+            if data.message_type == "ping":
+                data.message_type = "pong"
+                s.sendto(json.dumps(data), addr)
+            else if data.message_type == "sent_to_all":
+                client = get_or_create(db.session, Client, ip_address=ip)
+                send_to_all_by_lobby_id(client.lobby_id, data.data)
+            else if data.message_type == "send_to_host":
+                client = get_or_create(db.session, Client, ip_address=ip)
+                send_to_host_by_lobby_id(client.lobby_id, data.data)
+            else if data.message_type == "disonnect":
+                client = get_or_create(db.session, Client, ip_address=ip)
+                # do something about that
+
              
             reply = 'OK...' + data
              

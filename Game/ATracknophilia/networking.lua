@@ -2,40 +2,38 @@
 local http = require'socket.http'
 local ltn12 = require"ltn12"
 
---local socket = require("socket")
---local udp = assert(socket.udp())
---local data
---
---udp:settimeout(0)
---assert(udp:setpeername("localhost",1234))
---
---udp = socket.udp ( )
---udp:settimeout ( 0 )
---
---udp:setsockname ( "*", 14285 )
----- connect to UDP server
---udp:setpeername ( "localhost", 14285 )
---
---for i = 0, 2, 1 do
---  assert(udp:send("ping"))
---  data = udp:receive()
---  if data then
---    break
---  end
---end
---
---
---if data == nil then
---  print("cannot ping udp server")
---else
---  print(data)
---end
+local udp = assert(socket.udp())
 
-local s = socket.udp()
-s:setpeername( "74.125.115.104", 80 )
-local ip, sock = s:getsockname()
-print( "myIP:", ip, sock )
+function  udp_setup( SERVER_IP, SERVER_PORT, CLIENT_PORT )
+	udp:setsockname('*', CLIENT_PORT)
+	udp:setpeername( SERVER_IP, SERVER_PORT )
 
+	local ip, sock = udp:getsockname()
+	print( "myIP:", ip, sock )
+
+	udp:settimeout(0)
+	local ping = CPP.Message('', 'ping')
+	udp:send(ping:toJson())
+	print("ping sent")
+end
+
+function receive_messages(network_adapter)
+	repeat
+		data, msg = udp:receive()
+		
+		--if msg then print(msg) end
+		if data then 
+			print(data) 
+			network_adapter:notifyMessage(CPP.Message(data))
+		elseif msg ~= 'timeout' then 
+			error("Network error: "..tostring(msg))
+		end
+	until not data 
+end
+
+function udp_send(data, message_type)
+	udp:send(CPP.Message(data, message_type):toJson())
+end
 
 function post_request(url, POST_DATA)
 	local respbody = {}

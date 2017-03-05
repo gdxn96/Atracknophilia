@@ -4,16 +4,19 @@
 #include "Game.h"
 #include "FLInput\FLInputManager.h"
 #include <iostream>
-#include "NetworkAdapter.h"
+#include "Net.h"
 #define SDL_main main
 
 //* Set initial instance to be nullptr
 InputManager* InputManager::inputManagerInstance = nullptr;
 
+void eh(Message m)
+{
+	std::cout << m.data << std::endl;
+}
+
 int main()
 {
-	NetworkAdapter n;
-	
 	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
 	auto exit = PressCommand([&](){ Game::quit = true; });
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::ESCAPE, &exit, &game);
