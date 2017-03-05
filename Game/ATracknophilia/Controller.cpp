@@ -20,7 +20,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			case none:
 				break;
 			case webDrop:
-				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+				EntityFactory::SpawnWebDrop(c->body->GetPosition().x - Vector2D(c->body->GetLinearVelocity()).Normalize().x, c->body->GetPosition().y, 1, 1);
 				a->ability = a->NONE;
 				notify(Observer::DROP);
 				break;

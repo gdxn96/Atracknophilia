@@ -18,12 +18,16 @@
 
     "music": [
       {
-        "key": "game_music",
-        "path": "assets/Music/game_music.ogg"
+        "key": "music",
+        "path": "assets/Music/music.mp3"
       },
       {
-        "key": "end_music",
-        "path": "assets/Music/end_music.wav"
+        "key": "credit-music",
+        "path": "assets/Music/credit-music.mp3"
+      },
+      {
+        "key": "menu-music",
+        "path": "assets/Music/menu-music.mp3"
       },
       {
         "key": "music_placeholder",
@@ -52,11 +56,12 @@
         "path": "assets/Textures/sprite_sheet.png",
         "metaPath": "assets/Animations/stick_man.json"
       },
-      {
-        "key": "placeholder",
-        "path": "assets/Textures/placeholder.png",
-        "metaPath": "assets/Animations/placeholder.json"
-      }
+        {
+
+            "key": "placeholder",
+            "path": "assets/Textures/placeholder.png",
+            "metaPath": "assets/Animations/placeholder.json"
+        }
     ]
   } 
 }

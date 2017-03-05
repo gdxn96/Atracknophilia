@@ -12,9 +12,9 @@ public:
 		numObservers++;
 	}
 
-	void removeObserver(Observer* observer)
+	~Subject() 
 	{
-		// Remove from array...
+		observers.clear();
 	}
 
 private:
