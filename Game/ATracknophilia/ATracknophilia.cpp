@@ -43,7 +43,14 @@ int main()
 		float deltaTime = (currentTime - lastTime) / 1000.0;//time since last update
 
 		game.loop(deltaTime);
-		n.update();
+
+		try {
+			n.update();
+		}
+		catch (...) {
+			//ignore if server down for now
+		}
+		
 
 		//save the curent time for next frame
 		lastTime = currentTime;

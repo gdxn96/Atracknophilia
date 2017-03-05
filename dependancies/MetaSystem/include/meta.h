@@ -299,7 +299,10 @@ public:
 	static void FromJson<std::string>(void* v, rapidjson::Value& rVal, const MetaType* m)
 	{
 		if (rVal.GetStringLength() > 0)
-			*(std::string*)v = rVal.GetString();
+		{
+			std::string value = rVal.GetString();
+			*(std::string*)v = value;
+		}
 	}
 
 	template<>

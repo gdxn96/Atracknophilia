@@ -19,9 +19,10 @@ struct Message
 	Message(const char * json) {
 		Variable(this).FromJson<Message>(json);
 	}
-	const char* toJson()
+	std::string toJson()
 	{
-		return Variable(this).ToJson().c_str();
+		auto x= Variable(this).ToJson();
+		return x;
 	}
 };
 

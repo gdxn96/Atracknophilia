@@ -12,10 +12,8 @@ function  udp_setup( SERVER_IP, SERVER_PORT, CLIENT_PORT )
 	print( "myIP:", ip, sock )
 
 	udp:settimeout(0)
-	local ping = CPP.Message('', 'ping')
-	udp:send(ping:toJson())
+	udp_send("", "ping")
 	print("ping sent")
-	print(ping:toJson())
 end
 
 function receive_messages(network_adapter)
