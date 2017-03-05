@@ -70,3 +70,8 @@ void EntityFactory::SpawnPowerUp(float x, float y, float w, float h)
 {
 	LevelLoader::appendToEntities(new PowerUp(id(), x, y, w, h));
 }
+
+void EntityFactory::SpawnHUD(std::string key)
+{
+	LevelLoader::appendToEntities(new HUD(id(), key));
+}

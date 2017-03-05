@@ -55,48 +55,15 @@ void RenderSystem::process(float dt)
 		{
 			m_renderer->drawLine(component->start, component->end);
 		}
-
-		//auto& boxes = AutoList::get<Box2DComponent>();
-		//for (auto& box : boxes)
-		//{
-		//	bool isPlayer = false;
-		//	int playerID;
-		//	for (auto& player : AutoList::get<Player>())
-		//	{
-		//		if (box->ID == player->ID)
-		//		{
-		//			isPlayer = true;
-		//			playerID = player->ID;
-		//		}
-		//	}
-
-		//	if (!(isPlayer))
-		//	{
-		//		if (box->body->GetFixtureList()[0].GetDensity() > 0)
-		//		{
-		//			if (!(box->size == Vector2D::ZERO))
-		//			{
-		//				m_renderer->drawRect(Rect(Vector2D(box->body->GetPosition()) - box->size* 0.5, box->size), Colour(0, 0, 0));
-		//			}
-		//			else
-		//			{
-		//				m_renderer->drawFilledPoly(box->body);
-		//			}
-		//		}
-		//	}
-		//	else if (getComponentById<ScoreComponent>(playerID)->alive)
-		//	{
-		//		if (box->body->GetFixtureList()[0].GetDensity() > 0)
-		//		{
-		//			m_renderer->drawRect(Rect(Vector2D(box->body->GetPosition()) - box->size* 0.5, box->size), Colour(0, 0, 0));
-		//		}
-		//	}
-		//}
 	}
 	{
 		auto& components = AutoList::get<AnimationComponent>();
 		for (auto& component : components)
 		{
+			if (component->getParent()->getComponent<ScoreComponent>())
+			{
+
+			}
 			auto p = component->getParent();
 			auto b = p->getComponent<Box2DComponent>();
 			component->animation.drawAtPosition(m_renderer, Vector2D(b->body->GetPosition().x - b->size.width * 2, b->body->GetPosition().y - b->size.height * 2), Vector2D(b->size *4), 0);
@@ -111,15 +78,15 @@ void RenderSystem::process(float dt)
 		{
 			tex = ResourceManager::getInstance()->getTextureByKey("bluehud");
 		}
-		if (component->coulourID == 1)
+		else if (component->coulourID == 1)
 		{
 			tex = ResourceManager::getInstance()->getTextureByKey("greenhud");
 		}
-		if (component->coulourID == 2)
+		else if (component->coulourID == 2)
 		{
 			tex = ResourceManager::getInstance()->getTextureByKey("redhud");
 		}
-		if (component->coulourID == 3)
+		else if (component->coulourID == 3)
 		{
 			tex = ResourceManager::getInstance()->getTextureByKey("yellowhud");
 		}
@@ -132,8 +99,42 @@ void RenderSystem::process(float dt)
 			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("counter"), counterPos);
 		}
 
+		Rect abilityPos = Rect((drawPos.pos.x) + 33 * 2, 16, 30, 30);
+
+		auto ability = component->getParent()->getComponent<AbilityComponent>();
+		if (ability->ability == ability->WEB_DROP)
+		{
+			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("webIcon"), abilityPos);
+		}
+		else if (ability->ability == ability->SWAP_SHOT)
+		{
+			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("hookIcon"), abilityPos);
+		}
+		else if (ability->ability == ability->SLOW_SHOT)
+		{
+			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("shotIcon"), abilityPos);
+		}
+		else
+		{
+			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("placeholder"), abilityPos);
+		}
+
+		if (component->getParent()->getComponent<HudComponent>()->spinTime > 0)
+		{
+			component->getParent()->getComponent<HudComponent>()->animation.drawAtHudPosition(m_renderer, abilityPos.pos, abilityPos.size, 0);
+			component->getParent()->getComponent<HudComponent>()->spinTime -= dt;
+		}
+
+		auto& Arrows = AutoList::get<DirectionArrowComponent>();
+		for (auto& Arrow : Arrows)
+		{
+			m_renderer->drawTextureWithAngleHud(ResourceManager::getInstance()->getTextureByKey(Arrow->textureKey), Rect(700, 0, 100, 100), Arrow->angle);
+		}
+		
+		
+
 		Rect staminaRect = Rect(drawPos.pos.x, 55, 1 * component->getParent()->getComponent<StaminaComponent>()->stamina, 15);
-		std::cout << "stamina : " << component->getParent()->getComponent<StaminaComponent>()->stamina << endl;
+		//std::cout << "stamina : " << component->getParent()->getComponent<StaminaComponent>()->stamina << endl;
 
 		m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("stamina"), staminaRect);
 

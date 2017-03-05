@@ -16,6 +16,37 @@ struct AnimationComponent : public IComponent, public AutoLister<AnimationCompon
 	int coulourID;
 };
 
+struct CountdownComponent : public IComponent, public AutoLister<CountdownComponent>
+{
+	CountdownComponent(int objectId, string animationName)
+		: IComponent(objectId)
+		, animation(Animation(animationName))
+		, timeToDisplay(0) {};
+	Animation animation;
+	float timeToDisplay;
+};
+
+struct HudComponent : public IComponent, public AutoLister<HudComponent>
+{
+	HudComponent(int objectId, string animationName)
+		: IComponent(objectId)
+		, animation(Animation(animationName))
+		, spinTime(0) {};
+	Animation animation;
+	float spinTime;
+};
+
+struct DirectionArrowComponent : public IComponent, public AutoLister<DirectionArrowComponent>
+{
+	DirectionArrowComponent(int objectId, std::string key = "placeholder")
+		: IComponent(objectId)
+		, textureKey(key)
+		, angle(0) {};
+
+	std::string textureKey;
+	float angle;
+};
+
 struct StateComponent : public IComponent, public AutoLister<StateComponent>
 {
 	StateComponent(int id)

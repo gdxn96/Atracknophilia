@@ -64,14 +64,14 @@ struct AIComponent : public IComponent, public AutoLister<AIComponent>
 
 struct InputPauseComponent : public AutoLister<InputPauseComponent>, public IComponent
 {
-	float startTime;
-	float timeToPause;
+	float timeToRun;
+	//float timeToPause;
 	bool isPaused;
 
-	InputPauseComponent(int id, float t, bool p)
+	InputPauseComponent(int id, bool p)
 		: IComponent(id),
-		startTime(t),
-		timeToPause(0),
+		timeToRun(0),
+		//timeToPause(0),
 		isPaused(p)
 	{
 

@@ -276,7 +276,7 @@ inline void Camera2D::Camera::zoomTo(const Vector2& target)
 inline void Camera2D::Camera::zoomTo(float targetX, float targetY)
 {
 	targetX = clampZoom(targetX);
-	targetY = clampZoom(targetY);
+	targetY = clampZoom(targetY); 
 
 	m_zoomTarget.x = targetX; 
 	m_zoomTarget.y = targetY;

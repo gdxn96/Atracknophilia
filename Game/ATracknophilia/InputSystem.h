@@ -17,15 +17,14 @@ public:
 			{
 				component->process(dt);
 			}	
-			else if (getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->startTime == 0)
+			else if (getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->timeToRun > 0)
 			{
-				getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
+				float t = getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->timeToRun;
+				getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->timeToRun -= dt;
 			}
-			else if (SDL_GetTicks() - getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->startTime > getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->timeToPause)
+			else
 			{
 				getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->isPaused = false;
-				getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->startTime = 0;
-				getComponentById<Player>(component->ID)->getComponent<InputPauseComponent>()->timeToPause = 0;
 			}
 		}
 	}

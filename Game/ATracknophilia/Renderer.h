@@ -28,9 +28,11 @@ public:
 	void drawImage(SDL_Surface* img);
 	void drawTexture(SDL_Texture * img, Rect dst);
 	void drawTexture(SDL_Texture * img, Rect _src, Rect _dst);
-	void Renderer::drawHud(SDL_Texture* img, Rect _dst);
+	void drawHud(SDL_Texture* img, Rect _dst);
 	void drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, float angle);
 	void drawTextureWithAngle(SDL_Texture* img, Rect _dst, float angle);
+	void drawTextureWithAngleHud(SDL_Texture* img, Rect _src, Rect _dst, float angle);
+	void drawTextureWithAngleHud(SDL_Texture * img, Rect _dst, float angle);
 	void drawImage(SDL_Surface * img, Rect rec);
 	void drawLine(Vector2D start, Vector2D end, Colour c = Colour());
 	int drawFilledPoly(b2Body * body);

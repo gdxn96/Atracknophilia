@@ -138,9 +138,6 @@
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="ScoreSystem.h">
-=======
     <ClInclude Include="AnimationSystem.h">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
@@ -150,12 +147,8 @@
     <ClInclude Include="FiniteStateMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PowerUp.h">
+    <ClInclude Include="HUD.h">
       <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerUpSystem.h">
->>>>>>> GJPTEAME-42-ArtImplementation
-      <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

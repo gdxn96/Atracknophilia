@@ -30,21 +30,19 @@ public:
 				player->getComponent<RacePositionComponent>()->lap = winner->getComponent<RacePositionComponent>()->lap;
 				player->getComponent<RacePositionComponent>()->volumeID = winner->getComponent<RacePositionComponent>()->volumeID;
 				player->getComponent<InputPauseComponent>()->isPaused = true;
-				player->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
-				player->getComponent<InputPauseComponent>()->timeToPause = 2000;
+				player->getComponent<InputPauseComponent>()->timeToRun = 2.0f;
+				//player->getComponent<InputPauseComponent>()->timeToPause = 2000;
 				player->getComponent<ScoreComponent>()->alive = true;
 				player->getComponent<DynamicBodyComponent>()->fixture->SetSensor(false);
 			}
 			physicsSys->setPausePhysics(true);
+			//Step twice so that players aren't all in exact same position
 			PhysicsSystem::World().Step(dt * 2, 7, 3);
 
-
-			cout << "round: " << winner->ID << endl;
 			if (getComponentById<ScoreComponent>(winner->ID)->rounds >= 3)
 			{
 				//DO WIN 
 				//Sean's scene code here
-				cout << "winner: " << winner->ID << endl;
 				reset();
 			}
 		}
@@ -55,7 +53,7 @@ public:
 				std::vector<Player*> losers = difference(AutoList::get<Player>(), onScreen);
 				for (std::vector<Player*>::iterator it = losers.begin(); it != losers.end(); ++it)
 				{
-					if ((*it)->getComponent<ScoreComponent>()->alive)
+					if ((*it)->getComponent<ScoreComponent>()->alive && RaceManager::getInstance()->getPlayers().front() == (*it))
 					{
 						(*it)->getComponent<ScoreComponent>()->alive = false;
 						(*it)->getComponent<DynamicBodyComponent>()->fixture->SetSensor(true);
@@ -67,7 +65,7 @@ public:
 		if (onScreen.size() > 0)
 		{
 			auto comp = onScreen.at(0)->getComponent<InputPauseComponent>();
-			if (comp && SDL_GetTicks() - comp->startTime > comp->timeToPause)
+			if (comp && comp->timeToRun <= 0)
 			{
 				physicsSys->setPausePhysics(false);
 			}

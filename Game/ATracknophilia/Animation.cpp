@@ -82,3 +82,11 @@ void Animation::drawAtPosition(Renderer* r, Vector2D pos, Vector2D size, float a
 		r->drawTextureWithAngle(m_currentSpriteSheet, m_currentFrame, Rect(pos, size), (angle * (180 / 3.14)));
 	}
 }
+
+void Animation::drawAtHudPosition(Renderer* r, Vector2D pos, Vector2D size, float angle)
+{
+	if (m_isAlive)
+	{
+		r->drawTextureWithAngleHud(m_currentSpriteSheet, m_currentFrame, Rect(pos, size), (angle * (180 / 3.14)));
+	}
+}

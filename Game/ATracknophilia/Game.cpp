@@ -41,7 +41,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	//Init systems
 	renderSys->init(&m_renderer);
 	scoreSys->init(physicsSystem);
-	renderSys->setLevel(LEVELS::LEVEL1);
+	renderSys->setLevel(LEVELS::LEVEL2);
 	m_cameraManager.init(&m_camera);
 	
 	//Push back systems
@@ -70,21 +70,22 @@ void Game::init()
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
 
-	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL1));
+	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL2));
 	m_camera.zoom(-1);
 
 
-	for (auto& player : AutoList::get<Player>())
-	{
-		player->getComponent<InputPauseComponent>()->isPaused = true;
-		player->getComponent<InputPauseComponent>()->startTime = SDL_GetTicks();
-		player->getComponent<InputPauseComponent>()->timeToPause = 2000;
-	}
+	EntityFactory::SpawnHUD("arrow");
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0, 0);
 	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, 1);
 	//EntityFactory::SpawnPlayer(52, 12, 1, 1, 2, 2);
 	//EntityFactory::SpawnPlayer(53, 12, 1, 1, 3, 3);
+
+	for (auto& player : AutoList::get<Player>())
+	{
+		player->getComponent<InputPauseComponent>()->isPaused = true;
+		player->getComponent<InputPauseComponent>()->timeToRun = 2.0f;
+	}
 }
 
 void Game::loop(float dt)

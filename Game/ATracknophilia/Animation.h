@@ -78,8 +78,9 @@ public:
 
 	~Animation();
 
-	void update(float dt);
+	//void update(float dt);
 	void drawAtPosition(Renderer* r, Vector2D pos, Vector2D size, float angle = 0);
+	void drawAtHudPosition(Renderer* r, Vector2D pos, Vector2D size, float angle);
 
 	void changeAnimation(string name);
 	void resetAnimation();

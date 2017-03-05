@@ -6,6 +6,10 @@
         "key": "placeholder",
         "path": "assets/Textures/placeholder.png"
       },
+            {
+        "key": "arrow",
+        "path": "assets/Textures/arrow.png"
+      },
       {
         "key": "bluehud",
         "path": "assets/Textures/bluehud.png"
@@ -25,6 +29,18 @@
       {
         "key": "counter",
         "path": "assets/Textures/redcounter.png"
+      },
+      {
+        "key": "hookIcon",
+        "path": "assets/Textures/hookIcon.png"
+      },
+      {
+        "key": "shotIcon",
+        "path": "assets/Textures/shotIcon.png"
+      },
+      {
+        "key": "webIcon",
+        "path": "assets/Textures/webIcon.png"
       },
       {
         "key": "stamina",
@@ -103,6 +119,16 @@
         "key": "placeholder",
         "path": "assets/Textures/placeholder.png",
         "metaPath": "assets/Animations/placeholder.json"
+      },
+      {
+        "key": "abilityIcon",
+        "path": "assets/Textures/abilityIcon.png",
+        "metaPath": "assets/Animations/abilityIcon.json"
+      },
+      {
+        "key": "countdown",
+        "path": "assets/Textures/countdown.png",
+        "metaPath": "assets/Animations/countdown.json"
       },
        {
         "key": "bidleright",
