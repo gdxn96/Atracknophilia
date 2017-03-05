@@ -90,7 +90,7 @@ void RenderSystem::process(float dt)
 		}
 
 		Rect staminaRect = Rect(drawPos.pos.x, 55, 1 * component->getParent()->getComponent<StaminaComponent>()->stamina, 15);
-		std::cout << "stamina : " << component->getParent()->getComponent<StaminaComponent>()->stamina << endl;
+		//std::cout << "stamina : " << component->getParent()->getComponent<StaminaComponent>()->stamina << endl;
 
 		m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("stamina"), staminaRect);
 
