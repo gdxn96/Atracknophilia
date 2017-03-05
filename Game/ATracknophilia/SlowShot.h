@@ -1,7 +1,7 @@
 #pragma once
 #include "Components.h"
 
-class SlowShot : public IEntity
+class SlowShot : public IEntity, public AutoLister<SlowShot>
 {
 public:
 	SlowShot(int id, float x, float y, float w, float h, int targetID, int shooterID)

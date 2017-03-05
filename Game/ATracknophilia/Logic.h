@@ -4,6 +4,8 @@
 #include "Dimensional.h"
 #include "RacePosition.h"
 
+#include "BehaviourTree.h"
+
 struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
 {
 	ICollisionResponseComponent(int id)
@@ -24,7 +26,7 @@ struct ICollisionResponseComponent : public AutoLister<ICollisionResponseCompone
 	};
 };
 
-struct SoftObstacleResponseComponent : public ICollisionResponseComponent
+struct SoftObstacleResponseComponent : public ICollisionResponseComponent, public AutoLister<SoftObstacleResponseComponent>
 {
 	SoftObstacleResponseComponent(int id)
 		:	ICollisionResponseComponent(id)
@@ -57,7 +59,7 @@ struct AIComponent : public IComponent, public AutoLister<AIComponent>
 	{
 	}
 
-	virtual void think() {}
+	virtual void think(float dt) {}
 };
 
 struct InputPauseComponent : public AutoLister<InputPauseComponent>, public IComponent
@@ -102,7 +104,7 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 		assert(target != nullptr);
 	}
 
-	void think()
+	void think(float dt)
 	{
 		if (target != nullptr)
 		{
@@ -130,6 +132,59 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 	int shooterID;
 };
 
+struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAIComponent>
+{
+	PlayerAIComponent(int id)
+		: AIComponent(id)
+		, bt(BehaviourTree())
+		, isHooked(false)
+	{
+		Selector* root = new Selector();
+		root->Initialize();
+		root->AddChild(new UseAbility());
+
+		Sequence* checkHook = new Sequence();
+		checkHook->Initialize();
+		checkHook->AddChild(new CheckHooked());
+		checkHook->AddChild(new RaiseHook());
+		root->AddChild(checkHook);
+
+		Selector* moveSelector = new Selector();
+		moveSelector->Initialize();
+
+		Sequence* staminaSequence = new Sequence();
+		staminaSequence->Initialize();
+		staminaSequence->AddChild(new CheckVelocity());
+		staminaSequence->AddChild(new UseStamina());
+
+		Failer* staminaFailer = new Failer();
+		staminaFailer->SetChild(staminaSequence);
+
+		moveSelector->AddChild(staminaFailer);
+		moveSelector->AddChild(new MoveInDirectionOfVolume());
+
+		Sequence* hookSequence = new Sequence();
+		hookSequence->Initialize();
+		hookSequence->AddChild(new UseHook());
+		hookSequence->AddChild(new RaiseHook());
+		hookSequence->AddChild(new MoveInDirectionOfVolume());
+
+		moveSelector->AddChild(hookSequence);
+		root->AddChild(moveSelector);
+
+		bt.SetRoot(root);
+	}
+
+	void think(float dt)
+	{
+		bt.Tick(getParent(), dt, isHooked);
+	}
+
+	BehaviourTree bt;
+	bool isHooked;
+};
+
+
 struct SlowShotResponseComponent : public ICollisionResponseComponent
 {
 	SlowShotResponseComponent(int id)
@@ -137,7 +192,9 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 	{}
 
 	void endContact(IEntity * e)
-	{};
+	{
+	
+	};
 
 	void beginContact(IEntity * e)
 	{
@@ -151,8 +208,16 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 
 				if (ai && ai->shooterID != e->ID)
 				{
-					getParent()->alive = false;
-					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+					auto& components = AutoList::get<AnimationComponent>();
+					for (auto& component : components)
+					{
+						if (e->ID == component->ID)
+						{
+							getParent()->alive = false;
+							e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+							e->getComponent<StateComponent>()->hit = true;
+						}
+					}
 				}
 			}
 		}
@@ -206,7 +271,12 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 
 	void endContact(IEntity* e)
 	{
+		auto racePositionComponent = e->getComponent<RacePositionComponent>();
 
+		if (racePositionComponent && racePositionComponent->volumeID == ID)
+		{
+			racePositionComponent->SetVolumeId(racePositionComponent->prevVolumeID);
+		}
 	};
 
 	void beginContact(IEntity* e)
@@ -236,3 +306,52 @@ struct BoostPadResponseComponent : public ICollisionResponseComponent, public Au
 
 	void beginContact(IEntity * e);
 };
+
+struct PowerUpResponseComponent : public ICollisionResponseComponent, public AutoLister<PowerUpResponseComponent>
+{
+	PowerUpResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{}
+
+	void endContact(IEntity * e)
+	{};
+
+	void beginContact(IEntity * e)
+	{}
+};
+
+struct PowerUpRespawnComponent: public IComponent, public AutoLister<PowerUpRespawnComponent>
+{
+	PowerUpRespawnComponent(int id, int x, int y)
+		: IComponent(id)
+		, tts(0)
+		, isDead(false)
+		, pos(b2Vec2(x, y))
+	{}
+
+	void ReSpawn() 
+	{
+		auto b = getComponent<Box2DComponent>();
+		if (b)
+		{
+			auto body = b->body;
+			body->SetTransform(pos, 0);
+			isDead = false;
+			tts = 0;
+		}
+	}
+
+	void Die() 
+	{
+		auto b = getComponent<Box2DComponent>();
+		if (b)
+		{
+			isDead = true;
+		}
+	}
+
+	float tts;
+	bool isDead;
+	b2Vec2 pos;
+};
+

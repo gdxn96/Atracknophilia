@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "ECSInterfaces.h"
 #include "CameraManager.h"
+#include "Animation.h"
 #include "Systems.h"
 
 class Game : public EventListener

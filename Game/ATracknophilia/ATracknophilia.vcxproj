@@ -127,8 +127,18 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
       <AdditionalDependencies>SDL2_mixer.lib;SDL2_image.lib;Box2D-d.lib;lua52.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "..\..\dependancies\dlls\x64\*.dll" "$(OutDir)"; 
+mkdir  $(OutDir)assets\Animations; 
+mkdir  $(OutDir)assets\levels; 
+mkdir  $(OutDir)assets\Music; 
+mkdir  $(OutDir)assets\SoundEffects; 
+mkdir  $(OutDir)assets\Textures; 
+copy  ".\assets\*" "$(OutDir)assets";
+copy  ".\assets\Animations\*" "$(OutDir)assets\Animations";
+copy  ".\assets\levels\*" "$(OutDir)assets\levels";
+copy  ".\assets\Music\*" "$(OutDir)assets\Music";
+copy  ".\assets\SoundEffects\*" "$(OutDir)assets\SoundEffects";
+copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -205,6 +215,8 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
   <ItemGroup>
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationSystem.h" />
+    <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="AutoList.h" />
     <ClInclude Include="BasicTypes.h" />
     <ClInclude Include="BoostPad.h" />
@@ -227,6 +239,8 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="LTimer.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="PowerUpSystem.h" />
     <ClInclude Include="RaceManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -234,6 +248,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SlowShot.h" />
     <ClInclude Include="SoftBox.h" />
+    <ClInclude Include="StateSystem.h" />
     <ClInclude Include="StaticPolygon.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems.h" />
@@ -243,6 +258,7 @@ copy  ".\assets\Textures\*" "$(OutDir)assets\Textures";</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Controller.cpp" />

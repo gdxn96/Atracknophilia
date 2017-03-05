@@ -19,14 +19,14 @@ using namespace std;
 namespace Camera2D
 {
 	const float DEFAULT_ACCEL = 100.f; //every second how much you change velocity by
-	const float DEFAULT_MAX_VEL = 200.f; //how fast you move in a second
+	const float DEFAULT_MAX_VEL = 300.f; //how fast you move in a second
 	const float DEFAULT_DRAG = 0.9f;
 	const float MIN_VEL = 5.f;
 
 	const float DEFAULT_ZOOM_SPEED = 0.01f;
 	const float DEFAULT_ZOOMTO_SPEED = 1.f;
 	const float DEFAULT_MIN_ZOOM = 1.5f;
-	const float DEFAULT_MAX_ZOOM = 0.1f;
+	const float DEFAULT_MAX_ZOOM = 0.01f;
 
 
 	class Camera

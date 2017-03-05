@@ -50,9 +50,10 @@ struct IControllerComponent : public IComponent, public AutoLister<IControllerCo
 	virtual void process(float dt) = 0;
 
 	Uint8 m_controllerId;
+	bool isHooked = false;
 };
 
-struct PlayerControllerComponent : public IControllerComponent, public EventListener
+struct PlayerControllerComponent : public IControllerComponent, public EventListener, public AutoLister<PlayerControllerComponent>
 {
 	PlayerControllerComponent(int id, int controllerId);
 

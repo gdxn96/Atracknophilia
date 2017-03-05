@@ -13,7 +13,7 @@ struct RacePositionComponent : public IComponent, public AutoLister<RacePosition
 
 	void SetVolumeId(int id)
 	{
-		if (volumeID != -1)
+		if (id != -1 && volumeID != -1)
 		{
 			int priority = getComponentById<PriorityComponent>(volumeID)->priority;
 			int newPriority = getComponentById<PriorityComponent>(id)->priority;
@@ -27,9 +27,11 @@ struct RacePositionComponent : public IComponent, public AutoLister<RacePosition
 			}
 		}
 
+		prevVolumeID = volumeID;
 		volumeID = id;
 	}
 
 	int lap;
 	int volumeID;
+	int prevVolumeID;
 };

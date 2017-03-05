@@ -64,8 +64,8 @@ public:
 			}
 		}
 
-
-		if (SDL_GetTicks() - onScreen.at(0)->getComponent<InputPauseComponent>()->startTime > onScreen.at(0)->getComponent<InputPauseComponent>()->timeToPause)
+		auto comp = onScreen.at(0)->getComponent<InputPauseComponent>();
+		if (comp && SDL_GetTicks() - comp->startTime > comp->timeToPause)
 		{
 			physicsSys->setPausePhysics(false);
 		}

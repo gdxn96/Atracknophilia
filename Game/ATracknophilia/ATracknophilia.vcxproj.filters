@@ -138,7 +138,23 @@
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="ScoreSystem.h">
+=======
+    <ClInclude Include="AnimationSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="StateSystem.h">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FiniteStateMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>ECS\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUpSystem.h">
+>>>>>>> GJPTEAME-42-ArtImplementation
       <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
@@ -179,9 +195,6 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
@@ -196,6 +209,12 @@
     </ClCompile>
     <ClCompile Include="DirectionVolume.cpp">
       <Filter>ECS\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="FiniteStateMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
