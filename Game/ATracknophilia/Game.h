@@ -14,6 +14,7 @@
 #include "LobbyScene.h"
 #include "StartScene.h"
 #include "RoomScene.h"
+#include "Net.h"
 
 class Game : public EventListener
 {
@@ -22,6 +23,8 @@ public:
 	void init();
 	void loop(float dt);
 	static bool quit;
+	void notifyMessage(Message m);
+	void sendData();
 private:
 	Renderer m_renderer;
 	Camera2D::Camera m_camera;
@@ -31,6 +34,5 @@ private:
 	CameraManager m_cameraManager;
 	ResourceManager* m_resourceMgr;
 	std::vector<ISystem*> m_systems;
-
-	bool initGameCamera;
+	Net m_net;
 };
