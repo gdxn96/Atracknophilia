@@ -25,8 +25,8 @@
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{2e1ce81f-cdc3-4548-aeca-4a03cb93d70e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BehaviourTree">
-      <UniqueIdentifier>{7f6af6e5-e04a-413b-8297-68953f064a12}</UniqueIdentifier>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{97e93f0e-a507-4731-b5ff-6ab35dc9df5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,13 +42,7 @@
     <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutoList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BasicTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -138,37 +132,20 @@
     <ClInclude Include="BoostPad.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="SwapSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Interactables.h">
-      <Filter>ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="hooksystem.h">
-      <Filter>ECS\Systems</Filter>
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviourTree.h">
-      <Filter>BehaviourTree</Filter>
+    <ClInclude Include="LuaEngine.h">
+      <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="Composite.h">
-      <Filter>BehaviourTree</Filter>
+    <ClInclude Include="NetworkAdapter.h">
+      <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="Decorator.h">
-      <Filter>BehaviourTree</Filter>
+    <ClInclude Include="Net.h">
+      <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="Leaf.h">
-      <Filter>BehaviourTree</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>BehaviourTree</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerUp.h">
-      <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerUpSystem.h">
-      <Filter>ECS\Systems</Filter>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -226,8 +203,20 @@
     <ClCompile Include="DirectionVolume.cpp">
       <Filter>ECS\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="LuaEngine.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAdapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Net.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
+    <None Include="networking.lua">
+      <Filter>Networking</Filter>
+    </None>
   </ItemGroup>
 </Project>

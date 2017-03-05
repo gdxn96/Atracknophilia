@@ -6,6 +6,7 @@
 #include "ECSInterfaces.h"
 #include "CameraManager.h"
 #include "Systems.h"
+#include "Net.h"
 
 class Game : public EventListener
 {
@@ -13,6 +14,8 @@ public:
 	Game(Vector2D windowSize, Vector2D levelSize, const char* windowName);
 	void init();
 	void loop(float dt);
+	void notifyMessage(Message m);
+	void sendData();
 	static bool quit;	
 private:
 	Renderer m_renderer;
@@ -24,4 +27,5 @@ private:
 
 	ResourceManager* m_resourceMgr;
 	std::vector<ISystem*> m_systems;
+	Net m_net;
 };

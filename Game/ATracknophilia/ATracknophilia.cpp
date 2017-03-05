@@ -2,14 +2,15 @@
 //
 #include "stdafx.h"
 #include "Game.h"
+#include "FLInput\FLInputManager.h"
 #include <iostream>
-
 #define SDL_main main
+
 //* Set initial instance to be nullptr
 InputManager* InputManager::inputManagerInstance = nullptr;
 
 int main()
-{
+{	
 	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
 	auto exit = PressCommand([&](){ Game::quit = true; });
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::ESCAPE, &exit, &game);
@@ -32,7 +33,7 @@ int main()
 		unsigned int currentTime = LTimer::gameTime();//millis since game started
 		float deltaTime = (currentTime - lastTime) / 1000.0;//time since last update
 
-		game.loop(deltaTime);
+		game.loop(deltaTime);		
 
 		//save the curent time for next frame
 		lastTime = currentTime;
