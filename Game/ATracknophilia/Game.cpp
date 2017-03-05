@@ -99,10 +99,10 @@ void Game::sendData()
 
 	if (m_host)
 	{
-		m_net.sendToAll(Message("", "yayyy"));
+		//m_net.sendToAll(Message("", "yayyy"));
 	}
 	else
 	{
-		m_net.sendToHost(Message("", "yayyy"));
+		//m_net.sendToHost(Message("", "yayyy"));
 	}
 }
