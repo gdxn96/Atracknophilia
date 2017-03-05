@@ -66,7 +66,7 @@ public:
 		.beginNamespace("CPP")
 			.beginClass<Message>("Message")
 			.addConstructor<void(*)(const char*, const char *)>()
-			.addConstructor<void(*)(const char*)>()
+			//.addConstructor<void(*)(const char*)>()
 			.addFunction("toJson", &Message::toJson)
 			.endClass()
 		.endNamespace();
@@ -99,22 +99,26 @@ public:
 		m_lua->ExecuteFunction("disconnect")();
 	}
 
-	void notifyMessage(Message m)
+	void notifyMessage(const char* json)
 	{
-		if (m_messageCallback)
+		if (json)
 		{
-			m_messageCallback(m);
-		}
+			Message m(json);
+			if (m_messageCallback)
+			{
+				m_messageCallback(m);
+			}
 
-		if (m.message_type == "pong")
-		{
-			connected = true;
+			if (m.message_type == "pong")
+			{
+				connected = true;
+			}
 		}
 	}
 
 	void udpSend(const char* data, Message message)
 	{
-		assert(connnected);
+		assert(connected);
 		m_lua->ExecuteFunction("udp_send")(data, message.toJson());
 	}
 

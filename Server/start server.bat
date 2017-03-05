@@ -1,1 +1,1 @@
-python server.py > server.log -l info 2>&1 
+python server.py > logs/server.log -l info 2>&1 

@@ -3,6 +3,7 @@ import sys
 import celery_wrapper
 from models import Lobby, Client
 from socket import SOL_SOCKET, SO_REUSEADDR
+import json
 
 class UdpSocket():
     def __init__(self, HOST, PORT):
@@ -72,27 +73,26 @@ def listen_blocking(config):
             if not data: 
                 break
 
-            ip = addr.split(':')[0]
+            ip = addr[0]
+            print data
             data = json.loads(data)
 
-            if data.message_type == "ping":
-                data.message_type = "pong"
+            if data["message_type"] == "ping":
+                data["message_type"] = "pong"
                 s.sendto(json.dumps(data), addr)
-            else if data.message_type == "sent_to_all":
+                print "sent to " + addr[0]
+            elif data["message_type"] == "send_to_all":
                 client = get_or_create(db.session, Client, ip_address=ip)
                 send_to_all_by_lobby_id(client.lobby_id, data.data)
-            else if data.message_type == "send_to_host":
+            elif data["message_type"] == "send_to_host":
                 client = get_or_create(db.session, Client, ip_address=ip)
                 send_to_host_by_lobby_id(client.lobby_id, data.data)
-            else if data.message_type == "disonnect":
+            elif data["message_type"] == "disonnect":
                 client = get_or_create(db.session, Client, ip_address=ip)
                 # do something about that
 
-             
-            reply = 'OK...' + data
-             
-            s.sendto(reply , addr)
-            print 'Message[' + addr[0] + ':' + str(addr[1]) + '] - ' + data.strip()
+            
+            print 'Message[' + addr[0] + ':' + str(addr[1]) + '] - ' + str(data)
 
 def listen_nonblocking(config):
     celery_wrapper.start_daemon_task(listen_blocking, config)

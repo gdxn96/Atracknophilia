@@ -17,6 +17,9 @@ void eh(Message m)
 
 int main()
 {
+	Net n;
+	n.setMessageCallback(eh);
+	
 	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
 	auto exit = PressCommand([&](){ Game::quit = true; });
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::ESCAPE, &exit, &game);
@@ -40,6 +43,7 @@ int main()
 		float deltaTime = (currentTime - lastTime) / 1000.0;//time since last update
 
 		game.loop(deltaTime);
+		n.update();
 
 		//save the curent time for next frame
 		lastTime = currentTime;

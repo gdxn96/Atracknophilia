@@ -15,6 +15,7 @@ function  udp_setup( SERVER_IP, SERVER_PORT, CLIENT_PORT )
 	local ping = CPP.Message('', 'ping')
 	udp:send(ping:toJson())
 	print("ping sent")
+	print(ping:toJson())
 end
 
 function receive_messages(network_adapter)
@@ -24,7 +25,7 @@ function receive_messages(network_adapter)
 		--if msg then print(msg) end
 		if data then 
 			print(data) 
-			network_adapter:notifyMessage(CPP.Message(data))
+			network_adapter:notifyMessage(data)
 		elseif msg ~= 'timeout' then 
 			error("Network error: "..tostring(msg))
 		end
