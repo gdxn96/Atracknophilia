@@ -566,7 +566,7 @@ void LevelSelectScene::executeScene(IDs id)
 
 int LevelSelectScene::countMapVotes()
 {
-	int mapSelected;
+	int mapSelected = 1;
 
 	// only 1 player playing with AI
 	if (m_controllerTwoConnected == false && m_aiEnabled == true)
