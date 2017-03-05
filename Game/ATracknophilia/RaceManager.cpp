@@ -55,9 +55,6 @@ std::vector<Player*> RaceManager::Sort()
 		}
 	}
 
-	//players are not in direction volumes when spawned
-	//assert(sortedList.size() != 0);
-
 	return sortedList;
 }
 

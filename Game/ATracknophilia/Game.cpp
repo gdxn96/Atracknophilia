@@ -37,7 +37,6 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	m_systems.push_back(physicsSystem);
 	m_systems.push_back(aiSystem);
 
-
 	m_cameraManager = CameraManager();
 	m_cameraManager.init(&m_camera);
 
@@ -82,14 +81,6 @@ void Game::init()
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)), this);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)), this);
 
-
-	// do this only after a level has been selected
-	//m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::PROTOTYPE));
-
-
-	//m_camera.zoom(-1);
-	initGameCamera = false;
-
 	SceneManager::getInstance()->init(m_renderer);
 }
 
@@ -98,11 +89,6 @@ void Game::loop(float dt)
 	LevelLoader::destroyObjects();
 	if (SceneManager::getInstance()->getCurrentScene()->getTitle() == Scenes::GAME)
 	{
-		if (initGameCamera == false)
-		{
-			m_camera.zoom(-1);
-			initGameCamera = true;
-		}
 		for (auto& system : m_systems)
 		{
 			system->process(dt);

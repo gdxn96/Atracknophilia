@@ -75,6 +75,10 @@ void GameScene::enter()
 	}
 }
 
+void GameScene::exit()
+{
+}
+
 bool GameScene::init(Renderer & r)
 {
 	// init success flag

@@ -15,6 +15,7 @@ public:
 	void render(Renderer& r) override;
 	void destroy() override;
 	void enter() override;
+	void exit() override;
 
 	bool init(Renderer & r) override;
 
