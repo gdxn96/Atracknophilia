@@ -94,7 +94,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)../../dependancies/sdlNet/lib/x86/;$(ProjectDir)../../dependancies/box2d/lib/x86/;$(ProjectDir)../../dependancies/lua51/lib/x86;$(ProjectDir)../../dependancies/sdl/lib/x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2_net.lib;SDL2_image.lib;SDL2_mixer.lib;Box2D-d.lib;lua5.1.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2_image.lib;SDL2_mixer.lib;Box2D-d.lib;lua5.1.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "..\..\dependancies\dlls\x86\*.dll" "$(OutDir)"; 
@@ -154,7 +154,7 @@ copy .\*.lua "$(OutDir)";</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)../../dependancies/sdlNet/lib/x86/;$(ProjectDir)../../dependancies/box2d/lib/x86/;$(ProjectDir)../../dependancies/lua51/lib/x86/;$(ProjectDir)../../dependancies/sdl/lib/x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2_net.lib;SDL2_image.lib;SDL2_mixer.lib;Box2D.lib;lua5.1.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2_image.lib;SDL2_mixer.lib;Box2D.lib;lua5.1.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "..\..\dependancies\dlls\x86\*.dll" "$(OutDir)";
@@ -195,7 +195,7 @@ copy .\*.lua "$(OutDir)";</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)../../dependancies/sdlNet/lib/x64/;$(ProjectDir)../../dependancies/box2d/lib/x64/;$(ProjectDir)../../dependancies/lua51/lib/x64/;$(ProjectDir)../../dependancies/sdl/lib/x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua5.1.lib;SDL2_net.lib;SDL2_image.lib;SDL2_mixer.lib;Box2D.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua5.1.lib;SDL2_image.lib;SDL2_mixer.lib;Box2D.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "..\..\dependancies\dlls\x64\*.dll" "$(OutDir)";
@@ -274,6 +274,8 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="LTimer.cpp" />
     <ClCompile Include="LuaEngine.cpp" />
+    <ClCompile Include="Net.cpp" />
+    <ClCompile Include="NetworkAdapter.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RaceManager.cpp" />
     <ClCompile Include="Renderer.cpp" />

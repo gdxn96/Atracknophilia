@@ -4,13 +4,13 @@
 #include "LevelLoader.h"
 #include "EntityFactory.h"
 #include "DirectionVolume.h"
-#include "sdl/SDL_net.h"
 
 bool Game::quit = false;
 
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) 
-	: m_resourceMgr(ResourceManager::getInstance())
+	:	m_resourceMgr(ResourceManager::getInstance())
 {
+	m_net.setMessageCallback([this](Message m) { this->notifyMessage(m); });
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
 		{ LEVELS::LEVEL1, "./assets/levels/map1.json" },
 		{ LEVELS::LEVEL2, "./assets/levels/map2.json" },
@@ -77,4 +77,32 @@ void Game::loop(float dt)
 	}
 
 	m_cameraManager.update(dt);
+	sendData(); //periodically send data, tick system should exist
+	try
+	{
+		m_net.update();
+	}
+	catch (...)
+	{
+		//dont crash if server downs
+	}
+}
+
+void Game::notifyMessage(Message m)
+{
+	std::cout << m.data << std::endl;
+}
+
+void Game::sendData()
+{
+	bool m_host = rand() % 2; //decided by player in lobby menues
+
+	if (m_host)
+	{
+		m_net.sendToAll(Message("", "yayyy"));
+	}
+	else
+	{
+		m_net.sendToHost(Message("", "yayyy"));
+	}
 }

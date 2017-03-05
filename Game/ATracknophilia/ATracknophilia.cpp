@@ -4,22 +4,13 @@
 #include "Game.h"
 #include "FLInput\FLInputManager.h"
 #include <iostream>
-#include "Net.h"
 #define SDL_main main
 
 //* Set initial instance to be nullptr
 InputManager* InputManager::inputManagerInstance = nullptr;
 
-void eh(Message m)
-{
-	std::cout << m.data << std::endl;
-}
-
 int main()
-{
-	Net n;
-	n.setMessageCallback(eh);
-	
+{	
 	Game game(Vector2D(1280, 720), Vector2D(1280, 720), "Atracknophilia");
 	auto exit = PressCommand([&](){ Game::quit = true; });
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::ESCAPE, &exit, &game);
@@ -42,15 +33,7 @@ int main()
 		unsigned int currentTime = LTimer::gameTime();//millis since game started
 		float deltaTime = (currentTime - lastTime) / 1000.0;//time since last update
 
-		game.loop(deltaTime);
-
-		try {
-			n.update();
-		}
-		catch (...) {
-			//ignore if server down for now
-		}
-		
+		game.loop(deltaTime);		
 
 		//save the curent time for next frame
 		lastTime = currentTime;

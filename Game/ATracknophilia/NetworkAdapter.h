@@ -26,12 +26,6 @@ struct Message
 	}
 };
 
-DEFINE_META(Message)
-{
-	ADD_MEMBER(message_type);
-	ADD_MEMBER(data);
-}
-
 class REST_Response
 {
 public:

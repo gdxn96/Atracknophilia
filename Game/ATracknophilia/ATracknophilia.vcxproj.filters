@@ -206,6 +206,12 @@
     <ClCompile Include="LuaEngine.cpp">
       <Filter>Networking</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkAdapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Net.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
