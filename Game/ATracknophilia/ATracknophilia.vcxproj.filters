@@ -25,8 +25,8 @@
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{2e1ce81f-cdc3-4548-aeca-4a03cb93d70e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Behaviour Tree">
-      <UniqueIdentifier>{3f44a7a6-5ca1-4ef5-b221-2ca04a5d6b70}</UniqueIdentifier>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{97e93f0e-a507-4731-b5ff-6ab35dc9df5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,13 +42,7 @@
     <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutoList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BasicTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -141,35 +135,20 @@
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationSystem.h">
-      <Filter>ECS\Systems</Filter>
+    <ClInclude Include="LuaEngine.h">
+      <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="StateSystem.h">
-      <Filter>ECS\Systems</Filter>
+    <ClInclude Include="NetworkAdapter.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Net.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FiniteStateMachine.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HUD.h">
-      <Filter>ECS\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreSystem.h">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviourTree.h">
-      <Filter>Behaviour Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Composite.h">
-      <Filter>Behaviour Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Decorator.h">
-      <Filter>Behaviour Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Leaf.h">
-      <Filter>Behaviour Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Behaviour Tree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +188,9 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>ECS\Components</Filter>
     </ClCompile>
@@ -224,14 +206,23 @@
     <ClCompile Include="DirectionVolume.cpp">
       <Filter>ECS\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="FiniteStateMachine.cpp">
+    <ClCompile Include="LuaEngine.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>ECS\Systems</Filter>
+    <ClCompile Include="Net.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FiniteStateMachine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
+    <None Include="networking.lua">
+      <Filter>Networking</Filter>
+    </None>
   </ItemGroup>
 </Project>
