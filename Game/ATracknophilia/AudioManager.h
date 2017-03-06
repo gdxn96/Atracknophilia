@@ -62,13 +62,13 @@ public:
 			playFX("click_on");
 			break;
 		case MAIN_MENU:
-			playMusic("main_menu");
+			playMusic("menu-music");
 			break;
 		case GAME_SCENE:
-			playMusic("game_scene");
+			playMusic("game_music");
 			break;
 		case CREDITS:
-			playMusic("credits");
+			playMusic("credits-music");
 			break;
 		}
 	}

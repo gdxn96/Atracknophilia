@@ -102,8 +102,8 @@
 
         "music": [
             { 
-                "key": "music",
-                "path": "assets/Music/music.mp3"
+                "key": "game_music",
+                "path": "assets/Music/gameMusic.ogg"
             },
             {
                 "key": "credit-music",
