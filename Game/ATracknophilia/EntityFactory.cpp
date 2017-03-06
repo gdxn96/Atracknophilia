@@ -3,15 +3,16 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, bool isAI)
+
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, int colourID = 0, bool isAI)
 {
 	if (isAI)
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, colourID));
 	}
 	else
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId, colourID));
 	}
 }
 
@@ -68,4 +69,9 @@ void EntityFactory::SpawnBoostPad(float x, float y, float w, float h)
 void EntityFactory::SpawnPowerUp(float x, float y, float w, float h)
 {
 	LevelLoader::appendToEntities(new PowerUp(id(), x, y, w, h));
+}
+
+void EntityFactory::SpawnHUD(std::string key)
+{
+	LevelLoader::appendToEntities(new HUD(id(), key));
 }

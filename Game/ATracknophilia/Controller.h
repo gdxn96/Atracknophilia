@@ -53,7 +53,7 @@ struct IControllerComponent : public IComponent, public AutoLister<IControllerCo
 	bool isHooked = false;
 };
 
-struct PlayerControllerComponent : public IControllerComponent, public EventListener
+struct PlayerControllerComponent : public IControllerComponent, public EventListener, public AutoLister<PlayerControllerComponent>
 {
 	PlayerControllerComponent(int id, int controllerId);
 

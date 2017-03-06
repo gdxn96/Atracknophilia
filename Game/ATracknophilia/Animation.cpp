@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Animation.h"
 
+
+
 Animation::Animation(string _animationName) 
 	: m_maxCellHeight(0)
 	, m_maxCellWidth(0)
@@ -9,11 +11,12 @@ Animation::Animation(string _animationName)
 	, m_animationScale(1.2)
 	, m_timeSinceLastFrame(0)
 	, m_angle(0)
-	, FPS(0.25f)
+	, FPS(1/60)
 	, m_selectedAnimation(_animationName)
 	, m_currentSpriteSheet(nullptr)
 	, m_currentFrame(Rect())
 {
+
 	auto& data = ResourceManager::getInstance()->getAnimationByKey(_animationName);
 	m_currentSpriteSheet = data.first;
 	m_currentFrames = data.second;
@@ -34,33 +37,6 @@ Animation::Animation(string _animationName)
 
 Animation::~Animation() {}
 
-void Animation::update(float dt)
-{
-	m_timeSinceLastFrame += dt;
-	if (m_timeSinceLastFrame > FPS && m_isAlive)
-	{
-		if (m_frameIndex < m_currentFrames.size() - 1)
-		{
-			//increment frame
-			m_frameIndex++;
-			m_currentFrame = m_currentFrames.at(m_frameIndex);
-		}
-		else
-		{
-			if (!m_isLooping)
-			{
-				m_isAlive = false;
-			}
-			else
-			{
-				m_frameIndex = 0;
-				m_currentFrame = m_currentFrames.at(m_frameIndex);
-			}
-		}
-
-		m_timeSinceLastFrame = 0;
-	}
-}
 void Animation::changeAnimation(string _animationName)
 {
 	if (_animationName != m_selectedAnimation)
@@ -104,5 +80,13 @@ void Animation::drawAtPosition(Renderer* r, Vector2D pos, Vector2D size, float a
 	if (m_isAlive)
 	{
 		r->drawTextureWithAngle(m_currentSpriteSheet, m_currentFrame, Rect(pos, size), (angle * (180 / 3.14)));
+	}
+}
+
+void Animation::drawAtHudPosition(Renderer* r, Vector2D pos, Vector2D size, float angle)
+{
+	if (m_isAlive)
+	{
+		r->drawTextureWithAngleHud(m_currentSpriteSheet, m_currentFrame, Rect(pos, size), (angle * (180 / 3.14)));
 	}
 }

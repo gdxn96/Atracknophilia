@@ -289,6 +289,16 @@ void Renderer::drawTexture(SDL_Texture* img, Rect _dst)
 	SDL_RenderCopy(sdl_renderer, img, NULL, &dst);
 }
 
+void Renderer::drawHud(SDL_Texture* img, Rect _dst)
+{
+	SDL_Rect dst;
+	dst.x = (int)_dst.pos.x;
+	dst.y = (int)_dst.pos.y;
+	dst.w = (int)_dst.size.w;
+	dst.h = (int)_dst.size.h;
+	SDL_RenderCopy(sdl_renderer, img, NULL, &dst);
+}
+
 void Renderer::drawTexture(SDL_Texture* img, Rect _src, Rect _dst)
 {
 	SDL_Rect dst;
@@ -346,6 +356,45 @@ void Renderer::drawTextureWithAngle(SDL_Texture* img, Rect _src, Rect _dst, floa
 	src.w = (int)_src.size.w;
 	src.h = (int)_src.size.h;
 	SDL_RenderCopyEx(sdl_renderer, img, &src, &dst, angle, NULL, SDL_FLIP_NONE);
+}
+
+void Renderer::drawTextureWithAngle(SDL_Texture * img, Rect _dst, float angle)
+{
+	SDL_Rect dst;
+	_dst = cameraTransform(_dst);
+	dst.x = (int)_dst.pos.x;
+	dst.y = (int)_dst.pos.y;
+	dst.w = (int)_dst.size.w;
+	dst.h = (int)_dst.size.h;
+
+	SDL_RenderCopyEx(sdl_renderer, img, NULL, &dst, angle, NULL, SDL_FLIP_NONE);
+}
+
+void Renderer::drawTextureWithAngleHud(SDL_Texture* img, Rect _src, Rect _dst, float angle)
+{
+	SDL_Rect dst;
+	dst.x = (int)_dst.pos.x;
+	dst.y = (int)_dst.pos.y;
+	dst.w = (int)_dst.size.w;
+	dst.h = (int)_dst.size.h;
+
+	SDL_Rect src;
+	src.x = (int)_src.pos.x;
+	src.y = (int)_src.pos.y;
+	src.w = (int)_src.size.w;
+	src.h = (int)_src.size.h;
+	SDL_RenderCopyEx(sdl_renderer, img, &src, &dst, angle, NULL, SDL_FLIP_NONE);
+}
+
+void Renderer::drawTextureWithAngleHud(SDL_Texture * img, Rect _dst, float angle)
+{
+	SDL_Rect dst;
+	dst.x = (int)_dst.pos.x;
+	dst.y = (int)_dst.pos.y;
+	dst.w = (int)_dst.size.w;
+	dst.h = (int)_dst.size.h;
+
+	SDL_RenderCopyEx(sdl_renderer, img, NULL, &dst, angle, NULL, SDL_FLIP_NONE);
 }
 
 
@@ -441,6 +490,18 @@ void Renderer::drawRectOutline(const Rect& r, const Colour& c)
 void Renderer::drawRect(const Rect& r, const Colour& c) 
 {
 	Rect tRect = cameraTransform(r);
+	SDL_SetRenderDrawColor(sdl_renderer, c.r, c.g, c.b, c.a);
+	SDL_Rect sr;
+	sr.h = tRect.size.h;
+	sr.w = tRect.size.w;
+	sr.x = tRect.pos.x;
+	sr.y = tRect.pos.y;
+	SDL_RenderFillRect(sdl_renderer, &sr);
+}
+
+void Renderer::drawRectHud(const Rect& r, const Colour& c)
+{
+	Rect tRect = r;
 	SDL_SetRenderDrawColor(sdl_renderer, c.r, c.g, c.b, c.a);
 	SDL_Rect sr;
 	sr.h = tRect.size.h;

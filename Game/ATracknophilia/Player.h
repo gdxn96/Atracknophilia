@@ -52,21 +52,21 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 					{
 						if (a->ability == a->NONE)
 						{
+							getComponent<HudComponent>()->spinTime = 1;
 							switch (rand() % 3)
 							{
 							case 0:
-								cout << "Web Drop" << endl;
+								
 								a->ability = a->WEB_DROP;
 								break;
 							case 1:
-								cout << "Slow Shot" << endl;
 								a->ability = a->SLOW_SHOT;
 								break;
 							case 2:
-								cout << "Swap Shot" << endl;
 								a->ability = a->SWAP_SHOT;
 								break;
 							}
+							a->canAnimate = true;
 						}
 					}
 				}
@@ -78,7 +78,7 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 class Player : public IEntity, public AutoLister<Player>
 {
 public:
-	Player(int id, float x, float y, float w, float h, int controllerId)
+	Player(int id, float x, float y, float w, float h, int controllerId, int colourID)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -92,12 +92,17 @@ public:
 			new PlayerControllerComponent(id, controllerId),
 			new RacePositionComponent(id),
 			new PlayerStaticObjectResponseComponent(id),
+			new InputPauseComponent(id, false),
+			new ScoreComponent(id),
+			new AnimationComponent(id, "bidleright", colourID),
+			new HudComponent(id, "abilityIcon"),
+			new StateComponent(id),
 			new AbilityComponent(id)
 		})
 	{
 	}
 
-	Player(int id, float x, float y, float w, float h)
+	Player(int id, float x, float y, float w, float h, int colourID)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -110,7 +115,13 @@ public:
 			new ConstBoostedVelocityComponent(id, 80),
 			new PlayerAIComponent(id),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id)
+			new PlayerStaticObjectResponseComponent(id),
+			new AnimationComponent(id, "bidleright", colourID),
+			new StateComponent(id),
+			new HudComponent(id, "abilityIcon"),
+			new AbilityComponent(id),
+			new InputPauseComponent(id, false),
+			new ScoreComponent(id)
 		})
 	{
 	}

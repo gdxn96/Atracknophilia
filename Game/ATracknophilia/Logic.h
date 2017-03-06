@@ -62,6 +62,38 @@ struct AIComponent : public IComponent, public AutoLister<AIComponent>
 	virtual void think(float dt) {}
 };
 
+struct InputPauseComponent : public AutoLister<InputPauseComponent>, public IComponent
+{
+	float timeToRun;
+	//float timeToPause;
+	bool isPaused;
+
+	InputPauseComponent(int id, bool p)
+		: IComponent(id),
+		timeToRun(0),
+		//timeToPause(0),
+		isPaused(p)
+	{
+
+	}
+};
+
+struct ScoreComponent : public AutoLister<ScoreComponent>, public IComponent
+{
+	int rounds;
+	bool alive;
+	int colourID;
+
+	ScoreComponent(int id, int colour = 0)
+		: IComponent(id),
+		rounds(0),
+		alive(true),
+		colourID(colour)
+	{
+
+	}
+};
+
 struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 {
 	SeekAIComponent(int id, int target_id, int shooter_id)
@@ -152,6 +184,22 @@ struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAICompone
 	bool isHooked;
 };
 
+struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
+{
+	BoostPadResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e);
+};
+
 
 struct SlowShotResponseComponent : public ICollisionResponseComponent
 {
@@ -170,6 +218,8 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 		{
 			if (e->getComponent<DirectionComponent>())
 			{}
+			else if (e->getComponent<BoostPadResponseComponent>())
+			{}
 			else
 			{
 				auto ai = getComponent<SeekAIComponent>();
@@ -178,6 +228,7 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 				{
 					getParent()->alive = false;
 					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+					e->getComponent<StateComponent>()->hit = true;
 				}
 			}
 		}
@@ -244,28 +295,14 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 		int volumeID = this->ID;
 		auto racePositionComponent = e->getComponent<RacePositionComponent>();
 
-		if (racePositionComponent)
+		if (racePositionComponent && e->getComponent<ScoreComponent>()->alive)
 		{
 			racePositionComponent->SetVolumeId(volumeID);
 		}
 	};
 };
 
-struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
-{
-	BoostPadResponseComponent(int id)
-		: ICollisionResponseComponent(id)
-	{
 
-	}
-
-	void endContact(IEntity * e)
-	{
-
-	};
-
-	void beginContact(IEntity * e);
-};
 
 struct PowerUpResponseComponent : public ICollisionResponseComponent, public AutoLister<PowerUpResponseComponent>
 {

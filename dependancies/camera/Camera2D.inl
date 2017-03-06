@@ -276,7 +276,7 @@ inline void Camera2D::Camera::zoomTo(const Vector2& target)
 inline void Camera2D::Camera::zoomTo(float targetX, float targetY)
 {
 	targetX = clampZoom(targetX);
-	targetY = clampZoom(targetY);
+	targetY = clampZoom(targetY); 
 
 	m_zoomTarget.x = targetX; 
 	m_zoomTarget.y = targetY;
@@ -398,7 +398,6 @@ inline void Camera2D::Camera::zoomToFit(const std::vector<Point>& points, bool k
 
 	if (keepZoomRatio)
 	{
-
 		float desiredSize;
 		float windowSize;
 		if (abs(maxX - minX) > abs(maxY - minY))
@@ -437,6 +436,7 @@ inline void Camera2D::Camera::zoomToFit(const std::vector<Point>& points, bool k
 
 inline void Camera2D::Camera::update(float deltaTime)
 {
+	deltaTime *= 1000;
 	updateMotion(deltaTime);
 	updateZoom(deltaTime);
 	updateEffects(deltaTime);

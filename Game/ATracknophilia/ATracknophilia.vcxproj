@@ -237,6 +237,7 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClInclude Include="ECSInterfaces.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LevelLoader.h" />
@@ -269,6 +270,7 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DirectionVolume.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
+    <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Logic.cpp" />

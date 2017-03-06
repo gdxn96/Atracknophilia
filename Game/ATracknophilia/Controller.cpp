@@ -19,7 +19,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			case none:
 				break;
 			case webDrop:
-				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 4, 4);
 				a->ability = a->NONE;
 				break;
 			case slowShot:
@@ -155,6 +155,13 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			{
 				stamComp->boostActive = false;
 			}
+		}
+	}), this, m_controllerId);
+
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand([&]() {
+		for (auto& component : AutoList::get<InputPauseComponent>())
+		{
+			component->isPaused = true;
 		}
 	}), this, m_controllerId);
 }

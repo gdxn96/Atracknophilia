@@ -38,6 +38,7 @@ public:
 	Vector2D operator-(const Vector2D&) const;
 	Vector2D operator*(const Vector2D&) const;
 	Vector2D operator/(const Vector2D&) const;
+	Vector2D operator-(const b2Vec2&);
 	Vector2D operator+=(const Vector2D&);
 	Vector2D operator-=(const Vector2D&);
 	Vector2D operator=(const Vector2D & v);
