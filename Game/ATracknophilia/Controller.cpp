@@ -19,7 +19,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId) :
 			case none:
 				break;
 			case webDrop:
-				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
+				EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 4, 4);
 				a->ability = a->NONE;
 				break;
 			case slowShot:

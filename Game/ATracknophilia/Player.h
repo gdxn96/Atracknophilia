@@ -119,7 +119,9 @@ public:
 			new AnimationComponent(id, "bidleright", colourID),
 			new StateComponent(id),
 			new HudComponent(id, "abilityIcon"),
-			new AbilityComponent(id)
+			new AbilityComponent(id),
+			new InputPauseComponent(id, false),
+			new ScoreComponent(id)
 		})
 	{
 	}

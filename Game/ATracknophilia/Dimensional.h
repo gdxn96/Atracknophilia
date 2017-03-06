@@ -29,7 +29,7 @@ struct Box2DComponent : public AutoLister<Box2DComponent>, public IComponent
 			body = PhysicsSystem::World().CreateBody(&bodyDef);
 			b2FixtureDef afixture;
 			afixture.shape = &shape;
-			afixture.density = 0.25f;
+			afixture.density = 1.0f;
 			afixture.friction = 0.0f;
 			fixture = body->CreateFixture(&afixture);
 		}

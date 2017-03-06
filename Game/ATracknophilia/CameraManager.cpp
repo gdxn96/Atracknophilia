@@ -7,6 +7,8 @@ CameraManager::CameraManager() : m_levelSize(0,0)
 
 void CameraManager::update(float dt)
 {
+
+	m_camera->update(dt);
 	//Track leader
 	Player *leader = RaceManager::getInstance()->getLeader();
 

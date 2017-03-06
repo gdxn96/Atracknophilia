@@ -21,7 +21,10 @@ struct CountdownComponent : public IComponent, public AutoLister<CountdownCompon
 	CountdownComponent(int objectId, string animationName)
 		: IComponent(objectId)
 		, animation(Animation(animationName))
-		, timeToDisplay(0) {};
+		, timeToDisplay(0)
+	{
+		animation.setFramesPerSecond(2.0f);
+	};
 	Animation animation;
 	float timeToDisplay;
 };

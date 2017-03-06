@@ -6,7 +6,7 @@
         "key": "placeholder",
         "path": "assets/Textures/placeholder.png"
       },
-            {
+      {
         "key": "arrow",
         "path": "assets/Textures/arrow.png"
       },
@@ -27,8 +27,12 @@
         "path": "assets/Textures/yellowhud.png"
       },
       {
-        "key": "counter",
+        "key": "redcounter",
         "path": "assets/Textures/redcounter.png"
+      },
+            {
+        "key": "greencounter",
+        "path": "assets/Textures/greencounter.png"
       },
       {
         "key": "hookIcon",
@@ -81,10 +85,6 @@
       {
         "key": "boxrandom",
         "path": "assets/Textures/boxrandom.png"
-      },
-      {
-        "key": "webattack",
-        "path": "assets/Textures/webattack.png"
       },
       {
         "key": "webattackleft",

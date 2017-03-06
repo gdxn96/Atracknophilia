@@ -499,6 +499,18 @@ void Renderer::drawRect(const Rect& r, const Colour& c)
 	SDL_RenderFillRect(sdl_renderer, &sr);
 }
 
+void Renderer::drawRectHud(const Rect& r, const Colour& c)
+{
+	Rect tRect = r;
+	SDL_SetRenderDrawColor(sdl_renderer, c.r, c.g, c.b, c.a);
+	SDL_Rect sr;
+	sr.h = tRect.size.h;
+	sr.w = tRect.size.w;
+	sr.x = tRect.pos.x;
+	sr.y = tRect.pos.y;
+	SDL_RenderFillRect(sdl_renderer, &sr);
+}
+
 Rect Renderer::cameraTransform(Rect r)
 {
 	SDL_Rect rect = m_camera->worldToScreen(CustomRect(r.pos.x, r.pos.y, r.size.w, r.size.h));

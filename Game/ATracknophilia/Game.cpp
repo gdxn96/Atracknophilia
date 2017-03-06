@@ -37,11 +37,12 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	auto stateSystem = new StateSystem();
 	auto powerUpSys = new PowerUpSystem();
 	auto swapSys = new SwapSystem();
+	auto aiSys = new AISystem();
 
 	//Init systems
 	renderSys->init(&m_renderer);
 	scoreSys->init(physicsSystem);
-	renderSys->setLevel(LEVELS::LEVEL2);
+	renderSys->setLevel(LEVELS::LEVEL4);
 	m_cameraManager.init(&m_camera);
 	
 	//Push back systems
@@ -56,6 +57,7 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 	m_systems.push_back(scoreSys);
 	m_systems.push_back(animationSys);
 	m_systems.push_back(stateSystem);
+	m_systems.push_back(aiSys);
 
 	//render system must be added last
 	m_systems.push_back(renderSys);
@@ -70,16 +72,16 @@ void Game::init()
 	m_resourceMgr->loadResources(".//assets//resources.json");
 	m_resourceMgr->loadResourceQueue();
 
-	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL2));
+	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL4));
 	m_camera.zoom(-1);
 
 
 	EntityFactory::SpawnHUD("arrow");
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0, 0);
-	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, 1);
-	//EntityFactory::SpawnPlayer(52, 12, 1, 1, 2, 2);
-	//EntityFactory::SpawnPlayer(53, 12, 1, 1, 3, 3);
+	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, 1);
+	//EntityFactory::SpawnPlayer(52, 12, 1, 1, 2, 2, true);
+	//EntityFactory::SpawnPlayer(53, 12, 1, 1, 3, 3, true);
 
 	for (auto& player : AutoList::get<Player>())
 	{

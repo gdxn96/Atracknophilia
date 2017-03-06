@@ -184,6 +184,22 @@ struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAICompone
 	bool isHooked;
 };
 
+struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
+{
+	BoostPadResponseComponent(int id)
+		: ICollisionResponseComponent(id)
+	{
+
+	}
+
+	void endContact(IEntity * e)
+	{
+
+	};
+
+	void beginContact(IEntity * e);
+};
+
 
 struct SlowShotResponseComponent : public ICollisionResponseComponent
 {
@@ -202,22 +218,17 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 		{
 			if (e->getComponent<DirectionComponent>())
 			{}
+			else if (e->getComponent<BoostPadResponseComponent>())
+			{}
 			else
 			{
 				auto ai = getComponent<SeekAIComponent>();
 
 				if (ai && ai->shooterID != e->ID)
 				{
-					auto& components = AutoList::get<AnimationComponent>();
-					for (auto& component : components)
-					{
-						if (e->ID == component->ID)
-						{
-							getParent()->alive = false;
-							e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
-							e->getComponent<StateComponent>()->hit = true;
-						}
-					}
+					getParent()->alive = false;
+					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
+					e->getComponent<StateComponent>()->hit = true;
 				}
 			}
 		}
@@ -284,28 +295,14 @@ struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComp
 		int volumeID = this->ID;
 		auto racePositionComponent = e->getComponent<RacePositionComponent>();
 
-		if (racePositionComponent)
+		if (racePositionComponent && e->getComponent<ScoreComponent>()->alive)
 		{
 			racePositionComponent->SetVolumeId(volumeID);
 		}
 	};
 };
 
-struct BoostPadResponseComponent : public ICollisionResponseComponent, public AutoLister<BoostPadResponseComponent>
-{
-	BoostPadResponseComponent(int id)
-		: ICollisionResponseComponent(id)
-	{
 
-	}
-
-	void endContact(IEntity * e)
-	{
-
-	};
-
-	void beginContact(IEntity * e);
-};
 
 struct PowerUpResponseComponent : public ICollisionResponseComponent, public AutoLister<PowerUpResponseComponent>
 {

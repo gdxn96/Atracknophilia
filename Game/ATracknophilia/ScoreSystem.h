@@ -30,8 +30,20 @@ public:
 				player->getComponent<RacePositionComponent>()->lap = winner->getComponent<RacePositionComponent>()->lap;
 				player->getComponent<RacePositionComponent>()->volumeID = winner->getComponent<RacePositionComponent>()->volumeID;
 				player->getComponent<InputPauseComponent>()->isPaused = true;
-				player->getComponent<InputPauseComponent>()->timeToRun = 2.0f;
-				//player->getComponent<InputPauseComponent>()->timeToPause = 2000;
+				player->getComponent<InputPauseComponent>()->timeToRun = 4.0f;
+
+				if (player->getComponent<HookComponent>())
+				{
+					player->deleteComponent<HookComponent>();
+				}
+
+				auto& Countdowns = AutoList::get<CountdownComponent>();
+				for (auto& Countdown : Countdowns)
+				{
+					Countdown->timeToDisplay = 4.0f;
+					Countdown->animation.resetAnimation();
+				}
+
 				player->getComponent<ScoreComponent>()->alive = true;
 				player->getComponent<DynamicBodyComponent>()->fixture->SetSensor(false);
 			}

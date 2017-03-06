@@ -436,6 +436,7 @@ inline void Camera2D::Camera::zoomToFit(const std::vector<Point>& points, bool k
 
 inline void Camera2D::Camera::update(float deltaTime)
 {
+	deltaTime *= 1000;
 	updateMotion(deltaTime);
 	updateZoom(deltaTime);
 	updateEffects(deltaTime);

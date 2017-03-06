@@ -21,6 +21,7 @@ public:
 	SDL_Renderer * getRenderer();
 	bool init(const Vector2D&, const char*, Camera2D::Camera* cam);
 	void drawRect(const Rect&, const Colour&);
+	void drawRectHud(const Rect&, const Colour&);
 	void present();
 	void clear(const Colour&);
 	Rect cameraTransform(Rect r);

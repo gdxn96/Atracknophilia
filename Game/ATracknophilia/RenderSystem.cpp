@@ -62,13 +62,26 @@ void RenderSystem::process(float dt)
 		{
 			if (component->getParent()->getComponent<ScoreComponent>())
 			{
+				auto p = component->getParent();
+				auto b = p->getComponent<Box2DComponent>();
+				if (p->getComponent<ScoreComponent>()->alive)
+				{
+					component->animation.drawAtPosition(m_renderer, Vector2D(b->body->GetPosition().x - b->size.width * 2, b->body->GetPosition().y - b->size.height * 2), Vector2D(b->size * 4), 0);
+				}
 
 			}
-			auto p = component->getParent();
-			auto b = p->getComponent<Box2DComponent>();
-			component->animation.drawAtPosition(m_renderer, Vector2D(b->body->GetPosition().x - b->size.width * 2, b->body->GetPosition().y - b->size.height * 2), Vector2D(b->size *4), 0);
+			else
+			{
+				auto p = component->getParent();
+				auto b = p->getComponent<Box2DComponent>();
+				component->animation.drawAtPosition(m_renderer, Vector2D(b->body->GetPosition().x - b->size.width * 2, b->body->GetPosition().y - b->size.height * 2), Vector2D(b->size * 4), 0);
+			}
+
 		}
 	}
+	Rect hudBar = Rect(0, 0, 1280, 110);
+
+	m_renderer->drawRectHud(hudBar, Colour(32, 32, 32, 255));
 
 	auto& scores = AutoList::get<AnimationComponent>();
 	for (auto& component : scores)
@@ -91,15 +104,36 @@ void RenderSystem::process(float dt)
 			tex = ResourceManager::getInstance()->getTextureByKey("yellowhud");
 		}
 
-		Rect drawPos = Rect(110 * component->coulourID, 3, 100, 75);
+		Rect drawPos;
 
-		for (int i = 0; i < component->getParent()->getComponent<ScoreComponent>()->rounds; i++)
+		if (component->coulourID < 2)
 		{
-			Rect counterPos = Rect((drawPos.pos.x + 4) + 33 * i, 17, 27, 27);
-			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("counter"), counterPos);
+			drawPos = Rect(160 * component->coulourID, 3, 150, 100);
+		}
+		else
+		{
+			drawPos = Rect( 1280 - (160 * (component->coulourID - 1)), 3, 150, 100);
+		}
+		
+
+		int rounds = component->getParent()->getComponent<ScoreComponent>()->rounds;
+
+		for (int i = 0; i < 3; i++)
+		{
+			if (rounds > i)
+			{
+				Rect counterPos = Rect((drawPos.pos.x + 4) + 50 * i, 16, 42, 42);
+				m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("greencounter"), counterPos);
+			}
+			else
+			{
+				Rect counterPos = Rect((drawPos.pos.x + 4) + 50 * i, 16, 42, 42);
+				m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("redcounter"), counterPos);
+			}
+
 		}
 
-		Rect abilityPos = Rect((drawPos.pos.x) + 33 * 2, 16, 30, 30);
+		Rect abilityPos = Rect((drawPos.pos.x) + 51 * 2, 16, 42, 42);
 
 		auto ability = component->getParent()->getComponent<AbilityComponent>();
 		if (ability->ability == ability->WEB_DROP)
@@ -116,7 +150,7 @@ void RenderSystem::process(float dt)
 		}
 		else
 		{
-			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("placeholder"), abilityPos);
+			m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("boxrandom"), abilityPos);
 		}
 
 		if (component->getParent()->getComponent<HudComponent>()->spinTime > 0)
@@ -128,13 +162,20 @@ void RenderSystem::process(float dt)
 		auto& Arrows = AutoList::get<DirectionArrowComponent>();
 		for (auto& Arrow : Arrows)
 		{
-			m_renderer->drawTextureWithAngleHud(ResourceManager::getInstance()->getTextureByKey(Arrow->textureKey), Rect(700, 0, 100, 100), Arrow->angle);
+			m_renderer->drawTextureWithAngleHud(ResourceManager::getInstance()->getTextureByKey(Arrow->textureKey), Rect(600, 20, 80, 80), Arrow->angle);
 		}
 		
-		
+		auto& Countdowns = AutoList::get<CountdownComponent>();
+		for (auto& Countdown : Countdowns)
+		{
+			if (Countdown->timeToDisplay > 0)
+			{
+				Countdown->animation.drawAtHudPosition(m_renderer, Vector2D(590, 310), Vector2D(100, 100), 0);
+				Countdown->timeToDisplay -= dt;
+			}	
+		}
 
-		Rect staminaRect = Rect(drawPos.pos.x, 55, 1 * component->getParent()->getComponent<StaminaComponent>()->stamina, 15);
-		//std::cout << "stamina : " << component->getParent()->getComponent<StaminaComponent>()->stamina << endl;
+		Rect staminaRect = Rect(drawPos.pos.x, 70, 1 * component->getParent()->getComponent<StaminaComponent>()->stamina * 1.5f, 20);
 
 		m_renderer->drawHud(ResourceManager::getInstance()->getTextureByKey("stamina"), staminaRect);
 
@@ -161,6 +202,6 @@ void RenderSystem::setLevel(LEVELS levelKey)
 	}
 	else if (levelKey == LEVELS::LEVEL4) {
 		m_levelKey = "mapfour";
-		m_levelRect = Rect(0, 0, 295, 150);
+		m_levelRect = Rect(0, 0, 295, 152);
 	}
 }

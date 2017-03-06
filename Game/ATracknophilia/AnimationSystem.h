@@ -12,33 +12,30 @@ public:
 		auto& components = AutoList::get<AnimationComponent>();
 		for (auto& component : components)
 		{
-			component->animation.m_timeSinceLastFrame += dt;
-			if (component->animation.m_timeSinceLastFrame > component->animation.FPS && component->animation.m_isAlive)
+		component->animation.m_timeSinceLastFrame += dt;
+		if (component->animation.m_timeSinceLastFrame > component->animation.FPS && component->animation.m_isAlive)
+		{
+			if (component->animation.m_frameIndex < component->animation.m_currentFrames.size() - 1)
 			{
-				if (component->animation.m_frameIndex < component->animation.m_currentFrames.size() - 1)
+				//increment frame
+				component->animation.m_frameIndex++;
+				component->animation.m_currentFrame = component->animation.m_currentFrames.at(component->animation.m_frameIndex);
+			}
+			else
+			{
+				if (!component->animation.m_isLooping)
 				{
-					//increment frame
-					component->animation.m_frameIndex++;
-					component->animation.m_currentFrame = component->animation.m_currentFrames.at(component->animation.m_frameIndex);
+					component->animation.m_isAlive = false;
 				}
 				else
 				{
-					if (!component->animation.m_isLooping)
-					{
-						component->animation.m_isAlive = false;
-					}
-					else
-					{
-						component->animation.m_frameIndex = 0;
-						component->animation.m_currentFrame = component->animation.m_currentFrames.at(component->animation.m_frameIndex);
-					}
+					component->animation.m_frameIndex = 0;
+					component->animation.m_currentFrame = component->animation.m_currentFrames.at(component->animation.m_frameIndex);
 				}
-
-				component->animation.m_timeSinceLastFrame = 0;
 			}
 
-
-			//component->getParent()->getComponent<StateComponent>()->state->update(dt);
+			component->animation.m_timeSinceLastFrame = 0;
+		}
 		}
 
 		auto& Huds = AutoList::get<HudComponent>();
@@ -68,9 +65,35 @@ public:
 
 				component->animation.m_timeSinceLastFrame = 0;
 			}
+		}
 
+		auto& Countdowns = AutoList::get<CountdownComponent>();
+		for (auto& component : Countdowns)
+		{
+			component->animation.m_timeSinceLastFrame += dt;
+			if (component->animation.m_timeSinceLastFrame > component->animation.FPS && component->animation.m_isAlive)
+			{
+				if (component->animation.m_frameIndex < component->animation.m_currentFrames.size() - 1)
+				{
+					//increment frame
+					component->animation.m_frameIndex++;
+					component->animation.m_currentFrame = component->animation.m_currentFrames.at(component->animation.m_frameIndex);
+				}
+				else
+				{
+					if (!component->animation.m_isLooping)
+					{
+						component->animation.m_isAlive = false;
+					}
+					else
+					{
+						component->animation.m_frameIndex = 0;
+						component->animation.m_currentFrame = component->animation.m_currentFrames.at(component->animation.m_frameIndex);
+					}
+				}
 
-			//component->getParent()->getComponent<StateComponent>()->state->update(dt);
+				component->animation.m_timeSinceLastFrame = 0;
+			}
 		}
 
 		auto& Arrows = AutoList::get<DirectionArrowComponent>();
@@ -83,6 +106,7 @@ public:
 		}
 
 	}
+
 
 
 

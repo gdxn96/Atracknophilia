@@ -19,7 +19,7 @@ int main()
 	//run the game loop
 	LTimer capTimer;//to cap framerate
 	float lastTime = 0;
-	const int SCREEN_FPS = 30;
+	const int SCREEN_FPS = 100;
 	const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
 	int frameNum = 0;
