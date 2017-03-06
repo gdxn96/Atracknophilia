@@ -194,7 +194,7 @@ void RenderSystem::setLevel(LEVELS levelKey)
 	}
 	else if (levelKey == LEVELS::LEVEL2) {
 		m_levelKey = "maptwo";
-		m_levelRect = Rect(0, 0, 330, 164);
+		m_levelRect = Rect(0, 0, 328, 164);
 	}
 	else if (levelKey == LEVELS::LEVEL3) {
 		m_levelKey = "mapthree";
