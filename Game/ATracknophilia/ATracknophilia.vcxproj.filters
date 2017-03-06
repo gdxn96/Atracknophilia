@@ -25,6 +25,12 @@
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{2e1ce81f-cdc3-4548-aeca-4a03cb93d70e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{97e93f0e-a507-4731-b5ff-6ab35dc9df5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCENE STUFF">
+      <UniqueIdentifier>{1757ccb1-b4d5-4cf1-a2fb-e9a7fad5f3e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -39,13 +45,7 @@
     <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutoList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BasicTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -138,6 +138,54 @@
     <ClInclude Include="DirectionVolume.h">
       <Filter>ECS\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="LuaEngine.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkAdapter.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Net.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChoosePlayerScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSelectScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScene.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>SCENE STUFF</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -194,8 +242,56 @@
     <ClCompile Include="DirectionVolume.cpp">
       <Filter>ECS\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="LuaEngine.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAdapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Net.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChoosePlayerScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSelectScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScene.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>SCENE STUFF</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\assets\readme.md" />
+    <None Include="networking.lua">
+      <Filter>Networking</Filter>
+    </None>
   </ItemGroup>
 </Project>

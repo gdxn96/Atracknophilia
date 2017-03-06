@@ -7,29 +7,27 @@ CameraManager::CameraManager() : m_levelSize(0,0)
 
 void CameraManager::update(float dt)
 {
-	Player *leader = RaceManager::getInstance()->getLeader();
-
-	int volumeID;
-
-	if (leader)
+	std::vector<Camera2D::Point> points;
+	auto players = AutoList::get<Player>();
+	for (auto& player : players)
 	{
-		auto raceComponent = leader->getComponent<RacePositionComponent>();
-
-		if (raceComponent)
-		{
-			volumeID = raceComponent->volumeID;
-		}
-
-		if (RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>())
-		{
-			moveTo(RaceManager::getInstance()->getLeader()->getComponent<Box2DComponent>()->body->GetPosition(), dt);
-		}
+		auto b = player->getComponent<Box2DComponent>();
+		points.push_back(Camera2D::Point(b->body->GetPosition().x, b->body->GetPosition().y));
 	}
+
+	m_camera->zoomToFit(points, true);
+	m_camera->update(dt * 1000);
+	
 }
 
 void CameraManager::init(Camera2D::Camera * cam)
 {
 	m_camera = cam;
+	float zoomSpeed = 0.01f; //speed the camera zooms in or out (smaller due to no deltaTime)
+	float zoomToSpeed = 1000.f; //when using zoom to (no deltaTime)
+	float minZoom = 2.f; //minimum level of zoom
+	float maxZoom = 0.001f; //maximum threshold you can zoom in until;
+	m_camera->setZoomProps(zoomSpeed, zoomToSpeed, minZoom, maxZoom);
 }
 
 void CameraManager::moveTo(Vector2D destination, float dt)

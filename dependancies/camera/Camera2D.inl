@@ -30,7 +30,6 @@ inline void Camera2D::Camera::init(float windowWidth, float windowHeight, SDL_Re
 	m_renderer = renderer;
 }
 
-
 inline void Camera2D::Camera::setCentre(float x, float y)
 {
 	m_centre.x = x;
@@ -307,7 +306,7 @@ inline void Camera2D::Camera::zoomTo(float target)
 
 	m_zoomToActive = true;
 	m_zoomToTime = 0.f;
-	m_zoomToMaxTime = ((m_zoomTarget - m_zoomStart).length()) / m_zoomToSpeed;
+	m_zoomToMaxTime = 0;
 }
 
 inline void Camera2D::Camera::zoomToFit(const std::vector<SDL_Rect>& rects, bool keepZoomRatio)
@@ -413,6 +412,8 @@ inline void Camera2D::Camera::zoomToFit(const std::vector<Point>& points, bool k
 		}
 
 		float zoomTarget = desiredSize / windowSize;
+		std::cout << "Target: " << zoomTarget << std::endl;
+		std::cout << "Target: " << m_zoom.x << std::endl;
 		zoomTo(zoomTarget);
 	}
 	else
@@ -802,7 +803,7 @@ inline void Camera2D::Camera::updateZoom(float deltaTime)
 { 
 	if (m_zoomToActive)
 	{
-		if (m_zoomToMaxTime == 0.f)
+		if (true)
 		{
 			m_zoom = m_zoomTarget;
 			m_zoomToActive = false;
