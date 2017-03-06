@@ -35,12 +35,12 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y - (c->size.y + 1), 1, 1, m_audioMgr);
 				}
 				a->ability = a->NONE;
-				//notify(Observer::DROP);
+				notify(Observer::DROP);
 				break;
 			case slowShot:
 				EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, ID);
 				a->ability = a->NONE;
-				//notify(Observer::SHOOT);
+				notify(Observer::SHOOT);
 				break;
 			case swapShot:
 				auto h = getComponent<HookComponent>();
@@ -81,7 +81,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 							}
 							targetBody->SetGravityScale(0);
 							c->body->SetGravityScale(0);
-							//notify(Observer::SWAP_SHOT);
+							notify(Observer::SWAP_SHOT);
 						}
 						i = players.size();
 					}
@@ -117,7 +117,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 						if (distance > 10 && isDynamic)
 						{
 							getParent()->AddComponent(new HookComponent(ID, c->body->GetPosition(), intersectionPt, c->body));
-							//notify(Observer::HOOK);
+							notify(Observer::HOOK);
 						}
 					}
 				}
@@ -133,7 +133,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			{
 				c->body->SetGravityScale(1);
 				c->body->ApplyLinearImpulseToCenter(b2Vec2(0, -10), true);
-				notify(Observer::JUMP);
+				//notify(Observer::JUMP);
 			}
 
 			auto l = getComponent<HookComponent>();

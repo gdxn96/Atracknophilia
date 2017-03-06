@@ -55,11 +55,11 @@ public:
 		case JUMP:
 			playFX("jump");
 			break;
-		case BUTTON_MOVE:
-			playFX("button_move");
+		case CLICK_OFF:
+			playFX("click_off");
 			break;
-		case BUTTON_CLICK:
-			playFX("button_click");
+		case CLICK_ON:
+			playFX("click_on");
 			break;
 		case MAIN_MENU:
 			playMusic("main_menu");

@@ -14,8 +14,8 @@ public:
 		DYING,				// need gameplay polish
 		SIREN,				// need gameplay polish
 		JUMP,				// DONE
-		BUTTON_MOVE,		// need menus
-		BUTTON_CLICK,		// need menus
+		CLICK_ON,			// need menus
+		CLICK_OFF,			// need menus
 		MAIN_MENU,			// need menus
 		GAME_SCENE,			// need menus
 		CREDITS				// need menus

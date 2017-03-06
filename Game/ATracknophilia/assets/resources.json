@@ -41,8 +41,36 @@
         "path": "assets/SoundEffects/jump.wav"
       },
       {
-        "key": "land",
-        "path": "assets/SoundEffects/land.wav"
+        "key": "hit",
+        "path": "assets/SoundEffects/hit.wav"
+      },
+      {
+        "key": "click_off",
+        "path": "assets/SoundEffects/click_off.wav"
+      },
+      {
+        "key": "click_on",
+        "path": "assets/SoundEffects/click_on.wav"
+      },
+      {
+        "key": "start_race",
+        "path": "assets/SoundEffects/start_race.wav"
+      },
+      {
+        "key": "rope",
+        "path": "assets/SoundEffects/rope.wav"
+      },
+      {
+        "key": "shoot",
+        "path": "assets/SoundEffects/shoot.wav"
+      },
+      {
+        "key": "swoosh",
+        "path": "assets/SoundEffects/swoosh.mp3"
+      },
+      {
+        "key": "drop",
+        "path": "assets/SoundEffects/drop.wav"
       },
       {
         "key": "sound_effect_placeholder",
