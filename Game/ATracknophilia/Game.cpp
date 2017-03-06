@@ -81,9 +81,9 @@ void Game::init()
 	EntityFactory::SpawnHUD("arrow");
 
 	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0, &m_audioMgr, 0);
-	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, &m_audioMgr, 1);
-	//EntityFactory::SpawnPlayer(52, 12, 1, 1, 2, &m_audioMgr, 2, true);
-	//EntityFactory::SpawnPlayer(53, 12, 1, 1, 3, &m_audioMgr, 3, true);
+	EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, &m_audioMgr, 1);
+	EntityFactory::SpawnPlayer(52, 12, 1, 1, 2, &m_audioMgr, 2, true);
+	EntityFactory::SpawnPlayer(53, 12, 1, 1, 3, &m_audioMgr, 3, true);
 
 	for (auto& player : AutoList::get<Player>())
 	{
@@ -98,7 +98,7 @@ void Game::loop(float dt)
 
 	for (auto& system : m_systems)
 	{
-		system->process(dt);
+		system->update(dt);
 	}
 
 

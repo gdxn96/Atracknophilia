@@ -19,7 +19,21 @@ T* getComponentById(int id)
 
 class ISystem
 {
+private:
+	float m_timeSinceLastUpdate;
+	const float maxTimeTillUpdate;
 public:
+	ISystem(float ticksPerSecond = std::numeric_limits<float>::max()) : maxTimeTillUpdate(1.f / ticksPerSecond), m_timeSinceLastUpdate(0) {}
+	virtual void update(float dt)
+	{
+		m_timeSinceLastUpdate += dt;
+		if (m_timeSinceLastUpdate >= maxTimeTillUpdate)
+		{
+			m_timeSinceLastUpdate = 0;
+			process(dt);
+		}
+	}
+
 	virtual void process(float dt) = 0;
 };
 
