@@ -412,8 +412,6 @@ inline void Camera2D::Camera::zoomToFit(const std::vector<Point>& points, bool k
 		}
 
 		float zoomTarget = desiredSize / windowSize;
-		std::cout << "Target: " << zoomTarget << std::endl;
-		std::cout << "Target: " << m_zoom.x << std::endl;
 		zoomTo(zoomTarget);
 	}
 	else
@@ -905,9 +903,6 @@ inline float Camera2D::Camera::clampZoom(float num)
 	{
 		num = m_zoomSpeed;
 	}
-	std::cout << "Max: " << m_maxZoom << std::endl;
-	std::cout << "Min: " << m_minZoom << std::endl;
-	std::cout << "Actual: " << num << std::endl;
 	return num;
 }
 
