@@ -1,12 +1,9 @@
 #pragma once
 #include "ECSInterfaces.h"
-#include "Dimensional.h"
 #include "FLInput\FLInputManager.h"
-#include "Drawables.h"
-#include "Interactables.h"
-#include "Property.h"
 #include "Subject.h"
-#include "AudioManager.h"
+
+class AudioManager;
 
 class PressCommand : public Command
 {
@@ -55,7 +52,7 @@ struct IControllerComponent : public IComponent, public AutoLister<IControllerCo
 	bool isHooked = false;
 };
 
-struct PlayerControllerComponent : public IControllerComponent, public EventListener, public Subject
+struct PlayerControllerComponent : public IControllerComponent, public EventListener, public AutoLister<PlayerControllerComponent>, public Subject
 {
 	PlayerControllerComponent(int id, int controllerId, AudioManager* audioMgr);
 

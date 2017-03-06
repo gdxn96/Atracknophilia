@@ -32,10 +32,12 @@ struct AbilityComponent : public IComponent, public AutoLister<AbilityComponent>
 
 	AbilityComponent(int id)
 		: IComponent(id)
+		, canAnimate(false)
 	{
 	}
 
 	ABILITIES ability = NONE;
+	bool canAnimate;
 };
 
 struct SwapComponent : public IComponent, public AutoLister<SwapComponent>

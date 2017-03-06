@@ -1,7 +1,7 @@
 #pragma once
 #include "Components.h"
 
-class SoftBox : public IEntity
+class SoftBox : public IEntity, public AutoLister<SoftBox>
 {
 public:
 	SoftBox(int id, float x, float y, float w, float h) 

@@ -7,6 +7,7 @@
 #include "WebDrop.h"
 #include "BoostPad.h"
 #include "PowerUp.h"
+#include "HUD.h"
 
 static int id()
 {

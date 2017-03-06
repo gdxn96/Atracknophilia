@@ -105,7 +105,7 @@
 </data>
  </layer>
  <objectgroup name="Map Layer">
-  <object id="1" x="0" y="300" width="200" height="7600"/>
+  <object id="1" x="-3264" y="-61716" width="3464" height="131632"/>
   <object id="4" x="1200" y="800" width="200" height="6700"/>
   <object id="5" x="1400" y="1100" width="1900" height="500"/>
   <object id="6" x="3300" y="1100">
@@ -121,7 +121,7 @@
   </object>
   <object id="15" x="9100" y="1100" width="5300" height="500"/>
   <object id="18" x="1400" y="1800" width="13000" height="500"/>
-  <object id="22" x="15900" y="0" width="500" height="7700"/>
+  <object id="22" x="15900" y="-15030.4" width="2452" height="37760.8"/>
   <object id="26" x="12200" y="3300" width="3700" height="1200"/>
   <object id="27" x="15900" y="3300">
    <polygon points="0,0 -500,0 0,-500"/>
@@ -188,7 +188,7 @@
   <object id="80" x="1400" y="6100" width="2700" height="200"/>
   <object id="81" x="1800" y="6700" width="2700" height="200"/>
   <object id="82" x="1400" y="7300" width="2700" height="200"/>
-  <object id="84" x="0" y="7900" width="4500" height="300"/>
+  <object id="84" x="-22800" y="7900" width="50100" height="3340"/>
   <object id="127" x="1400" y="5300">
    <polygon points="0,0 200,-200 0,-200"/>
   </object>
@@ -418,7 +418,7 @@
     <property name="priority" type="float" value="2"/>
    </properties>
   </object>
-  <object id="111" x="200" y="0" width="1000" height="7500">
+  <object id="111" x="200" y="-10800" width="1000" height="18300">
    <properties>
     <property name="directionX" type="float" value="0"/>
     <property name="directionY" type="float" value="1"/>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="100" tileheight="100" nextobjectid="427">
  <objectgroup name="Map Layer">
-  <object id="2" x="0" y="0" width="20000" height="400"/>
-  <object id="11" x="0" y="19600" width="20000" height="400"/>
-  <object id="12" x="0" y="400" width="400" height="19200"/>
-  <object id="13" x="19600" y="400" width="400" height="19200"/>
+  <object id="2" x="-99200" y="-3968" width="218400" height="4368"/>
+  <object id="11" x="-207200" y="19600" width="434400" height="8688"/>
+  <object id="12" x="-3136" y="-74864" width="3536" height="169728"/>
+  <object id="13" x="19600" y="-198512" width="8688" height="417024"/>
   <object id="17" x="10000" y="0">
    <polygon points="0,0 10000,10000 10000,0"/>
   </object>

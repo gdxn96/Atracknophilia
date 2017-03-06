@@ -2,6 +2,10 @@
 #include "Controller.h"
 #include "EntityFactory.h"
 #include "RaceManager.h"
+#include "Drawables.h"
+#include "Interactables.h"
+#include "Property.h"
+#include "Dimensional.h"
 #include "AudioManager.h"
 	
 PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, AudioManager* audioMgr) 
@@ -24,15 +28,15 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			case webDrop:
 				if (Vector2D(c->body->GetLinearVelocity()).Normalize().x > 0)
 				{
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x - (c->size.x + 1), c->body->GetPosition().y, 1, 1, m_audioMgr);
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x - (5), c->body->GetPosition().y, 4, 4, m_audioMgr);
 				}
 				else if (Vector2D(c->body->GetLinearVelocity()).Normalize().x < 0)
 				{
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x + (c->size.x + 1), c->body->GetPosition().y, 1, 1, m_audioMgr);
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x + (5), c->body->GetPosition().y, 4, 4, m_audioMgr);
 				}
 				else
 				{
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y - (c->size.y + 1), 1, 1, m_audioMgr);
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y - (5), 4, 4, m_audioMgr);
 				}
 				a->ability = a->NONE;
 				notify(Observer::DROP);
@@ -176,6 +180,13 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			{
 				stamComp->boostActive = false;
 			}
+		}
+	}), this, m_controllerId);
+
+	InputManager::GetInstance()->RegisterEventCallback(EventListener::BUTTON_START, new PressCommand([&]() {
+		for (auto& component : AutoList::get<InputPauseComponent>())
+		{
+			component->isPaused = true;
 		}
 	}), this, m_controllerId);
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Components.h"
 
-class WebDrop : public IEntity
+class WebDrop : public IEntity, public AutoLister<WebDrop>
 {
 public:
 	WebDrop(int id, int x, int y, int w, int h, AudioManager* audioMgr) : IEntity(id,

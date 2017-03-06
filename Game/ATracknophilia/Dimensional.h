@@ -157,7 +157,8 @@ struct SlowShotComponent : public DynamicBodyComponent, public AutoLister<SlowSh
 
 struct WebDropComponent : public StaticBodyComponent, public AutoLister<WebDropComponent>
 {
-	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true) : StaticBodyComponent(id, x, y, width, height)
+	WebDropComponent(int id, float x, float y, float width, float height, bool fixedRotation = true)
+		: StaticBodyComponent(id, x, y, width, height)
 	{
 		fixture->SetFriction(10);
 		fixture->SetDensity(10);
