@@ -28,6 +28,9 @@
     <Filter Include="Networking">
       <UniqueIdentifier>{97e93f0e-a507-4731-b5ff-6ab35dc9df5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Behaviour Tree">
+      <UniqueIdentifier>{4995f2db-35fd-4b88-8117-7f7a5d2ff9ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -150,6 +153,33 @@
     <ClInclude Include="FiniteStateMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BehaviourTree.h">
+      <Filter>Behaviour Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Composite.h">
+      <Filter>Behaviour Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Decorator.h">
+      <Filter>Behaviour Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>Behaviour Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Behaviour Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactables.h">
+      <Filter>ECS\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -217,6 +247,15 @@
     </ClCompile>
     <ClCompile Include="FiniteStateMachine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Leaf.cpp">
+      <Filter>Behaviour Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactables.cpp">
+      <Filter>ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

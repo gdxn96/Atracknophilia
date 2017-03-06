@@ -3,7 +3,7 @@
 #include "ECSInterfaces.h"
 #include "Dimensional.h"
 #include "RacePosition.h"
-
+#include "AudioManager.h"
 #include "BehaviourTree.h"
 
 struct ICollisionResponseComponent : public AutoLister<ICollisionResponseComponent>, public IComponent
@@ -134,19 +134,19 @@ struct SeekAIComponent : public AIComponent, public AutoLister<SeekAIComponent>
 
 struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAIComponent>
 {
-	PlayerAIComponent(int id)
+	PlayerAIComponent(int id, AudioManager* audioMgr)
 		: AIComponent(id)
 		, bt(BehaviourTree())
 		, isHooked(false)
 	{
 		Selector* root = new Selector();
 		root->Initialize();
-		root->AddChild(new UseAbility());
+		root->AddChild(new UseAbility(audioMgr));
 
 		Sequence* checkHook = new Sequence();
 		checkHook->Initialize();
 		checkHook->AddChild(new CheckHooked());
-		checkHook->AddChild(new RaiseHook());
+		checkHook->AddChild(new RaiseHook(audioMgr));
 		root->AddChild(checkHook);
 
 		Selector* moveSelector = new Selector();
@@ -155,19 +155,19 @@ struct PlayerAIComponent : public AIComponent, public AutoLister<PlayerAICompone
 		Sequence* staminaSequence = new Sequence();
 		staminaSequence->Initialize();
 		staminaSequence->AddChild(new CheckVelocity());
-		staminaSequence->AddChild(new UseStamina());
+		staminaSequence->AddChild(new UseStamina(audioMgr));
 
 		Failer* staminaFailer = new Failer();
 		staminaFailer->SetChild(staminaSequence);
 
 		moveSelector->AddChild(staminaFailer);
-		moveSelector->AddChild(new MoveInDirectionOfVolume());
+		moveSelector->AddChild(new MoveInDirectionOfVolume(audioMgr));
 
 		Sequence* hookSequence = new Sequence();
 		hookSequence->Initialize();
-		hookSequence->AddChild(new UseHook());
-		hookSequence->AddChild(new RaiseHook());
-		hookSequence->AddChild(new MoveInDirectionOfVolume());
+		hookSequence->AddChild(new UseHook(audioMgr));
+		hookSequence->AddChild(new RaiseHook(audioMgr));
+		hookSequence->AddChild(new MoveInDirectionOfVolume(audioMgr));
 
 		moveSelector->AddChild(hookSequence);
 		root->AddChild(moveSelector);
@@ -205,7 +205,8 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 {
 	SlowShotResponseComponent(int id)
 		: ICollisionResponseComponent(id)
-	{}
+	{
+	}
 
 	void endContact(IEntity * e)
 	{
@@ -227,7 +228,6 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 				if (ai && ai->shooterID != e->ID)
 				{
 					getParent()->alive = false;
-					e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
 					e->getComponent<StateComponent>()->hit = true;
 				}
 			}
@@ -235,12 +235,12 @@ struct SlowShotResponseComponent : public ICollisionResponseComponent
 	}
 };
 
-struct WebDropResponseComponent : public ICollisionResponseComponent
+struct WebDropResponseComponent : public ICollisionResponseComponent, public Subject
 {
-	WebDropResponseComponent(int id)
+	WebDropResponseComponent(int id, AudioManager* audioMgr)
 		: ICollisionResponseComponent(id)
 	{
-
+		addObserver(audioMgr);
 	}
 
 	void endContact(IEntity * e)
@@ -256,20 +256,14 @@ struct WebDropResponseComponent : public ICollisionResponseComponent
 			auto dynBox = e->getComponent<DynamicBodyComponent>();
 
 			if (staticBox) {}
-			else if (dynBox && !firstContact)
+			else if (dynBox)
 			{
 				getParent()->alive = false;
 				e->getComponent<Box2DComponent>()->body->SetLinearVelocity(b2Vec2(0, 0));
-	
-			}
-			else
-			{
-				firstContact = false;
+				notify(Observer::HIT);
 			}
 		}
 	};
-
-	bool firstContact = true;
 };
 
 struct DirectionVolumeCollisionResponseComponent : public ICollisionResponseComponent

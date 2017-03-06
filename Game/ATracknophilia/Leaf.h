@@ -3,6 +3,8 @@
 #include "Interactables.h"
 #include "DirectionVolume.h"
 #include "Property.h"
+#include "AudioManager.h"
+#include "Subject.h"
 
 class Leaf : public Node
 {
@@ -10,122 +12,28 @@ public:
 	virtual ~Leaf() {}
 };
 
-class UseAbility : public Leaf
+class UseAbility : public Leaf, public Subject
 {
 public:
-	UseAbility() {}
-	~UseAbility() {}
+	UseAbility(AudioManager* audioMgr);
+	~UseAbility();
 
-	Status Update(IEntity* p, float dt, bool isHooked)
-	{
-		if (!isHooked)
-		{
-			/*auto a = player->getComponent<AbilityComponent>();
-			auto c = player->getComponent<Box2DComponent>();
-			if(a && c)
-			{
-				switch(a->ability)
-				{
-				case WEB_DROP:
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x, c->body->GetPosition().y, 1, 1);
-					a->ability = NONE;
-					return Status::Success;
-				case SLOW_SHOT:
-					EntityFactory::SpawnSlowShot(c->body->GetPosition().x, c->body->GetPosition().y - 1, 1, 1, player->ID);
-					a->ability = NONE;
-					return Status::Success;
-				case SWAP_SHOT;
-					do swap shot stuff....
-					a->ability = NONE;
-					return Status::Success;
-				case default:
-					break;
-				}
-			}*/
-		}
-		return Status::Failure;
-	}
+	Status Update(IEntity* p, float dt, bool isHooked);
 };
 
-class MoveInDirectionOfVolume : public Leaf
+class MoveInDirectionOfVolume : public Leaf, public Subject
 {
 public:
-	MoveInDirectionOfVolume() {}
-	~MoveInDirectionOfVolume() {}
+	MoveInDirectionOfVolume(AudioManager* audioMgr);
+	~MoveInDirectionOfVolume();
 
-	Status Update(IEntity* p, float dt, bool isHooked)
-	{
-		if (!isHooked)
-		{
-			auto b = p->getComponent<Box2DComponent>();
-			auto a = p->getComponent<AccelerationComponent>();
-			auto rp = p->getComponent<RacePositionComponent>();
-
-			if (a && b && rp)
-			{
-				auto dirVol = getComponentById<DirectionVolume>(rp->volumeID);
-
-				if (dirVol)
-				{
-					auto dirComp = dirVol->getComponent<DirectionComponent>();
-					if (dirComp)
-					{
-						auto direction = dirComp->m_direction;
-						if (direction.y == 0)
-						{
-							auto obstacle = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(direction.x * 1000, 0));
-							if (obstacle.first)
-							{
-								float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), obstacle.second);
-								if (distance < 8)
-								{
-									float xVelocity = b->body->GetLinearVelocity().x;
-									float xRay = 0;
-									if (xVelocity > 0) { xRay = 1000; }
-									else if (xVelocity < 0) { xRay = -1000; }
-									auto intersection = PhysicsSystem::RayCastToStaticObject(b->body->GetPosition(), Vector2D(b->body->GetPosition()) + Vector2D(xRay, -1000));
-									if (intersection.first)
-									{
-										auto isStatic = intersection.first->getComponent<StaticBodyComponent>();
-										float distance = Vector2D::Distance(Vector2D(b->body->GetPosition()), intersection.second);
-										if (distance > 8 && isStatic)
-										{
-											p->AddComponent(new HookComponent(p->ID, b->body->GetPosition(), intersection.second, b->body));
-											return Status::Success;
-										}
-									}
-									return Status::Running;
-								}
-								b->body->ApplyForceToCenter(b2Vec2(direction.x * a->acceleration, 0), true);
-								return Status::Running;
-							}
-						}
-						else
-						{
-							if (direction.x == 0)
-							{
-								if (direction.y > 0)
-								{
-									return Status::Success;
-								}
-								else if (direction.y < 0)
-								{
-									return Status::Failure;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return Status::Failure;
-	}
+	Status Update(IEntity* p, float dt, bool isHooked);
 };
 
-class UseHook : public Leaf
+class UseHook : public Leaf, public Subject
 {
 public:
-	UseHook() {}
+	UseHook(AudioManager* audioMgr) { addObserver(audioMgr); }
 	~UseHook() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)
@@ -153,10 +61,10 @@ public:
 	}
 };
 
-class RaiseHook : public Leaf
+class RaiseHook : public Leaf, public Subject
 {
 public:
-	RaiseHook() {}
+	RaiseHook(AudioManager* audioMgr) { addObserver(audioMgr); }
 	~RaiseHook() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)
@@ -182,10 +90,10 @@ public:
 	}
 };
 
-class UseStamina : public Leaf
+class UseStamina : public Leaf, public Subject
 {
 public:
-	UseStamina() {}
+	UseStamina(AudioManager* audioMgr) { addObserver(audioMgr); }
 	~UseStamina() {}
 
 	Status Update(IEntity* p, float dt, bool isHooked)
@@ -215,7 +123,7 @@ public:
 				}
 			}
 		}
-		return Status::Failure;
+		return Status::Failure; 
 	}
 };
 

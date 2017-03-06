@@ -3,16 +3,15 @@
 #include "LevelLoader.h"
 #include "RaceManager.h"
 
-
-void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, int colourID = 0, bool isAI)
+void EntityFactory::SpawnPlayer(float x, float y, float w, float h, int controllerId, AudioManager* audioMgr, int colourID, bool isAI)
 {
 	if (isAI)
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, colourID));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, colourID, audioMgr));
 	}
 	else
 	{
-		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId, colourID));
+		LevelLoader::appendToEntities(new Player(id(), x, y, w, h, controllerId, colourID, audioMgr));
 	}
 }
 
@@ -35,7 +34,6 @@ bool EntityFactory::SpawnSlowShot(float x, float y, float w, float h, int shoote
 	{
 		if (i + 1 == players.size())
 		{
-			// getComponentById<PowerupComponent>(shooterID)->type = NONE;
 			return false;
 		}
 		else if (players[i]->ID == shooterID)
@@ -56,9 +54,9 @@ void EntityFactory::SpawnStaticPoly(std::vector<b2Vec2> points)
 	LevelLoader::appendToEntities(new StaticPoly(id(), points));
 }
 
-void EntityFactory::SpawnWebDrop(float x, float y, float w, float h)
+void EntityFactory::SpawnWebDrop(float x, float y, float w, float h, AudioManager* audioMgr)
 {
-	LevelLoader::appendToEntities(new WebDrop(id(), x, y, w, h));
+	LevelLoader::appendToEntities(new WebDrop(id(), x, y, w, h, audioMgr));
 }
 
 void EntityFactory::SpawnBoostPad(float x, float y, float w, float h)

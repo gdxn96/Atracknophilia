@@ -4,11 +4,13 @@
 #include "LevelLoader.h"
 #include "EntityFactory.h"
 #include "DirectionVolume.h"
+#include "AudioManager.h"
 
 bool Game::quit = false;
 
 Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName) 
-	:	m_resourceMgr(ResourceManager::getInstance())
+	: m_resourceMgr(ResourceManager::getInstance())
+	, m_audioMgr(AudioManager())
 {
 	m_net.setMessageCallback([this](Message m) { this->notifyMessage(m); });
 	LevelLoader::RegisterLevels({ //edit enum in LevelLoader.h
@@ -76,13 +78,12 @@ void Game::init()
 	m_cameraManager.SetLevelSize(LevelLoader::loadLevel(LEVELS::LEVEL2));
 	m_camera.zoom(-1);
 
-
 	EntityFactory::SpawnHUD("arrow");
 
-	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0, 0);
-	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, 1);
-	//EntityFactory::SpawnPlayer(52, 12, 1, 1, 2, 2, true);
-	//EntityFactory::SpawnPlayer(53, 12, 1, 1, 3, 3, true);
+	EntityFactory::SpawnPlayer(50, 12, 1, 1, 0, &m_audioMgr, 0);
+	//EntityFactory::SpawnPlayer(51, 12, 1, 1, 1, &m_audioMgr, 1);
+	//EntityFactory::SpawnPlayer(52, 12, 1, 1, 2, &m_audioMgr, 2, true);
+	//EntityFactory::SpawnPlayer(53, 12, 1, 1, 3, &m_audioMgr, 3, true);
 
 	for (auto& player : AutoList::get<Player>())
 	{

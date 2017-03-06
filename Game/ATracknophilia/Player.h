@@ -3,12 +3,12 @@
 #include "Logic.h"
 
 class ICollisionResponseComponent;
-struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
+struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent, public Subject
 {
-	PlayerStaticObjectResponseComponent(int id)
+	PlayerStaticObjectResponseComponent(int id, AudioManager* audioMgr)
 		: ICollisionResponseComponent(id)
 	{
-
+		addObserver(audioMgr);
 	}
 
 	void endContact(IEntity * e)
@@ -36,7 +36,21 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 			{
 				auto b = getComponent<DynamicBodyComponent>();
 				if (b)
-					b->body->SetLinearVelocity(b2Vec2(0, 0)); // stop the player's velocity on collision
+				{
+					b->body->SetLinearVelocity(b2Vec2(0, 0));
+					notify(Observer::HIT);
+				}
+			}
+
+			auto ss = e->getComponent<SlowShotComponent>();
+			if (ss)
+			{
+				auto b = getComponent<DynamicBodyComponent>();
+				if (b)
+				{
+					b->body->SetLinearVelocity(b2Vec2(0, 0));
+					notify(Observer::HIT);
+				}
 			}
 
 			auto puResponse = e->getComponent<PowerUpResponseComponent>();
@@ -78,7 +92,7 @@ struct PlayerStaticObjectResponseComponent : public ICollisionResponseComponent
 class Player : public IEntity, public AutoLister<Player>
 {
 public:
-	Player(int id, float x, float y, float w, float h, int controllerId, int colourID)
+	Player(int id, float x, float y, float w, float h, int controllerId, int colourID, AudioManager* audioMgr)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -89,9 +103,9 @@ public:
 			new VelocityComponent(id, 50),
 			new ConstMaxVelocityComponent(id, 50),
 			new ConstBoostedVelocityComponent(id, 80),
-			new PlayerControllerComponent(id, controllerId),
+			new PlayerControllerComponent(id, controllerId, audioMgr),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id),
+			new PlayerStaticObjectResponseComponent(id, audioMgr),
 			new InputPauseComponent(id, false),
 			new ScoreComponent(id),
 			new AnimationComponent(id, "bidleright", colourID),
@@ -102,7 +116,7 @@ public:
 	{
 	}
 
-	Player(int id, float x, float y, float w, float h, int colourID)
+	Player(int id, float x, float y, float w, float h, int colourID, AudioManager* audioMgr)
 		: IEntity(id,
 		{
 			new DynamicBodyComponent(id, x, y, w, h, false),
@@ -113,9 +127,9 @@ public:
 			new VelocityComponent(id, 50),
 			new ConstMaxVelocityComponent(id, 50),
 			new ConstBoostedVelocityComponent(id, 80),
-			new PlayerAIComponent(id),
+			new PlayerAIComponent(id, audioMgr),
 			new RacePositionComponent(id),
-			new PlayerStaticObjectResponseComponent(id),
+			new PlayerStaticObjectResponseComponent(id, audioMgr),
 			new AnimationComponent(id, "bidleright", colourID),
 			new StateComponent(id),
 			new HudComponent(id, "abilityIcon"),

@@ -225,12 +225,16 @@ copy .\*.lua "$(OutDir)";</Command>
   <ItemGroup>
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BasicTypes.h" />
+    <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="BoostPad.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="Composite.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Decorator.h" />
     <ClInclude Include="Dimensional.h" />
     <ClInclude Include="DirectionVolume.h" />
     <ClInclude Include="Drawables.h" />
@@ -240,12 +244,16 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Interactables.h" />
+    <ClInclude Include="Leaf.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="LTimer.h" />
     <ClInclude Include="LuaEngine.h" />
     <ClInclude Include="Net.h" />
     <ClInclude Include="NetworkAdapter.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RaceManager.h" />
@@ -258,6 +266,7 @@ copy .\*.lua "$(OutDir)";</Command>
     <ClInclude Include="SoftBox.h" />
     <ClInclude Include="StaticPolygon.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector2D.h" />
@@ -266,12 +275,15 @@ copy .\*.lua "$(OutDir)";</Command>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ATracknophilia.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DirectionVolume.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Interactables.cpp" />
+    <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="LTimer.cpp" />
