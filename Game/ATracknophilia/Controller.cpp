@@ -28,11 +28,11 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 			case webDrop:
 				if (Vector2D(c->body->GetLinearVelocity()).Normalize().x > 0)
 				{
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x - (5), c->body->GetPosition().y, 4, 4, m_audioMgr);
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x - 5, c->body->GetPosition().y, 4, 4, m_audioMgr);
 				}
 				else if (Vector2D(c->body->GetLinearVelocity()).Normalize().x < 0)
 				{
-					EntityFactory::SpawnWebDrop(c->body->GetPosition().x + (5), c->body->GetPosition().y, 4, 4, m_audioMgr);
+					EntityFactory::SpawnWebDrop(c->body->GetPosition().x + 5, c->body->GetPosition().y, 4, 4, m_audioMgr);
 				}
 				else
 				{
@@ -191,6 +191,7 @@ PlayerControllerComponent::PlayerControllerComponent(int id, int controllerId, A
 	}), this, m_controllerId);
 
 	addObserver(m_audioMgr);
+	notify(Observer::GAME_SCENE);
 }
 
 void PlayerControllerComponent::process(float dt)
