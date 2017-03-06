@@ -73,10 +73,24 @@ void GameScene::enter()
 			EntityFactory::SpawnPlayer(51 + j, 12, 1, 1, 0, true);
 		}
 	}
+
+	auto cam = m_cameraManager->getCamera();
+	float zoomSpeed = 0.01f; //speed the camera zooms in or out (smaller due to no deltaTime)
+	float zoomToSpeed = 1000.f; //when using zoom to (no deltaTime)
+	float minZoom = 0.15f; //minimum level of zoom
+	float maxZoom = 0.08f; //maximum threshold you can zoom in until;
+	cam->setZoomProps(zoomSpeed, zoomToSpeed, minZoom, maxZoom);
 }
 
 void GameScene::exit()
 {
+	auto cam = m_cameraManager->getCamera();
+	cam->setZoomProps(Camera2D::DEFAULT_ZOOM_SPEED, Camera2D::DEFAULT_ZOOMTO_SPEED, 1.f, 0.1f);
+	cam->zoomToFit({
+		Camera2D::Point(0, 0),
+		Camera2D::Point(1280, 720)
+	});
+	cam->setCentre(Camera2D::Point(640, 360));
 }
 
 bool GameScene::init(Renderer & r)

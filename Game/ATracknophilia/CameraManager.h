@@ -11,7 +11,7 @@ public:
 	void SetLevelSize(Vector2D size);
 	void init(Camera2D::Camera * cam);
 	void moveTo(Vector2D destination, float dt);
-
+	Camera2D::Camera * getCamera();
 	void update(float dt);
 
 private:

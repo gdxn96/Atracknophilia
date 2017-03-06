@@ -7,106 +7,73 @@ CameraManager::CameraManager() : m_levelSize(0,0)
 
 void CameraManager::update(float dt)
 {
-	std::vector<Camera2D::Point> points;
-	auto players = AutoList::get<Player>();
+	{
+		std::vector<Camera2D::Point> points;
+		auto players = AutoList::get<Player>();
+		for (auto& player : players)
+		{
+			auto b = player->getComponent<Box2DComponent>();
+			points.push_back(Camera2D::Point(b->body->GetPosition().x, b->body->GetPosition().y));
+		}
+
+		m_camera->zoomToFit(points, true);
+		m_camera->update(dt * 1000);
+		m_camera->zoom(0);
+	}
+	
+	auto players = RaceManager::getInstance()->getPlayers();
+	/*if (players.size() > 1)
+	{
+		Vector2D dist = players[0]->getComponent<Box2DComponent>()->body->GetPosition() - players.back()->getComponent<Box2DComponent>()->body->GetPosition();
+		Vector2D centre = Vector2D(players[0]->getComponent<Box2DComponent>()->body->GetPosition()) - dist / 2;
+		m_camera->setCentre(Camera2D::Point(centre.x, centre.y));
+	}*/
+
+	float highx = -1, lowx = std::numeric_limits<float>::max(), lowy = std::numeric_limits<float>::max(), highy = -1;
 	for (auto& player : players)
 	{
-		auto b = player->getComponent<Box2DComponent>();
-		points.push_back(Camera2D::Point(b->body->GetPosition().x, b->body->GetPosition().y));
+		Vector2D pos = player->getComponent<Box2DComponent>()->body->GetPosition();
+		if (pos.x > highx)
+		{
+			highx = pos.x;
+		}
+		if (pos.x < lowx)
+		{
+			lowx = pos.x;
+		}
+		if (pos.y > highy)
+		{
+			highy = pos.y;
+		}
+		if (pos.y < lowy)
+		{
+			lowy = pos.y;
+		}
 	}
 
-	m_camera->zoomToFit(points, true);
-	m_camera->update(dt * 1000);
+	if (highx > -1)
+		moveTo(Vector2D(highx - ((highx - lowx) * 0.5), highy - ((highy - lowy) * 0.5)), dt);
+
+
 	
 }
 
 void CameraManager::init(Camera2D::Camera * cam)
 {
 	m_camera = cam;
-	float zoomSpeed = 0.01f; //speed the camera zooms in or out (smaller due to no deltaTime)
-	float zoomToSpeed = 1000.f; //when using zoom to (no deltaTime)
-	float minZoom = 2.f; //minimum level of zoom
-	float maxZoom = 0.001f; //maximum threshold you can zoom in until;
-	m_camera->setZoomProps(zoomSpeed, zoomToSpeed, minZoom, maxZoom);
 }
 
 void CameraManager::moveTo(Vector2D destination, float dt)
 {
-	Vector2D position = Vector2D(m_camera->getCentre().x, m_camera->getCentre().y);
-	Vector2D difference = destination - position;
-	Vector2D directionToPan = difference.Normalize();
-	float distance = difference.Distance(position, difference);
 
-	if (difference.Magnitude() > 1)
-	{
-		Vector2D result = position + (directionToPan * distance * dt / 2.f);
+		m_camera->setCentre(destination.x, destination.y);		
 
-		m_camera->setCentre(result.x, result.y);
+	
+}
 
-		auto cameraBounds = m_camera->getBounds();
-
-		int halfCameraWidth = cameraBounds.w / 2.0f;
-		int halfCameraHeight = cameraBounds.h / 2.0f;
-
-		auto centre = m_camera->getCentre();
-		if (cameraBounds.x < 0)
-		{
-			m_camera->setCentre(halfCameraWidth, centre.y);
-			centre = m_camera->getCentre();
-		}
-
-		if (cameraBounds.y < 0)
-		{
-			m_camera->setCentre(centre.x, halfCameraHeight);
-			centre = m_camera->getCentre();
-		}
-
-		if (cameraBounds.x + cameraBounds.w > m_levelSize.w)
-		{
-			m_camera->setCentre(m_levelSize.w - halfCameraWidth, centre.y);
-			centre = m_camera->getCentre();
-		}
-
-		if (cameraBounds.y + cameraBounds.h >  m_levelSize.h)
-		{
-			m_camera->setCentre(centre.x, m_levelSize.h - halfCameraHeight);
-			centre = m_camera->getCentre();
-		}
-	}
-	else
-	{
-		m_camera->setCentre(destination.x, destination.y);
-
-		auto cameraBounds = m_camera->getBounds();
-
-		int halfCameraWidth = cameraBounds.w / 2.0f;
-		int halfCameraHeight = cameraBounds.h / 2.0f;
-
-		auto centre = m_camera->getCentre();
-		if (cameraBounds.x < 0)
-		{
-			m_camera->setCentre(halfCameraWidth, centre.y);
-			centre = m_camera->getCentre();
-		}
-
-		if (cameraBounds.y < 0)
-		{
-			m_camera->setCentre(centre.x, halfCameraHeight);
-			centre = m_camera->getCentre();
-		}
-
-		if (cameraBounds.x + cameraBounds.w > m_levelSize.w)
-		{
-			m_camera->setCentre(m_levelSize.w - halfCameraWidth, centre.y);
-			centre = m_camera->getCentre();
-		}
-
-		if (cameraBounds.y + cameraBounds.h >  m_levelSize.h)
-		{
-			m_camera->setCentre(centre.x, m_levelSize.h - halfCameraHeight);
-			centre = m_camera->getCentre();
-		}
-	}
+Camera2D::Camera * CameraManager::getCamera()
+{
+	return m_camera;
 }
 
 void CameraManager::SetLevelSize(Vector2D size)

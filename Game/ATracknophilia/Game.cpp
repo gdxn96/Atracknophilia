@@ -86,6 +86,13 @@ Game::Game(Vector2D windowSize, Vector2D levelSize, const char* windowName)
 
 void Game::init()
 {
+	m_camera.setZoomProps(Camera2D::DEFAULT_ZOOM_SPEED, Camera2D::DEFAULT_ZOOMTO_SPEED, 1.f, 0.1f);
+	m_camera.zoomToFit({
+		Camera2D::Point(0, 0),
+		Camera2D::Point(1280, 720)
+	});
+	m_camera.setCentre(Camera2D::Point(640, 360));
+
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_UP, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, -1)), this);
 	InputManager::GetInstance()->RegisterEventCallback(EventListener::KeyboardEvent::MOUSE_WHEEL_DOWN, new PressCommand(std::bind(&Camera2D::Camera::zoom, &m_camera, 1)), this);
 
