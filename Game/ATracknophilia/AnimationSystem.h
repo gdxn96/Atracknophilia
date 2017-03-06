@@ -99,12 +99,15 @@ public:
 		auto& Arrows = AutoList::get<DirectionArrowComponent>();
 		for (auto& Arrow : Arrows)
 		{
-			int volumeID = RaceManager::getInstance()->getLeader()->getComponent<RacePositionComponent>()->volumeID;
-			Vector2D direction = getComponentById<DirectionComponent>(volumeID)->m_direction;
-			
-			Arrow->angle = (std::atan2(direction.y, direction.x) / M_PI * 180);
-		}
+			auto lead = RaceManager::getInstance()->getLeader();
+			if (lead)
+			{
+				int volumeID = lead->getComponent<RacePositionComponent>()->volumeID;
+				Vector2D direction = getComponentById<DirectionComponent>(volumeID)->m_direction;
 
+				Arrow->angle = (std::atan2(direction.y, direction.x) / M_PI * 180);
+			}
+		}
 	}
 
 
