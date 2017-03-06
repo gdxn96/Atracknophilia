@@ -30,7 +30,7 @@ public:
 		if (m_timeSinceLastUpdate >= maxTimeTillUpdate)
 		{
 			m_timeSinceLastUpdate = 0;
-			process(dt);
+			this->process(dt);
 		}
 	}
 

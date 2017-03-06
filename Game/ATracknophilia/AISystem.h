@@ -10,7 +10,8 @@ public:
 
 	void process(float dt) override
 	{
-		for (auto& component : AutoList::get<AIComponent>())
+		auto& ais = AutoList::get<AIComponent>();
+		for (auto& component : ais)
 		{
 			component->think(dt);
 		}
